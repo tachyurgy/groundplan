@@ -380,9 +380,11 @@ function DocViewer({ documentId, page, onPage }: { documentId: string; page: num
           {width > 0 && <PdfPage documentId={d.id} page={page} fields={data.fields} highlight={hl} onPick={pick} width={pdfWidth} />}
         </div>
         <div className="min-w-0">
-          <h3 className="mb-2 text-sm">Extracted on page {page}</h3>
+          <h3 className="mb-2 text-sm">
+            Extracted on page {page} <span className="font-normal text-ink-500">({pageFields.length} fields)</span>
+          </h3>
           {pageFields.length === 0 && <p className="text-xs text-ink-500">No fields extracted on this page.</p>}
-          <ul className="divide-y divide-ink-100" data-testid="extracted-fields">
+          <ul className="max-h-[560px] divide-y divide-ink-100 overflow-y-auto overscroll-contain pr-1" data-testid="extracted-fields" tabIndex={0} aria-label={`Fields extracted on page ${page}`}>
             {pageFields.map((f) => (
               <li
                 key={f.id}
@@ -390,10 +392,10 @@ function DocViewer({ documentId, page, onPage }: { documentId: string; page: num
                   if (el) rowRefs.current.set(f.id, el);
                 }}
                 onMouseEnter={() => setHl(f.id)}
-                className={`grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5 py-1.5 ${hl === f.id ? 'bg-brand-50' : ''}`}
+                className={`grid grid-cols-[minmax(0,1fr)_minmax(0,auto)] gap-x-3 gap-y-0.5 py-1.5 ${hl === f.id ? 'bg-brand-50' : ''}`}
               >
-                <span className="min-w-0 font-mono text-[11.5px] break-all text-ink-900">{f.field}</span>
-                <span className="num text-right text-[13px]">{fmtValue(f.value, f.unit)}</span>
+                <span className="min-w-0 font-mono text-[11.5px] break-words text-ink-900">{f.field.replace(/\./g, '.\u200b')}</span>
+                <span className={`text-right text-[13px] ${typeof f.value === 'number' ? 'num whitespace-nowrap' : 'max-w-[11rem] break-words'}`}>{fmtValue(f.value, f.unit)}</span>
                 <span className="min-w-0 truncate text-[11px] text-ink-500">{f.property_key ?? 'household'}</span>
                 <span className={`text-right text-[11px] ${f.confidence < 0.9 ? 'text-est-600' : 'text-ink-500'}`}>
                   {Math.round(f.confidence * 100)}% via {f.extractor}

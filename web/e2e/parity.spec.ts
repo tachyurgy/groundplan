@@ -35,6 +35,7 @@ test('the same property shows identical headline figures on the Python and Go st
         .click();
       await settle(page);
       await page.getByTestId('property-card').filter({ hasText: nick }).getByRole('link', { name: nick }).click();
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(nick);
       await settle(page);
       const py = await headline(page);
       expect(page.url()).toContain(new URL(PY).host);
