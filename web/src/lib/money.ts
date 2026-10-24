@@ -27,7 +27,8 @@ export function formatCentsCompact(cents: Cents | null | undefined): string {
 /** 0.0375 -> "3.75%" */
 export function formatRate(rate: Rate | null | undefined, digits = 2): string {
   if (rate === null || rate === undefined || Number.isNaN(rate)) return '—';
-  return `${(rate * 100).toFixed(digits)}%`;
+  const s = `${(Math.abs(rate) * 100).toFixed(digits)}%`;
+  return rate < 0 && Number(s.slice(0, -1)) !== 0 ? `−${s}` : s;
 }
 
 /** Parse a user-entered dollar string ("$1,234.56", "1234", "-12") into integer cents. */

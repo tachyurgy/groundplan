@@ -131,6 +131,15 @@ export function SimulatePage() {
                 <span key={e.id} className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-surface" style={{ left: `${((e.year - START) / Math.max(1, years - 1)) * 100}%`, background: TYPE_COLOR[e.type] }} />
               ))}
             </div>
+            <div aria-hidden className="hidden grid-cols-[5.5rem_7rem_minmax(0,1fr)_8rem_8rem_5rem_2rem] gap-2 border-b border-ink-100 px-4 pb-1.5 text-xs font-medium text-ink-500 sm:grid">
+              <span>Year</span>
+              <span>Event</span>
+              <span>Property</span>
+              <span className="text-right">Price / value</span>
+              <span className="text-right">Debt after</span>
+              <span className="text-right">Rate %</span>
+              <span />
+            </div>
             <ul className="divide-y divide-ink-100" data-testid="events">
               {[...events]
                 .sort((x, y) => x.year - y.year)

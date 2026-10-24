@@ -158,7 +158,6 @@ export function AssumptionsForm({
                     className={`input-num ${f.kind === 'rate' ? 'pr-6' : ''} ${f.kind === 'cents' ? 'pl-5' : ''} ${err ? 'border-neg-600' : ''}`}
                   />
                   {f.kind === 'rate' && <span className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2 text-xs text-ink-500">%</span>}
-                  {f.kind === 'int' && <span className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2 text-[11px] text-ink-500">yrs</span>}
                 </span>
               </div>
               {err && (

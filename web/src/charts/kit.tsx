@@ -6,7 +6,7 @@
  *  - a "Table" toggle that swaps the plot for the underlying numbers.
  * Colours are CSS variables (--series-n, --grid, --ink-*), so the same SVG is right in both themes.
  */
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { useEffect, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { formatCents, formatCentsCompact } from '../lib/money';
 
 export const C = {
@@ -48,19 +48,17 @@ export function useNarrow(): boolean {
   );
 }
 
-/** Width of a container, for the hand-built SVG charts (waterfall, heatmap, bracket fill). */
-export function useMeasure<T extends HTMLElement>(): [React.RefObject<T | null>, number] {
-  const ref = useRef<T>(null);
+/** Width of a container, for the hand-built SVG charts. A callback ref, so it works for elements that mount late. */
+export function useMeasure<T extends HTMLElement>(): [(el: T | null) => void, number] {
+  const [el, setEl] = useState<T | null>(null);
   const [w, setW] = useState(0);
   useEffect(() => {
-    const el = ref.current;
     if (!el) return;
     const ro = new ResizeObserver(([e]) => setW(Math.floor(e.contentRect.width)));
     ro.observe(el);
-    setW(Math.floor(el.getBoundingClientRect().width));
     return () => ro.disconnect();
-  }, []);
-  return [ref, w];
+  }, [el]);
+  return [setEl, w];
 }
 
 export interface LegendItem {

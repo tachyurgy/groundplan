@@ -8,7 +8,7 @@ import '@fontsource/ibm-plex-sans/latin-600.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import '@fontsource/ibm-plex-mono/latin-500.css';
 import './index.css';
-import { IS_MOCK, ApiError } from './api/client';
+import { ApiError } from './api/client';
 import { makeRouter } from './router';
 import { useConnection } from './lib/connection';
 import { startVitals } from './lib/vitals';
@@ -33,7 +33,8 @@ const queryClient = new QueryClient({
 const router = makeRouter(queryClient);
 
 async function boot() {
-  if (IS_MOCK) {
+  // Literal env check (not the IS_MOCK constant) so a production build drops MSW and the fixtures entirely.
+  if (import.meta.env.VITE_MOCK === '1') {
     const { worker } = await import('./api/mock/browser');
     await worker.start({ onUnhandledFrame: 'bypass', quiet: true, serviceWorker: { url: '/mockServiceWorker.js' } });
   }

@@ -28,7 +28,8 @@ export function DocumentsPage() {
   const search = route.useSearch();
   const navigate = route.useNavigate();
   const docs = useSuspenseQuery(documentsQuery(householdId)).data;
-  const selected = search.doc ?? docs[0]?.id ?? null;
+  const newest = [...docs].sort((a, b) => (b.tax_year ?? 0) - (a.tax_year ?? 0))[0];
+  const selected = search.doc ?? newest?.id ?? null;
   const page = search.page ?? 1;
   const select = (doc: string, pg = 1) => navigate({ search: { doc, page: pg }, replace: true, resetScroll: false });
 
@@ -315,7 +316,7 @@ function FindingCard({ f, busy, onResolve, onDismiss, onOpenSource }: { f: Findi
                     View page {c.page ?? 1}
                   </button>
                 )}
-                {c.value !== null && c.value !== undefined && (
+                {!isStatus && c.value !== null && c.value !== undefined && (
                   <button type="button" disabled={busy} className="btn btn-sm ml-auto" data-testid="use-value" onClick={() => onResolve(c.value, note || `Chose ${c.source}`)}>
                     Use this value
                   </button>

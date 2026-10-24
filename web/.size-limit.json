@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Initial JS (entry + preloaded chunks), gzip",
+    "path": ["dist/assets/index-*.js", "dist/assets/queries-*.js"],
+    "limit": "200 KB",
+    "gzip": true
+  },
+  {
+    "name": "Largest route chunk (property analysis), gzip",
+    "path": "dist/assets/PropertyPage-*.js",
+    "limit": "40 KB",
+    "gzip": true
+  }
+]
