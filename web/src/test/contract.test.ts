@@ -31,7 +31,16 @@ describe('API contract (Zod at the boundary)', () => {
   });
 
   it('ratio figures (DSCR) arrive with value_cents null and are normalized once', () => {
-    const f = { key: 'loans.dscr', value_cents: null, value: '0.7633', unit: 'ratio', status: 'confirmed', inputs: [], formula: 'NOI / debt service', notes: [] };
+    const f = {
+      key: 'loans.dscr',
+      value_cents: null,
+      value: '0.7633',
+      unit: 'ratio',
+      status: 'confirmed',
+      inputs: [],
+      formula: 'NOI / debt service',
+      notes: [],
+    };
     const parsed = Figure.parse(f);
     expect(parsed.ratio).toBeCloseTo(0.7633);
     expect(parsed.value_cents).toBe(76);
@@ -41,7 +50,14 @@ describe('API contract (Zod at the boundary)', () => {
   it('a renamed field is a ContractError naming the path, never NaN on screen', async () => {
     server.use(
       http.get('*/api/v1/households/:id/dashboard', () =>
-        HttpResponse.json({ household: {}, metrics: { total_value: { key: 'x', value_cents: 'oops', status: 'confirmed' } }, observations: [], properties: [], findings_open: 0, narrative: { text: '', provider: 't' } }),
+        HttpResponse.json({
+          household: {},
+          metrics: { total_value: { key: 'x', value_cents: 'oops', status: 'confirmed' } },
+          observations: [],
+          properties: [],
+          findings_open: 0,
+          narrative: { text: '', provider: 't' },
+        }),
       ),
     );
     const err = await api('GET', `/households/${HH}/dashboard`, { schema: DashboardSchema }).catch((e: unknown) => e);

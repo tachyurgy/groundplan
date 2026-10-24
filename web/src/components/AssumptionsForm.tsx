@@ -40,7 +40,12 @@ function fieldSchema(f: FieldDef) {
       return f.kind === 'rate' ? n / 100 : f.kind === 'int' ? Math.round(n) : n;
     });
   return num.refine((n) => (f.min === undefined || n >= f.min - 1e-9) && (f.max === undefined || n <= f.max + 1e-9), {
-    message: f.min !== undefined && f.max !== undefined ? `Between ${fmtBound(f.kind, f.min)} and ${fmtBound(f.kind, f.max)}` : f.min !== undefined ? `At least ${fmtBound(f.kind, f.min)}` : `At most ${fmtBound(f.kind, f.max!)}`,
+    message:
+      f.min !== undefined && f.max !== undefined
+        ? `Between ${fmtBound(f.kind, f.min)} and ${fmtBound(f.kind, f.max)}`
+        : f.min !== undefined
+          ? `At least ${fmtBound(f.kind, f.min)}`
+          : `At most ${fmtBound(f.kind, f.max!)}`,
   });
 }
 
@@ -127,7 +132,15 @@ export function AssumptionsForm({
             return (
               <label key={f.key} htmlFor={id} className="flex min-h-11 cursor-pointer items-center justify-between gap-3 py-1.5 text-sm sm:min-h-9">
                 <span className="text-ink-700">{f.label}</span>
-                <input key={String(v)} id={id} name={f.key} type="checkbox" defaultChecked={!!v} onChange={submit} className="h-5 w-5 accent-brand-600 sm:h-4 sm:w-4" />
+                <input
+                  key={String(v)}
+                  id={id}
+                  name={f.key}
+                  type="checkbox"
+                  defaultChecked={!!v}
+                  onChange={submit}
+                  className="h-5 w-5 accent-brand-600 sm:h-4 sm:w-4"
+                />
               </label>
             );
           return (

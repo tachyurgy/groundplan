@@ -61,7 +61,11 @@ function PropertyCardView({ c, householdId, color }: { c: PropertyCardT; househo
           <div className="flex min-w-0 items-start gap-2.5">
             <span aria-hidden className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-sm" style={{ background: color }} />
             <div className="min-w-0">
-              <Link to="/properties/$propertyId" params={{ propertyId: p.id }} className="block truncate font-semibold text-ink-950 hover:text-brand-600 hover:underline">
+              <Link
+                to="/properties/$propertyId"
+                params={{ propertyId: p.id }}
+                className="block truncate font-semibold text-ink-950 hover:text-brand-600 hover:underline"
+              >
                 {p.nickname}
               </Link>
               <div className="truncate text-xs text-ink-500">
@@ -80,7 +84,12 @@ function PropertyCardView({ c, householdId, color }: { c: PropertyCardT; househo
               ['Net cash flow', <FigureValue key="n" figure={c.net_cash_flow} signed />],
               ['Exit tax today', <FigureValue key="x" figure={c.exit_tax} />],
               ['Return on equity', <FigureValue key="r" figure={c.roe} display={formatRate(c.roe_rate, 1)} />],
-              ['Open findings', <span key="f" className={`num ${c.open_findings ? 'font-semibold text-blk-600' : 'text-ink-500'}`}>{c.open_findings}</span>],
+              [
+                'Open findings',
+                <span key="f" className={`num ${c.open_findings ? 'font-semibold text-blk-600' : 'text-ink-500'}`}>
+                  {c.open_findings}
+                </span>,
+              ],
             ] as const
           ).map(([k, v]) => (
             <div key={k} className="min-w-0">
@@ -124,12 +133,24 @@ export function DashboardPage() {
     const len = Math.min(...projections.map((q) => q.data!.appreciation.projected.length));
     return Array.from({ length: len }, (_, i) => projections.reduce((s, q) => s + pick(q.data!.appreciation.projected[i]), 0));
   };
-  const cfTrend = ready ? Array.from({ length: Math.min(...projections.map((q) => q.data!.cash_flow.projection.length)) }, (_, i) => projections.reduce((s, q) => s + q.data!.cash_flow.projection[i].net_cash_flow_cents, 0)) : undefined;
+  const cfTrend = ready
+    ? Array.from({ length: Math.min(...projections.map((q) => q.data!.cash_flow.projection.length)) }, (_, i) =>
+        projections.reduce((s, q) => s + q.data!.cash_flow.projection[i].net_cash_flow_cents, 0),
+      )
+    : undefined;
 
-  const stack = cards.map((c) => ({ name: c.property.nickname, equity: Math.max(0, c.equity.value_cents), debt: Math.max(0, c.value.value_cents - c.equity.value_cents), id: c.property.id }));
+  const stack = cards.map((c) => ({
+    name: c.property.nickname,
+    equity: Math.max(0, c.equity.value_cents),
+    debt: Math.max(0, c.value.value_cents - c.equity.value_cents),
+    id: c.property.id,
+  }));
   const reEquity = cards.reduce((s, c) => s + Math.max(0, c.equity.value_cents), 0);
   const netWorth = typeof h.net_worth_cents === 'number' && (h.net_worth_cents as number) > reEquity ? (h.net_worth_cents as number) : null;
-  const donut = [...cards.map((c) => ({ name: c.property.nickname, value: Math.max(0, c.equity.value_cents), color: colorOf.get(c.property.id)! })), ...(netWorth ? [{ name: 'Everything else', value: netWorth - reEquity, color: 'var(--ink-200)' }] : [])];
+  const donut = [
+    ...cards.map((c) => ({ name: c.property.nickname, value: Math.max(0, c.equity.value_cents), color: colorOf.get(c.property.id)! })),
+    ...(netWorth ? [{ name: 'Everything else', value: netWorth - reEquity, color: 'var(--ink-200)' }] : []),
+  ];
   const top = [...cards].sort((a, b) => b.equity.value_cents - a.equity.value_cents)[0];
   const topShare = top && (netWorth ?? reEquity) > 0 ? top.equity.value_cents / (netWorth ?? reEquity) : 0;
   const negCount = cards.filter((c) => c.net_cash_flow.value_cents < 0).length;
@@ -150,19 +171,31 @@ export function DashboardPage() {
       <HouseholdNav householdId={householdId} />
 
       {alerts.data && alerts.data.length > 0 && (
-        <section aria-label="Monitoring alerts" tabIndex={0} className="-mx-4 mb-5 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" data-testid="alerts-strip">
+        <section
+          aria-label="Monitoring alerts"
+          tabIndex={0}
+          className="-mx-4 mb-5 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0"
+          data-testid="alerts-strip"
+        >
           {alerts.data.map((a) => (
             <div key={a.id} className="flex w-[280px] shrink-0 snap-start items-start gap-2.5 rounded-md bg-surface px-3 py-2.5 text-xs shadow-card">
               <span className="num mt-px shrink-0 rounded bg-ink-100 px-1.5 py-0.5 text-[11px] font-medium text-ink-700">{formatDate(a.due_date)}</span>
               <span className="min-w-0">
-                <span className="font-semibold text-ink-950">{ALERT_LABEL[a.kind] ?? titleCase(a.kind)}.</span> <span className="text-ink-700">{a.message}</span>
+                <span className="font-semibold text-ink-950">{ALERT_LABEL[a.kind] ?? titleCase(a.kind)}.</span>{' '}
+                <span className="text-ink-700">{a.message}</span>
               </span>
             </div>
           ))}
         </section>
       )}
 
-      <Card title="Key observations" sub={`${data.observations.length} from the rule table, most severe first`} bodyClass="divide-y divide-ink-100" className="mb-5" id="observations">
+      <Card
+        title="Key observations"
+        sub={`${data.observations.length} from the rule table, most severe first`}
+        bodyClass="divide-y divide-ink-100"
+        className="mb-5"
+        id="observations"
+      >
         {data.observations.slice(0, 6).map((o) => (
           <div key={o.id} className="flex items-start gap-3 px-4 py-2.5 text-sm">
             <SeverityTag severity={o.severity} />
@@ -173,12 +206,22 @@ export function DashboardPage() {
       </Card>
 
       <section aria-label="Headline figures" className="mb-5 grid grid-cols-2 gap-px overflow-hidden rounded-lg bg-ink-100 shadow-card lg:grid-cols-5">
-        <KpiTile label="Portfolio value" spark figure={m.total_value} trend={sumBy((r) => r.value_cents)} trendLabel="Projected portfolio value, next 10 years" />
+        <KpiTile
+          label="Portfolio value"
+          spark
+          figure={m.total_value}
+          trend={sumBy((r) => r.value_cents)}
+          trendLabel="Projected portfolio value, next 10 years"
+        />
         <KpiTile label="Total equity" spark figure={m.total_equity} trend={sumBy((r) => r.equity_cents)} trendLabel="Projected equity, next 10 years" />
         <KpiTile label="Total debt" spark figure={m.total_debt} trend={sumBy((r) => r.debt_cents)} trendLabel="Projected debt balance, next 10 years" />
         <KpiTile label="Net cash flow / yr" spark figure={m.net_cash_flow} signed trend={cfTrend} trendLabel="Projected net cash flow, next 10 years" />
         <div className="col-span-2 flex lg:col-span-1 [&>*]:flex-1">
-          <KpiTile label="Exit tax if sold today" figure={m.exit_tax_total} sub={m.suspended_losses ? `${formatCentsCompact(m.suspended_losses.value_cents)} suspended losses release on a taxable sale` : undefined} />
+          <KpiTile
+            label="Exit tax if sold today"
+            figure={m.exit_tax_total}
+            sub={m.suspended_losses ? `${formatCentsCompact(m.suspended_losses.value_cents)} suspended losses release on a taxable sale` : undefined}
+          />
         </div>
       </section>
       <p className="-mt-3 mb-5 text-[11px] text-ink-500">Sparklines: the next 10 years on each property's stored assumptions.</p>
@@ -207,10 +250,27 @@ export function DashboardPage() {
               <BarChart data={stack} layout="vertical" margin={{ top: 0, right: 12, left: 0, bottom: 0 }} barCategoryGap={12}>
                 <CartesianGrid {...gridProps} horizontal={false} vertical />
                 <XAxis type="number" tickFormatter={centsTick} {...xAxisProps} tickCount={narrow ? 3 : 5} />
-                <YAxis type="category" dataKey="name" width={narrow ? 84 : 110} tick={{ fontSize: 12, fill: 'var(--ink-700)' }} tickLine={false} axisLine={false} />
+                <YAxis
+                  type="category"
+                  dataKey="name"
+                  width={narrow ? 84 : 110}
+                  tick={{ fontSize: 12, fill: 'var(--ink-700)' }}
+                  tickLine={false}
+                  axisLine={false}
+                />
                 <Tooltip cursor={{ fill: 'var(--ink-50)' }} content={(p) => <TooltipBody {...p} />} />
                 <Bar dataKey="equity" name="Equity" stackId="s" fill={C.s1} stroke="var(--surface)" strokeWidth={2} maxBarSize={24} isAnimationActive={false} />
-                <Bar dataKey="debt" name="Debt" stackId="s" fill={C.muted} stroke="var(--surface)" strokeWidth={2} radius={[0, 4, 4, 0]} maxBarSize={24} isAnimationActive={false} />
+                <Bar
+                  dataKey="debt"
+                  name="Debt"
+                  stackId="s"
+                  fill={C.muted}
+                  stroke="var(--surface)"
+                  strokeWidth={2}
+                  radius={[0, 4, 4, 0]}
+                  maxBarSize={24}
+                  isAnimationActive={false}
+                />
               </BarChart>
             </ResponsiveContainer>
           </ChartFrame>
@@ -219,7 +279,11 @@ export function DashboardPage() {
           <ChartFrame
             testId="chart-concentration"
             title={netWorth ? 'Share of net worth' : 'Where the real-estate equity sits'}
-            summary={top ? `${top.property.nickname} holds ${formatRate(topShare, 0)} of ${netWorth ? 'household net worth' : 'the real-estate equity'}${topShare > 0.4 ? ', above the 40% concentration line' : ''}.` : 'No properties.'}
+            summary={
+              top
+                ? `${top.property.nickname} holds ${formatRate(topShare, 0)} of ${netWorth ? 'household net worth' : 'the real-estate equity'}${topShare > 0.4 ? ', above the 40% concentration line' : ''}.`
+                : 'No properties.'
+            }
             legend={donut.map((d) => ({ label: d.name, color: d.color, value: formatCentsCompact(d.value) }))}
             height={210}
             table={{
@@ -234,7 +298,17 @@ export function DashboardPage() {
             <div className="relative h-full">
               <ResponsiveContainer>
                 <PieChart>
-                  <Pie data={donut} dataKey="value" nameKey="name" innerRadius="62%" outerRadius="92%" paddingAngle={1.5} stroke="var(--surface)" strokeWidth={2} isAnimationActive={false}>
+                  <Pie
+                    data={donut}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius="62%"
+                    outerRadius="92%"
+                    paddingAngle={1.5}
+                    stroke="var(--surface)"
+                    strokeWidth={2}
+                    isAnimationActive={false}
+                  >
                     {donut.map((d) => (
                       <Cell key={d.name} fill={d.color} />
                     ))}
@@ -255,7 +329,11 @@ export function DashboardPage() {
         <ChartFrame
           testId="chart-cashflow"
           title="Net cash flow by property, after debt service and reserves"
-          summary={negCount ? `${negCount} of ${cards.length} properties run negative; the portfolio nets ${formatCents(m.net_cash_flow.value_cents)} a year.` : `Every property covers its own debt service; the portfolio nets ${formatCents(m.net_cash_flow.value_cents)} a year.`}
+          summary={
+            negCount
+              ? `${negCount} of ${cards.length} properties run negative; the portfolio nets ${formatCents(m.net_cash_flow.value_cents)} a year.`
+              : `Every property covers its own debt service; the portfolio nets ${formatCents(m.net_cash_flow.value_cents)} a year.`
+          }
           height={cards.length * 32 + 4}
           fluid
           table={{
@@ -266,7 +344,14 @@ export function DashboardPage() {
             rows: cards.map((c) => ({ label: c.property.nickname, value: c.net_cash_flow.value_cents })),
           }}
         >
-          <DivergingBars rows={cards.map((c) => ({ label: c.property.nickname, value: c.net_cash_flow.value_cents, figure: c.net_cash_flow, scope: { propertyId: c.property.id, householdId } }))} />
+          <DivergingBars
+            rows={cards.map((c) => ({
+              label: c.property.nickname,
+              value: c.net_cash_flow.value_cents,
+              figure: c.net_cash_flow,
+              scope: { propertyId: c.property.id, householdId },
+            }))}
+          />
         </ChartFrame>
       </Card>
 
@@ -287,7 +372,8 @@ export function DashboardPage() {
           >
             <p className="text-sm leading-relaxed text-ink-900">{data.narrative.text}</p>
             <p className="mt-3 text-[11px] leading-relaxed text-ink-500">
-              {data.narrative.generated_at ? `Generated ${formatDateTime(data.narrative.generated_at)}. ` : ''}Every number is quoted from a computed figure; the narrative layer never computes or changes the math.
+              {data.narrative.generated_at ? `Generated ${formatDateTime(data.narrative.generated_at)}. ` : ''}Every number is quoted from a computed figure;
+              the narrative layer never computes or changes the math.
             </p>
           </Card>
           <Card title="Reconciliation">

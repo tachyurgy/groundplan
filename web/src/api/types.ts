@@ -42,14 +42,7 @@ export interface Household {
   notes: string;
 }
 
-export type PropertyType =
-  | 'sfr'
-  | 'multifamily'
-  | 'vacation_str'
-  | 'commercial'
-  | 'land'
-  | 'self_rental'
-  | 'other';
+export type PropertyType = 'sfr' | 'multifamily' | 'vacation_str' | 'commercial' | 'land' | 'self_rental' | 'other';
 
 export type ValueSource = 'estimated' | 'confirmed';
 export type PropertyStatus = 'active' | 'sold' | 'converted';
@@ -149,15 +142,7 @@ export interface SuspendedLoss {
 }
 
 export type DocumentKind =
-  | 'form_1040'
-  | 'schedule_e'
-  | 'form_4562'
-  | 'form_8582'
-  | 'mortgage_statement'
-  | 'closing_statement'
-  | 'lease'
-  | 'appraisal'
-  | 'other';
+  'form_1040' | 'schedule_e' | 'form_4562' | 'form_8582' | 'mortgage_statement' | 'closing_statement' | 'lease' | 'appraisal' | 'other';
 
 export type DocumentStatus = 'queued' | 'extracted' | 'reconciled' | 'discarded';
 
@@ -290,13 +275,7 @@ export interface Scenario {
   results: StrategyComparison | null; // json cache
 }
 
-export type AlertKind =
-  | 'arm_reset'
-  | 'io_period_ending'
-  | 'cash_flow_negative'
-  | 'value_drift'
-  | 'loan_maturity'
-  | 'roe_below_threshold';
+export type AlertKind = 'arm_reset' | 'io_period_ending' | 'cash_flow_negative' | 'value_drift' | 'loan_maturity' | 'roe_below_threshold';
 
 export interface Alert {
   id: string;
@@ -494,13 +473,7 @@ export interface PropertyAnalysis {
 
 export type StrategyPath = 'hold' | 'sell' | 'exchange';
 export type MatrixVerdict = 'leads' | 'trails' | 'neutral';
-export type MatrixMeasure =
-  | 'terminal_wealth'
-  | 'cumulative_cash_flow'
-  | 'tax_paid_now'
-  | 'liquidity'
-  | 'management_burden'
-  | 'concentration';
+export type MatrixMeasure = 'terminal_wealth' | 'cumulative_cash_flow' | 'tax_paid_now' | 'liquidity' | 'management_burden' | 'concentration';
 
 export interface StrategySeriesRow {
   year: number;

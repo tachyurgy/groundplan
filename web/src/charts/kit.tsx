@@ -75,7 +75,11 @@ export function Legend({ items }: { items: LegendItem[] }) {
       {items.map((i) => (
         <li key={i.label} className="flex items-center gap-1.5">
           <svg width="14" height="8" aria-hidden>
-            {i.dashed ? <line x1="0" y1="4" x2="14" y2="4" stroke={i.color} strokeWidth="2" strokeDasharray="3 2" /> : <rect x="0" y="0" width="14" height="8" rx="2" fill={i.color} />}
+            {i.dashed ? (
+              <line x1="0" y1="4" x2="14" y2="4" stroke={i.color} strokeWidth="2" strokeDasharray="3 2" />
+            ) : (
+              <rect x="0" y="0" width="14" height="8" rx="2" fill={i.color} />
+            )}
           </svg>
           {i.label}
           {i.value && <span className="num text-ink-950">{i.value}</span>}
@@ -151,7 +155,7 @@ export function ChartFrame({
                 <tr key={i}>
                   {table.columns.map((c) => (
                     <td key={c.key} className={`${c.money || c.align === 'right' ? 'r num' : ''}`}>
-                      {c.money && typeof r[c.key] === 'number' ? formatCents(r[c.key] as number) : (r[c.key] as ReactNode) ?? '—'}
+                      {c.money && typeof r[c.key] === 'number' ? formatCents(r[c.key] as number) : ((r[c.key] as ReactNode) ?? '—')}
                     </td>
                   ))}
                 </tr>
@@ -169,7 +173,19 @@ export function ChartFrame({
 }
 
 /** Recharts tooltip body in the app's style. */
-export function TooltipBody({ active, payload, label, fmt = (v: number) => formatCents(v), labelFmt }: { active?: boolean; payload?: readonly { name?: string | number; value?: unknown; color?: string; dataKey?: unknown }[]; label?: unknown; fmt?: (v: number) => string; labelFmt?: (l: unknown) => string }) {
+export function TooltipBody({
+  active,
+  payload,
+  label,
+  fmt = (v: number) => formatCents(v),
+  labelFmt,
+}: {
+  active?: boolean;
+  payload?: readonly { name?: string | number; value?: unknown; color?: string; dataKey?: unknown }[];
+  label?: unknown;
+  fmt?: (v: number) => string;
+  labelFmt?: (l: unknown) => string;
+}) {
   if (!active || !payload?.length) return null;
   return (
     <div className="rounded-md bg-surface px-3 py-2 text-xs shadow-pop">
@@ -182,7 +198,9 @@ export function TooltipBody({ active, payload, label, fmt = (v: number) => forma
               <span className="h-2 w-2 rounded-sm" style={{ background: p.color }} />
               {p.name}
             </span>
-            <span className="num text-ink-950">{Array.isArray(p.value) ? `${fmt(p.value[0] as number)} – ${fmt(p.value[1] as number)}` : fmt(p.value as number)}</span>
+            <span className="num text-ink-950">
+              {Array.isArray(p.value) ? `${fmt(p.value[0] as number)} – ${fmt(p.value[1] as number)}` : fmt(p.value as number)}
+            </span>
           </div>
         ))}
     </div>

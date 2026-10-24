@@ -16,7 +16,7 @@ export interface MockDb {
   alerts: typeof fx.alerts;
 }
 
-const clone = <T,>(x: T): T => JSON.parse(JSON.stringify(x)) as T;
+const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x)) as T;
 
 export function freshDb(): MockDb {
   return {

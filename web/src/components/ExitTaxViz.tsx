@@ -21,7 +21,13 @@ export function SaleWaterfall({ x, title = 'Where the sale price goes' }: { x: E
     { label: 'Sale price', value: mag(x.sale_price), kind: 'total', figure: x.sale_price },
     { label: 'Selling costs', value: -mag(x.selling_costs), kind: 'step', color: C.muted, figure: x.selling_costs },
     { label: 'Loan payoff', value: -mag(x.loan_payoffs), kind: 'step', color: C.muted, figure: x.loan_payoffs },
-    ...TAX_PARTS.filter((p) => x[p.k].value_cents !== 0).map((p) => ({ label: p.short === 'State' ? (x.state.label?.replace(/^State/, 'State tax') ?? 'State tax') : p.short, value: -mag(x[p.k]), kind: 'step' as const, color: p.color, figure: x[p.k] })),
+    ...TAX_PARTS.filter((p) => x[p.k].value_cents !== 0).map((p) => ({
+      label: p.short === 'State' ? (x.state.label?.replace(/^State/, 'State tax') ?? 'State tax') : p.short,
+      value: -mag(x[p.k]),
+      kind: 'step' as const,
+      color: p.color,
+      figure: x[p.k],
+    })),
     { label: 'Net proceeds', value: x.net_proceeds.value_cents, kind: 'total', figure: x.net_proceeds },
   ];
   const keep = x.sale_price.value_cents > 0 ? x.net_proceeds.value_cents / x.sale_price.value_cents : 0;
@@ -32,7 +38,13 @@ export function SaleWaterfall({ x, title = 'Where the sale price goes' }: { x: E
       summary={`Of a ${formatCents(mag(x.sale_price))} sale, ${formatCents(x.net_proceeds.value_cents)} (${formatRate(keep, 0)}) reaches the client after costs, the loan payoff and ${formatCents(mag(x.exit_tax_total))} of tax.`}
       height={steps.length * 30 + 4}
       fluid
-      table={{ columns: [{ key: 'label', label: 'Step' }, { key: 'value', label: 'Amount', money: true }], rows: steps.map((s) => ({ label: s.label, value: s.value })) }}
+      table={{
+        columns: [
+          { key: 'label', label: 'Step' },
+          { key: 'value', label: 'Amount', money: true },
+        ],
+        rows: steps.map((s) => ({ label: s.label, value: s.value })),
+      }}
     >
       <Waterfall steps={steps} />
     </ChartFrame>
@@ -40,7 +52,10 @@ export function SaleWaterfall({ x, title = 'Where the sale price goes' }: { x: E
 }
 
 export function TaxLayersBar({ x }: { x: Exit }) {
-  const total = Math.max(1, TAX_PARTS.reduce((s, p) => s + mag(x[p.k]), 0));
+  const total = Math.max(
+    1,
+    TAX_PARTS.reduce((s, p) => s + mag(x[p.k]), 0),
+  );
   const parts = TAX_PARTS.map((p) => ({ ...p, v: mag(x[p.k]) })).filter((p) => p.v > 0);
   return (
     <ChartFrame
@@ -49,11 +64,22 @@ export function TaxLayersBar({ x }: { x: Exit }) {
       summary={`${formatCents(mag(x.exit_tax_total))} in total; the largest layer is ${[...parts].sort((a, b) => b.v - a.v)[0]?.label ?? 'none'}.`}
       legend={parts.map((p) => ({ label: p.label, color: p.color, value: formatCents(p.v) }))}
       height={40}
-      table={{ columns: [{ key: 'label', label: 'Layer' }, { key: 'v', label: 'Tax', money: true }], rows: parts.map((p) => ({ label: p.label, v: p.v })) }}
+      table={{
+        columns: [
+          { key: 'label', label: 'Layer' },
+          { key: 'v', label: 'Tax', money: true },
+        ],
+        rows: parts.map((p) => ({ label: p.label, v: p.v })),
+      }}
     >
       <div className="flex h-[30px] gap-[2px] overflow-hidden rounded" data-testid="tax-layer-bar">
         {parts.map((p) => (
-          <div key={p.k} title={`${p.label}: ${formatCents(p.v)}`} className="h-full first:rounded-l last:rounded-r" style={{ width: `${(p.v / total) * 100}%`, background: p.color }} />
+          <div
+            key={p.k}
+            title={`${p.label}: ${formatCents(p.v)}`}
+            className="h-full first:rounded-l last:rounded-r"
+            style={{ width: `${(p.v / total) * 100}%`, background: p.color }}
+          />
         ))}
       </div>
     </ChartFrame>

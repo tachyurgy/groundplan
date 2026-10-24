@@ -13,7 +13,8 @@ import type { FactSheet } from '../types';
 const STARTED = new Date().toISOString();
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-const problem = (status: number, title: string, detail: string) => HttpResponse.json({ type: 'about:blank', title, status, detail }, { status, headers: { 'Content-Type': 'application/problem+json' } });
+const problem = (status: number, title: string, detail: string) =>
+  HttpResponse.json({ type: 'about:blank', title, status, detail }, { status, headers: { 'Content-Type': 'application/problem+json' } });
 
 /** A real, minimal one-page PDF so "download returns application/pdf" is testable in mock mode too. */
 export function tinyPdf(lines: string[]): Uint8Array {
@@ -47,7 +48,9 @@ async function readBody(request: Request): Promise<unknown> {
 }
 
 export const handlers = [
-  http.get('*/api/v1/meta', () => HttpResponse.json({ backend: 'mock', version: 'msw', engine: 'mock (TypeScript)', runtime: 'browser', started_at: STARTED, db: 'in-memory' })),
+  http.get('*/api/v1/meta', () =>
+    HttpResponse.json({ backend: 'mock', version: 'msw', engine: 'mock (TypeScript)', runtime: 'browser', started_at: STARTED, db: 'in-memory' }),
+  ),
   http.get('*/api/v1/health', () => HttpResponse.json({ status: 'ok', mode: 'mock' })),
 
   http.all('*/api/v1/*', async ({ request }) => {
@@ -57,7 +60,8 @@ export const handlers = [
     if (path !== '/eval/latest' && !UUID_RE.test(ws)) return problem(400, 'Workspace required', 'Send a UUIDv4 in the X-Workspace-Id header.');
     const w = selectWorkspace(ws || 'anon');
 
-    if (path === '/workspace' && request.method === 'GET') return HttpResponse.json({ id: ws, created_at: w.created_at, households: db.households.length, documents: db.documents.length });
+    if (path === '/workspace' && request.method === 'GET')
+      return HttpResponse.json({ id: ws, created_at: w.created_at, households: db.households.length, documents: db.documents.length });
     if (path === '/workspace/reset' && request.method === 'POST') {
       resetDb();
       return HttpResponse.json({ id: ws, created_at: w.created_at, households: db.households.length, documents: db.documents.length });
@@ -66,9 +70,12 @@ export const handlers = [
     if (report && request.method === 'GET') {
       const hh = db.households.find((h) => h.id === report[1]);
       if (!hh) return problem(404, 'Not Found', `household ${report[1]}`);
-      return new HttpResponse(tinyPdf([`${hh.name}: real estate portfolio review`, 'Groundplan mock report (MSW fixture backend).', `Tax year ${hh.tax_year_latest}, ${hh.state}.`]), {
-        headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="report.pdf"' },
-      });
+      return new HttpResponse(
+        tinyPdf([`${hh.name}: real estate portfolio review`, 'Groundplan mock report (MSW fixture backend).', `Tax year ${hh.tax_year_latest}, ${hh.state}.`]),
+        {
+          headers: { 'Content-Type': 'application/pdf', 'Content-Disposition': 'attachment; filename="report.pdf"' },
+        },
+      );
     }
     const scen = path.match(/^\/properties\/([^/]+)\/scenarios$/);
     if (scen && request.method === 'POST') {

@@ -118,7 +118,12 @@ export function PdfPage({ documentId, page, fields, width = 420, highlight, onPi
   const pageFields = fields.filter((f) => f.page === page);
 
   return (
-    <div className="relative overflow-hidden rounded-sm bg-white text-ink-900 ring-1 ring-ink-200" style={{ width, height }} data-testid="pdf-page" data-theme="light">
+    <div
+      className="relative overflow-hidden rounded-sm bg-white text-ink-900 ring-1 ring-ink-200"
+      style={{ width, height }}
+      data-testid="pdf-page"
+      data-theme="light"
+    >
       {file && !err ? (
         <canvas ref={canvasRef} className="block" />
       ) : (
@@ -140,7 +145,11 @@ export function PdfPage({ documentId, page, fields, width = 420, highlight, onPi
             onClick={() => onPick?.(f)}
             title={`${f.field} = ${f.raw_text} (${Math.round(f.confidence * 100)}%, ${f.extractor})`}
             className={`absolute rounded-[2px] border text-left transition-colors ${
-              on ? 'border-brand-600 bg-brand-500/25 ring-2 ring-brand-500/40' : f.confidence < 0.9 ? 'border-est-600/70 bg-est-100/40 hover:bg-est-100/80' : 'border-brand-500/60 bg-brand-100/30 hover:bg-brand-100/70'
+              on
+                ? 'border-brand-600 bg-brand-500/25 ring-2 ring-brand-500/40'
+                : f.confidence < 0.9
+                  ? 'border-est-600/70 bg-est-100/40 hover:bg-est-100/80'
+                  : 'border-brand-500/60 bg-brand-100/30 hover:bg-brand-100/70'
             }`}
             style={{ left: css.left, top: css.top, width: Math.max(css.width, 6), height: Math.max(css.height, 6) }}
           >

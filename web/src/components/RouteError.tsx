@@ -21,7 +21,11 @@ export function RouteError({ error, reset }: ErrorComponentProps) {
       title = 'Not found in this workspace';
       body = (
         <>
-          {error.message} This link may point at another browser's sandbox; each browser gets its own demo data. <Link to="/" className="font-medium text-brand-600 underline">Go to your households</Link>.
+          {error.message} This link may point at another browser's sandbox; each browser gets its own demo data.{' '}
+          <Link to="/" className="font-medium text-brand-600 underline">
+            Go to your households
+          </Link>
+          .
         </>
       );
     } else {
@@ -33,7 +37,8 @@ export function RouteError({ error, reset }: ErrorComponentProps) {
     body = (
       <>
         <p>
-          {error.message} Nothing is shown rather than showing wrong numbers. Fields: <span className="font-mono text-xs">{error.issues.map((i) => i.path || '(root)').join(', ')}</span>
+          {error.message} Nothing is shown rather than showing wrong numbers. Fields:{' '}
+          <span className="font-mono text-xs">{error.issues.map((i) => i.path || '(root)').join(', ')}</span>
         </p>
       </>
     );

@@ -36,7 +36,14 @@ const ICONS = {
 };
 
 const NAV = [
-  { to: '/', label: 'Households', short: 'Clients', icon: ICONS.households, exact: false, match: (p: string) => p === '/' || p.startsWith('/households') || p.startsWith('/properties') },
+  {
+    to: '/',
+    label: 'Households',
+    short: 'Clients',
+    icon: ICONS.households,
+    exact: false,
+    match: (p: string) => p === '/' || p.startsWith('/households') || p.startsWith('/properties'),
+  },
   { to: '/simulate', label: 'Simulate', short: 'Simulate', icon: ICONS.simulate, match: (p: string) => p.startsWith('/simulate') },
   { to: '/eval', label: 'Pipeline eval', short: 'Eval', icon: ICONS.eval, match: (p: string) => p.startsWith('/eval') },
   { to: '/engineering', label: 'Engineering notes', short: 'Notes', icon: ICONS.engineering, match: (p: string) => p.startsWith('/engineering') },
@@ -65,7 +72,9 @@ export function twinHref(qc: QueryClient, pathname: string, searchStr: string): 
     const a = qc.getQueryData<AnalysisT>(['gp', 'property', prop, 'analysis', {}]);
     if (a) {
       u.searchParams.set('prop', a.property.nickname);
-      const name = households?.find((h) => h.id === a.property.household_id)?.name ?? qc.getQueryData<DashboardT>(['gp', 'household', a.property.household_id, 'dashboard'])?.household.name;
+      const name =
+        households?.find((h) => h.id === a.property.household_id)?.name ??
+        qc.getQueryData<DashboardT>(['gp', 'household', a.property.household_id, 'dashboard'])?.household.name;
       if (name) u.searchParams.set('hh', name);
     }
   } else if (hh) {
@@ -81,7 +90,13 @@ function ThemeToggle() {
   const next: Record<ThemePref, ThemePref> = { system: 'light', light: 'dark', dark: 'system' };
   const label = { system: 'System', light: 'Light', dark: 'Dark' }[theme];
   return (
-    <button type="button" className="btn btn-ghost h-9 w-9 px-0 text-ink-700 sm:h-8 sm:w-auto sm:px-2" onClick={() => setTheme(next[theme])} aria-label={`Theme: ${label}. Switch to ${next[theme]}`} title={`Theme: ${label}`}>
+    <button
+      type="button"
+      className="btn btn-ghost h-9 w-9 px-0 text-ink-700 sm:h-8 sm:w-auto sm:px-2"
+      onClick={() => setTheme(next[theme])}
+      aria-label={`Theme: ${label}. Switch to ${next[theme]}`}
+      title={`Theme: ${label}`}
+    >
       <svg viewBox="0 0 20 20" aria-hidden className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeWidth={1.6}>
         <circle cx="10" cy="10" r="6.5" />
         <path d="M10 3.5a6.5 6.5 0 0 1 0 13Z" fill="currentColor" />
@@ -97,7 +112,12 @@ function StackBadge({ compact = false }: { compact?: boolean }) {
   const sha = meta.data?.version ? String(meta.data.version).slice(0, 7) : null;
   const dot = meta.isError ? 'bg-neg-600' : meta.data ? 'bg-pos-600' : 'bg-ink-300';
   return (
-    <span data-testid="stack-badge" data-backend={backend} className="inline-flex items-center gap-1.5 text-xs text-ink-500" title={meta.data?.runtime ? `${meta.data.runtime} · ${meta.data.db ?? ''}` : undefined}>
+    <span
+      data-testid="stack-badge"
+      data-backend={backend}
+      className="inline-flex items-center gap-1.5 text-xs text-ink-500"
+      title={meta.data?.runtime ? `${meta.data.runtime} · ${meta.data.db ?? ''}` : undefined}
+    >
       <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${dot}`} />
       {compact ? (BACKEND_LABEL[backend] ?? backend).split(' ')[0] : <>Backend: {BACKEND_LABEL[backend] ?? backend}</>}
       {sha && !compact && <span className="num text-ink-500">· {sha}</span>}
@@ -112,7 +132,14 @@ function TwinLink({ className = '', children }: { className?: string; children?:
   const [href, setHref] = useState(`${twinOf.origin}/`);
   const refresh = () => setHref(twinHref(qc, loc.pathname, searchStr));
   return (
-    <a href={href} onPointerEnter={refresh} onFocus={refresh} onClick={(e) => (e.currentTarget.href = twinHref(qc, loc.pathname, searchStr))} data-testid="twin-link" className={className}>
+    <a
+      href={href}
+      onPointerEnter={refresh}
+      onFocus={refresh}
+      onClick={(e) => (e.currentTarget.href = twinHref(qc, loc.pathname, searchStr))}
+      data-testid="twin-link"
+      className={className}
+    >
       {children ?? <>Same app on the {twinOf.label} stack →</>}
     </a>
   );
@@ -132,7 +159,9 @@ function ResetButton() {
         <AlertDialog.Overlay className="fixed inset-0 z-50 bg-black/30" />
         <AlertDialog.Content className="fixed top-1/2 left-1/2 z-50 w-[min(420px,calc(100vw-32px))] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-surface p-5 shadow-pop">
           <AlertDialog.Title className="text-base font-semibold text-ink-950">Reset this sandbox?</AlertDialog.Title>
-          <AlertDialog.Description className="mt-2 text-sm text-ink-700">Uploads, resolved findings and edits in this browser are deleted, and the demo household is seeded again.</AlertDialog.Description>
+          <AlertDialog.Description className="mt-2 text-sm text-ink-700">
+            Uploads, resolved findings and edits in this browser are deleted, and the demo household is seeded again.
+          </AlertDialog.Description>
           <div className="mt-5 flex justify-end gap-2">
             <AlertDialog.Cancel asChild>
               <button type="button" className="btn">
@@ -182,7 +211,8 @@ function Welcome() {
           </button>
         }
       >
-        <strong className="font-semibold">Your own sandbox.</strong> No sign-in: this browser gets a private workspace seeded with a demo household. Data is stored for this browser for 14 days; edits and uploads are yours alone.
+        <strong className="font-semibold">Your own sandbox.</strong> No sign-in: this browser gets a private workspace seeded with a demo household. Data is
+        stored for this browser for 14 days; edits and uploads are yours alone.
       </Banner>
     </div>
   );
@@ -193,7 +223,11 @@ function ConnectionBanner() {
   if (online && !apiDown) return null;
   return (
     <div className="mb-4" data-testid="connection-banner">
-      <Banner tone="warn">{!online ? 'You are offline. Figures on screen are the last ones loaded.' : 'The API is not answering right now. Figures on screen are the last ones loaded; retrying in the background.'}</Banner>
+      <Banner tone="warn">
+        {!online
+          ? 'You are offline. Figures on screen are the last ones loaded.'
+          : 'The API is not answering right now. Figures on screen are the last ones loaded; retrying in the background.'}
+      </Banner>
     </div>
   );
 }
@@ -207,7 +241,10 @@ export function AppShell() {
   const trace = useUi((s) => s.trace);
   return (
     <div className="flex min-h-dvh flex-col">
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded focus:bg-surface focus:px-3 focus:py-2 focus:shadow-pop">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded focus:bg-surface focus:px-3 focus:py-2 focus:shadow-pop"
+      >
         Skip to content
       </a>
       <header className="sticky top-0 z-30 border-b border-ink-100 bg-surface/90 backdrop-blur supports-[backdrop-filter]:bg-surface/80">
@@ -224,7 +261,12 @@ export function AppShell() {
             {NAV.map((n) => {
               const active = n.match(pathname);
               return (
-                <Link key={n.to} to={n.to} aria-current={active ? 'page' : undefined} className={`rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${active ? 'bg-ink-100 text-ink-950' : 'text-ink-500 hover:text-ink-950'}`}>
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  aria-current={active ? 'page' : undefined}
+                  className={`rounded-md px-2.5 py-1.5 text-sm font-medium transition-colors ${active ? 'bg-ink-100 text-ink-950' : 'text-ink-500 hover:text-ink-950'}`}
+                >
                   {n.label}
                 </Link>
               );
@@ -261,13 +303,20 @@ export function AppShell() {
       </footer>
 
       {/* phone navigation: a bottom tab bar within thumb reach */}
-      <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-30 border-t border-ink-100 bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden">
+      <nav
+        aria-label="Main"
+        className="fixed inset-x-0 bottom-0 z-30 border-t border-ink-100 bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
+      >
         <ul className="grid grid-cols-4">
           {NAV.map((n) => {
             const active = n.match(pathname);
             return (
               <li key={n.to}>
-                <Link to={n.to} aria-current={active ? 'page' : undefined} className={`flex h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-medium ${active ? 'text-brand-600' : 'text-ink-500'}`}>
+                <Link
+                  to={n.to}
+                  aria-current={active ? 'page' : undefined}
+                  className={`flex h-14 flex-col items-center justify-center gap-0.5 text-[11px] font-medium ${active ? 'text-brand-600' : 'text-ink-500'}`}
+                >
                   <Icon d={n.icon} />
                   {n.short}
                 </Link>

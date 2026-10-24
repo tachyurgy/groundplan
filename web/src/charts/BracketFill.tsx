@@ -34,7 +34,16 @@ export function BracketFill({ ordinary, l1245, l1250, ltcg }: { ordinary: number
               <g key={i}>
                 <rect x={x0} y={barY} width={w} height={barH} rx={i === 0 ? 4 : 2} fill={s.color} />
                 {fits && s.rate !== undefined && (
-                  <text x={x0 + w / 2} y={barY + barH / 2} textAnchor="middle" dominantBaseline="central" fontSize={11} fontFamily="var(--font-mono)" fill="#fff" fontWeight={600}>
+                  <text
+                    x={x0 + w / 2}
+                    y={barY + barH / 2}
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    fontSize={11}
+                    fontFamily="var(--font-mono)"
+                    fill="#fff"
+                    fontWeight={600}
+                  >
                     {formatRate(s.rate, 0)}
                   </text>
                 )}
@@ -50,11 +59,19 @@ export function BracketFill({ ordinary, l1245, l1250, ltcg }: { ordinary: number
             const tx = x(t);
             const show = i === 0 || i === ticks.length - 1 || !narrow;
             const prev = ticks[i - 1];
-            if (!show || (prev !== undefined && x(t) - x(prev) < 44 && i !== ticks.length - 1)) return <line key={t} x1={tx} x2={tx} y1={barY + barH} y2={barY + barH + 4} stroke={C.axis} />;
+            if (!show || (prev !== undefined && x(t) - x(prev) < 44 && i !== ticks.length - 1))
+              return <line key={t} x1={tx} x2={tx} y1={barY + barH} y2={barY + barH + 4} stroke={C.axis} />;
             return (
               <g key={t}>
                 <line x1={tx} x2={tx} y1={barY - 4} y2={barY + barH + 4} stroke={C.axis} />
-                <text x={Math.min(Math.max(tx, 18), width - 18)} y={barY + barH + 16} textAnchor="middle" fontSize={10.5} fontFamily="var(--font-mono)" fill="var(--ink-500)">
+                <text
+                  x={Math.min(Math.max(tx, 18), width - 18)}
+                  y={barY + barH + 16}
+                  textAnchor="middle"
+                  fontSize={10.5}
+                  fontFamily="var(--font-mono)"
+                  fill="var(--ink-500)"
+                >
                   {formatCentsCompact(t)}
                 </text>
               </g>

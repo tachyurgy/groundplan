@@ -43,7 +43,23 @@ export function FigureValue({ figure, signed = false, compact = false, chip = fa
 }
 
 /** Label / value row for dense statements (cash-flow waterfall lists, exit-tax breakdowns). */
-export function FigureRow({ label, figure, signed, strong, indent, display, hint }: { label: ReactNode; figure: FigureT | null | undefined; signed?: boolean; strong?: boolean; indent?: boolean; display?: string; hint?: ReactNode }) {
+export function FigureRow({
+  label,
+  figure,
+  signed,
+  strong,
+  indent,
+  display,
+  hint,
+}: {
+  label: ReactNode;
+  figure: FigureT | null | undefined;
+  signed?: boolean;
+  strong?: boolean;
+  indent?: boolean;
+  display?: string;
+  hint?: ReactNode;
+}) {
   return (
     <div className={`flex items-baseline justify-between gap-3 py-1.5 ${strong ? 'mt-0.5 border-t border-ink-200 pt-2 font-semibold' : ''}`}>
       <span className={`min-w-0 text-sm ${indent ? 'pl-3 text-ink-500' : 'text-ink-700'}`}>

@@ -17,16 +17,68 @@ const START = 2026;
 
 /** The demo household's four rentals: value, debt and NOI before debt service. */
 const SEED: (SimulationProperty & { rate: number; remaining_years: number })[] = [
-  { nickname: 'Maple duplex', property_type: 'multifamily', current_value_cents: $(620_000), debt_cents: $(146_212), rate: 0.0425, remaining_years: 17, noi_cents: $(25_960), purchase_price_cents: $(285_000), purchase_date: '2012-05-15', land_pct: 0.3 },
-  { nickname: 'Tahoe cabin', property_type: 'vacation_str', current_value_cents: $(725_000), debt_cents: $(359_410), rate: 0.0525, remaining_years: 24, noi_cents: $(3_020), purchase_price_cents: $(540_000), purchase_date: '2019-08-01', land_pct: 0.3 },
-  { nickname: 'Elm SFR', property_type: 'sfr', current_value_cents: $(640_000), debt_cents: $(457_500), rate: 0.06125, remaining_years: 29, noi_cents: $(25_826), purchase_price_cents: $(610_000), purchase_date: '2024-06-14', land_pct: 0.3 },
-  { nickname: 'Oak condo', property_type: 'sfr', current_value_cents: $(455_000), debt_cents: $(85_000), rate: 0.0875, remaining_years: 10, noi_cents: $(12_304), purchase_price_cents: $(310_000), purchase_date: '2015-03-10', land_pct: 0.3 },
+  {
+    nickname: 'Maple duplex',
+    property_type: 'multifamily',
+    current_value_cents: $(620_000),
+    debt_cents: $(146_212),
+    rate: 0.0425,
+    remaining_years: 17,
+    noi_cents: $(25_960),
+    purchase_price_cents: $(285_000),
+    purchase_date: '2012-05-15',
+    land_pct: 0.3,
+  },
+  {
+    nickname: 'Tahoe cabin',
+    property_type: 'vacation_str',
+    current_value_cents: $(725_000),
+    debt_cents: $(359_410),
+    rate: 0.0525,
+    remaining_years: 24,
+    noi_cents: $(3_020),
+    purchase_price_cents: $(540_000),
+    purchase_date: '2019-08-01',
+    land_pct: 0.3,
+  },
+  {
+    nickname: 'Elm SFR',
+    property_type: 'sfr',
+    current_value_cents: $(640_000),
+    debt_cents: $(457_500),
+    rate: 0.06125,
+    remaining_years: 29,
+    noi_cents: $(25_826),
+    purchase_price_cents: $(610_000),
+    purchase_date: '2024-06-14',
+    land_pct: 0.3,
+  },
+  {
+    nickname: 'Oak condo',
+    property_type: 'sfr',
+    current_value_cents: $(455_000),
+    debt_cents: $(85_000),
+    rate: 0.0875,
+    remaining_years: 10,
+    noi_cents: $(12_304),
+    purchase_price_cents: $(310_000),
+    purchase_date: '2015-03-10',
+    land_pct: 0.3,
+  },
 ];
 
 const SEED_EVENTS: SimulationEvent[] = [
   { id: 'e1', year: 2027, type: 'refi', property_ref: 'Elm SFR', debt_cents: $(450_000), rate: 0.0625, note: 'Refinance ahead of the ARM reset' },
   { id: 'e2', year: 2028, type: 'sell', property_ref: 'Tahoe cabin', note: 'Exit the short-term rental' },
-  { id: 'e3', year: 2030, type: 'exchange', property_ref: 'Maple duplex', amount_cents: $(820_000), debt_cents: $(160_000), note: '1031 into a triple-net property' },
+  {
+    id: 'e3',
+    year: 2030,
+    type: 'exchange',
+    property_ref: 'Maple duplex',
+    amount_cents: $(820_000),
+    debt_cents: $(160_000),
+    note: '1031 into a triple-net property',
+  },
   { id: 'e4', year: 2032, type: 'sell', property_ref: 'Oak condo', note: 'Retirement year' },
 ];
 
@@ -40,7 +92,16 @@ const FIELDS: FieldDef[] = [
   { key: 'cap_rate', label: 'Cap rate on buys', kind: 'rate', min: 0.01, max: 0.15 },
   { key: 'runs', label: 'Monte Carlo runs', kind: 'int', min: 10, max: 2000 },
 ];
-const DEFAULTS: Values = { appreciation_rate: 0.035, rent_growth: 0.03, expense_growth: 0.03, reinvest_rate: 0.06, cap_rate: 0.055, appr_sigma: 0.06, rent_sigma: 0.025, runs: 300 };
+const DEFAULTS: Values = {
+  appreciation_rate: 0.035,
+  rent_growth: 0.03,
+  expense_growth: 0.03,
+  reinvest_rate: 0.06,
+  cap_rate: 0.055,
+  appr_sigma: 0.06,
+  rent_sigma: 0.025,
+  runs: 300,
+};
 
 const TYPE_LABEL: Record<SimulationEventType, string> = { buy: 'Buy', sell: 'Sell', exchange: '1031', refi: 'Refi' };
 const TYPE_COLOR: Record<SimulationEventType, string> = { buy: C.s1, sell: C.s2, exchange: C.s3, refi: C.s4 };
@@ -59,7 +120,13 @@ export function SimulatePage() {
     years: deferredYears,
     properties: SEED,
     events: [...events].sort((x, y) => x.year - y.year),
-    assumptions: { appreciation_rate: a.appreciation_rate as number, rent_growth: a.rent_growth as number, expense_growth: a.expense_growth as number, reinvest_rate: a.reinvest_rate as number, cap_rate: a.cap_rate as number },
+    assumptions: {
+      appreciation_rate: a.appreciation_rate as number,
+      rent_growth: a.rent_growth as number,
+      expense_growth: a.expense_growth as number,
+      reinvest_rate: a.reinvest_rate as number,
+      cap_rate: a.cap_rate as number,
+    },
     monte_carlo: { runs: a.runs as number, appr_sigma: a.appr_sigma as number, rent_sigma: a.rent_sigma as number },
   };
   // Typing in the event table should not fire a POST per keystroke: debounce, then cache by request.
@@ -84,7 +151,8 @@ export function SimulatePage() {
   return (
     <div>
       <PageHeader title="Buy and sell over time">
-        Lay out a sequence of purchases, sales, exchanges and refinances for the demo household’s four rentals and see the range of outcomes. Bands run from the 10th to the 90th percentile across Monte Carlo runs on appreciation and rent growth.
+        Lay out a sequence of purchases, sales, exchanges and refinances for the demo household’s four rentals and see the range of outcomes. Bands run from the
+        10th to the 90th percentile across Monte Carlo runs on appreciation and rent growth.
       </PageHeader>
       <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
         <div className="space-y-5 lg:sticky lg:top-16 lg:self-start">
@@ -101,7 +169,16 @@ export function SimulatePage() {
               }}
             />
           </Card>
-          <AssumptionsForm title="Assumptions" testId="sim-assumptions" fields={FIELDS} values={a} defaults={DEFAULTS} onCommit={setA} onReset={() => setA(DEFAULTS)} busy={sim.isFetching} />
+          <AssumptionsForm
+            title="Assumptions"
+            testId="sim-assumptions"
+            fields={FIELDS}
+            values={a}
+            defaults={DEFAULTS}
+            onCommit={setA}
+            onReset={() => setA(DEFAULTS)}
+            busy={sim.isFetching}
+          />
         </div>
 
         <div className="min-w-0 space-y-5">
@@ -113,7 +190,20 @@ export function SimulatePage() {
                 type="button"
                 className="btn btn-sm"
                 data-testid="add-event"
-                onClick={() => setEvents((es) => [...es, { id: `e-${crypto.randomUUID().slice(0, 8)}`, year: START + 2, type: 'buy', property_ref: `New rental ${es.filter((e) => e.type === 'buy').length + 1}`, amount_cents: $(550_000), debt_cents: $(385_000), rate: 0.065 }])}
+                onClick={() =>
+                  setEvents((es) => [
+                    ...es,
+                    {
+                      id: `e-${crypto.randomUUID().slice(0, 8)}`,
+                      year: START + 2,
+                      type: 'buy',
+                      property_ref: `New rental ${es.filter((e) => e.type === 'buy').length + 1}`,
+                      amount_cents: $(550_000),
+                      debt_cents: $(385_000),
+                      rate: 0.065,
+                    },
+                  ])
+                }
               >
                 Add event
               </button>
@@ -123,15 +213,26 @@ export function SimulatePage() {
             <div className="relative mx-5 mt-5 mb-7 h-6" aria-hidden>
               <div className="absolute top-1/2 right-0 left-0 h-px bg-ink-200" />
               {Array.from({ length: years }, (_, i) => (
-                <span key={i} className="num absolute top-full -translate-x-1/2 pt-1 text-[10px] text-ink-500" style={{ left: `${(i / Math.max(1, years - 1)) * 100}%` }}>
+                <span
+                  key={i}
+                  className="num absolute top-full -translate-x-1/2 pt-1 text-[10px] text-ink-500"
+                  style={{ left: `${(i / Math.max(1, years - 1)) * 100}%` }}
+                >
                   {i % (narrow ? 4 : 2) === 0 ? `’${String(START + i).slice(2)}` : ''}
                 </span>
               ))}
               {shownEvents.map((e) => (
-                <span key={e.id} className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-surface" style={{ left: `${((e.year - START) / Math.max(1, years - 1)) * 100}%`, background: TYPE_COLOR[e.type] }} />
+                <span
+                  key={e.id}
+                  className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 ring-surface"
+                  style={{ left: `${((e.year - START) / Math.max(1, years - 1)) * 100}%`, background: TYPE_COLOR[e.type] }}
+                />
               ))}
             </div>
-            <div aria-hidden className="hidden grid-cols-[5.5rem_7rem_minmax(0,1fr)_8rem_8rem_5rem_2rem] gap-2 border-b border-ink-100 px-4 pb-1.5 text-xs font-medium text-ink-500 sm:grid">
+            <div
+              aria-hidden
+              className="hidden grid-cols-[5.5rem_7rem_minmax(0,1fr)_8rem_8rem_5rem_2rem] gap-2 border-b border-ink-100 px-4 pb-1.5 text-xs font-medium text-ink-500 sm:grid"
+            >
               <span>Year</span>
               <span>Event</span>
               <span>Property</span>
@@ -144,14 +245,31 @@ export function SimulatePage() {
               {[...events]
                 .sort((x, y) => x.year - y.year)
                 .map((e) => (
-                  <li key={e.id} className="grid grid-cols-2 gap-2 px-4 py-2.5 sm:grid-cols-[5.5rem_7rem_minmax(0,1fr)_8rem_8rem_5rem_2rem] sm:items-center" data-testid="event-row">
+                  <li
+                    key={e.id}
+                    className="grid grid-cols-2 gap-2 px-4 py-2.5 sm:grid-cols-[5.5rem_7rem_minmax(0,1fr)_8rem_8rem_5rem_2rem] sm:items-center"
+                    data-testid="event-row"
+                  >
                     <label className="flex flex-col gap-0.5">
                       <span className="text-[11px] text-ink-500 sm:sr-only">Year</span>
-                      <input aria-label="Event year" className="input-num" type="number" min={START} max={START + 29} value={e.year} onChange={(ev) => update(e.id, { year: Number(ev.target.value) || START })} />
+                      <input
+                        aria-label="Event year"
+                        className="input-num"
+                        type="number"
+                        min={START}
+                        max={START + 29}
+                        value={e.year}
+                        onChange={(ev) => update(e.id, { year: Number(ev.target.value) || START })}
+                      />
                     </label>
                     <label className="flex flex-col gap-0.5">
                       <span className="text-[11px] text-ink-500 sm:sr-only">Event</span>
-                      <select aria-label="Event type" className="input" value={e.type} onChange={(ev) => update(e.id, { type: ev.target.value as SimulationEventType })}>
+                      <select
+                        aria-label="Event type"
+                        className="input"
+                        value={e.type}
+                        onChange={(ev) => update(e.id, { type: ev.target.value as SimulationEventType })}
+                      >
                         {(['buy', 'sell', 'exchange', 'refi'] as const).map((t) => (
                           <option key={t} value={t}>
                             {TYPE_LABEL[t]}
@@ -162,9 +280,19 @@ export function SimulatePage() {
                     <label className="col-span-2 flex flex-col gap-0.5 sm:col-span-1">
                       <span className="text-[11px] text-ink-500 sm:sr-only">Property</span>
                       {e.type === 'buy' ? (
-                        <input aria-label="New property name" className="input" value={e.property_ref} onChange={(ev) => update(e.id, { property_ref: ev.target.value })} />
+                        <input
+                          aria-label="New property name"
+                          className="input"
+                          value={e.property_ref}
+                          onChange={(ev) => update(e.id, { property_ref: ev.target.value })}
+                        />
                       ) : (
-                        <select aria-label="Property" className="input" value={e.property_ref} onChange={(ev) => update(e.id, { property_ref: ev.target.value })}>
+                        <select
+                          aria-label="Property"
+                          className="input"
+                          value={e.property_ref}
+                          onChange={(ev) => update(e.id, { property_ref: ev.target.value })}
+                        >
                           {names.map((n) => (
                             <option key={n}>{n}</option>
                           ))}
@@ -173,22 +301,43 @@ export function SimulatePage() {
                     </label>
                     <label className="flex flex-col gap-0.5">
                       <span className="text-[11px] text-ink-500 sm:sr-only">Price or new value</span>
-                      {e.type === 'buy' || e.type === 'exchange' ? <CentsInput label="Price or new value" value={e.amount_cents} onChange={(v) => update(e.id, { amount_cents: v })} /> : <span className="hidden text-right text-ink-400 sm:block">—</span>}
-                    </label>
-                    <label className="flex flex-col gap-0.5">
-                      <span className="text-[11px] text-ink-500 sm:sr-only">Debt after</span>
-                      {e.type !== 'sell' ? <CentsInput label="Debt after" value={e.debt_cents} onChange={(v) => update(e.id, { debt_cents: v })} /> : <span className="hidden text-right text-ink-400 sm:block">—</span>}
-                    </label>
-                    <label className="flex flex-col gap-0.5">
-                      <span className="text-[11px] text-ink-500 sm:sr-only">Rate %</span>
-                      {e.type === 'buy' || e.type === 'refi' ? (
-                        <input aria-label="Rate percent" className="input-num" inputMode="decimal" defaultValue={((e.rate ?? 0.065) * 100).toFixed(2)} onBlur={(ev) => update(e.id, { rate: Number(ev.target.value) / 100 || 0 })} />
+                      {e.type === 'buy' || e.type === 'exchange' ? (
+                        <CentsInput label="Price or new value" value={e.amount_cents} onChange={(v) => update(e.id, { amount_cents: v })} />
                       ) : (
                         <span className="hidden text-right text-ink-400 sm:block">—</span>
                       )}
                     </label>
-                    <button type="button" className="btn btn-sm btn-ghost col-span-2 text-ink-500 sm:col-span-1" onClick={() => setEvents((es) => es.filter((x) => x.id !== e.id))} aria-label={`Remove ${TYPE_LABEL[e.type]} ${e.property_ref} ${e.year}`}>
-                      <span aria-hidden className="hidden sm:inline">✕</span>
+                    <label className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-ink-500 sm:sr-only">Debt after</span>
+                      {e.type !== 'sell' ? (
+                        <CentsInput label="Debt after" value={e.debt_cents} onChange={(v) => update(e.id, { debt_cents: v })} />
+                      ) : (
+                        <span className="hidden text-right text-ink-400 sm:block">—</span>
+                      )}
+                    </label>
+                    <label className="flex flex-col gap-0.5">
+                      <span className="text-[11px] text-ink-500 sm:sr-only">Rate %</span>
+                      {e.type === 'buy' || e.type === 'refi' ? (
+                        <input
+                          aria-label="Rate percent"
+                          className="input-num"
+                          inputMode="decimal"
+                          defaultValue={((e.rate ?? 0.065) * 100).toFixed(2)}
+                          onBlur={(ev) => update(e.id, { rate: Number(ev.target.value) / 100 || 0 })}
+                        />
+                      ) : (
+                        <span className="hidden text-right text-ink-400 sm:block">—</span>
+                      )}
+                    </label>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-ghost col-span-2 text-ink-500 sm:col-span-1"
+                      onClick={() => setEvents((es) => es.filter((x) => x.id !== e.id))}
+                      aria-label={`Remove ${TYPE_LABEL[e.type]} ${e.property_ref} ${e.year}`}
+                    >
+                      <span aria-hidden className="hidden sm:inline">
+                        ✕
+                      </span>
                       <span className="sm:hidden">Remove</span>
                     </button>
                   </li>
@@ -219,7 +368,11 @@ export function SimulatePage() {
             <ChartFrame
               testId="chart-fan"
               title="Net worth, range of outcomes"
-              summary={t ? `After ${years} years the median outcome is ${formatCents(t.net_worth.p50)}; one run in ten ends below ${formatCents(t.net_worth.p10)} and one in ten above ${formatCents(t.net_worth.p90)} (${sim.data?.runs ?? 0} runs).` : 'Running the simulation…'}
+              summary={
+                t
+                  ? `After ${years} years the median outcome is ${formatCents(t.net_worth.p50)}; one run in ten ends below ${formatCents(t.net_worth.p10)} and one in ten above ${formatCents(t.net_worth.p90)} (${sim.data?.runs ?? 0} runs).`
+                  : 'Running the simulation…'
+              }
               legend={[
                 { label: 'p10 to p90', color: 'color-mix(in oklab, var(--series-1) 22%, var(--surface))' },
                 { label: 'Median', color: C.s1 },
@@ -248,7 +401,13 @@ export function SimulatePage() {
                     <Line dataKey="p10" name="p10" stroke={C.s1} strokeOpacity={0.45} strokeWidth={1} dot={false} isAnimationActive={false} />
                     <Line dataKey="p50" name="Median" stroke={C.s1} strokeWidth={2} dot={false} isAnimationActive={false} />
                     {shownEvents.map((e) => (
-                      <ReferenceLine key={e.id} x={e.year} stroke={TYPE_COLOR[e.type]} strokeDasharray="3 3" label={{ value: TYPE_LABEL[e.type], position: 'top', fontSize: 10, fill: 'var(--ink-700)' }} />
+                      <ReferenceLine
+                        key={e.id}
+                        x={e.year}
+                        stroke={TYPE_COLOR[e.type]}
+                        strokeDasharray="3 3"
+                        label={{ value: TYPE_LABEL[e.type], position: 'top', fontSize: 10, fill: 'var(--ink-700)' }}
+                      />
                     ))}
                   </ComposedChart>
                 </ResponsiveContainer>
@@ -320,7 +479,16 @@ export function SimulatePage() {
                       <XAxis dataKey="year" {...xAxisProps} minTickGap={14} />
                       <YAxis tickFormatter={centsTick} {...yAxisProps} />
                       <Tooltip content={(p) => <TooltipBody {...p} />} />
-                      <Area dataKey="debt" name="Debt" stackId="1" stroke={C.muted} fill={C.muted} fillOpacity={0.35} strokeWidth={2} isAnimationActive={false} />
+                      <Area
+                        dataKey="debt"
+                        name="Debt"
+                        stackId="1"
+                        stroke={C.muted}
+                        fill={C.muted}
+                        fillOpacity={0.35}
+                        strokeWidth={2}
+                        isAnimationActive={false}
+                      />
                       <Area dataKey="equity" name="Equity" stackId="1" stroke={C.s1} fill={C.s1} fillOpacity={0.14} strokeWidth={2} isAnimationActive={false} />
                     </AreaChart>
                   </ResponsiveContainer>

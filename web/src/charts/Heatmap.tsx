@@ -18,7 +18,17 @@ const SHORT: Record<PathId, string> = { hold: 'Hold', sell: 'Sell', exchange: '1
  * Hue = which path leads (categorical); opacity = by how much (a near-tie fades toward the surface).
  * Text in each cell (path name + margin) so the grid reads without colour.
  */
-export function Heatmap({ rates, horizons, cells, current }: { rates: number[]; horizons: number[]; cells: Map<string, HeatCell | undefined>; current?: { rate: number; horizon: number } }) {
+export function Heatmap({
+  rates,
+  horizons,
+  cells,
+  current,
+}: {
+  rates: number[];
+  horizons: number[];
+  cells: Map<string, HeatCell | undefined>;
+  current?: { rate: number; horizon: number };
+}) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full border-separate border-spacing-[3px] text-xs" data-testid="heatmap">
@@ -60,10 +70,14 @@ export function Heatmap({ rates, horizons, cells, current }: { rates: number[]; 
                     data-leader={c.leader ?? 'tie'}
                     title={`${formatRate(r, 1)} appreciation, ${h} years: ${label}`}
                     className={`relative h-11 min-w-[52px] rounded-md text-center align-middle ${isCur ? 'ring-2 ring-ink-950 ring-offset-1 ring-offset-surface' : ''}`}
-                    style={{ background: c.leader ? `color-mix(in oklab, ${PATH_COLOR[c.leader]} ${Math.round(alpha * 100)}%, var(--surface))` : 'var(--ink-100)' }}
+                    style={{
+                      background: c.leader ? `color-mix(in oklab, ${PATH_COLOR[c.leader]} ${Math.round(alpha * 100)}%, var(--surface))` : 'var(--ink-100)',
+                    }}
                   >
                     <span className={`block leading-tight font-semibold text-ink-950`}>{c.leader ? SHORT[c.leader] : 'Tie'}</span>
-                    <span className={`num block text-[10.5px] leading-tight text-ink-900`}>{c.leader ? `+${(c.margin * 100).toFixed(c.margin < 0.1 ? 1 : 0)}%` : '±1%'}</span>
+                    <span className={`num block text-[10.5px] leading-tight text-ink-900`}>
+                      {c.leader ? `+${(c.margin * 100).toFixed(c.margin < 0.1 ? 1 : 0)}%` : '±1%'}
+                    </span>
                   </td>
                 );
               })}

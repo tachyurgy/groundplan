@@ -1,7 +1,8 @@
 import { expect, meta, openDemoHousehold, settle, shot, test, useWorkspace } from './helpers';
 import type { Page } from '@playwright/test';
 
-const mapleCashFlow = (page: Page) => page.getByTestId('property-card').filter({ hasText: 'Maple duplex' }).locator('[data-testid=figure][data-key="cash_flow.net_annual"]');
+const mapleCashFlow = (page: Page) =>
+  page.getByTestId('property-card').filter({ hasText: 'Maple duplex' }).locator('[data-testid=figure][data-key="cash_flow.net_annual"]');
 
 /**
  * The demo moment, end to end: upload the 2025 Schedule E sample -> it lands on the existing

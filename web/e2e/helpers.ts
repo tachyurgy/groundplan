@@ -94,8 +94,25 @@ export async function axe(page: Page, info: TestInfo, name: string) {
   const bad = r.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');
   const file = join('e2e', '.results', 'axe.jsonl');
   mkdirSync(dirname(file), { recursive: true });
-  appendFileSync(file, JSON.stringify({ project: info.project.name, page: name, serious: bad.filter((v) => v.impact === 'serious').length, critical: bad.filter((v) => v.impact === 'critical').length, ids: bad.map((v) => v.id) }) + '\n');
-  expect(bad.map((v) => `${v.id}: ${v.help} (${v.nodes.length}) ${v.nodes.slice(0, 2).map((n) => n.target.join(' ')).join(' | ')}`)).toEqual([]);
+  appendFileSync(
+    file,
+    JSON.stringify({
+      project: info.project.name,
+      page: name,
+      serious: bad.filter((v) => v.impact === 'serious').length,
+      critical: bad.filter((v) => v.impact === 'critical').length,
+      ids: bad.map((v) => v.id),
+    }) + '\n',
+  );
+  expect(
+    bad.map(
+      (v) =>
+        `${v.id}: ${v.help} (${v.nodes.length}) ${v.nodes
+          .slice(0, 2)
+          .map((n) => n.target.join(' '))
+          .join(' | ')}`,
+    ),
+  ).toEqual([]);
 }
 
 /** Full-page JPEG into e2e/screenshots/<target>/<viewport>/<name>.jpg (gitignored; feeds the contact sheet). */
@@ -137,7 +154,11 @@ export async function openDemoHousehold(page: Page) {
   await page.goto('/');
   await settle(page);
   await dismissWelcome(page);
-  await page.getByRole('link', { name: /Okafor-Lindqvist/ }).filter({ visible: true }).first().click();
+  await page
+    .getByRole('link', { name: /Okafor-Lindqvist/ })
+    .filter({ visible: true })
+    .first()
+    .click();
   await page.waitForURL(/\/households\/[^/]+$/);
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Okafor-Lindqvist');
   await settle(page);

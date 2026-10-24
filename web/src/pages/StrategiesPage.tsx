@@ -25,7 +25,14 @@ const SHARED: FieldDef[] = [
   { key: 'appreciation_rate', label: 'Appreciation', kind: 'rate', min: -0.2, max: 0.3 },
   { key: 'rent_growth', label: 'Rent growth', kind: 'rate', min: -0.2, max: 0.3 },
   { key: 'expense_growth', label: 'Expense growth', kind: 'rate', min: -0.2, max: 0.3 },
-  { key: 'reinvest_rate', label: 'Return on reinvested cash', kind: 'rate', min: -0.1, max: 0.2, hint: 'Applied to sale proceeds and to every path’s reinvested cash flow' },
+  {
+    key: 'reinvest_rate',
+    label: 'Return on reinvested cash',
+    kind: 'rate',
+    min: -0.1,
+    max: 0.2,
+    hint: 'Applied to sale proceeds and to every path’s reinvested cash flow',
+  },
   { key: 'arm_index', label: 'ARM index after reset', kind: 'rate', min: 0, max: 0.2 },
 ];
 const EXCHANGE: FieldDef[] = [
@@ -92,8 +99,10 @@ export function StrategiesPage() {
 
   const defaults = baseValues(base);
   const values: Values = { ...defaults, ...(overrides as Values) };
-  const setSearch = (next: Partial<StrategiesSearch>) => startTransition(() => navigate({ search: (prev) => ({ ...prev, ...next }), replace: true, resetScroll: false }));
-  const commit = (v: Values) => setSearch({ ...Object.fromEntries(ALL.map((f) => [f.key, undefined])), ...overridesOnly({ ...values, ...v }, defaults) } as Partial<StrategiesSearch>);
+  const setSearch = (next: Partial<StrategiesSearch>) =>
+    startTransition(() => navigate({ search: (prev) => ({ ...prev, ...next }), replace: true, resetScroll: false }));
+  const commit = (v: Values) =>
+    setSearch({ ...Object.fromEntries(ALL.map((f) => [f.key, undefined])), ...overridesOnly({ ...values, ...v }, defaults) } as Partial<StrategiesSearch>);
 
   const paths = s.paths;
   const startYear = paths[0]?.series[0]?.year ?? new Date().getFullYear();
@@ -137,8 +146,23 @@ export function StrategiesPage() {
               }}
             />
           </Card>
-          <AssumptionsForm title="Shared assumptions" fields={SHARED} values={values} defaults={defaults} busy={recomputing} onCommit={commit} onReset={() => startTransition(() => navigate({ search: {}, replace: true, resetScroll: false }))} />
-          <AssumptionsForm testId="exchange-panel" title="1031 replacement" fields={values.dst ? [...EXCHANGE, ...DST] : EXCHANGE} values={values} defaults={defaults} onCommit={commit} />
+          <AssumptionsForm
+            title="Shared assumptions"
+            fields={SHARED}
+            values={values}
+            defaults={defaults}
+            busy={recomputing}
+            onCommit={commit}
+            onReset={() => startTransition(() => navigate({ search: {}, replace: true, resetScroll: false }))}
+          />
+          <AssumptionsForm
+            testId="exchange-panel"
+            title="1031 replacement"
+            fields={values.dst ? [...EXCHANGE, ...DST] : EXCHANGE}
+            values={values}
+            defaults={defaults}
+            onCommit={commit}
+          />
           <SaveScenario propertyId={propertyId} horizon={horizon} values={values} />
         </div>
 
@@ -156,7 +180,8 @@ export function StrategiesPage() {
           </Card>
           <div className="flex items-center justify-between">
             <p className="text-sm text-ink-700">
-              At <span className="num">{horizon}</span> years the three paths end <span className="num font-medium text-ink-950">{formatCents(spread)}</span> apart in after-tax wealth.
+              At <span className="num">{horizon}</span> years the three paths end <span className="num font-medium text-ink-950">{formatCents(spread)}</span>{' '}
+              apart in after-tax wealth.
             </p>
             <Pulse on={recomputing} />
           </div>
@@ -173,7 +198,10 @@ export function StrategiesPage() {
               summary={`Wealth if each path were wound up in a given year, out to 30 years; the line marks the ${horizon}-year horizon (${horizonYear}).`}
               legend={longPaths.map((p) => ({ label: p.label, color: PATH_COLOR[p.path] }))}
               height={narrow ? 240 : 300}
-              table={{ columns: [{ key: 'year', label: 'Year' }, ...longPaths.map((p) => ({ key: `${p.path}_wealth`, label: p.label, money: true }))], rows: chartRows }}
+              table={{
+                columns: [{ key: 'year', label: 'Year' }, ...longPaths.map((p) => ({ key: `${p.path}_wealth`, label: p.label, money: true }))],
+                rows: chartRows,
+              }}
             >
               <ResponsiveContainer>
                 <LineChart data={chartRows} margin={{ top: 16, right: 10, left: 0, bottom: 0 }}>
@@ -181,9 +209,24 @@ export function StrategiesPage() {
                   <XAxis dataKey="year" {...xAxisProps} minTickGap={16} />
                   <YAxis tickFormatter={centsTick} {...yAxisProps} domain={['auto', 'auto']} />
                   <Tooltip content={(p) => <TooltipBody {...p} />} />
-                  <ReferenceLine x={horizonYear} stroke="var(--ink-700)" strokeDasharray="3 3" label={{ value: `${horizon}-yr horizon`, position: 'top', fontSize: 11, fill: 'var(--ink-700)' }} />
+                  <ReferenceLine
+                    x={horizonYear}
+                    stroke="var(--ink-700)"
+                    strokeDasharray="3 3"
+                    label={{ value: `${horizon}-yr horizon`, position: 'top', fontSize: 11, fill: 'var(--ink-700)' }}
+                  />
                   {longPaths.map((p) => (
-                    <Line key={p.path} type="monotone" dataKey={`${p.path}_wealth`} name={p.label} stroke={PATH_COLOR[p.path]} strokeWidth={2} dot={false} strokeDasharray={p.path === 'sell' ? '5 3' : undefined} isAnimationActive={false} />
+                    <Line
+                      key={p.path}
+                      type="monotone"
+                      dataKey={`${p.path}_wealth`}
+                      name={p.label}
+                      stroke={PATH_COLOR[p.path]}
+                      strokeWidth={2}
+                      dot={false}
+                      strokeDasharray={p.path === 'sell' ? '5 3' : undefined}
+                      isAnimationActive={false}
+                    />
                   ))}
                 </LineChart>
               </ResponsiveContainer>
@@ -198,7 +241,13 @@ export function StrategiesPage() {
                 summary="Tax that holding or exchanging postpones: it does not disappear, and it grows with every year of depreciation and appreciation."
                 legend={longPaths.filter((p) => p.path !== 'sell').map((p) => ({ label: p.label, color: PATH_COLOR[p.path] }))}
                 height={narrow ? 200 : 230}
-                table={{ columns: [{ key: 'year', label: 'Year' }, ...longPaths.filter((p) => p.path !== 'sell').map((p) => ({ key: `${p.path}_deferred`, label: p.label, money: true }))], rows: chartRows }}
+                table={{
+                  columns: [
+                    { key: 'year', label: 'Year' },
+                    ...longPaths.filter((p) => p.path !== 'sell').map((p) => ({ key: `${p.path}_deferred`, label: p.label, money: true })),
+                  ],
+                  rows: chartRows,
+                }}
               >
                 <ResponsiveContainer>
                   <AreaChart data={chartRows} margin={{ top: 16, right: 10, left: 0, bottom: 0 }}>
@@ -210,16 +259,31 @@ export function StrategiesPage() {
                     {longPaths
                       .filter((p) => p.path !== 'sell')
                       .map((p) => (
-                        <Area key={p.path} type="monotone" dataKey={`${p.path}_deferred`} name={p.label} stroke={PATH_COLOR[p.path]} fill={PATH_COLOR[p.path]} fillOpacity={0.1} strokeWidth={2} isAnimationActive={false} />
+                        <Area
+                          key={p.path}
+                          type="monotone"
+                          dataKey={`${p.path}_deferred`}
+                          name={p.label}
+                          stroke={PATH_COLOR[p.path]}
+                          fill={PATH_COLOR[p.path]}
+                          fillOpacity={0.1}
+                          strokeWidth={2}
+                          isAnimationActive={false}
+                        />
                       ))}
                   </AreaChart>
                 </ResponsiveContainer>
               </ChartFrame>
             </Card>
-            <Card bodyClass="p-4">{analysis.data ? <SaleWaterfall x={analysis.data.exit_tax} title="Selling now: where the price goes" /> : <div className="h-[300px] skeleton" />}</Card>
+            <Card bodyClass="p-4">
+              {analysis.data ? <SaleWaterfall x={analysis.data.exit_tax} title="Selling now: where the price goes" /> : <div className="h-[300px] skeleton" />}
+            </Card>
           </div>
 
-          <Card title="Leads, trails or neutral, one measure at a time" sub="Each row compares the three paths on one measure. No row, and no combination of rows, says which path to choose.">
+          <Card
+            title="Leads, trails or neutral, one measure at a time"
+            sub="Each row compares the three paths on one measure. No row, and no combination of rows, says which path to choose."
+          >
             <Matrix s={s} />
           </Card>
 
@@ -233,7 +297,9 @@ export function StrategiesPage() {
                 <FigureRow label="Total boot" figure={exchange.boot.total_boot} strong />
                 <FigureRow label="Gain recognized = min(boot, total gain)" figure={exchange.boot.gain_recognized} />
                 <FigureRow label="Tax on boot, same exit-tax stack" figure={exchange.boot.tax_on_boot} strong />
-                <p className="mt-2 text-[11px] leading-relaxed text-ink-500">Mortgage boot = max(0, old debt paid off − replacement debt). Raising replacement debt or adding cash brings it to zero.</p>
+                <p className="mt-2 text-[11px] leading-relaxed text-ink-500">
+                  Mortgage boot = max(0, old debt paid off − replacement debt). Raising replacement debt or adding cash brings it to zero.
+                </p>
               </Card>
             )}
             <Card title="What the proceeds do">
@@ -314,7 +380,11 @@ function Matrix({ s }: { s: StrategiesT }) {
                 const v = s.matrix[m][p.path] ?? 'neutral';
                 return (
                   <td key={p.path} className="text-center">
-                    <span data-testid={`cell-${m}-${p.path}`} data-verdict={v} className={`inline-flex min-w-[5.5rem] items-center justify-center gap-1 rounded px-2 py-0.5 text-[11px] font-semibold ${VERDICT[v]?.cls ?? VERDICT.neutral.cls}`}>
+                    <span
+                      data-testid={`cell-${m}-${p.path}`}
+                      data-verdict={v}
+                      className={`inline-flex min-w-[5.5rem] items-center justify-center gap-1 rounded px-2 py-0.5 text-[11px] font-semibold ${VERDICT[v]?.cls ?? VERDICT.neutral.cls}`}
+                    >
                       <span aria-hidden className="text-[9px]">
                         {VERDICT[v]?.glyph}
                       </span>
@@ -336,7 +406,17 @@ function Matrix({ s }: { s: StrategiesT }) {
  * 25 strategy queries, debounced off the other assumptions and cached by Query, so revisiting a grid
  * (or moving back to a previous assumption) is instant and only changed cells refetch.
  */
-function Sensitivity({ propertyId, overrides, appreciation, horizon }: { propertyId: string; overrides: Omit<StrategiesSearch, 'horizon'>; appreciation: number; horizon: number }) {
+function Sensitivity({
+  propertyId,
+  overrides,
+  appreciation,
+  horizon,
+}: {
+  propertyId: string;
+  overrides: Omit<StrategiesSearch, 'horizon'>;
+  appreciation: number;
+  horizon: number;
+}) {
   const [enabled, setEnabled] = useState(false);
   const center = Math.round(appreciation * 200) / 200; // nearest 0.5%
   const rates = [-0.02, -0.01, 0, 0.01, 0.02].map((d) => Math.round((center + d) * 1000) / 1000);
@@ -345,7 +425,13 @@ function Sensitivity({ propertyId, overrides, appreciation, horizon }: { propert
   const debounced = useDebounced(JSON.stringify(rest), 400);
   const restParams = JSON.parse(debounced) as Params;
   const grid = rates.flatMap((r) => horizons.map((h) => ({ r, h })));
-  const results = useQueries({ queries: grid.map(({ r, h }) => ({ ...strategiesQuery(propertyId, { ...restParams, appreciation_rate: r, horizon: h }), placeholderData: undefined, enabled })) });
+  const results = useQueries({
+    queries: grid.map(({ r, h }) => ({
+      ...strategiesQuery(propertyId, { ...restParams, appreciation_rate: r, horizon: h }),
+      placeholderData: undefined,
+      enabled,
+    })),
+  });
   const cells = new Map<string, HeatCell | undefined>();
   grid.forEach(({ r, h }, i) => {
     const d = results[i].data;
@@ -380,7 +466,10 @@ function Sensitivity({ propertyId, overrides, appreciation, horizon }: { propert
         height={enabled ? 300 : 64}
         table={{
           columns: [{ key: 'rate', label: 'Appreciation' }, ...horizons.map((h) => ({ key: String(h), label: `${h} yrs` }))],
-          rows: rates.map((r) => ({ rate: formatRate(r, 1), ...Object.fromEntries(horizons.map((h) => [String(h), cells.get(`${r}|${h}`)?.leader ?? (cells.get(`${r}|${h}`) ? 'tie' : '…')])) })),
+          rows: rates.map((r) => ({
+            rate: formatRate(r, 1),
+            ...Object.fromEntries(horizons.map((h) => [String(h), cells.get(`${r}|${h}`)?.leader ?? (cells.get(`${r}|${h}`) ? 'tie' : '…')])),
+          })),
         }}
       >
         {enabled ? (
@@ -397,31 +486,35 @@ function Sensitivity({ propertyId, overrides, appreciation, horizon }: { propert
 
 function SaveScenario({ propertyId, horizon, values }: { propertyId: string; horizon: number; values: Values }) {
   const save = useSaveScenario(propertyId);
-  const [state, action, pending] = useActionState(
-    async (_prev: { ok?: string; error?: string }, fd: FormData): Promise<{ ok?: string; error?: string }> => {
-      const name = String(fd.get('name') ?? '').trim();
-      if (!name) return { error: 'Name the scenario first' };
-      if (name.length > 80) return { error: 'Keep the name under 80 characters' };
-      const v = values;
-      try {
-        await save.mutateAsync({
-          name,
-          horizon_years: horizon,
-          assumptions: {
-            appreciation_rate: v.appreciation_rate,
-            rent_growth: v.rent_growth,
-            expense_growth: v.expense_growth,
-            reinvest_rate: v.reinvest_rate,
-            exchange: { replacement_value_cents: v.replacement_value_cents, replacement_debt_cents: v.replacement_debt_cents, cash_taken_cents: v.cash_taken_cents, dst: v.dst, load_rate: v.load_rate, dst_yield: v.dst_yield },
+  const [state, action, pending] = useActionState(async (_prev: { ok?: string; error?: string }, fd: FormData): Promise<{ ok?: string; error?: string }> => {
+    const name = String(fd.get('name') ?? '').trim();
+    if (!name) return { error: 'Name the scenario first' };
+    if (name.length > 80) return { error: 'Keep the name under 80 characters' };
+    const v = values;
+    try {
+      await save.mutateAsync({
+        name,
+        horizon_years: horizon,
+        assumptions: {
+          appreciation_rate: v.appreciation_rate,
+          rent_growth: v.rent_growth,
+          expense_growth: v.expense_growth,
+          reinvest_rate: v.reinvest_rate,
+          exchange: {
+            replacement_value_cents: v.replacement_value_cents,
+            replacement_debt_cents: v.replacement_debt_cents,
+            cash_taken_cents: v.cash_taken_cents,
+            dst: v.dst,
+            load_rate: v.load_rate,
+            dst_yield: v.dst_yield,
           },
-        });
-        return { ok: `Saved “${name}”` };
-      } catch (e) {
-        return { error: e instanceof Error ? e.message : String(e) };
-      }
-    },
-    {},
-  );
+        },
+      });
+      return { ok: `Saved “${name}”` };
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  }, {});
   return (
     <form action={action} className="card card-body space-y-2" data-testid="save-scenario">
       <label htmlFor="scenario-name" className="text-sm font-semibold text-ink-950">

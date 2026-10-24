@@ -8,10 +8,16 @@ import { formatCents, signClass } from '../lib/money';
 
 export function HouseholdsPage() {
   const { data } = useSuspenseQuery(householdsQuery());
-  const totals = data.reduce((a, h) => ({ eq: a.eq + h.total_equity_cents, cf: a.cf + h.net_cash_flow_cents, f: a.f + h.open_findings, p: a.p + h.property_count }), { eq: 0, cf: 0, f: 0, p: 0 });
+  const totals = data.reduce(
+    (a, h) => ({ eq: a.eq + h.total_equity_cents, cf: a.cf + h.net_cash_flow_cents, f: a.f + h.open_findings, p: a.p + h.property_count }),
+    { eq: 0, cf: 0, f: 0, p: 0 },
+  );
   return (
     <div>
-      <PageHeader title="Households">Rental real estate held by each client household, reconciled from their tax returns and loan statements. Open one to see the portfolio, the reconciliation queue and the hold, sell or exchange comparison.</PageHeader>
+      <PageHeader title="Households">
+        Rental real estate held by each client household, reconciled from their tax returns and loan statements. Open one to see the portfolio, the
+        reconciliation queue and the hold, sell or exchange comparison.
+      </PageHeader>
 
       <dl className="mb-5 grid grid-cols-2 gap-px overflow-hidden rounded-lg bg-ink-100 shadow-card md:grid-cols-4">
         {(
@@ -86,7 +92,11 @@ export function HouseholdsPage() {
             {data.map((h) => (
               <tr key={h.id}>
                 <td>
-                  <Link to="/households/$householdId" params={{ householdId: h.id }} className="font-semibold text-ink-950 hover:text-brand-600 hover:underline">
+                  <Link
+                    to="/households/$householdId"
+                    params={{ householdId: h.id }}
+                    className="font-semibold text-ink-950 hover:text-brand-600 hover:underline"
+                  >
                     {h.name}
                   </Link>
                 </td>
@@ -97,7 +107,14 @@ export function HouseholdsPage() {
                 <td className={`r num ${signClass(h.net_cash_flow_cents)}`}>{formatCents(h.net_cash_flow_cents)}</td>
                 <td className="r">
                   {h.open_findings > 0 ? (
-                    <Link to="/households/$householdId/documents" params={{ householdId: h.id }} hash="queue" className="num inline-flex min-w-7 justify-center rounded-full bg-blk-100 px-2 py-px text-xs font-semibold text-blk-600 ring-1 ring-blk-600/25 ring-inset" data-testid="findings-badge" aria-label={`${h.open_findings} open findings`}>
+                    <Link
+                      to="/households/$householdId/documents"
+                      params={{ householdId: h.id }}
+                      hash="queue"
+                      className="num inline-flex min-w-7 justify-center rounded-full bg-blk-100 px-2 py-px text-xs font-semibold text-blk-600 ring-1 ring-blk-600/25 ring-inset"
+                      data-testid="findings-badge"
+                      aria-label={`${h.open_findings} open findings`}
+                    >
                       {h.open_findings}
                     </Link>
                   ) : (

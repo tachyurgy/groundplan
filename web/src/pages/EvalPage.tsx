@@ -56,7 +56,11 @@ export function EvalPage() {
       <div>
         <PageHeader title="Document pipeline evaluation" />
         <div className="card card-body text-sm leading-relaxed text-ink-700">
-          No evaluation has been published by this backend yet{q.error ? ` (${q.error.message})` : ''}. It is produced by <code className="rounded bg-ink-100 px-1 font-mono text-xs">python -m gp_pipeline.eval --docs fixtures/documents --out fixtures/documents/eval-latest.json</code> and served at <code className="font-mono text-xs">/api/v1/eval/latest</code>.
+          No evaluation has been published by this backend yet{q.error ? ` (${q.error.message})` : ''}. It is produced by{' '}
+          <code className="rounded bg-ink-100 px-1 font-mono text-xs">
+            python -m gp_pipeline.eval --docs fixtures/documents --out fixtures/documents/eval-latest.json
+          </code>{' '}
+          and served at <code className="font-mono text-xs">/api/v1/eval/latest</code>.
         </div>
       </div>
     );
@@ -79,7 +83,8 @@ export function EvalPage() {
   return (
     <div>
       <PageHeader title="Document pipeline evaluation">
-        Synthetic returns and statements with gold labels, extracted three ways: from the PDF text layer, from a 150 dpi scan through OCR, and from a deliberately degraded scan. Generated {formatDateTime(data.generated_at)}
+        Synthetic returns and statements with gold labels, extracted three ways: from the PDF text layer, from a 150 dpi scan through OCR, and from a
+        deliberately degraded scan. Generated {formatDateTime(data.generated_at)}
         {data.pipeline_version ? `, pipeline ${data.pipeline_version}` : ''}.
       </PageHeader>
 
@@ -111,13 +116,30 @@ export function EvalPage() {
           summary={`Text-layer and 150 dpi scans stay near perfect; the deliberately degraded scan drops field recall to ${pct(data.variants[worst]?.overall.recall, 0)}, which is the case a human review queue exists for.`}
           legend={vs.map((v) => ({ label: VLABEL[v] ?? v, color: VCOLOR[v] ?? C.muted }))}
           height={narrow ? 360 : 300}
-          table={{ columns: [{ key: 'label', label: 'Measure' }, ...vs.map((v) => ({ key: v, label: VLABEL[v] ?? v, align: 'right' as const }))], rows: chartRows.map((r) => ({ ...r, ...Object.fromEntries(vs.map((v) => [v, pct((r as Record<string, unknown>)[v] as number)])) })) }}
+          table={{
+            columns: [{ key: 'label', label: 'Measure' }, ...vs.map((v) => ({ key: v, label: VLABEL[v] ?? v, align: 'right' as const }))],
+            rows: chartRows.map((r) => ({ ...r, ...Object.fromEntries(vs.map((v) => [v, pct((r as Record<string, unknown>)[v] as number)])) })),
+          }}
         >
           <ResponsiveContainer>
             <BarChart data={chartRows} layout="vertical" margin={{ top: 0, right: 16, left: 0, bottom: 0 }} barGap={2} barCategoryGap={narrow ? 8 : 12}>
               <CartesianGrid stroke="var(--grid)" horizontal={false} vertical />
-              <XAxis type="number" domain={[0, 1]} tickFormatter={(v: number) => `${Math.round(v * 100)}%`} tick={{ fontSize: 11, fill: 'var(--ink-500)', fontFamily: 'var(--font-mono)' }} tickLine={false} axisLine={{ stroke: 'var(--axis)' }} />
-              <YAxis type="category" dataKey="label" width={narrow ? 110 : 170} tick={{ fontSize: 12, fill: 'var(--ink-700)' }} tickLine={false} axisLine={false} />
+              <XAxis
+                type="number"
+                domain={[0, 1]}
+                tickFormatter={(v: number) => `${Math.round(v * 100)}%`}
+                tick={{ fontSize: 11, fill: 'var(--ink-500)', fontFamily: 'var(--font-mono)' }}
+                tickLine={false}
+                axisLine={{ stroke: 'var(--axis)' }}
+              />
+              <YAxis
+                type="category"
+                dataKey="label"
+                width={narrow ? 110 : 170}
+                tick={{ fontSize: 12, fill: 'var(--ink-700)' }}
+                tickLine={false}
+                axisLine={false}
+              />
               <Tooltip cursor={{ fill: 'var(--ink-50)' }} content={(p) => <TooltipBody {...p} fmt={(v) => pct(v)} />} />
               {vs.map((v) => (
                 <Bar key={v} dataKey={v} name={VLABEL[v] ?? v} fill={VCOLOR[v] ?? C.muted} maxBarSize={10} radius={[0, 3, 3, 0]} isAnimationActive={false} />
@@ -171,7 +193,11 @@ export function EvalPage() {
                   {vs.map((v) => {
                     const found = data.variants[v].findings.rows.find((r) => r.id === row.id)?.found;
                     return (
-                      <span key={v} className={`chip ${found ? 'bg-pos-100 text-pos-600 ring-pos-600/25' : 'bg-neg-100 text-neg-600 ring-neg-600/25'}`} title={VLABEL[v]}>
+                      <span
+                        key={v}
+                        className={`chip ${found ? 'bg-pos-100 text-pos-600 ring-pos-600/25' : 'bg-neg-100 text-neg-600 ring-neg-600/25'}`}
+                        title={VLABEL[v]}
+                      >
                         {found ? '✓' : '✗'} {v}
                       </span>
                     );
@@ -184,7 +210,11 @@ export function EvalPage() {
       </div>
 
       <div className="mb-5 grid gap-5 xl:grid-cols-[1fr_1.2fr]">
-        <Card title={`Form classification, ${VLABEL[worst] ?? worst}`} sub="Rows are the true form; columns what the classifier said. Off-diagonal cells are mistakes." bodyClass="card-body overflow-x-auto">
+        <Card
+          title={`Form classification, ${VLABEL[worst] ?? worst}`}
+          sub="Rows are the true form; columns what the classifier said. Off-diagonal cells are mistakes."
+          bodyClass="card-body overflow-x-auto"
+        >
           <table className="text-[11px]" data-testid="confusion">
             <thead>
               <tr>
@@ -204,7 +234,18 @@ export function EvalPage() {
                     const v = confusion.find((c) => c.gold === g && c.predicted === p)?.count ?? 0;
                     const diag = g === p;
                     return (
-                      <td key={p} className={`num h-7 w-7 text-center ${v === 0 ? 'text-ink-300' : diag ? 'font-medium text-ink-950' : 'font-semibold text-neg-600'}`} style={{ background: v === 0 ? 'var(--surface-2)' : diag ? `color-mix(in oklab, var(--series-1) ${Math.round(18 + 50 * (v / max))}%, var(--surface))` : 'var(--neg-100)' }}>
+                      <td
+                        key={p}
+                        className={`num h-7 w-7 text-center ${v === 0 ? 'text-ink-300' : diag ? 'font-medium text-ink-950' : 'font-semibold text-neg-600'}`}
+                        style={{
+                          background:
+                            v === 0
+                              ? 'var(--surface-2)'
+                              : diag
+                                ? `color-mix(in oklab, var(--series-1) ${Math.round(18 + 50 * (v / max))}%, var(--surface))`
+                                : 'var(--neg-100)',
+                        }}
+                      >
                         {v}
                       </td>
                     );
@@ -215,7 +256,18 @@ export function EvalPage() {
           </table>
         </Card>
 
-        <Card title="Per field" actions={<input className="input h-8 w-44 text-xs sm:w-56" aria-label="Filter fields" placeholder="Filter, e.g. line21" value={filter} onChange={(e) => setFilter(e.target.value)} />}>
+        <Card
+          title="Per field"
+          actions={
+            <input
+              className="input h-8 w-44 text-xs sm:w-56"
+              aria-label="Filter fields"
+              placeholder="Filter, e.g. line21"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            />
+          }
+        >
           <VirtualTable
             testId="eval-fields"
             label="Per-field recall by variant"
@@ -223,7 +275,12 @@ export function EvalPage() {
             height={380}
             cols={[
               { key: 'f', label: 'Field', width: 'minmax(0,2.2fr)', render: (f) => <span className="font-mono text-[11.5px]">{f}</span> },
-              ...vs.map((v) => ({ key: v, label: `${v} recall`, right: true, render: (f: string) => <span className={scoreCls(data.variants[v].per_field[f]?.recall)}>{pct(data.variants[v].per_field[f]?.recall, 0)}</span> })),
+              ...vs.map((v) => ({
+                key: v,
+                label: `${v} recall`,
+                right: true,
+                render: (f: string) => <span className={scoreCls(data.variants[v].per_field[f]?.recall)}>{pct(data.variants[v].per_field[f]?.recall, 0)}</span>,
+              })),
             ]}
           />
         </Card>

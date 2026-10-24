@@ -55,11 +55,20 @@ export function Waterfall({ steps }: { steps: WaterfallStep[] }) {
             const next = rows[i + 1];
             return (
               <g key={r.label} role="listitem" aria-label={`${r.label}: ${formatCents(r.value)}`}>
-                <text x={0} y={y + barH / 2} dominantBaseline="central" fontSize={12} fill={r.kind === 'total' ? 'var(--ink-950)' : 'var(--ink-700)'} fontWeight={r.kind === 'total' ? 600 : 400}>
+                <text
+                  x={0}
+                  y={y + barH / 2}
+                  dominantBaseline="central"
+                  fontSize={12}
+                  fill={r.kind === 'total' ? 'var(--ink-950)' : 'var(--ink-700)'}
+                  fontWeight={r.kind === 'total' ? 600 : 400}
+                >
                   {r.label}
                 </text>
                 <rect x={x0} y={y} width={w} height={barH} rx={3} fill={fill} />
-                {next && next.kind === 'step' && <line x1={labelW + x(r.to)} x2={labelW + x(r.to)} y1={y + barH} y2={y + rowH} stroke={C.axis} strokeDasharray="2 2" />}
+                {next && next.kind === 'step' && (
+                  <line x1={labelW + x(r.to)} x2={labelW + x(r.to)} y1={y + barH} y2={y + rowH} stroke={C.axis} strokeDasharray="2 2" />
+                )}
                 <foreignObject x={labelW + track + 8} y={y - 4} width={valueW + 8} height={barH + 8}>
                   {r.figure ? (
                     <button

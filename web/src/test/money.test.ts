@@ -37,7 +37,13 @@ describe('money formatting (integer cents in, dollars out)', () => {
     expect(signClass(0)).not.toMatch(/pos|neg/);
   });
   it('fact sheet CSV exports dollars and escapes', () => {
-    const csv = factSheetCsv({ property_id: 'p', format: 'csv', platform_label: 'x', as_of: '2025-12-31', rows: [{ groundplan_key: 'value', platform_field: 'Assets, Real Estate', value_cents: 62_000_000, value_text: null, status: 'confirmed', note: null }] });
+    const csv = factSheetCsv({
+      property_id: 'p',
+      format: 'csv',
+      platform_label: 'x',
+      as_of: '2025-12-31',
+      rows: [{ groundplan_key: 'value', platform_field: 'Assets, Real Estate', value_cents: 62_000_000, value_text: null, status: 'confirmed', note: null }],
+    });
     expect(csv.split('\n')[1]).toBe('value,"Assets, Real Estate",620000.00,confirmed,');
   });
 });

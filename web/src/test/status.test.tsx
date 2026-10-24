@@ -18,16 +18,48 @@ describe('Confirmed / Estimated / Blocked (SPEC §1)', () => {
     expect(deriveStatus([pub('a')])).toBe('estimated');
   });
   it('estimated propagates up from a nested figure', () => {
-    const nested: FigureInput = { key: 'noi', value: 1, source: { type: 'manual', ref: 'computed' }, figure: { key: 'noi', value_cents: 1, status: 'estimated', inputs: [def('vac')], formula: '', notes: [] } };
+    const nested: FigureInput = {
+      key: 'noi',
+      value: 1,
+      source: { type: 'manual', ref: 'computed' },
+      figure: { key: 'noi', value_cents: 1, status: 'estimated', inputs: [def('vac')], formula: '', notes: [] },
+    };
     expect(deriveStatus([doc('rent'), nested])).toBe('estimated');
   });
   it('blocked when an open blocking finding touches any input, at any depth', () => {
     const blocking = blockingFieldsFrom([
-      { id: 'f', household_id: 'h', property_id: 'p', kind: 'conflict', field: 'rent_roll.gross_rent', severity: 'block', message: '', candidates: [], status: 'open', resolution: null },
-      { id: 'g', household_id: 'h', property_id: 'p', kind: 'conflict', field: 'x', severity: 'warn', message: '', candidates: [], status: 'open', resolution: null },
+      {
+        id: 'f',
+        household_id: 'h',
+        property_id: 'p',
+        kind: 'conflict',
+        field: 'rent_roll.gross_rent',
+        severity: 'block',
+        message: '',
+        candidates: [],
+        status: 'open',
+        resolution: null,
+      },
+      {
+        id: 'g',
+        household_id: 'h',
+        property_id: 'p',
+        kind: 'conflict',
+        field: 'x',
+        severity: 'warn',
+        message: '',
+        candidates: [],
+        status: 'open',
+        resolution: null,
+      },
     ]);
     expect(blocking.has('x')).toBe(false); // warn findings never block
-    const nested: FigureInput = { key: 'gross', value: 1, source: { type: 'manual', ref: 'computed' }, figure: { key: 'gross', value_cents: 1, status: 'confirmed', inputs: [doc('rent_roll.gross_rent')], formula: '', notes: [] } };
+    const nested: FigureInput = {
+      key: 'gross',
+      value: 1,
+      source: { type: 'manual', ref: 'computed' },
+      figure: { key: 'gross', value_cents: 1, status: 'confirmed', inputs: [doc('rent_roll.gross_rent')], formula: '', notes: [] },
+    };
     expect(deriveStatus([man('a'), nested], blocking)).toBe('blocked');
     expect(deriveStatus([def('a'), doc('rent_roll.gross_rent')], blocking)).toBe('blocked');
   });

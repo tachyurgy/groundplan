@@ -31,7 +31,10 @@ describe('mock fixture service', () => {
     resetDb();
     const fd = new FormData();
     fd.append('file', new File(['%PDF-1.4 /Type /Page '], '2025_schedule_e.pdf', { type: 'application/pdf' }));
-    const up = (await mockFetch('POST', '/api/v1/households/hh_okafor_lindqvist/documents', fd)) as { findings: { id: string; severity: string }[]; import: { conflicts_raised: number; properties_updated: number } };
+    const up = (await mockFetch('POST', '/api/v1/households/hh_okafor_lindqvist/documents', fd)) as {
+      findings: { id: string; severity: string }[];
+      import: { conflicts_raised: number; properties_updated: number };
+    };
     expect(up.import.conflicts_raised).toBe(1);
     expect(up.findings[0].severity).toBe('block');
     const blocked = (await mockFetch('GET', '/api/v1/properties/p1_maple/analysis')) as PropertyAnalysis;

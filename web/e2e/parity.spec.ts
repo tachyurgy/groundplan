@@ -7,7 +7,9 @@ const GO = process.env.E2E_GO_URL!;
 async function headline(page: import('@playwright/test').Page) {
   const kpis = page.getByTestId('kpi');
   await expect(kpis).toHaveCount(5);
-  return Object.fromEntries(await Promise.all([0, 1, 2, 3, 4].map(async (i) => [await kpis.nth(i).locator('.label').innerText(), await kpis.nth(i).getByTestId('figure').innerText()])));
+  return Object.fromEntries(
+    await Promise.all([0, 1, 2, 3, 4].map(async (i) => [await kpis.nth(i).locator('.label').innerText(), await kpis.nth(i).getByTestId('figure').innerText()])),
+  );
 }
 
 test('the same property shows identical headline figures on the Python and Go stacks (via the twin link)', async ({ page }, info) => {
@@ -18,13 +20,19 @@ test('the same property shows identical headline figures on the Python and Go st
   await page.goto(`${PY}/`);
   await settle(page);
   await dismissWelcome(page);
-  await page.getByRole('link', { name: /Okafor-Lindqvist/ }).first().click();
+  await page
+    .getByRole('link', { name: /Okafor-Lindqvist/ })
+    .first()
+    .click();
   await settle(page);
   for (const nick of ['Maple duplex', 'Elm SFR', 'Tahoe cabin', 'Oak condo']) {
     await test.step(nick, async () => {
       await page.goto(`${PY}/`);
       await settle(page);
-      await page.getByRole('link', { name: /Okafor-Lindqvist/ }).first().click();
+      await page
+        .getByRole('link', { name: /Okafor-Lindqvist/ })
+        .first()
+        .click();
       await settle(page);
       await page.getByTestId('property-card').filter({ hasText: nick }).getByRole('link', { name: nick }).click();
       await settle(page);

@@ -2,7 +2,23 @@ import { Tabs as RTabs } from 'radix-ui';
 import type { ReactNode } from 'react';
 import type { Severity } from '../api/types';
 
-export function Card({ title, actions, children, className = '', bodyClass = 'card-body', id, sub }: { title?: ReactNode; actions?: ReactNode; children: ReactNode; className?: string; bodyClass?: string; id?: string; sub?: ReactNode }) {
+export function Card({
+  title,
+  actions,
+  children,
+  className = '',
+  bodyClass = 'card-body',
+  id,
+  sub,
+}: {
+  title?: ReactNode;
+  actions?: ReactNode;
+  children: ReactNode;
+  className?: string;
+  bodyClass?: string;
+  id?: string;
+  sub?: ReactNode;
+}) {
   return (
     <section id={id} className={`card ${className}`} aria-labelledby={id && title ? `${id}-title` : undefined}>
       {(title || actions) && (
@@ -45,7 +61,19 @@ export function SeverityTag({ severity }: { severity: Severity }) {
 }
 
 /** Accessible tabs (Radix: roving focus, arrow keys, aria wiring). Controlled, so the value can live in the URL. */
-export function Tabs<T extends string>({ tabs, value, onChange, label, children }: { tabs: { id: T; label: string }[]; value: T; onChange: (t: T) => void; label: string; children?: ReactNode }) {
+export function Tabs<T extends string>({
+  tabs,
+  value,
+  onChange,
+  label,
+  children,
+}: {
+  tabs: { id: T; label: string }[];
+  value: T;
+  onChange: (t: T) => void;
+  label: string;
+  children?: ReactNode;
+}) {
   return (
     <RTabs.Root value={value} onValueChange={(v) => onChange(v as T)} activationMode="manual">
       <RTabs.List aria-label={label} className="-mx-1 flex gap-0.5 overflow-x-auto border-b border-ink-100 px-1 [scrollbar-width:none]">
@@ -79,7 +107,12 @@ export function PageHeader({ back, title, children, actions }: { back?: ReactNod
 }
 
 export function Banner({ tone = 'info', children, action }: { tone?: 'info' | 'warn' | 'error'; children: ReactNode; action?: ReactNode }) {
-  const cls = tone === 'error' ? 'border-neg-600/30 bg-neg-100 text-neg-600' : tone === 'warn' ? 'border-est-600/30 bg-est-100 text-est-600' : 'border-brand-500/25 bg-brand-50 text-brand-700';
+  const cls =
+    tone === 'error'
+      ? 'border-neg-600/30 bg-neg-100 text-neg-600'
+      : tone === 'warn'
+        ? 'border-est-600/30 bg-est-100 text-est-600'
+        : 'border-brand-500/25 bg-brand-50 text-brand-700';
   return (
     <div role={tone === 'error' ? 'alert' : 'status'} className={`flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border px-3 py-2 text-sm ${cls}`}>
       <div className="min-w-0 flex-1">{children}</div>

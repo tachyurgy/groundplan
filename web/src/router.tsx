@@ -53,7 +53,10 @@ export const documentsRoute = createRoute({
   path: '/households/$householdId/documents',
   validateSearch: documentsSearch,
   loader: ({ context, params }) =>
-    Promise.all([context.queryClient.ensureQueryData(documentsQuery(params.householdId)), context.queryClient.ensureQueryData(findingsQuery(params.householdId))]),
+    Promise.all([
+      context.queryClient.ensureQueryData(documentsQuery(params.householdId)),
+      context.queryClient.ensureQueryData(findingsQuery(params.householdId)),
+    ]),
   component: page(() => import('./pages/DocumentsPage'), 'DocumentsPage'),
   pendingComponent: () => <PageSkeleton kind="split" />,
   errorComponent: RouteError,
@@ -86,7 +89,10 @@ export const strategiesRoute = createRoute({
   path: '/properties/$propertyId/strategies',
   validateSearch: strategiesSearch,
   loader: ({ context, params }) =>
-    Promise.all([context.queryClient.ensureQueryData(strategiesQuery(params.propertyId, {})), context.queryClient.ensureQueryData(analysisQuery(params.propertyId, {}))]),
+    Promise.all([
+      context.queryClient.ensureQueryData(strategiesQuery(params.propertyId, {})),
+      context.queryClient.ensureQueryData(analysisQuery(params.propertyId, {})),
+    ]),
   component: page(() => import('./pages/StrategiesPage'), 'StrategiesPage'),
   pendingComponent: () => <PageSkeleton kind="split" />,
   errorComponent: RouteError,
@@ -126,7 +132,18 @@ export const twinRoute = createRoute({
   errorComponent: RouteError,
 });
 
-const routeTree = rootRoute.addChildren([twinRoute, householdsRoute, dashboardRoute, documentsRoute, reportsRoute, propertyRoute, strategiesRoute, simulateRoute, evalRoute, engineeringRoute]);
+const routeTree = rootRoute.addChildren([
+  twinRoute,
+  householdsRoute,
+  dashboardRoute,
+  documentsRoute,
+  reportsRoute,
+  propertyRoute,
+  strategiesRoute,
+  simulateRoute,
+  evalRoute,
+  engineeringRoute,
+]);
 
 export function makeRouter(queryClient: QueryClient) {
   return createRouter({

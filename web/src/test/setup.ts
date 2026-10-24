@@ -5,7 +5,8 @@ import { server } from './server';
 
 // The app fetches same-origin relative URLs ('/api/v1/...'); Node's fetch needs an absolute URL.
 const realFetch = globalThis.fetch;
-globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => realFetch(typeof input === 'string' && input.startsWith('/') ? `http://localhost${input}` : input, init);
+globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) =>
+  realFetch(typeof input === 'string' && input.startsWith('/') ? `http://localhost${input}` : input, init);
 
 beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 afterEach(() => {
@@ -23,5 +24,14 @@ class RO {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 (globalThis as any).ResizeObserver = (globalThis as any).ResizeObserver ?? RO;
 if (!window.matchMedia) {
-  window.matchMedia = ((q: string) => ({ matches: false, media: q, onchange: null, addEventListener() {}, removeEventListener() {}, addListener() {}, removeListener() {}, dispatchEvent: () => false })) as unknown as typeof window.matchMedia;
+  window.matchMedia = ((q: string) => ({
+    matches: false,
+    media: q,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent: () => false,
+  })) as unknown as typeof window.matchMedia;
 }

@@ -8,3 +8,8 @@ test-results
 e2e/screenshots
 src/api/openapi.gen.ts
 src/api/mock/household.ts
+e2e/.ws-pool
+e2e/.results
+test-results
+public/samples
+functions

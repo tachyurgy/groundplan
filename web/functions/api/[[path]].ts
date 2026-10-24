@@ -12,6 +12,8 @@
  */
 interface Env {
   API_ORIGIN?: string;
+  /** shared secret: lets the API trust X-Client-IP from this proxy (Cloudflare rewrites CF-Connecting-IP on subrequests) */
+  PROXY_KEY?: string;
 }
 interface Ctx {
   request: Request;
@@ -33,8 +35,14 @@ export async function onRequest({ request, env }: Ctx): Promise<Response> {
     const v = request.headers.get(h);
     if (v) headers.set(h, v);
   }
+  // The visitor's IP. CF-Connecting-IP on the subrequest to the API is Cloudflare's egress IP, not the
+  // visitor, so the API's per-IP limits need it passed explicitly and authenticated with PROXY_KEY.
   const ip = request.headers.get('cf-connecting-ip');
-  if (ip) headers.set('x-forwarded-for', ip);
+  if (ip) {
+    headers.set('x-forwarded-for', ip);
+    headers.set('x-client-ip', ip);
+  }
+  if (env.PROXY_KEY) headers.set('x-gp-proxy-key', env.PROXY_KEY);
   headers.set('x-forwarded-host', url.host);
   headers.set('x-forwarded-proto', 'https');
 

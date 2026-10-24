@@ -49,7 +49,9 @@ export default defineConfig({
           metadata: { target: t.name, viewport: vp, url: t.url },
         })),
     ),
-    ...(process.env.E2E_PYTHON_URL && process.env.E2E_GO_URL ? [{ name: 'parity', testMatch: /parity\.spec\.ts/, use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } }] : []),
+    ...(process.env.E2E_PYTHON_URL && process.env.E2E_GO_URL
+      ? [{ name: 'parity', testMatch: /parity\.spec\.ts/, use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } }]
+      : []),
   ],
   webServer: process.env.E2E_LIVE_ONLY
     ? undefined

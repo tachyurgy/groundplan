@@ -21,7 +21,14 @@ import { TraceScope } from '../lib/traceScope';
 
 const route = getRouteApi('/properties/$propertyId');
 
-const TAB_LABEL: Record<PropertyTab, string> = { cash: 'Cash flow', equity: 'Equity', appreciation: 'Appreciation', depreciation: 'Depreciation', exit: 'Exit tax', loans: 'Loans' };
+const TAB_LABEL: Record<PropertyTab, string> = {
+  cash: 'Cash flow',
+  equity: 'Equity',
+  appreciation: 'Appreciation',
+  depreciation: 'Depreciation',
+  exit: 'Exit tax',
+  loans: 'Loans',
+};
 
 const FIELDS: FieldDef[] = [
   { key: 'current_value_cents', label: 'Current value', kind: 'cents', min: 0, max: 100_000_000_00 },
@@ -77,7 +84,8 @@ export function PropertyPage() {
   const values: Values = { ...defaults, ...(overrides as Values) };
   const p = a.property;
   const tab: PropertyTab = search.tab ?? 'cash';
-  const setSearch = (next: Partial<PropertySearch>) => startTransition(() => navigate({ search: (prev) => ({ ...prev, ...next }), replace: true, resetScroll: false }));
+  const setSearch = (next: Partial<PropertySearch>) =>
+    startTransition(() => navigate({ search: (prev) => ({ ...prev, ...next }), replace: true, resetScroll: false }));
 
   return (
     <TraceScope.Provider value={{ propertyId, householdId: p.household_id, params }}>
@@ -102,7 +110,10 @@ export function PropertyPage() {
       </PageHeader>
 
       {/* phones: the three numbers that matter stay pinned while scrolling through tabs */}
-      <div className="sticky top-14 z-20 -mx-4 mb-4 grid grid-cols-3 gap-2 border-b border-ink-100 bg-page/95 px-4 py-2 backdrop-blur lg:hidden" data-testid="sticky-figures">
+      <div
+        className="sticky top-14 z-20 -mx-4 mb-4 grid grid-cols-3 gap-2 border-b border-ink-100 bg-page/95 px-4 py-2 backdrop-blur lg:hidden"
+        data-testid="sticky-figures"
+      >
         {(
           [
             ['Equity', a.equity.equity, false],
@@ -122,7 +133,15 @@ export function PropertyPage() {
       <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
         <div className="order-2 space-y-5 lg:sticky lg:top-16 lg:order-1 lg:self-start">
           <Card>
-            <HorizonSlider value={horizon} onChange={setDraft} onCommit={(v) => { setSearch({ horizon: v === DEFAULT_HORIZON ? undefined : v }); setDraft(null); }} label="Projection horizon" />
+            <HorizonSlider
+              value={horizon}
+              onChange={setDraft}
+              onCommit={(v) => {
+                setSearch({ horizon: v === DEFAULT_HORIZON ? undefined : v });
+                setDraft(null);
+              }}
+              label="Projection horizon"
+            />
           </Card>
           <AssumptionsForm
             title="Assumptions"
@@ -146,7 +165,10 @@ export function PropertyPage() {
         </div>
 
         <div className="order-1 min-w-0 space-y-5 lg:order-2">
-          <section aria-label="Key figures" className={`grid grid-cols-2 gap-px overflow-hidden rounded-lg bg-ink-100 shadow-card transition-opacity md:grid-cols-5 ${recomputing ? 'opacity-80' : ''}`}>
+          <section
+            aria-label="Key figures"
+            className={`grid grid-cols-2 gap-px overflow-hidden rounded-lg bg-ink-100 shadow-card transition-opacity md:grid-cols-5 ${recomputing ? 'opacity-80' : ''}`}
+          >
             <KpiTile label="Value" figure={a.equity.value} />
             <KpiTile label="Equity" figure={a.equity.equity} />
             <KpiTile label="Net cash flow" figure={a.cash_flow.net_cash_flow} signed />
@@ -157,7 +179,12 @@ export function PropertyPage() {
           </section>
 
           <div className="card">
-            <Tabs label="Analysis" tabs={PROPERTY_TABS.map((id) => ({ id, label: TAB_LABEL[id] }))} value={tab} onChange={(t) => setSearch({ tab: t === 'cash' ? undefined : t })}>
+            <Tabs
+              label="Analysis"
+              tabs={PROPERTY_TABS.map((id) => ({ id, label: TAB_LABEL[id] }))}
+              value={tab}
+              onChange={(t) => setSearch({ tab: t === 'cash' ? undefined : t })}
+            >
               <div className="p-4">
                 <TabPanel value="cash">
                   <CashTab a={a} narrow={narrow} />
@@ -211,13 +238,20 @@ function CashTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
         <FigureRow label="Less capital improvements paid" figure={b.capital_improvements_paid} indent display={deduct(b.capital_improvements_paid)} />
         <FigureRow label="Cash flow from the return" figure={b.cash_flow_from_return} signed strong />
         <FigureRow label="Difference vs engine" figure={b.delta_vs_engine} signed indent />
-        <p className="mt-2 text-[11px] leading-relaxed text-ink-500">Interest is already inside line 21 and is never subtracted twice. The difference is the planning reserves (vacancy, capex) plus any statement-vs-return interest gap.</p>
+        <p className="mt-2 text-[11px] leading-relaxed text-ink-500">
+          Interest is already inside line 21 and is never subtracted twice. The difference is the planning reserves (vacancy, capex) plus any
+          statement-vs-return interest gap.
+        </p>
       </div>
       <div className="xl:col-span-2">
         <ChartFrame
           testId="chart-cash-projection"
           title={`Projection, ${c.projection.length} years`}
-          summary={last ? `Net cash flow moves from ${formatCents(c.projection[0].net_cash_flow_cents)} to ${formatCents(last.net_cash_flow_cents)} by ${last.year} as rents and expenses grow.` : 'No projection.'}
+          summary={
+            last
+              ? `Net cash flow moves from ${formatCents(c.projection[0].net_cash_flow_cents)} to ${formatCents(last.net_cash_flow_cents)} by ${last.year} as rents and expenses grow.`
+              : 'No projection.'
+          }
           legend={[
             { label: 'NOI', color: C.s1 },
             { label: 'Debt service', color: C.muted },
@@ -242,7 +276,14 @@ function CashTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
               <Tooltip cursor={{ fill: 'var(--ink-50)' }} content={(p) => <TooltipBody {...p} />} />
               <ReferenceLine y={0} stroke="var(--axis)" />
               <Bar dataKey="noi_cents" name="NOI" fill={C.s1} maxBarSize={narrow ? 8 : 14} radius={[3, 3, 0, 0]} isAnimationActive={false} />
-              <Bar dataKey="debt_service_cents" name="Debt service" fill={C.muted} maxBarSize={narrow ? 8 : 14} radius={[3, 3, 0, 0]} isAnimationActive={false} />
+              <Bar
+                dataKey="debt_service_cents"
+                name="Debt service"
+                fill={C.muted}
+                maxBarSize={narrow ? 8 : 14}
+                radius={[3, 3, 0, 0]}
+                isAnimationActive={false}
+              />
               <Line dataKey="net_cash_flow_cents" name="Net cash flow" stroke={C.s2} strokeWidth={2} dot={false} isAnimationActive={false} />
             </ComposedChart>
           </ResponsiveContainer>
@@ -264,7 +305,12 @@ function EquityTab({ a }: { a: AnalysisT }) {
         <FigureRow label="Total debt, all liens" figure={e.total_debt} indent display={deduct(e.total_debt)} />
         <FigureRow label="Equity" figure={e.equity} strong />
         <FigureRow label="Lendable equity (to 70% loan-to-value)" figure={e.lendable_equity} />
-        <FigureRow label="Return on equity" figure={e.roe} display={formatRate(e.roe_rate, 2)} hint="(cash flow + principal paydown + appreciation) ÷ equity at start of year" />
+        <FigureRow
+          label="Return on equity"
+          figure={e.roe}
+          display={formatRate(e.roe_rate, 2)}
+          hint="(cash flow + principal paydown + appreciation) ÷ equity at start of year"
+        />
         <div className="flex justify-between py-1.5 text-sm">
           <span className="text-ink-700">Loan-to-value today</span>
           <span className="num">{formatRate(debtPct, 1)}</span>
@@ -272,7 +318,12 @@ function EquityTab({ a }: { a: AnalysisT }) {
       </div>
       <div>
         <h3 className="mb-2">Capital stack</h3>
-        <div className="flex h-11 gap-[2px] overflow-hidden rounded-md" role="img" aria-label={`Debt ${formatRate(debtPct, 0)}, lendable equity ${formatRate(lendPct, 0)}, remaining equity ${formatRate(1 - debtPct - lendPct, 0)} of value`} data-testid="capital-stack">
+        <div
+          className="flex h-11 gap-[2px] overflow-hidden rounded-md"
+          role="img"
+          aria-label={`Debt ${formatRate(debtPct, 0)}, lendable equity ${formatRate(lendPct, 0)}, remaining equity ${formatRate(1 - debtPct - lendPct, 0)} of value`}
+          data-testid="capital-stack"
+        >
           {debtPct > 0 && (
             <div className="flex items-center bg-[var(--series-muted)] px-2 text-[11px] font-medium text-ink-950" style={{ width: `${debtPct * 100}%` }}>
               {debtPct > 0.12 ? 'Debt' : ''}
@@ -316,7 +367,9 @@ function AppreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
       <div className="mb-4 flex flex-wrap gap-x-10 gap-y-3">
         <div>
           <div className="label">Growth since purchase (CAGR)</div>
-          <div className="num mt-1 text-lg font-medium">{ap.cagr_since_purchase === null || ap.cagr_since_purchase === undefined ? '—' : formatRate(ap.cagr_since_purchase)}</div>
+          <div className="num mt-1 text-lg font-medium">
+            {ap.cagr_since_purchase === null || ap.cagr_since_purchase === undefined ? '—' : formatRate(ap.cagr_since_purchase)}
+          </div>
         </div>
         <div>
           <div className="label">Projected value, {last?.year ?? a.year + a.horizon}</div>
@@ -328,7 +381,11 @@ function AppreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
       <ChartFrame
         testId="chart-appreciation"
         title="Value split into equity and debt"
-        summary={first && last ? `Equity grows from ${formatCents(first.equity_cents)} to ${formatCents(last.equity_cents)} while debt falls from ${formatCents(first.debt_cents)} to ${formatCents(last.debt_cents)}.` : ''}
+        summary={
+          first && last
+            ? `Equity grows from ${formatCents(first.equity_cents)} to ${formatCents(last.equity_cents)} while debt falls from ${formatCents(first.debt_cents)} to ${formatCents(last.debt_cents)}.`
+            : ''
+        }
         legend={[
           { label: 'Equity', color: C.s1 },
           { label: 'Debt', color: C.muted },
@@ -369,7 +426,12 @@ function DepreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
         <FigureRow label={`Depreciation ${a.year}`} figure={d.annual} />
         <FigureRow label={`Accumulated through ${a.year}`} figure={d.accumulated} strong />
         <p className="mt-2 mb-4 text-[11px] leading-relaxed text-ink-500">
-          {d.method === 'sl_27_5' ? '27.5-year straight line, mid-month convention (IRS Pub 946 Table A-6).' : d.method === 'sl_39' ? '39-year straight line, mid-month.' : `Method: ${d.method}.`} {d.land_pct_bounded ? 'Land share was bounded to 20-40%. ' : ''}Recapture uses allowable depreciation even where a return claimed less.
+          {d.method === 'sl_27_5'
+            ? '27.5-year straight line, mid-month convention (IRS Pub 946 Table A-6).'
+            : d.method === 'sl_39'
+              ? '39-year straight line, mid-month.'
+              : `Method: ${d.method}.`}{' '}
+          {d.land_pct_bounded ? 'Land share was bounded to 20-40%. ' : ''}Recapture uses allowable depreciation even where a return claimed less.
         </p>
         <ChartFrame
           testId="chart-depreciation"
@@ -380,7 +442,13 @@ function DepreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
             { label: 'Projected', color: C.muted },
           ]}
           height={narrow ? 180 : 210}
-          table={{ columns: [{ key: 'year', label: 'Year' }, { key: 'amount_cents', label: 'Amount', money: true }], rows }}
+          table={{
+            columns: [
+              { key: 'year', label: 'Year' },
+              { key: 'amount_cents', label: 'Amount', money: true },
+            ],
+            rows,
+          }}
         >
           <ResponsiveContainer>
             <BarChart data={rows} margin={{ top: 6, right: 6, left: 0, bottom: 0 }}>
@@ -406,7 +474,17 @@ function DepreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
           height={420}
           rowClass={(r) => (r.projected ? 'text-ink-500' : '')}
           cols={[
-            { key: 'year', label: 'Year', width: '5.5rem', render: (r) => <span className="num">{r.year}{r.projected ? '*' : ''}</span> },
+            {
+              key: 'year',
+              label: 'Year',
+              width: '5.5rem',
+              render: (r) => (
+                <span className="num">
+                  {r.year}
+                  {r.projected ? '*' : ''}
+                </span>
+              ),
+            },
             { key: 'pct', label: 'Table %', right: true, render: (r) => (r.pct === null || r.pct === undefined ? '—' : Number(r.pct).toFixed(3)) },
             { key: 'amt', label: 'Amount', right: true, render: (r) => formatCents(r.amount_cents) },
             { key: 'cum', label: 'Cumulative', right: true, render: (r) => formatCents(r.cum) },
@@ -518,10 +596,45 @@ function LoanBlock({ l, narrow }: { l: LoanSummaryT; narrow: boolean }) {
                 <XAxis dataKey="year" {...xAxisProps} minTickGap={12} />
                 <YAxis tickFormatter={centsTick} {...yAxisProps} />
                 <Tooltip cursor={{ fill: 'var(--ink-50)' }} content={(p) => <TooltipBody {...p} />} />
-                <Bar dataKey="interest_cents" name="Interest" stackId="ds" fill={C.muted} stroke="var(--surface)" strokeWidth={1} maxBarSize={16} isAnimationActive={false} />
-                <Bar dataKey="principal_cents" name="Principal" stackId="ds" fill={C.s1} stroke="var(--surface)" strokeWidth={1} radius={[3, 3, 0, 0]} maxBarSize={16} isAnimationActive={false} />
-                {ioEndYear && ioEndYear !== resetYear && <ReferenceLine x={ioEndYear} stroke={C.s4} strokeDasharray="4 3" strokeWidth={1.5} label={{ value: 'IO ends', fontSize: 10.5, fill: 'var(--ink-700)', position: 'top' }} />}
-                {resetYear && <ReferenceLine x={resetYear} stroke={C.s2} strokeDasharray="4 3" strokeWidth={1.5} label={{ value: ioEndYear === resetYear ? 'IO ends, ARM resets' : 'ARM reset', fontSize: 10.5, fill: 'var(--ink-700)', position: 'top' }} />}
+                <Bar
+                  dataKey="interest_cents"
+                  name="Interest"
+                  stackId="ds"
+                  fill={C.muted}
+                  stroke="var(--surface)"
+                  strokeWidth={1}
+                  maxBarSize={16}
+                  isAnimationActive={false}
+                />
+                <Bar
+                  dataKey="principal_cents"
+                  name="Principal"
+                  stackId="ds"
+                  fill={C.s1}
+                  stroke="var(--surface)"
+                  strokeWidth={1}
+                  radius={[3, 3, 0, 0]}
+                  maxBarSize={16}
+                  isAnimationActive={false}
+                />
+                {ioEndYear && ioEndYear !== resetYear && (
+                  <ReferenceLine
+                    x={ioEndYear}
+                    stroke={C.s4}
+                    strokeDasharray="4 3"
+                    strokeWidth={1.5}
+                    label={{ value: 'IO ends', fontSize: 10.5, fill: 'var(--ink-700)', position: 'top' }}
+                  />
+                )}
+                {resetYear && (
+                  <ReferenceLine
+                    x={resetYear}
+                    stroke={C.s2}
+                    strokeDasharray="4 3"
+                    strokeWidth={1.5}
+                    label={{ value: ioEndYear === resetYear ? 'IO ends, ARM resets' : 'ARM reset', fontSize: 10.5, fill: 'var(--ink-700)', position: 'top' }}
+                  />
+                )}
               </BarChart>
             </ResponsiveContainer>
           </ChartFrame>
@@ -536,9 +649,19 @@ function LoanBlock({ l, narrow }: { l: LoanSummaryT; narrow: boolean }) {
                 rowClass={(m) => (m.phase === 'io' || m.phase === 'heloc' ? 'bg-est-100/40' : m.phase === 'arm' ? '' : '')}
                 cols={[
                   { key: 'n', label: '#', width: '3rem', render: (m) => <span className="num text-ink-500">{m.index}</span> },
-                  { key: 'd', label: 'Month', width: narrow ? '4.5rem' : '5.5rem', render: (m) => <span className="num">{`${m.year}-${String(m.month).padStart(2, '0')}`}</span> },
+                  {
+                    key: 'd',
+                    label: 'Month',
+                    width: narrow ? '4.5rem' : '5.5rem',
+                    render: (m) => <span className="num">{`${m.year}-${String(m.month).padStart(2, '0')}`}</span>,
+                  },
                   ...(narrow ? [] : [{ key: 'r', label: 'Rate', right: true, render: (m: LoanMonthT) => formatRate(m.rate, 3) }]),
-                  { key: 'p', label: 'Principal', right: true, render: (m) => (narrow ? formatCentsCompact(m.principal_cents) : formatCents(m.principal_cents)) },
+                  {
+                    key: 'p',
+                    label: 'Principal',
+                    right: true,
+                    render: (m) => (narrow ? formatCentsCompact(m.principal_cents) : formatCents(m.principal_cents)),
+                  },
                   { key: 'i', label: 'Interest', right: true, render: (m) => (narrow ? formatCentsCompact(m.interest_cents) : formatCents(m.interest_cents)) },
                   { key: 'b', label: 'Balance', right: true, render: (m) => (narrow ? formatCentsCompact(m.balance_cents) : formatCents(m.balance_cents)) },
                 ]}
@@ -553,15 +676,25 @@ function LoanBlock({ l, narrow }: { l: LoanSummaryT; narrow: boolean }) {
                   { key: 'p', label: 'Principal', right: true, render: (y) => formatCents(y.principal_cents) },
                   { key: 'i', label: 'Interest', right: true, render: (y) => formatCents(y.interest_cents) },
                   { key: 'b', label: 'Balance', right: true, render: (y) => formatCents(y.balance_end_cents) },
-                  { key: 'm', label: '', width: '4.5rem', render: (y) => (y.marker ? <span className="chip bg-est-100 text-est-600 ring-est-600/30">{MARKER_LABEL[y.marker] ?? y.marker}</span> : null) },
+                  {
+                    key: 'm',
+                    label: '',
+                    width: '4.5rem',
+                    render: (y) =>
+                      y.marker ? <span className="chip bg-est-100 text-est-600 ring-est-600/30">{MARKER_LABEL[y.marker] ?? y.marker}</span> : null,
+                  },
                 ]}
               />
             )}
-            {months.some((m) => m.phase === 'io' || m.phase === 'heloc') && <p className="mt-1 text-[11px] text-ink-500">Shaded rows are interest-only payments.</p>}
+            {months.some((m) => m.phase === 'io' || m.phase === 'heloc') && (
+              <p className="mt-1 text-[11px] text-ink-500">Shaded rows are interest-only payments.</p>
+            )}
           </div>
         </div>
       ) : (
-        <p className="text-sm text-ink-500">No payments in the projection window{l.loan.is_paid_off ? ': this lien is paid off and appears for the audit trail only.' : '.'}</p>
+        <p className="text-sm text-ink-500">
+          No payments in the projection window{l.loan.is_paid_off ? ': this lien is paid off and appears for the audit trail only.' : '.'}
+        </p>
       )}
     </section>
   );
@@ -571,16 +704,14 @@ function LoanBlock({ l, narrow }: { l: LoanSummaryT; narrow: boolean }) {
 
 const editSchema = z.object({
   nickname: z.string().trim().min(1, 'Give the property a name').max(80),
-  current_value: z
-    .string()
-    .transform((s, ctx) => {
-      const c = parseDollarsToCents(s);
-      if (c === null || c <= 0) {
-        ctx.addIssue({ code: 'custom', message: 'Enter a value above $0' });
-        return z.NEVER;
-      }
-      return c;
-    }),
+  current_value: z.string().transform((s, ctx) => {
+    const c = parseDollarsToCents(s);
+    if (c === null || c <= 0) {
+      ctx.addIssue({ code: 'custom', message: 'Enter a value above $0' });
+      return z.NEVER;
+    }
+    return c;
+  }),
   value_source: z.enum(['estimated', 'confirmed']),
   value_as_of: z.iso.date({ message: 'Use a date like 2025-09-30' }),
 });
@@ -596,7 +727,12 @@ function EditPropertyDialog({ a }: { a: AnalysisT }) {
       const parsed = editSchema.safeParse(Object.fromEntries(fd));
       if (!parsed.success) return { errors: Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0]), i.message])) };
       try {
-        await patch.mutateAsync({ nickname: parsed.data.nickname, current_value_cents: parsed.data.current_value, value_source: parsed.data.value_source, value_as_of: parsed.data.value_as_of });
+        await patch.mutateAsync({
+          nickname: parsed.data.nickname,
+          current_value_cents: parsed.data.current_value,
+          value_source: parsed.data.value_source,
+          value_as_of: parsed.data.value_as_of,
+        });
         setOpen(false);
         return { errors: {} };
       } catch (e) {
@@ -625,10 +761,22 @@ function EditPropertyDialog({ a }: { a: AnalysisT }) {
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/30" />
         <Dialog.Content className="fixed top-1/2 left-1/2 z-50 w-[min(440px,calc(100vw-32px))] -translate-x-1/2 -translate-y-1/2 rounded-lg bg-surface p-5 shadow-pop">
           <Dialog.Title className="text-base font-semibold text-ink-950">Edit {p.nickname}</Dialog.Title>
-          <Dialog.Description className="mt-1 text-sm text-ink-500">A value you enter here is a manual input: figures that depend on it become Confirmed instead of Estimated.</Dialog.Description>
+          <Dialog.Description className="mt-1 text-sm text-ink-500">
+            A value you enter here is a manual input: figures that depend on it become Confirmed instead of Estimated.
+          </Dialog.Description>
           <form action={action} className="mt-4 space-y-3" noValidate>
             {field('nickname', 'Name', <input id="edit-nickname" name="nickname" className="input" defaultValue={p.nickname} />)}
-            {field('current_value', 'Current value ($)', <input id="edit-current_value" name="current_value" inputMode="decimal" className="input-num" defaultValue={Math.round(p.current_value_cents / 100).toLocaleString('en-US')} />)}
+            {field(
+              'current_value',
+              'Current value ($)',
+              <input
+                id="edit-current_value"
+                name="current_value"
+                inputMode="decimal"
+                className="input-num"
+                defaultValue={Math.round(p.current_value_cents / 100).toLocaleString('en-US')}
+              />,
+            )}
             {field(
               'value_source',
               'Value source',
@@ -637,7 +785,11 @@ function EditPropertyDialog({ a }: { a: AnalysisT }) {
                 <option value="confirmed">Confirmed (appraisal, sale)</option>
               </select>,
             )}
-            {field('value_as_of', 'Value as of', <input id="edit-value_as_of" name="value_as_of" type="date" className="input" defaultValue={p.value_as_of ?? ''} />)}
+            {field(
+              'value_as_of',
+              'Value as of',
+              <input id="edit-value_as_of" name="value_as_of" type="date" className="input" defaultValue={p.value_as_of ?? ''} />,
+            )}
             {state.error && <p className="text-sm text-neg-600">{state.error}</p>}
             <div className="flex justify-end gap-2 pt-2">
               <Dialog.Close asChild>
@@ -655,4 +807,3 @@ function EditPropertyDialog({ a }: { a: AnalysisT }) {
     </Dialog.Root>
   );
 }
-

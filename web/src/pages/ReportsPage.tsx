@@ -49,13 +49,23 @@ export function ReportsPage() {
       setBusy(null);
     }
   };
-  const slug = d.properties.find((c) => c.property.id === pid)?.property.nickname.toLowerCase().replace(/[^a-z0-9]+/g, '-') ?? 'property';
+  const slug =
+    d.properties
+      .find((c) => c.property.id === pid)
+      ?.property.nickname.toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-') ?? 'property';
   return (
     <TraceScope.Provider value={{ householdId }}>
       <PageHeader
         title="Reports and fact sheets"
         actions={
-          <button type="button" className="btn btn-primary" data-testid="report-pdf" disabled={busy === 'pdf'} onClick={() => run('pdf', () => downloadBinary(`/households/${householdId}/report.pdf`, 'groundplan-portfolio-report.pdf'))}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            data-testid="report-pdf"
+            disabled={busy === 'pdf'}
+            onClick={() => run('pdf', () => downloadBinary(`/households/${householdId}/report.pdf`, 'groundplan-portfolio-report.pdf'))}
+          >
             {busy === 'pdf' ? 'Generating…' : 'Download report (PDF)'}
           </button>
         }
@@ -141,7 +151,10 @@ export function ReportsPage() {
             </ul>
             <h3 className="mt-5">Summary</h3>
             <p className="mt-1 text-sm leading-relaxed">{d.narrative.text}</p>
-            <p className="mt-5 border-t border-ink-200 pt-2 text-[11px] text-ink-500">Estimated figures rely on public data or default assumptions. Blocked figures await reconciliation. This review describes trade-offs and is not tax or legal advice; verify with the client’s CPA.</p>
+            <p className="mt-5 border-t border-ink-200 pt-2 text-[11px] text-ink-500">
+              Estimated figures rely on public data or default assumptions. Blocked figures await reconciliation. This review describes trade-offs and is not
+              tax or legal advice; verify with the client’s CPA.
+            </p>
           </div>
         </Card>
 
@@ -155,11 +168,25 @@ export function ReportsPage() {
                 className="btn btn-sm"
                 data-testid="export-json"
                 disabled={!pid || busy === 'json'}
-                onClick={() => run('json', async () => saveText(`${slug}-factsheet.json`, JSON.stringify(await api<FactSheet>('GET', `/properties/${pid}/factsheet${qs({ format: 'json' })}`), null, 2), 'application/json'))}
+                onClick={() =>
+                  run('json', async () =>
+                    saveText(
+                      `${slug}-factsheet.json`,
+                      JSON.stringify(await api<FactSheet>('GET', `/properties/${pid}/factsheet${qs({ format: 'json' })}`), null, 2),
+                      'application/json',
+                    ),
+                  )
+                }
               >
                 JSON
               </button>
-              <button type="button" className="btn btn-sm" data-testid="export-csv" disabled={!pid || busy === 'csv'} onClick={() => run('csv', () => downloadBinary(`/properties/${pid}/factsheet${qs({ format: 'csv' })}`, `${slug}-factsheet.csv`))}>
+              <button
+                type="button"
+                className="btn btn-sm"
+                data-testid="export-csv"
+                disabled={!pid || busy === 'csv'}
+                onClick={() => run('csv', () => downloadBinary(`/properties/${pid}/factsheet${qs({ format: 'csv' })}`, `${slug}-factsheet.csv`))}
+              >
                 CSV
               </button>
             </div>
@@ -167,7 +194,12 @@ export function ReportsPage() {
         >
           <label className="mb-3 flex flex-col gap-1 text-sm sm:flex-row sm:items-center sm:gap-3">
             <span className="label">Property</span>
-            <select className="input sm:max-w-xs" value={pid ?? ''} onChange={(e) => navigate({ search: (s) => ({ ...s, property: e.target.value }), replace: true, resetScroll: false })} data-testid="factsheet-property">
+            <select
+              className="input sm:max-w-xs"
+              value={pid ?? ''}
+              onChange={(e) => navigate({ search: (s) => ({ ...s, property: e.target.value }), replace: true, resetScroll: false })}
+              data-testid="factsheet-property"
+            >
               {d.properties.map((c) => (
                 <option key={c.property.id} value={c.property.id}>
                   {c.property.nickname}
@@ -175,7 +207,12 @@ export function ReportsPage() {
               ))}
             </select>
           </label>
-          <Tabs label="Planning platform" tabs={PLATFORMS} value={platform} onChange={(p) => navigate({ search: (s) => ({ ...s, platform: p === 'emoney' ? undefined : p }), replace: true, resetScroll: false })}>
+          <Tabs
+            label="Planning platform"
+            tabs={PLATFORMS}
+            value={platform}
+            onChange={(p) => navigate({ search: (s) => ({ ...s, platform: p === 'emoney' ? undefined : p }), replace: true, resetScroll: false })}
+          >
             {PLATFORMS.map((pl) => (
               <TabPanel key={pl.id} value={pl.id} className="mt-3">
                 {fs.isPending ? (

@@ -1,0 +1,67 @@
+name: web
+
+on:
+  push:
+    branches: [master]
+    paths: ['web/**', 'backend/openapi.json', '.github/workflows/web.yml']
+  pull_request:
+    paths: ['web/**', 'backend/openapi.json', '.github/workflows/web.yml']
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: web
+
+jobs:
+  checks:
+    name: typecheck, lint, unit, build, bundle budget
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      # Request types come from the backend's OpenAPI document; regenerate and fail if they drifted.
+      - run: npm run gen:api && git diff --exit-code -- src/api/openapi.gen.ts
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run build
+        env:
+          VITE_STACK: python
+      - run: npm run size
+
+  e2e-mock:
+    name: Playwright (mock backend, 4 viewports)
+    runs-on: ubuntu-latest
+    needs: checks
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      # playwright.config.ts builds the mock bundle and serves it with `vite preview` on :4173.
+      - run: npx playwright test
+        env:
+          CI: '1'
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            web/test-results
+            web/e2e/.results
+          retention-days: 7

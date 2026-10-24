@@ -68,17 +68,20 @@ const ratioFix = (raw: unknown) => {
 };
 
 export const Figure: z.ZodType<FigureT> = z.lazy(() =>
-  z.preprocess(ratioFix, z.looseObject({
-    key: z.string(),
-    value_cents: cents,
-    status,
-    inputs: z.array(FigureInput).default([]),
-    formula: z.string().default(''),
-    notes: z.array(z.string()).default([]),
-    label: z.string().nullish(),
-    unit: z.string().nullish(),
-    ratio: z.number().nullish(),
-  })),
+  z.preprocess(
+    ratioFix,
+    z.looseObject({
+      key: z.string(),
+      value_cents: cents,
+      status,
+      inputs: z.array(FigureInput).default([]),
+      formula: z.string().default(''),
+      notes: z.array(z.string()).default([]),
+      label: z.string().nullish(),
+      unit: z.string().nullish(),
+      ratio: z.number().nullish(),
+    }),
+  ),
 );
 
 const Property = z.looseObject({
@@ -289,7 +292,13 @@ export const StrategiesSchema = z.looseObject({
       path: pathEnum,
       label: z.string(),
       series: z.array(SeriesRow),
-      terminal: z.looseObject({ terminal_wealth: Figure, cumulative_cash_flow: Figure, tax_paid_now: Figure, deferred_liability: Figure, ending_equity: Figure }),
+      terminal: z.looseObject({
+        terminal_wealth: Figure,
+        cumulative_cash_flow: Figure,
+        tax_paid_now: Figure,
+        deferred_liability: Figure,
+        ending_equity: Figure,
+      }),
       caveats: z.array(z.string()),
       boot: z.looseObject({ cash_boot: Figure, mortgage_boot: Figure, total_boot: Figure, gain_recognized: Figure, tax_on_boot: Figure }).nullish(),
       proceeds_use: z.array(z.looseObject({ label: z.string(), value: Figure })).nullish(),
@@ -307,7 +316,12 @@ export const MetaSchema = z.looseObject({
   db: z.string().nullish(),
 });
 
-export const WorkspaceSchema = z.looseObject({ id: z.string(), created_at: z.string().nullish(), households: z.number().nullish(), documents: z.number().nullish() });
+export const WorkspaceSchema = z.looseObject({
+  id: z.string(),
+  created_at: z.string().nullish(),
+  households: z.number().nullish(),
+  documents: z.number().nullish(),
+});
 
 export type DashboardT = z.infer<typeof DashboardSchema>;
 export type AnalysisT = z.infer<typeof AnalysisSchema>;

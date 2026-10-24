@@ -2,7 +2,21 @@ import { Slider } from 'radix-ui';
 import { useId } from 'react';
 
 /** Radix slider: keyboard (arrows, PageUp/Down, Home/End), touch-sized thumb, aria-valuetext in years. */
-export function HorizonSlider({ value, onChange, onCommit, min = 1, max = 30, label = 'Horizon' }: { value: number; onChange: (v: number) => void; onCommit?: (v: number) => void; min?: number; max?: number; label?: string }) {
+export function HorizonSlider({
+  value,
+  onChange,
+  onCommit,
+  min = 1,
+  max = 30,
+  label = 'Horizon',
+}: {
+  value: number;
+  onChange: (v: number) => void;
+  onCommit?: (v: number) => void;
+  min?: number;
+  max?: number;
+  label?: string;
+}) {
   const id = useId();
   return (
     <div>
@@ -27,7 +41,12 @@ export function HorizonSlider({ value, onChange, onCommit, min = 1, max = 30, la
         <Slider.Track className="relative h-1.5 grow rounded-full bg-ink-100">
           <Slider.Range className="absolute h-full rounded-full bg-brand-500" />
         </Slider.Track>
-        <Slider.Thumb aria-label={label} aria-valuetext={`${value} years`} data-testid="horizon-slider" className="block h-6 w-6 cursor-grab rounded-full border-2 border-brand-600 bg-surface shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 active:cursor-grabbing sm:h-5 sm:w-5" />
+        <Slider.Thumb
+          aria-label={label}
+          aria-valuetext={`${value} years`}
+          data-testid="horizon-slider"
+          className="block h-6 w-6 cursor-grab rounded-full border-2 border-brand-600 bg-surface shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 active:cursor-grabbing sm:h-5 sm:w-5"
+        />
       </Slider.Root>
       <div className="num flex justify-between text-[11px] text-ink-500">
         <span>{min}</span>
