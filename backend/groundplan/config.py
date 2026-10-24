@@ -20,6 +20,7 @@ class Settings(BaseSettings):
     max_body_mb: int = 20
     # SPEC §8.1 workspaces (no logins) and abuse guards
     max_workspaces_per_ip_per_day: int = 30
+    pages_proxy_key: str = ""  # GP_PAGES_PROXY_KEY: shared secret the Pages Function proxy sends as X-GP-Proxy-Key
     max_households_per_workspace: int = 20
     max_documents_per_workspace: int = 50
     workspace_idle_days: int = 14

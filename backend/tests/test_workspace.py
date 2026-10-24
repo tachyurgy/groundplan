@@ -224,3 +224,33 @@ def test_cors(client, origin, allowed):
     assert (r.headers.get("access-control-allow-origin") == origin) is allowed
     if allowed:
         assert "x-workspace-id" in r.headers["access-control-allow-headers"].lower()
+
+
+def test_pages_proxy_client_ip(client, settings):
+    """X-Client-IP is trusted ONLY with the right X-GP-Proxy-Key; otherwise today's logic (CF-Connecting-IP...)."""
+    from groundplan.services.workspace import client_ip
+
+    settings.pages_proxy_key = "s3cret-key"
+    egress = "172.71.150.147"
+    ok = {"cf-connecting-ip": egress, "x-gp-proxy-key": "s3cret-key", "x-client-ip": "203.0.113.9"}
+    assert client_ip(ok, "10.0.0.1") == "203.0.113.9"
+    assert client_ip({**ok, "x-client-ip": "2001:DB8::1"}, None) == "2001:db8::1"
+    assert client_ip({**ok, "x-gp-proxy-key": "wrong"}, None) == egress
+    assert client_ip({k: v for k, v in ok.items() if k != "x-gp-proxy-key"}, None) == egress
+    assert client_ip({**ok, "x-client-ip": "not-an-ip"}, None) == egress
+    settings.pages_proxy_key = ""  # no key configured: never trusted
+    assert client_ip(ok, None) == egress
+
+    # through the API: with the key each visitor gets its own bucket behind one shared egress IP
+    settings.pages_proxy_key = "s3cret-key"
+    settings.max_workspaces_per_ip_per_day = 2
+    egress = f"172.71.{uuid.uuid4().int % 250}.{uuid.uuid4().int % 250}"
+    for _ in range(3):
+        hdr = {"X-Workspace-Id": _wid(), "CF-Connecting-IP": egress, "X-GP-Proxy-Key": "s3cret-key",
+               "X-Client-IP": f"198.18.{uuid.uuid4().int % 250}.{uuid.uuid4().int % 250}"}
+        assert client.get(f"{API}/workspace", headers=hdr).status_code == 200
+    # wrong key: X-Client-IP ignored, everyone shares the egress bucket -> the third is refused
+    codes = [client.get(f"{API}/workspace", headers={"X-Workspace-Id": _wid(), "CF-Connecting-IP": egress,
+                                                     "X-GP-Proxy-Key": "nope", "X-Client-IP": f"198.18.0.{i}"}).status_code
+             for i in range(3)]
+    assert codes == [200, 200, 429]

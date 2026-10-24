@@ -10,6 +10,8 @@ no row, it rolls back (undoing its own provisioning-counter bump) and simply use
 
 from __future__ import annotations
 
+import hmac
+import ipaddress
 import logging
 import uuid
 from dataclasses import dataclass
@@ -50,9 +52,28 @@ def parse_id(raw: str | None) -> str:
     return str(u)
 
 
+def _trusted_proxy_ip(headers) -> str | None:
+    """The Cloudflare Pages Function proxy forwards the visitor's address as X-Client-IP, authenticated by a shared
+    secret in X-GP-Proxy-Key (GP_PAGES_PROXY_KEY). Without the key (or with a wrong one) X-Client-IP is ignored:
+    otherwise anyone could pick their own rate-limit bucket. Behind the proxy, CF-Connecting-IP is the Worker's egress
+    IP, shared by every visitor."""
+    expected = get_settings().pages_proxy_key
+    got = headers.get("x-gp-proxy-key")
+    if not expected or not got or not hmac.compare_digest(got.encode(), expected.encode()):
+        return None
+    raw = (headers.get("x-client-ip") or "").strip()
+    try:
+        return str(ipaddress.ip_address(raw))
+    except ValueError:
+        return None
+
+
 def client_ip(headers, peer: str | None) -> str:
-    """CF-Connecting-IP, else the first X-Forwarded-For hop, else the socket peer. (Client-supplied headers are
-    spoofable when the request does not come through Cloudflare; this is an abuse speed bump, not authentication.)"""
+    """Trusted proxy X-Client-IP (see above), else CF-Connecting-IP, else the first X-Forwarded-For hop, else the
+    socket peer. (Without the proxy key the headers are spoofable; this is an abuse speed bump, not authentication.)"""
+    trusted = _trusted_proxy_ip(headers)
+    if trusted:
+        return trusted
     ip = headers.get("cf-connecting-ip") or (headers.get("x-forwarded-for") or "").split(",")[0].strip() or peer or "unknown"
     return ip[:64]
 

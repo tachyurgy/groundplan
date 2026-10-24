@@ -134,8 +134,9 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
   advisor id. An unknown id is provisioned and seeded with the demo household in one transaction; concurrent first
   requests race on `INSERT ... ON CONFLICT (id) DO NOTHING`, so exactly one seeds (`tests/test_workspace.py`). Every query
   goes through `db.models.scoped(Model, advisor_id)`; another workspace's ids return 404. Guards (429 problem+json): 30 new
-  workspaces per client IP per UTC day (`CF-Connecting-IP`, else first `X-Forwarded-For` hop; spoofable, a speed bump not
-  auth), 20 households and 50 documents per workspace; uploads > 15 MB and bodies > 20 MB -> 413. `GET /workspace`,
+  workspaces per client IP per UTC day (behind the Pages Function proxy: `X-Client-IP`, trusted only when
+  `X-GP-Proxy-Key` matches `GP_PAGES_PROXY_KEY` (constant-time compare, must parse as an IP); otherwise `CF-Connecting-IP`,
+  else first `X-Forwarded-For` hop; spoofable, a speed bump not auth), 20 households and 50 documents per workspace; uploads > 15 MB and bodies > 20 MB -> 413. `GET /workspace`,
   `POST /workspace/reset` (wipe + re-seed). Workspaces idle 14 days are deleted at startup and every 6 h. `GET /meta`
   says which backend/engine/runtime answered. Local dev: the seed's dev advisor `00000000-0000-4000-8000-000000000001`
   is a valid workspace id.
