@@ -1,5 +1,15 @@
 # Groundplan releases
 
+## 2026-10-23 (later) — Demo seed now = the synthetic documents' household (SEED CHANGED)
+- **Seed changed:** `backend/scripts/seed.py` now loads `fixtures/seed/okafor-lindqvist.json`, generated from
+  `pipeline/gp_pipeline/synth/household.py` (new addresses, purchase prices, loans, values, years). Go port: load the
+  same JSON. Open findings at seed time: 4 (STR, Elm 2024 depreciation outlier, Oak missing from 2025, Tahoe line 12
+  vs lender interest), none blocking; the household is not blocked until the 2025 Schedule E is uploaded.
+- **What deployed:** gp-python-api + gp-pipeline rebuilt (see below for verification).
+- **Changed:** upload/import raises a blocking conflict instead of overwriting when a document disagrees with a stored
+  rent-roll/expense value; never renames an existing property; upload response gains `import` counts. Synth: Elm IO
+  period now ends 2027-06-30 with the ARM reset. `web/public/samples/` holds 6 sample PDFs + index.json.
+
 ## 2026-10-23 — Go twin API (gp-go-api) on Box B
 - **What deployed:** `https://gp-go-api.levelbrook.com` (container `gp-go-api`, static Go binary on distroless, 96 MB cap,
   ~8 MB resident). Postgres db `groundplan_go` on `lb-postgres`. Uploads go to the internal `gp-pipeline`. Binary git sha `4ea1089`.

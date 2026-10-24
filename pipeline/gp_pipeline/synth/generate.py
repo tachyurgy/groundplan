@@ -80,7 +80,7 @@ def household_gold(h: Household) -> dict:
 
 
 def generate(out: Path, seed: int = 20240601, scans: bool = True, scan_params: dict | None = None,
-             scan_suffix: str = ".scan.pdf") -> dict:
+             scan_suffix: str = ".scan.pdf", seed_out: Path | None = None) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     h = build_household(seed)
     docs = []
@@ -101,6 +101,10 @@ def generate(out: Path, seed: int = 20240601, scans: bool = True, scan_params: d
         "documents": docs,
     }
     (out / "gold.json").write_text(json.dumps(gold, indent=2, sort_keys=True) + "\n")
+    if seed_out is not None:
+        from gp_pipeline.synth.seed_export import write_seed
+
+        write_seed(seed_out, h)
     return gold
 
 
@@ -109,8 +113,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--out", default="../fixtures/documents", type=Path)
     ap.add_argument("--seed", default=20240601, type=int)
     ap.add_argument("--no-scan", action="store_true", help="skip the rasterized .scan.pdf variants")
+    ap.add_argument("--seed-out", type=Path, default=None,
+                    help="where to write the backend demo seed JSON (default: <out>/../seed/okafor-lindqvist.json)")
     args = ap.parse_args(argv)
-    gold = generate(args.out, args.seed, scans=not args.no_scan)
+    seed_out = args.seed_out or args.out.parent / "seed" / "okafor-lindqvist.json"
+    gold = generate(args.out, args.seed, scans=not args.no_scan, seed_out=seed_out)
     n = sum(len(d["fields"]) for d in gold["documents"])
     print(f"wrote {len(gold['documents'])} documents ({n} gold fields) to {args.out}")
     return 0

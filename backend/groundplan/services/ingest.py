@@ -58,8 +58,15 @@ def import_reconciled(s: Session, h: m.Household, payload: dict) -> dict:
     by_key = {p.property_key: p for p in h.properties if p.property_key}
     by_nick = {p.nickname.lower(): p for p in h.properties}
     key_to_id: dict[str, str] = {}
+    conflicts: list[dict] = []
     for po in payload.get("properties", []):
         p = by_key.get(po.get("key")) or by_nick.get((po.get("nickname") or "").lower())
+        existed = p is not None
+        if existed:
+            # a document never renames an existing property or downgrades a confirmed value it did not carry
+            po = {k: v for k, v in po.items() if k not in ("nickname", "address_line1", "city", "state", "zip")}
+            if po.get("current_value_cents") is None:
+                po.pop("value_source", None)
         if p is None:
             p = m.Property(advisor_id=aid, household_id=h.id, nickname=po.get("nickname") or po.get("address_line1") or po["key"])
             s.add(p)
@@ -103,20 +110,27 @@ def import_reconciled(s: Session, h: m.Household, payload: dict) -> dict:
             stats["loans"] += 1
         rr = {r.tax_year: r for r in p.rent_rolls}
         for ro in po.get("rent_rolls", []):
-            r = rr.get(ro["tax_year"]) or m.RentRoll(advisor_id=aid, property_id=p.id, tax_year=ro["tax_year"])
-            if r.id is None:
+            r = rr.get(ro["tax_year"])
+            if r is None:
+                r = m.RentRoll(advisor_id=aid, property_id=p.id, tax_year=ro["tax_year"])
                 s.add(r)
                 p.rent_rolls.append(r)
-            _set(r, gross_rent_cents=ro.get("gross_rent_cents"), other_income_cents=ro.get("other_income_cents"))
+                _set(r, gross_rent_cents=ro.get("gross_rent_cents"), other_income_cents=ro.get("other_income_cents"))
+            else:
+                _merge_year(h, p, r, ro, ("gross_rent_cents", "other_income_cents"), "rent roll", conflicts)
             stats["years"] += 1
         ex = {e.tax_year: e for e in p.expense_years}
         for eo in po.get("expense_years", []):
-            e = ex.get(eo["tax_year"]) or m.ExpenseYear(advisor_id=aid, property_id=p.id, tax_year=eo["tax_year"])
-            if e.id is None:
+            e = ex.get(eo["tax_year"])
+            cols = ("taxes_cents", "insurance_cents", "repairs_cents", "mgmt_cents", "utilities_cents", "hoa_cents", "other_cents",
+                    "mortgage_interest_cents", "depreciation_cents")
+            if e is None:
+                e = m.ExpenseYear(advisor_id=aid, property_id=p.id, tax_year=eo["tax_year"])
                 s.add(e)
                 p.expense_years.append(e)
-            _set(e, **{k: eo.get(k) for k in ("taxes_cents", "insurance_cents", "repairs_cents", "mgmt_cents", "utilities_cents",
-                                              "hoa_cents", "other_cents", "mortgage_interest_cents", "depreciation_cents")})
+                _set(e, **{k: eo.get(k) for k in cols})
+            else:
+                _merge_year(h, p, e, eo, cols, "expense year", conflicts)
         led = {d.tax_year: d for d in p.depreciation_ledger}
         for do in po.get("depreciation_ledger", []):
             d = led.get(do["tax_year"]) or m.DepreciationLedger(advisor_id=aid, property_id=p.id, tax_year=do["tax_year"])
@@ -136,9 +150,54 @@ def import_reconciled(s: Session, h: m.Household, payload: dict) -> dict:
         stats["suspended_losses"] += 1
     s.flush()
     doc_ids = persist_documents(s, h, payload.get("documents", []), payload.get("extracted_fields", []), stats)
-    upsert_findings(s, h, payload.get("findings", []), key_to_id, doc_ids, stats)
+    docs = payload.get("documents") or []
+    if len(docs) == 1:  # a single upload: point the document-side candidate at it (the page viewer opens it)
+        for c in conflicts:
+            c["candidates"][0]["document_key"] = docs[0].get("key") or docs[0].get("filename")
+    upsert_findings(s, h, payload.get("findings", []) + conflicts, key_to_id, doc_ids, stats)
+    stats["conflicts_raised"] = len(conflicts)
+    stats["conflict_keys"] = [c["key"] for c in conflicts]
     s.flush()
     return stats
+
+
+# the Schedule E line each stored column comes from (the field name a conflict Finding carries, which
+# portfolio.input_key_for_field maps back to the column when the advisor resolves it)
+COLUMN_FIELD = {"gross_rent_cents": "schedule_e.line3.rents", "other_income_cents": "schedule_e.line4.royalties",
+                "taxes_cents": "schedule_e.line16.taxes", "insurance_cents": "schedule_e.line9.insurance",
+                "repairs_cents": "schedule_e.line14.repairs", "mgmt_cents": "schedule_e.line11.management_fees",
+                "utilities_cents": "schedule_e.line17.utilities", "other_cents": "schedule_e.line19.other",
+                "mortgage_interest_cents": "schedule_e.line12.mortgage_interest",
+                "depreciation_cents": "schedule_e.line18.depreciation", "hoa_cents": "expense_year.hoa"}
+LABEL = {"gross_rent_cents": "rents", "other_income_cents": "other income", "mortgage_interest_cents": "mortgage interest"}
+
+
+def _merge_year(h: m.Household, p: m.Property, row, incoming: dict, cols: tuple[str, ...], what: str, conflicts: list[dict]) -> None:
+    """A document value for a (property, year, column) that already holds a DIFFERENT non-zero value is never
+    silently overwritten: it becomes a blocking conflict with both candidates (the engine blocks the figure until the
+    advisor picks one; resolving writes the pick back). A resolved conflict keeps the advisor's value."""
+    year = row.tax_year
+    decided = {f.key: f for f in h.findings if f.key and f.status != "open"}
+    for col in cols:
+        new = incoming.get(col)
+        old = getattr(row, col)
+        if new is None or new == old:
+            continue
+        key = f"conflict:{p.property_key or p.id}:{col.removesuffix('_cents')}:{year}"
+        if not old:
+            setattr(row, col, new)
+            continue
+        if key in decided:
+            continue
+        name = LABEL.get(col, col.removesuffix("_cents").replace("_", " "))
+        conflicts.append({
+            "key": key, "kind": "conflict", "field": COLUMN_FIELD.get(col, col), "severity": "block", "tax_year": year,
+            "property_key": p.property_key, "property_id": p.id,
+            "message": f"{p.nickname} {year} {name} disagree: the uploaded document shows ${new / 100:,.0f}, the {what} on "
+                       f"file says ${old / 100:,.0f}. Figures using it are blocked until you pick one (never averaged).",
+            "candidates": [{"source": f"uploaded document {year} ({COLUMN_FIELD.get(col, col)})", "value": new},
+                           {"source": f"{what} on file {year}", "value": old}],
+        })
 
 
 def persist_documents(s: Session, h: m.Household, docs: list[dict], fields: list[dict], stats: dict) -> dict[str, str]:

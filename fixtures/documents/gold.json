@@ -6272,9 +6272,9 @@
           "field": "mortgage.io_period_end",
           "page": 1,
           "property_key": "p3",
-          "text": "06/30/2030",
+          "text": "06/30/2027",
           "unit": "date",
-          "value": "2030-06-30"
+          "value": "2027-06-30"
         },
         {
           "address_printed": "2875 Elm Ct, Roseville, CA 95661",
@@ -6329,7 +6329,7 @@
       "kind": "mortgage_statement",
       "pages": 1,
       "scan_file": "stmt_3_2025.scan.pdf",
-      "sha256": "162024403a52ac94c7ffee5faf2ad15cd30b737ce36a735234c9aefc283fafc4",
+      "sha256": "9a9eb85bceb2422b2a1dcdbea5049d984192d29405fbc44ca529c8b600517791",
       "tax_year": 2025
     },
     {
@@ -7088,7 +7088,7 @@
         "loans": [
           {
             "arm_reset_date": "2027-07-01",
-            "io_end_date": "2030-06-30",
+            "io_end_date": "2027-06-30",
             "is_paid_off": false,
             "key": "p3-first",
             "lender": "Pacific Crest Bank",

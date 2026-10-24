@@ -39,6 +39,21 @@ def _map_to_existing(fields, existing: list[str]) -> None:
         f.property_key = cache[f.property_key]
 
 
+def _strip_unobserved(po: dict) -> None:
+    """Drop PropertyOut fields one document did not actually show (model defaults), so the importer cannot use them
+    to overwrite what the household already knows (a statement does not know the property type, a return does not
+    know the market value, nothing here knows about capital improvements or a cost-seg study)."""
+    for k in [k for k, v in po.items() if v is None]:
+        po.pop(k)
+    if not po.get("years_seen"):
+        po.pop("property_type", None)
+        po.pop("units", None)
+    if "current_value_cents" not in po:
+        po.pop("value_source", None)
+    for k in ("improvements_cents", "cost_seg_study", "status"):
+        po.pop(k, None)
+
+
 def process_document(data: bytes, filename: str, context: dict | None = None) -> dict[str, Any]:
     ctx = context or {}
     doc, fields, extra = extract_bytes(data, filename)
@@ -59,6 +74,8 @@ def process_document(data: bytes, filename: str, context: dict | None = None) ->
     ty, known = out["household"].get("tax_year_latest"), ctx.get("tax_year_latest")
     if ty is not None and (doc.kind != "form_1040" or (known is not None and ty < known)):
         out["household"].pop("tax_year_latest")  # an older return must not roll the household back a year
+    for po in out["properties"]:
+        _strip_unobserved(po)
     document = out["documents"][0] | {"status": "extracted"}
     return {
         "document": document,

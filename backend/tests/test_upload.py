@@ -67,7 +67,12 @@ def _check_schedule_e(client, hdr, hid, r):
     assert body["document"]["bytes_retained"] is False and len(body["document"]["sha256"]) == 64
     fields = body["extracted_fields"]
     assert len(fields) > 40 and all(f["page"] == 1 and len(f["bbox"]) == 4 for f in fields)
-    assert len(body["properties_touched"]) == 3
+    existing = {p["id"]: p["nickname"] for p in client.get(f"{API}/households/{hid}", headers=hdr).json()["properties"]}
+    assert len(existing) == 4
+    # the return lands on the EXISTING seeded properties: same address keys, nothing new created
+    assert set(body["properties_touched"]) <= set(existing) and len(body["properties_touched"]) == 3
+    assert {existing[i] for i in body["properties_touched"]} == {"Maple duplex", "Tahoe cabin", "Elm SFR"}
+    assert body["import"]["properties_created"] == 0 and body["import"]["conflicts_raised"] in (0, 1)
     assert any(f["kind"] == "unsupported_structure" for f in body["findings"])  # the Tahoe type-3 column
     # the household still analyses after the import, and the document is listed with its fields
     assert client.get(f"{API}/households/{hid}/dashboard", headers=hdr).status_code == 200
@@ -123,6 +128,7 @@ def test_upload_scan_pdf_via_http_service(client, pipeline_url, pipeline_service
     assert {f["extractor"] for f in body["extracted_fields"]} == {"ocr"} and len(body["properties_touched"]) == 3
     rents = sorted(f["value"] for f in body["extracted_fields"] if f["field"] == "schedule_e.line3.rents")
     assert len(rents) == 3 and all(v > 1_000_000 for v in rents)
+    assert body["import"]["properties_created"] == 0 and body["import"]["conflicts_raised"] == 1
 
 
 def test_upload_not_a_pdf_and_service_down(client, pipeline_url, pipeline_service):
@@ -137,3 +143,35 @@ def test_upload_not_a_pdf_and_service_down(client, pipeline_url, pipeline_servic
     r = client.post(f"{API}/households/{hid}/documents", files={"file": ("x.pdf", b"%PDF-1.4 junk", "application/pdf")}, headers=hdr)
     assert r.status_code == 422
     assert client.get(f"{API}/workspace", headers=hdr).json()["documents"] == 0
+
+
+@needs_docs
+@pytest.mark.parametrize("name", ["2025_schedule_e.pdf", pytest.param("2025_schedule_e.scan.pdf", marks=needs_tesseract)])
+def test_money_moment(client, pipeline_url, name):
+    """Upload the household's 2025 return -> it lands on the existing properties -> the Maple rent roll conflict
+    appears as a blocking finding -> resolve it -> the blocked cash flow is confirmed again."""
+    pipeline_url.pipeline_url = ""
+    hdr, hid = _ws(client)
+    dash = client.get(f"{API}/households/{hid}/dashboard", headers=hdr).json()
+    maple = next(c for c in dash["properties"] if c["property"]["nickname"] == "Maple duplex")
+    assert maple["net_cash_flow"]["status"] == "confirmed" and dash["findings_open"] == 4
+    r = _upload(client, hdr, hid, name)
+    assert r.status_code == 201, r.text
+    body = r.json()
+    assert body["import"] == {"properties_created": 0, "properties_updated": 3, "conflicts_raised": 1}
+    assert maple["property"]["id"] in body["properties_touched"]
+    block = [f for f in body["findings"] if f["severity"] == "block"]
+    assert len(block) == 1 and block[0]["field"] == "schedule_e.line3.rents" and block[0]["property_id"] == maple["property"]["id"]
+    doc_value = next(c["value"] for c in block[0]["candidates"] if c["source"].startswith("uploaded document"))
+    assert any(c.get("document_id") == body["document"]["id"] for c in block[0]["candidates"])
+    dash = client.get(f"{API}/households/{hid}/dashboard", headers=hdr).json()
+    maple = next(c for c in dash["properties"] if c["property"]["nickname"] == "Maple duplex")
+    assert maple["net_cash_flow"]["status"] == "blocked" and len(dash["properties"]) == 4
+    r = client.post(f"{API}/findings/{block[0]['id']}/resolve", json={"value": doc_value, "note": "the return is right"}, headers=hdr)
+    assert r.status_code == 200
+    dash = client.get(f"{API}/households/{hid}/dashboard", headers=hdr).json()
+    maple = next(c for c in dash["properties"] if c["property"]["nickname"] == "Maple duplex")
+    assert maple["net_cash_flow"]["status"] == "confirmed"
+    an = client.get(f"{API}/properties/{maple['property']['id']}/analysis", headers=hdr).json()
+    assert an["cash_flow"]["gross_rent"]["value_cents"] == doc_value
+    assert an["cash_flow"]["gross_rent"]["inputs"][0]["source"]["type"] == "document"  # provenance now points at the upload

@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-24T02:57:52+00:00",
+  "generated_at": "2026-10-24T03:25:36+00:00",
   "pipeline_version": "0.2.0",
   "gold_schema": "groundplan.gold.v1",
   "seed": 20240601,
   "variants": {
     "text": {
       "variant": "text",
-      "seconds": 1.3,
+      "seconds": 2.7,
       "documents": 26,
       "overall": {
         "gold": 419,
@@ -882,7 +882,7 @@
     },
     "scan": {
       "variant": "scan",
-      "seconds": 72.8,
+      "seconds": 104.8,
       "documents": 26,
       "overall": {
         "gold": 419,
@@ -1855,7 +1855,7 @@
     },
     "noise": {
       "variant": "noise",
-      "seconds": 80.7,
+      "seconds": 122.2,
       "documents": 26,
       "overall": {
         "gold": 419,

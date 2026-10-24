@@ -66,15 +66,20 @@ async def upload_document(household_id: str, file: UploadFile = File(...), c: Ct
     doc_out = dict(_dump(result.get("document")) or {})
     doc_out.update({"sha256": sha, "filename": doc_out.get("filename") or filename})
     stats: dict = {}
+    imp: dict = {}
     if result.get("reconciled"):
-        ingest.import_reconciled(c.s, h, result["reconciled"])
+        imp = ingest.import_reconciled(c.s, h, result["reconciled"])
     keymap = ingest.persist_documents(c.s, h, [doc_out], [_dump(f) for f in result.get("extracted_fields", [])], stats)
     findings = ingest.upsert_findings(c.s, h, [_dump(f) for f in result.get("findings", [])], {}, keymap, stats)
+    raised = set(imp.get("conflict_keys", []))
+    findings += [f for f in h.findings if f.key in raised and f not in findings]
     c.s.commit()
     doc = next(d for d in h.documents if d.sha256 == sha)
     touched = sorted({p.id for p in h.properties if p.property_key in {f.property_key for f in doc.fields}})
     return {"document": svc.document_dict(doc), "extracted_fields": [svc.field_dict(f) for f in doc.fields],
-            "findings": [svc.finding_dict(f) for f in findings], "properties_touched": touched}
+            "findings": [svc.finding_dict(f) for f in findings], "properties_touched": touched,
+            "import": {"properties_created": imp.get("properties_created", 0), "properties_updated": imp.get("properties_updated", 0),
+                       "conflicts_raised": imp.get("conflicts_raised", 0)}}
 
 
 @router.get("/households/{household_id}/documents")

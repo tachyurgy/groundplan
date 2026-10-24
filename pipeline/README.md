@@ -36,6 +36,16 @@ gp_pipeline/
   eval/         scoring against gold.json; cli.py = `gp-pipeline run|synth|eval`
 ```
 
+## One household, two consumers
+
+`python -m gp_pipeline.synth` also writes `fixtures/seed/okafor-lindqvist.json` (`synth/seed_export.py`), the backend's
+demo seed, from the same facts that render the PDFs: same normalized address keys (Maple's three spellings all
+resolve to `1420 maple st, sacramento, ca 95838`), same tax years, same line values, same loans. The single planted
+difference is the Maple 2025 rent roll ($1,600 under Schedule E line 3), which becomes the blocking conflict when the
+2025 return is uploaded. `tests/test_seed_matches_documents.py` runs the pipeline over the documents and asserts it
+reconciles onto the seed with only that gap. Six of the PDFs are copied to `web/public/samples/` (+ `index.json`) so
+a visitor can try an upload.
+
 ## Reconciliation rules (reconcile.py)
 
 | finding | kind | rule |

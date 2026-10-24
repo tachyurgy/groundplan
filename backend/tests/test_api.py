@@ -43,7 +43,7 @@ def test_households_list_shape(client):
     assert h["name"] == "Okafor-Lindqvist household" and h["property_count"] == 4
     assert set(h) >= {"id", "name", "state", "filing_status", "property_count", "net_cash_flow_cents", "total_equity_cents",
                       "open_findings", "status"}
-    assert h["status"] == "blocked"  # the Maple rent conflict is a blocking finding
+    assert h["status"] == "estimated"  # nothing blocks until a document disagrees (see test_upload::test_money_moment)
 
 
 def test_tenant_isolation(client):
@@ -90,18 +90,35 @@ def test_analysis_overrides_and_trace(client):
 
 
 def test_blocked_until_resolved_then_value_written_back(client):
+    """A document that disagrees with the rent roll on file raises a blocking conflict (never averaged, never
+    overwritten); resolving it writes the chosen value back and the figure is no longer blocked."""
     hid = _hid(client)
     maple = _prop(client, hid, "Maple duplex")
-    assert maple["net_cash_flow"]["status"] == "blocked"
-    strat = client.get(f"{API}/properties/{maple['property']['id']}/strategies").json()
+    pid, key = maple["property"]["id"], maple["property"]["property_key"]
+    assert maple["net_cash_flow"]["status"] == "confirmed"
+    on_file = client.get(f"{API}/properties/{pid}/analysis").json()["cash_flow"]["gross_rent"]["value_cents"]
+    payload = {"schema_version": "1.0", "generated_at": "2026-01-15T00:00:00Z", "household": {"name": ""},
+               "properties": [{"key": key, "nickname": "1420 Maple St", "years_seen": [2025],
+                               "rent_rolls": [{"tax_year": 2025, "gross_rent_cents": on_file + 160_000}]}]}
+    r = client.post(f"{API}/households/{hid}/import-reconciled", json=payload).json()
+    assert r["stats"]["properties_created"] == 0 and r["stats"]["conflicts_raised"] == 1
+    after = _prop(client, hid, "Maple duplex")
+    assert after["property"]["nickname"] == "Maple duplex"  # a document never renames a property
+    assert after["net_cash_flow"]["status"] == "blocked"
+    strat = client.get(f"{API}/properties/{pid}/strategies").json()
     assert all(p["terminal"]["terminal_wealth"]["status"] == "blocked" for p in strat["paths"])
     f = next(x for x in client.get(f"{API}/households/{hid}/findings", params={"status": "open"}).json() if x["severity"] == "block")
-    r = client.post(f"{API}/findings/{f['id']}/resolve", json={"value": 5_040_000, "note": "rent roll is right: unit B vacant in March"})
+    assert {c["value"] for c in f["candidates"]} == {on_file, on_file + 160_000}
+    # the rent roll value is untouched until the advisor decides
+    assert client.get(f"{API}/properties/{pid}/analysis").json()["cash_flow"]["gross_rent"]["value_cents"] == on_file
+    r = client.post(f"{API}/findings/{f['id']}/resolve", json={"value": on_file + 160_000, "note": "the return is right"})
     assert r.status_code == 200 and r.json()["resolution"]["applied_to"] == "rent_rolls[2025].gross_rent_cents"
-    after = _prop(client, hid, "Maple duplex")
-    assert after["net_cash_flow"]["status"] != "blocked"
-    an = client.get(f"{API}/properties/{maple['property']['id']}/analysis").json()
-    assert an["cash_flow"]["gross_rent"]["value_cents"] == 5_040_000
+    assert _prop(client, hid, "Maple duplex")["net_cash_flow"]["status"] == "confirmed"
+    an = client.get(f"{API}/properties/{pid}/analysis").json()
+    assert an["cash_flow"]["gross_rent"]["value_cents"] == on_file + 160_000
+    # re-importing the same document does not re-open the decided conflict
+    r = client.post(f"{API}/households/{hid}/import-reconciled", json=payload).json()
+    assert r["stats"]["conflicts_raised"] == 0
 
 
 def test_strategies_shape_and_dst(client):

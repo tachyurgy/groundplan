@@ -19,6 +19,7 @@ RUN useradd --system --uid 10001 --home /app groundplan
 WORKDIR /app/backend
 COPY --from=build --chown=groundplan /app/backend /app/backend
 COPY --chown=groundplan fixtures/engine /app/fixtures/engine
+COPY --chown=groundplan fixtures/seed /app/fixtures/seed
 COPY --chown=groundplan fixtures/documents/eval-latest.json /app/fixtures/documents/eval-latest.json
 ENV PATH="/app/backend/.venv/bin:$PATH" PYTHONUNBUFFERED=1 GP_RETAIN_UPLOADS_SECONDS=0 GP_GIT_SHA=$GP_GIT_SHA
 USER groundplan
