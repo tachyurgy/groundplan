@@ -37,6 +37,9 @@ func row(state string) *jsonx.Obj {
 	return nil
 }
 
+// Row is load_states()["states"].get(state.upper()): the state's table row, or nil.
+func Row(state string) *jsonx.Obj { return row(state) }
+
 func bracketsFor(r *jsonx.Obj, fs string) []any {
 	br, _ := r.MustGet("brackets").(*jsonx.Obj)
 	if br == nil {

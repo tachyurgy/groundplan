@@ -66,7 +66,8 @@ func AnnualDebt(scheds []*loans.Schedule, year int) (loans.Annual, []string) {
 			out.InterestCents += r.InterestCents
 			out.DebtServiceCents += r.PaymentCents
 		}
-		out.BalanceEndCents += s.Loan.BalanceCents
+		// BalanceEndCents is NOT added here: CombinedAnnual already returns the statement balance for a year
+		// before the first schedule row (BalanceAt() before the schedule = statement balance)
 		notes = append(notes, fmt.Sprintf("%s: %d debt service taken from the first 12 months after the %s statement",
 			lenderOr(s, "loan"), year, dates.ISO(s.Loan.BalanceAsOf)))
 	}
@@ -428,7 +429,7 @@ func AnalyzeProperty(p *models.Property, h *models.Household, year, horizon int,
 	exitOut := jsonx.O("sale_price", salePrice.ToDict(), "selling_costs", xf("exit_tax.selling_costs").ToDict(), "loan_payoffs", payoffs.ToDict())
 	for _, k := range []string{"net_before_tax", "adjusted_basis", "total_gain", "unrecaptured_1250", "sec1245", "ltcg", "fed_1250",
 		"fed_1245", "fed_ltcg", "niit", "state", "net_proceeds", "sec121_excluded", "ordinary_taxable_other", "amount_realized",
-		"effective_rate_on_gain"} {
+		"effective_rate_on_gain", "released_loss_benefit"} {
 		exitOut.Set(k, xf("exit_tax."+k).ToDict())
 	}
 	stackNotes := append(append([]string{}, ex.Stack.Notes...),

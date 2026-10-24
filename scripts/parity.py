@@ -149,7 +149,11 @@ def main(argv=None) -> int:
 
     STRAT = [("h10", "horizon=10"), ("h5", "horizon=5"), ("h20", "horizon=20"),
              ("dst", "dst=true&load_rate=0.085&dst_yield=0.05&replacement_debt_cents=0&cash_taken_cents=1000000"),
-             ("assumptions", "appreciation_rate=0.05&rent_growth=0.02&expense_growth=0.04&reinvest_rate=0.07&horizon=12")]
+             ("assumptions", "appreciation_rate=0.05&rent_growth=0.02&expense_growth=0.04&reinvest_rate=0.07&horizon=12"),
+             # 1031 cash boot (direct replacement): cash after the tax on boot is reinvested; the second one has tax on
+             # (mortgage) boot larger than the cash taken, so cash_after_tax goes negative
+             ("cash_boot", "cash_taken_cents=2500000"),
+             ("cash_boot_neg", "cash_taken_cents=100000&replacement_debt_cents=0")]
 
     def property_walk(tag=""):
         for n, a, b in pairs:

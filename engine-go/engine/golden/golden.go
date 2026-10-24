@@ -4,6 +4,7 @@ package golden
 
 import (
 	"fmt"
+	"github.com/tachyurgy/groundplan/engine-go/engine/analysis"
 	"strconv"
 
 	"github.com/tachyurgy/groundplan/engine-go/dec"
@@ -207,6 +208,18 @@ func Loan(i *jsonx.Obj) *loans.Input {
 	return ln
 }
 
+// annualDebt is golden.annual_debt: the loans table's yearly row (analysis.annual_debt), incl. a back-filled year
+// before the first scheduled payment.
+func annualDebt(i *jsonx.Obj) *jsonx.Obj {
+	var scheds []*loans.Schedule
+	for _, x := range get(i, "loans").([]any) {
+		scheds = append(scheds, loans.Build(Loan(x.(*jsonx.Obj))))
+	}
+	a, notes := analysis.AnnualDebt(scheds, int(AsInt(get(i, "year"))))
+	return jsonx.O("principal_cents", a.PrincipalCents, "interest_cents", a.InterestCents, "debt_service_cents", a.DebtServiceCents,
+		"balance_end_cents", a.BalanceEndCents, "backfilled", len(notes) > 0)
+}
+
 func loanSchedule(i *jsonx.Obj) *jsonx.Obj {
 	s := loans.Build(Loan(i))
 	var annual []any
@@ -320,7 +333,7 @@ func exitTax(i *jsonx.Obj) *jsonx.Obj {
 	r := exittax.Compute(sale, hhTax(gObj(i, "household")), nil)
 	out := jsonx.O()
 	for _, k := range []string{"total_gain", "unrecaptured_1250", "sec1245", "ltcg", "sec121_excluded", "fed_1250", "fed_1245", "fed_ltcg",
-		"niit", "state", "total", "net_before_tax", "net_proceeds"} {
+		"niit", "state", "released_loss_benefit", "total", "net_before_tax", "net_proceeds"} {
 		out.Set(k+"_cents", r.F("exit_tax."+k).ValueCents)
 	}
 	out.Set("rates_1250", rates(r.Stack.Layers1250))
@@ -394,13 +407,16 @@ func strategiesFn(i *jsonx.Obj) *jsonx.Obj {
 		"exchange_released_cents", by["exchange"].MustGet("suspended_losses_released_cents"),
 		"boot_cents", by["exchange"].MustGet("boot_cents"), "mortgage_boot_cents", by["exchange"].MustGet("mortgage_boot_cents"),
 		"tax_on_boot_cents", by["exchange"].MustGet("tax_on_boot_cents"), "gain_deferred_cents", by["exchange"].MustGet("gain_deferred_cents"),
-		"dst_load_cents", by["exchange"].MustGet("dst_load_cents"))
+		"dst_load_cents", by["exchange"].MustGet("dst_load_cents"),
+		"cash_after_tax_cents", by["exchange"].MustGet("cash_after_tax_cents"),
+		"cash_after_tax_at_horizon_cents", by["exchange"].MustGet("cash_after_tax_at_horizon_cents"),
+		"replacement_value_cents", by["exchange"].MustGet("replacement_value_cents"))
 }
 
 // Functions is the dispatcher table (same names as golden.FUNCTIONS).
 var Functions = map[string]func(*jsonx.Obj) *jsonx.Obj{
 	"depreciation_schedule": depreciationSchedule, "depreciation_basis": depreciationBasis, "depreciation_full": depreciationFull,
-	"loan_schedule": loanSchedule, "cash_flow_bridge": cashFlowBridge, "passive_allowance": passiveAllowance,
+	"loan_schedule": loanSchedule, "annual_debt": annualDebt, "cash_flow_bridge": cashFlowBridge, "passive_allowance": passiveAllowance,
 	"passive_release": passiveRelease, "tax_stack": taxStack, "niit": niit, "state_tax": stateTax, "exit_tax": exitTax,
 	"strategies": strategiesFn,
 }

@@ -3,7 +3,9 @@
 //	amount_realized = sale_price - selling_costs; net_before_tax = amount_realized - loan payoffs
 //	adjusted_basis = purchase + improvements - accumulated depreciation (allowed or allowable)
 //	total_gain = amount_realized - adjusted_basis; unrecaptured_1250 = min(gain, accumulated SL); 1245 = bonus part
-//	federal = stacking on other taxable income; NIIT; state; exit_tax_total = fed_1250 + fed_1245 + fed_ltcg + niit + state
+//	federal = stacking on other taxable income; NIIT; state
+//	released_loss_benefit = ordinary fed + state tax saved by released suspended losses (IRC 469(g))
+//	exit_tax_total = fed_1250 + fed_1245 + fed_ltcg + niit + state - released_loss_benefit
 //	Section 121 for a converted former residence sold within 3 years of move-out.
 package exittax
 
@@ -224,13 +226,16 @@ func Compute(sale *SaleInput, hh *HouseholdTax, blocked figure.KeySet) *Result {
 	stateFig.Status = figure.DeriveStatus(stateFig.Inputs, blocked)
 	r.set("exit_tax.state", stateFig)
 	r.Findings = append(r.Findings, stateFindings...)
+	r.set("exit_tax.released_loss_benefit", ReleasedLossBenefit(hh, std))
 	total := f("exit_tax.fed_1250").Dec().Add(f("exit_tax.fed_1245").Dec()).Add(f("exit_tax.fed_ltcg").Dec()).
-		Add(f("exit_tax.niit").Dec()).Add(f("exit_tax.state").Dec())
+		Add(f("exit_tax.niit").Dec()).Add(f("exit_tax.state").Dec()).Sub(f("exit_tax.released_loss_benefit").Dec())
 	var tin []*figure.Input
-	for _, k := range []string{"exit_tax.fed_1250", "exit_tax.fed_1245", "exit_tax.fed_ltcg", "exit_tax.niit", "exit_tax.state"} {
+	for _, k := range []string{"exit_tax.fed_1250", "exit_tax.fed_1245", "exit_tax.fed_ltcg", "exit_tax.niit", "exit_tax.state",
+		"exit_tax.released_loss_benefit"} {
 		tin = append(tin, figure.Fig(f(k)))
 	}
-	r.set("exit_tax.total", figure.Money("exit_tax.total", total, tin, "fed_1250 + fed_1245 + fed_ltcg + niit + state", st.Notes, nil))
+	r.set("exit_tax.total", figure.Money("exit_tax.total", total, tin,
+		"fed_1250 + fed_1245 + fed_ltcg + niit + state - released_loss_benefit", st.Notes, nil))
 	r.set("exit_tax.net_proceeds", figure.Money("exit_tax.net_proceeds", f("exit_tax.net_before_tax").Dec().Sub(total),
 		figure.L(figure.Fig(f("exit_tax.net_before_tax")), figure.Fig(f("exit_tax.total"))), "net_before_tax - exit_tax_total", nil, nil))
 	var eff *dec.D
@@ -241,6 +246,49 @@ func Compute(sale *SaleInput, hh *HouseholdTax, blocked figure.KeySet) *Result {
 	r.set("exit_tax.effective_rate_on_gain", figure.Ratio("exit_tax.effective_rate_on_gain", eff,
 		figure.L(figure.Fig(f("exit_tax.total")), figure.Fig(f("exit_tax.total_gain"))), "exit_tax_total / recognized gain", "rate", nil, 4))
 	return r
+}
+
+// ReleasedLossBenefit is released_loss_benefit(hh, std): ordinary-income tax saved by suspended passive losses released on a
+// fully taxable sale (IRC 469(g)).
+//
+//	benefit = [fed ordinary tax(W + O - std) + state tax(W + O)] - [same with the released loss deducted]
+func ReleasedLossBenefit(hh *HouseholdTax, stdCents int64) *figure.Figure {
+	rel := max64(0, hh.ReleasedSuspendedLossesCents)
+	baseFed := hh.WagesCents + hh.OtherIncomeCents - stdCents
+	baseState := hh.WagesCents + hh.OtherIncomeCents
+	fedWithout := taxtables.OrdinaryTaxCents(max64(0, baseFed), hh.TaxYear, hh.FilingStatus)
+	fedWith := taxtables.OrdinaryTaxCents(max64(0, baseFed-rel), hh.TaxYear, hh.FilingStatus)
+	row := statetax.Row(hh.State)
+	stSaving := dec.Zero
+	if row != nil {
+		stSaving = statetax.TaxOnCents(dec.I(baseState), row, hh.FilingStatus).
+			Sub(statetax.TaxOnCents(dec.I(baseState-rel), row, hh.FilingStatus))
+	}
+	var notes []string
+	if rel != 0 {
+		notes = append(notes, "IRC 469(g): suspended losses released by a fully taxable disposition are deductible against wages and "+
+			"other nonpassive income; this is the federal + state ordinary tax they save")
+		if rel > max64(0, baseFed) {
+			notes = append(notes, "released losses exceed other ordinary taxable income; the excess offsetting the gain itself is not modeled")
+		}
+		if row == nil {
+			notes = append(notes, "state not in the table: state saving shown as 0")
+		}
+	}
+	return figure.Money("exit_tax.released_loss_benefit", dec.I(fedWithout-fedWith).Add(stSaving),
+		figure.L(hh.inp("wages_cents", hh.WagesCents), hh.inp("other_income_cents", hh.OtherIncomeCents),
+			figure.Of("standard_deduction_cents", stdCents, "manual", taxtables.Sources[taxtables.TableYear(hh.TaxYear)]),
+			figure.Of("released_suspended_losses_cents", rel, "figure", "passive.released_on_sale"),
+			figure.M("state", hh.State), figure.M("filing_status", hh.FilingStatus)),
+		"[fed_tax(W + O - std) + state_tax(W + O)] - [fed_tax(W + O - std - released) + state_tax(W + O - released)]",
+		notes, nil)
+}
+
+func max64(a, b int64) int64 {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func dateVal(d *dates.Date) any {

@@ -212,14 +212,9 @@ func Compare(p *models.Property, h *models.Household, a Assumptions) *jsonx.Obj 
 
 	// ---------------- 1031 / DST ----------------
 	x := a.Exchange
-	amountRealized := sellEx.F("exit_tax.amount_realized").VC()
 	netBefore := sellEx.F("exit_tax.net_before_tax").VC()
 	totalGain := sellEx.F("exit_tax.total_gain").VC()
 	oldAdjBasis := sellEx.F("exit_tax.adjusted_basis").VC()
-	replValue := amountRealized
-	if x.ReplacementValueCents != nil {
-		replValue = *x.ReplacementValueCents
-	}
 	replDebt := debtNow
 	replDebtSrc := "default"
 	if x.ReplacementDebtCents != nil {
@@ -247,6 +242,15 @@ func Compare(p *models.Property, h *models.Household, a Assumptions) *jsonx.Obj 
 	recognized := min(boot, totalGain)
 	deferredGain := totalGain - recognized
 	exchangeEquity := netBefore - x.CashTakenCents
+	// default replacement = what the rolled equity plus the new debt can buy (sources = uses); cash taken out of the
+	// exchange shrinks it, so the same dollars are never both kept and reinvested in the replacement
+	replValue := exchangeEquity + replDebt
+	if x.ReplacementValueCents != nil {
+		replValue = *x.ReplacementValueCents
+	}
+	// cash taken out, after paying the tax on all boot (negative = the tax on boot comes from other funds), is invested at
+	// the reinvest rate exactly like sell-now proceeds and counted in terminal wealth
+	cashAfterTax := x.CashTakenCents - bootTax
 	findings := append([]*jsonx.Obj{}, sellEx.Findings...)
 	if bootEx != nil {
 		var add []*jsonx.Obj
@@ -347,9 +351,18 @@ func Compare(p *models.Property, h *models.Household, a Assumptions) *jsonx.Obj 
 		accTotal := depBefore + accOldCont + accNew
 		ex := saleAt(valueT, debtT, yr, carry, yr+1, nil, &override{replBasis + depBefore + old1245, 0, accTotal, old1245})
 		xExit = ex
-		wealth := ex.NetProceedsCents() + reinv.Cents()
+		cashT := grow(dec.I(cashAfterTax), rr, t).Cents()
+		wealth := ex.NetProceedsCents() + reinv.Cents() + cashT
 		xSeries = append(xSeries, row(yr, cf, valueT-debtT, valueT, debtT, ex.TotalCents(), wealth))
 	}
+	cashAtHorizon := grow(dec.I(cashAfterTax), rr, n).Cents()
+	var cashNotes []string
+	if boot != 0 {
+		cashNotes = []string{"invested at the reinvest rate like sell-now proceeds and included in terminal wealth"}
+	}
+	cashFig := figure.MoneyI("exchange.cash_after_tax", cashAfterTax, figure.L(figure.M("cash_taken_cents", x.CashTakenCents),
+		figure.Of("tax_on_boot_cents", bootTax, "figure", "exchange.tax_on_boot")),
+		"cash_taken - tax_on_boot (negative: the tax on boot is paid from other funds)", cashNotes, nil)
 	label := "1031 exchange (direct replacement)"
 	if x.DST {
 		label = "1031 exchange into a DST"
@@ -366,7 +379,11 @@ func Compare(p *models.Property, h *models.Household, a Assumptions) *jsonx.Obj 
 		xCaveats = append(xCaveats, "A direct replacement keeps the management burden and concentration.")
 	}
 	if x.CashTakenCents != 0 && bootTax > x.CashTakenCents {
-		xCaveats = append(xCaveats, "Tax on boot exceeds the cash taken out; the difference must come from other funds.")
+		xCaveats = append(xCaveats, "Tax on boot exceeds the cash taken out; the difference must come from other funds "+
+			"(subtracted from terminal wealth).")
+	}
+	if x.CashTakenCents != 0 {
+		xCaveats = append(xCaveats, "Cash taken out (after the tax on boot) is assumed invested at the reinvest rate.")
 	}
 	var bootExOut any
 	if bootEx != nil {
@@ -376,12 +393,15 @@ func Compare(p *models.Property, h *models.Household, a Assumptions) *jsonx.Obj 
 	exch := jsonx.O("path", "exchange", "label", label, "dst", x.DST, "series", xSeries,
 		"terminal", jsonx.O(
 			"terminal_wealth", figure.MoneyI("strategy.exchange.terminal_wealth", xLast,
-				figure.Ins(assumptionInputs, figure.L(figure.Fig(bootFig), figure.Fig(xExit.F("exit_tax.net_proceeds")))),
-				"replacement liquidated at horizon net of selling costs, debt and the deferred tax + distributions reinvested",
+				figure.Ins(assumptionInputs, figure.L(figure.Fig(bootFig), figure.Fig(cashFig),
+					figure.Fig(xExit.F("exit_tax.net_proceeds")))),
+				"replacement liquidated at horizon net of selling costs, debt and the deferred tax "+
+					"+ distributions reinvested + (cash taken - tax on boot) x (1 + reinvest_rate)^horizon",
 				[]string{"the deferred liability is subtracted explicitly (deferred_liability_at_horizon_cents)"}, nil).ToDict(),
 			"boot", bootFig.ToDict(),
 			"boot_cents", boot, "mortgage_boot_cents", mortgageBoot, "cash_taken_cents", x.CashTakenCents,
 			"tax_on_boot_cents", bootTax, "tax_paid_now_cents", bootTax,
+			"cash_after_tax_cents", cashAfterTax, "cash_after_tax_at_horizon_cents", cashAtHorizon,
 			"gain_recognized_cents", recognized, "gain_deferred_cents", deferredGain,
 			"replacement_value_cents", replValue, "replacement_debt_cents", replDebt,
 			"replacement_basis_cents", replBasis, "exchange_equity_cents", exchangeEquity,
@@ -542,7 +562,7 @@ func Present(r *jsonx.Obj, baseStatus string, baseReason *string) *jsonx.Obj {
 				jsonx.O("label", "Net proceeds after tax, today", "value", f("strategy.sell.net_proceeds", ints(t, "net_proceeds_today_cents"),
 					"net before tax - exit tax", nil, st)),
 				jsonx.O("label", "Exit tax paid now", "value", f("strategy.sell.exit_tax", ints(t, "exit_tax_today_cents"),
-					"fed_1250 + fed_1245 + fed_ltcg + niit + state", nil, st)),
+					"fed_1250 + fed_1245 + fed_ltcg + niit + state - released_loss_benefit", nil, st)),
 				jsonx.O("label", fmt.Sprintf("Proceeds invested at %s%% for %v years", rrp, a.MustGet("horizon_years")),
 					"value", t.MustGet("terminal_wealth")),
 			})
@@ -557,7 +577,8 @@ func Present(r *jsonx.Obj, baseStatus string, baseReason *string) *jsonx.Obj {
 				"mortgage_boot", f("exchange.mortgage_boot", ints(t, "mortgage_boot_cents"), "max(0, old debt paid off - replacement debt)", nil, st),
 				"total_boot", t.MustGet("boot"),
 				"gain_recognized", f("exchange.gain_recognized", ints(t, "gain_recognized_cents"), "min(boot, total gain)", nil, st),
-				"tax_on_boot", f("exchange.tax_on_boot", ints(t, "tax_on_boot_cents"), "boot taxed through the same exit-tax stack", nil, st)))
+				"tax_on_boot", f("exchange.tax_on_boot", ints(t, "tax_on_boot_cents"), "boot taxed through the same exit-tax stack", nil, st),
+				"cash_after_tax", f("exchange.cash_after_tax", ints(t, "cash_after_tax_cents"), "cash taken - tax on boot", nil, st)))
 			pu := []any{
 				jsonx.O("label", "Equity rolled into the replacement", "value", f("exchange.equity_rolled", ints(t, "exchange_equity_cents"),
 					"net before tax - cash taken", nil, st)),
