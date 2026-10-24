@@ -63,5 +63,7 @@ export async function onRequest({ request, env }: Ctx): Promise<Response> {
   }
   if (!out.has('cache-control')) out.set('cache-control', 'no-store');
   out.set('x-proxied-by', 'groundplan-pages-function');
+  // Lets a client (and the E2E suite) see which visitor IP the API was told about. It is the caller's own IP.
+  if (ip) out.set('x-gp-client-ip', ip);
   return new Response(upstream.body, { status: upstream.status, statusText: upstream.statusText, headers: out });
 }
