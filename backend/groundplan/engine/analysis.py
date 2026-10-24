@@ -24,7 +24,7 @@ def loan_schedules(p: PropertyModel) -> list[loans.LoanSchedule]:
 
 def annual_debt(scheds: list[loans.LoanSchedule], year: int) -> tuple[dict, list[str]]:
     """Combined annual debt figures; a year before a loan's statement date is back-filled from its first 12
-    scheduled months (the statement balance is the year-end balance), with a note."""
+    scheduled months (the statement balance is the year-end balance, already supplied by combined_annual), with a note."""
     out = loans.combined_annual(scheds, year)
     notes: list[str] = []
     for s in scheds:
@@ -34,7 +34,8 @@ def annual_debt(scheds: list[loans.LoanSchedule], year: int) -> tuple[dict, list
         out["principal_cents"] += sum(r.principal_cents for r in first)
         out["interest_cents"] += sum(r.interest_cents for r in first)
         out["debt_service_cents"] += sum(r.payment_cents for r in first)
-        out["balance_end_cents"] += s.loan.balance_cents
+        # balance_end_cents is NOT added here: combined_annual already returns the statement balance for a year
+        # before the first schedule row (balance_at() before the schedule = statement balance)
         notes.append(f"{s.loan.lender or 'loan'}: {year} debt service taken from the first 12 months after the "
                      f"{s.loan.balance_as_of.isoformat()} statement")
     return out, notes
@@ -249,7 +250,7 @@ def analyze_property(p: PropertyModel, h: HouseholdModel, year: int | None = Non
         **{k: xf[f"exit_tax.{k}"].to_dict() for k in ("net_before_tax", "adjusted_basis", "total_gain", "unrecaptured_1250",
                                                       "sec1245", "ltcg", "fed_1250", "fed_1245", "fed_ltcg", "niit", "state",
                                                       "net_proceeds", "sec121_excluded", "ordinary_taxable_other",
-                                                      "amount_realized", "effective_rate_on_gain")},
+                                                      "amount_realized", "effective_rate_on_gain", "released_loss_benefit")},
         "exit_tax_total": xf["exit_tax.total"].to_dict(),
         "stacking_notes": ex.stack.notes + [
             "Order: ordinary income (wages + other - standard deduction - released suspended losses) fills the brackets first; "

@@ -9,7 +9,8 @@ federal         = stacking (tax_tables.stack) on the household's other taxable i
                   (wages + other - standard deduction - released suspended losses)
 NIIT            = 3.8% on min(gain + rental NII, MAGI incl. gain - threshold)
 state           = table-driven marginal tax on the gain
-exit_tax_total  = fed_1250 + fed_1245 + fed_ltcg + niit + state;   net_proceeds = net_before_tax - exit_tax_total
+released_loss_benefit = ordinary fed + state tax saved by released suspended losses (IRC 469(g))
+exit_tax_total  = fed_1250 + fed_1245 + fed_ltcg + niit + state - released_loss_benefit;   net_proceeds = net_before_tax - exit_tax_total
 Section 121: a converted former residence sold within 3 years of move-out (2-of-5 window) excludes up to
 250k/500k of the NON-depreciation gain, with a Finding warn to verify nonqualified use with a CPA.
 """
@@ -22,7 +23,7 @@ from decimal import Decimal
 
 from groundplan.engine import tax_tables
 from groundplan.engine.figure import D, Figure, Input, derive_status, money, ratio
-from groundplan.engine.state_tax import state_exit_tax
+from groundplan.engine.state_tax import load_states, state_exit_tax, state_tax_on_cents
 
 SEC121_EXCLUSION = {"single": 25_000_000, "mfs": 25_000_000, "hoh": 25_000_000, "mfj": 50_000_000}
 
@@ -193,12 +194,13 @@ def compute_exit_tax(sale: SaleInput, hh: HouseholdTax, blocked: set[str] | None
     state_fig.status = derive_status(state_fig.inputs, blocked)
     f["exit_tax.state"] = state_fig
     findings += state_findings
+    f["exit_tax.released_loss_benefit"] = released_loss_benefit(hh, std)
     total = (f["exit_tax.fed_1250"].dec + f["exit_tax.fed_1245"].dec + f["exit_tax.fed_ltcg"].dec + f["exit_tax.niit"].dec
-             + f["exit_tax.state"].dec)
+             + f["exit_tax.state"].dec - f["exit_tax.released_loss_benefit"].dec)
     f["exit_tax.total"] = money("exit_tax.total", total, [Input.figure(f[k]) for k in
                                                           ("exit_tax.fed_1250", "exit_tax.fed_1245", "exit_tax.fed_ltcg",
-                                                           "exit_tax.niit", "exit_tax.state")],
-                                "fed_1250 + fed_1245 + fed_ltcg + niit + state", st.notes)
+                                                           "exit_tax.niit", "exit_tax.state", "exit_tax.released_loss_benefit")],
+                                "fed_1250 + fed_1245 + fed_ltcg + niit + state - released_loss_benefit", st.notes)
     f["exit_tax.net_proceeds"] = money("exit_tax.net_proceeds", f["exit_tax.net_before_tax"].dec - total,
                                        [Input.figure(f["exit_tax.net_before_tax"]), Input.figure(f["exit_tax.total"])],
                                        "net_before_tax - exit_tax_total")
@@ -207,3 +209,38 @@ def compute_exit_tax(sale: SaleInput, hh: HouseholdTax, blocked: set[str] | None
                                                  [Input.figure(f["exit_tax.total"]), Input.figure(f["exit_tax.total_gain"])],
                                                  "exit_tax_total / recognized gain", places=4)
     return ExitTaxResult(f, findings, st)
+
+
+def released_loss_benefit(hh: HouseholdTax, std_cents: int) -> Figure:
+    """Ordinary-income tax saved by suspended passive losses released on a fully taxable sale (IRC 469(g)).
+
+    benefit = [fed ordinary tax(W + O - std) + state tax(W + O)] - [same with the released loss deducted]
+    i.e. household tax without the release minus household tax with it, on the non-sale income only. The gain itself
+    is stacked from the lowered base elsewhere, so total exit tax = tax(with sale) - tax(without sale).
+    """
+    rel = max(0, hh.released_suspended_losses_cents)
+    base_fed = hh.wages_cents + hh.other_income_cents - std_cents
+    base_state = hh.wages_cents + hh.other_income_cents
+    fed_without = tax_tables.ordinary_tax_cents(max(0, base_fed), hh.tax_year, hh.filing_status)
+    fed_with = tax_tables.ordinary_tax_cents(max(0, base_fed - rel), hh.tax_year, hh.filing_status)
+    row = load_states()["states"].get((hh.state or "").upper())
+    st_saving = Decimal(0)
+    if row is not None:
+        st_saving = (state_tax_on_cents(Decimal(base_state), row, hh.filing_status)
+                     - state_tax_on_cents(Decimal(base_state - rel), row, hh.filing_status))
+    notes: list[str] = []
+    if rel:
+        notes.append("IRC 469(g): suspended losses released by a fully taxable disposition are deductible against wages and "
+                     "other nonpassive income; this is the federal + state ordinary tax they save")
+        if rel > max(0, base_fed):
+            notes.append("released losses exceed other ordinary taxable income; the excess offsetting the gain itself is not modeled")
+        if row is None:
+            notes.append("state not in the table: state saving shown as 0")
+    return money("exit_tax.released_loss_benefit", Decimal(fed_without - fed_with) + st_saving,
+                 [hh.inp("wages_cents"), hh.inp("other_income_cents"),
+                  Input.of("standard_deduction_cents", std_cents, src="manual",
+                           ref=tax_tables.SOURCES[tax_tables.table_year(hh.tax_year)]),
+                  Input.of("released_suspended_losses_cents", rel, src="figure", ref="passive.released_on_sale"),
+                  Input.of("state", hh.state), Input.of("filing_status", hh.filing_status)],
+                 "[fed_tax(W + O - std) + state_tax(W + O)] - [fed_tax(W + O - std - released) + state_tax(W + O - released)]",
+                 notes)

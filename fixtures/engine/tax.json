@@ -258,13 +258,74 @@
       },
       "expected": {
         "total_gain_cents": 59000000,
+        "released_loss_benefit_cents": 312400,
         "fed_1250_cents": 3495200,
         "fed_ltcg_cents": 7321250,
         "niit_cents": 1998040,
-        "total_cents": 12814490
+        "total_cents": 12502090,
+        "net_proceeds_cents": 81497910
       },
       "hand_checked": [
+        "released_loss_benefit_cents",
         "total_gain_cents"
+      ]
+    },
+    {
+      "name": "exit_tax_released_losses_cross_bracket",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 100000000,
+          "purchase_price_cents": 50000000,
+          "accumulated_depreciation_cents": 15000000
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "WA",
+          "wages_cents": 13150000,
+          "magi_cents": 13150000,
+          "released_cents": 1420000
+        }
+      },
+      "expected": {
+        "released_loss_benefit_cents": 200900,
+        "total_cents": 11762290,
+        "net_proceeds_cents": 82237710
+      },
+      "hand_checked": [
+        "released_loss_benefit_cents"
+      ]
+    },
+    {
+      "name": "exit_tax_released_losses_ca_magi_186k",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 78000000,
+          "loan_payoff_cents": 18500000,
+          "purchase_price_cents": 31000000,
+          "improvements_cents": 2000000,
+          "accumulated_depreciation_cents": 11500000
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "CA",
+          "wages_cents": 16000000,
+          "other_income_cents": 1200000,
+          "magi_cents": 18600000,
+          "released_cents": 1420000
+        }
+      },
+      "expected": {
+        "released_loss_benefit_cents": 444460,
+        "fed_1250_cents": 2599200,
+        "fed_ltcg_cents": 6270250,
+        "state_cents": 4819260,
+        "total_cents": 14916250,
+        "net_proceeds_cents": 39903750
+      },
+      "hand_checked": [
+        "released_loss_benefit_cents"
       ]
     },
     {

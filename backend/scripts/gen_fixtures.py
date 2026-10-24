@@ -104,6 +104,18 @@ ln = [
       {"months": 0, "annual": [{"year": 2025, "principal_cents": 0, "interest_cents": 0, "debt_service_cents": 0,
                                 "balloon_cents": 0, "balance_end_cents": 0}]}),
 ]
+ln.append(C("annual_debt_backfill_year_balance_not_doubled", "annual_debt",
+             {"loans": [{"loan_type": "fixed", "balance_cents": 18_500_000, "balance_as_of": "2025-12-31", "rate": "0.0375",
+                         "term_months": 196}], "year": 2025},
+             # statement balance 185,000 on 2025-12-31, first payment Jan 2026: the 2025 row is back-filled from the first
+             # 12 months and its year-end balance IS the statement balance (was double-counted as 370,000)
+             {"balance_end_cents": 18_500_000, "backfilled": True}, ["principal_cents", "interest_cents", "debt_service_cents"]))
+ln.append(C("annual_debt_backfill_two_liens", "annual_debt",
+             {"loans": [{"loan_type": "fixed", "balance_cents": 18_500_000, "balance_as_of": "2025-12-31", "rate": "0.0375",
+                         "term_months": 196},
+                        {"loan_type": "fixed", "balance_cents": 4_000_000, "balance_as_of": "2025-12-31", "rate": "0.07",
+                         "term_months": 120}], "year": 2025},
+             {"balance_end_cents": 22_500_000, "backfilled": True}, ["debt_service_cents"]))
 FILES["loans"] = ("Monthly amortization: fixed, interest-only, ARM reset, HELOC, balloon, paid-off lien", ln)
 
 # ---------------------------------------------------------------- cash flow
@@ -200,8 +212,25 @@ tx = [
       {"sale": {"sale_price_cents": 100_000_000, "purchase_price_cents": 50_000_000, "accumulated_depreciation_cents": 15_000_000},
        "household": {"filing_status": "mfj", "state": "WA", "wages_cents": 20_000_000, "magi_cents": 20_000_000,
                      "released_cents": 1_420_000}},
-      # released losses lower ordinary taxable income by 14,200 -> the 1250 layer shifts down
-      {"total_gain_cents": 59_000_000}, ["fed_1250_cents", "fed_ltcg_cents", "niit_cents", "total_cents"]),
+      # released losses lower ordinary taxable income by 14,200 -> the 1250 layer shifts down; and they save ordinary tax
+      # (IRC 469(g)): 168,500 vs 154,300 taxable, both 22% -> 14,200 x 0.22 = 3,124.00; WA no income tax
+      {"total_gain_cents": 59_000_000, "released_loss_benefit_cents": 312_400},
+      ["fed_1250_cents", "fed_ltcg_cents", "niit_cents", "total_cents", "net_proceeds_cents"]),
+    C("exit_tax_released_losses_cross_bracket", "exit_tax",
+      {"sale": {"sale_price_cents": 100_000_000, "purchase_price_cents": 50_000_000, "accumulated_depreciation_cents": 15_000_000},
+       "household": {"filing_status": "mfj", "state": "WA", "wages_cents": 13_150_000, "magi_cents": 13_150_000,
+                     "released_cents": 1_420_000}},
+      # taxable 100,000 -> 85,800: 3,050 x 22% = 671.00 + 11,150 x 12% = 1,338.00 -> 2,009.00
+      {"released_loss_benefit_cents": 200_900}, ["total_cents", "net_proceeds_cents"]),
+    C("exit_tax_released_losses_ca_magi_186k", "exit_tax",
+      {"sale": {"sale_price_cents": 78_000_000, "loan_payoff_cents": 18_500_000, "purchase_price_cents": 31_000_000,
+                "improvements_cents": 2_000_000, "accumulated_depreciation_cents": 11_500_000},
+       "household": {"filing_status": "mfj", "state": "CA", "wages_cents": 16_000_000, "other_income_cents": 1_200_000,
+                     "magi_cents": 18_600_000, "released_cents": 1_420_000}},
+      # MAGI 186k > 150k: allowance fully phased out, so the 14,200 is suspended and released on sale.
+      # fed 140,500 -> 126,300 at 22% = 3,124.00; CA 172,000 -> 157,800 at 9.3% = 1,320.60 -> 4,444.60
+      {"released_loss_benefit_cents": 444_460}, ["fed_1250_cents", "fed_ltcg_cents", "state_cents", "total_cents",
+                                                 "net_proceeds_cents"]),
     C("section_121_converted_residence", "exit_tax",
       {"sale": {"sale_price_cents": 90_000_000, "purchase_price_cents": 40_000_000, "accumulated_depreciation_cents": 2_000_000,
                 "sale_date": "2025-12-31", "former_residence_until": "2024-06-30"},
@@ -251,11 +280,21 @@ st = [
     C("1031_full_mortgage_boot", "strategies",
       {"property": base_prop, "household": hh, "exchange": {"replacement_debt_cents": 0}},
       {"mortgage_boot_cents": debt_2025, "boot_cents": debt_2025}, ["tax_on_boot_cents", "gain_deferred_cents",
-                                                                   "exchange_terminal_wealth_cents"]),
+                                                                   "exchange_terminal_wealth_cents", "cash_after_tax_cents",
+                                                                   "replacement_value_cents"]),
     C("1031_partial_mortgage_boot_plus_cash", "strategies",
       {"property": base_prop, "household": hh, "exchange": {"replacement_debt_cents": 10_000_000, "cash_taken_cents": 2_000_000}},
       {"mortgage_boot_cents": 8_500_000, "boot_cents": 10_500_000}, ["tax_on_boot_cents", "gain_deferred_cents",
-                                                                    "exchange_terminal_wealth_cents"]),
+                                                                    "exchange_terminal_wealth_cents", "cash_after_tax_cents",
+                                                                    "cash_after_tax_at_horizon_cents", "replacement_value_cents"]),
+    C("1031_cash_boot_after_tax_invested", "strategies",
+      {"property": base_prop, "household": hh, "horizon_years": 10, "exchange": {"cash_taken_cents": 5_000_000}},
+      # boot 50,000 = all unrecaptured 1250, 2026 MFJ stack 139,800..189,800 at 22% = 11,000; NIIT 0 (MAGI 236k);
+      # CA 9.3% = 4,650 -> tax on boot 15,650. After-tax cash 34,350 x 1.06^10 = 61,515.62.
+      # Replacement shrinks by the cash: 733,200 - 50,000 = 683,200.
+      {"boot_cents": 5_000_000, "tax_on_boot_cents": 1_565_000, "cash_after_tax_cents": 3_435_000,
+       "cash_after_tax_at_horizon_cents": 6_151_562, "replacement_value_cents": 68_320_000},
+      ["exchange_terminal_wealth_cents", "gain_deferred_cents"]),
     C("dst_load_reduces_working_equity", "strategies",
       {"property": base_prop, "household": hh, "exchange": {"dst": True, "load_rate": "0.085", "dst_yield": "0.05"}},
       # exchange equity = 780,000 x 0.94 - 185,000 = 548,200; load 8.5% = 46,597

@@ -167,11 +167,9 @@ def compare_strategies(p: PropertyModel, h: HouseholdModel, a: StrategyAssumptio
 
     # ---------------- 1031 / DST ----------------
     x = a.exchange
-    amount_realized = sell_ex.figures["exit_tax.amount_realized"].value_cents or 0
     net_before = sell_ex.figures["exit_tax.net_before_tax"].value_cents or 0
     total_gain = sell_ex.figures["exit_tax.total_gain"].value_cents or 0
     old_adj_basis = sell_ex.figures["exit_tax.adjusted_basis"].value_cents or 0
-    repl_value = x.replacement_value_cents if x.replacement_value_cents is not None else amount_realized
     repl_debt = x.replacement_debt_cents if x.replacement_debt_cents is not None else debt_now
     mortgage_boot = max(0, debt_now - repl_debt)
     boot = x.cash_taken_cents + mortgage_boot
@@ -187,6 +185,12 @@ def compare_strategies(p: PropertyModel, h: HouseholdModel, a: StrategyAssumptio
     deferred_gain = total_gain - recognized
     # equity that goes into the replacement: net proceeds minus cash taken minus tax on boot (paid from cash taken)
     exchange_equity = net_before - x.cash_taken_cents
+    # default replacement = what the rolled equity plus the new debt can buy (sources = uses); cash taken out of the
+    # exchange shrinks it, so the same dollars are never both kept and reinvested in the replacement
+    repl_value = x.replacement_value_cents if x.replacement_value_cents is not None else exchange_equity + repl_debt
+    # cash taken out, after paying the tax on all boot (negative = the tax on boot comes from other funds), is invested at
+    # the reinvest rate exactly like sell-now proceeds and counted in terminal wealth
+    cash_after_tax = x.cash_taken_cents - boot_tax
     findings = list(sell_ex.findings)
     if boot_ex:
         findings += [f for f in boot_ex.findings if f not in findings]
@@ -242,9 +246,16 @@ def compare_strategies(p: PropertyModel, h: HouseholdModel, a: StrategyAssumptio
             "purchase_price_cents": repl_basis + dep_before + old_1245, "improvements_cents": 0,
             "accumulated_depreciation_cents": acc_total, "sec1245_cents": old_1245, "former_residence_until": None})
         x_exit = ex
-        wealth = ex.net_proceeds_cents + cents(reinv)
+        cash_t = cents(_grow(Decimal(cash_after_tax), rr, t))
+        wealth = ex.net_proceeds_cents + cents(reinv) + cash_t
         x_series.append(_row(yr, cf, value_t - debt_t, value_t, debt_t, ex.total_cents, wealth))
     assert x_exit is not None
+    cash_at_horizon = cents(_grow(Decimal(cash_after_tax), rr, n))
+    cash_fig = money("exchange.cash_after_tax", Decimal(cash_after_tax),
+                     [Input.of("cash_taken_cents", x.cash_taken_cents), Input.of("tax_on_boot_cents", boot_tax, src="figure",
+                                                                                  ref="exchange.tax_on_boot")],
+                     "cash_taken - tax_on_boot (negative: the tax on boot is paid from other funds)",
+                     ["invested at the reinvest rate like sell-now proceeds and included in terminal wealth"] if boot else [])
     label = "1031 exchange into a DST" if x.dst else "1031 exchange (direct replacement)"
     x_caveats = ["Deferred, not forgiven: the deferred liability is shown at the horizon and grows with depreciation.",
                  "Suspended passive losses are NOT released by an exchange; they carry into the replacement.",
@@ -260,12 +271,16 @@ def compare_strategies(p: PropertyModel, h: HouseholdModel, a: StrategyAssumptio
         "path": "exchange", "label": label, "dst": x.dst, "series": x_series,
         "terminal": {
             "terminal_wealth": money("strategy.exchange.terminal_wealth", Decimal(x_series[-1]["wealth_cents"]),
-                                     assumption_inputs + [Input.figure(boot_fig), Input.figure(x_exit.figures["exit_tax.net_proceeds"])],
-                                     "replacement liquidated at horizon net of selling costs, debt and the deferred tax + distributions reinvested",
+                                     assumption_inputs + [Input.figure(boot_fig), Input.figure(cash_fig),
+                                                          Input.figure(x_exit.figures["exit_tax.net_proceeds"])],
+                                     "replacement liquidated at horizon net of selling costs, debt and the deferred tax "
+                                     "+ distributions reinvested + (cash taken - tax on boot) x (1 + reinvest_rate)^horizon",
                                      ["the deferred liability is subtracted explicitly (deferred_liability_at_horizon_cents)"]).to_dict(),
             "boot": boot_fig.to_dict(),
             "boot_cents": boot, "mortgage_boot_cents": mortgage_boot, "cash_taken_cents": x.cash_taken_cents,
             "tax_on_boot_cents": boot_tax, "tax_paid_now_cents": boot_tax,
+            "cash_after_tax_cents": cash_after_tax,
+            "cash_after_tax_at_horizon_cents": cash_at_horizon,
             "gain_recognized_cents": recognized, "gain_deferred_cents": deferred_gain,
             "replacement_value_cents": repl_value, "replacement_debt_cents": repl_debt,
             "replacement_basis_cents": repl_basis, "exchange_equity_cents": exchange_equity,
@@ -277,7 +292,10 @@ def compare_strategies(p: PropertyModel, h: HouseholdModel, a: StrategyAssumptio
         "caveats": x_caveats,
     }
     if x.cash_taken_cents and boot_tax > x.cash_taken_cents:
-        exch["caveats"].append("Tax on boot exceeds the cash taken out; the difference must come from other funds.")
+        exch["caveats"].append("Tax on boot exceeds the cash taken out; the difference must come from other funds "
+                               "(subtracted from terminal wealth).")
+    if x.cash_taken_cents:
+        exch["caveats"].append("Cash taken out (after the tax on boot) is assumed invested at the reinvest rate.")
     paths = [hold, sell, exch]
     matrix = leads_trails(paths, h, p)
     return {"property_id": p.id, "assumptions": shared, "paths": paths, "matrix": matrix, "findings": findings,
@@ -377,7 +395,7 @@ def present(r: dict, base_status: str = "confirmed", base_reason: str | None = N
                 {"label": "Net proceeds after tax, today", "value": _f("strategy.sell.net_proceeds", t["net_proceeds_today_cents"],
                                                                        "net before tax - exit tax", status=st)},
                 {"label": "Exit tax paid now", "value": _f("strategy.sell.exit_tax", t["exit_tax_today_cents"],
-                                                           "fed_1250 + fed_1245 + fed_ltcg + niit + state", status=st)},
+                                                           "fed_1250 + fed_1245 + fed_ltcg + niit + state - released_loss_benefit", status=st)},
                 {"label": f"Proceeds invested at {Decimal(a['reinvest_rate']) * 100:.1f}% for {a['horizon_years']} years",
                  "value": t["terminal_wealth"]},
             ]
@@ -396,6 +414,7 @@ def present(r: dict, base_status: str = "confirmed", base_reason: str | None = N
                 "gain_recognized": _f("exchange.gain_recognized", t["gain_recognized_cents"], "min(boot, total gain)", status=st),
                 "tax_on_boot": _f("exchange.tax_on_boot", t["tax_on_boot_cents"], "boot taxed through the same exit-tax stack",
                                   status=st),
+                "cash_after_tax": _f("exchange.cash_after_tax", t["cash_after_tax_cents"], "cash taken - tax on boot", status=st),
             }
             pth["proceeds_use"] = [
                 {"label": "Equity rolled into the replacement", "value": _f("exchange.equity_rolled", t["exchange_equity_cents"],

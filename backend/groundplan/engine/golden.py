@@ -72,6 +72,15 @@ def loan_schedule(i: dict) -> dict:
     return out
 
 
+def annual_debt(i: dict) -> dict:
+    """The loans table's yearly row (analysis.annual_debt), incl. a back-filled year before the first scheduled payment."""
+    from groundplan.engine.analysis import annual_debt as _annual_debt
+
+    a, notes = _annual_debt([loans.build_schedule(_loan(x)) for x in i["loans"]], i["year"])
+    return {k: a[k] for k in ("principal_cents", "interest_cents", "debt_service_cents", "balance_end_cents")} | {
+        "backfilled": bool(notes)}
+
+
 def _ops(i: dict) -> YearOperations:
     keys = ("gross_rent_cents", "other_income_cents", "taxes_cents", "insurance_cents", "repairs_cents", "mgmt_cents",
             "utilities_cents", "hoa_cents", "other_cents", "mortgage_interest_cents", "depreciation_cents")
@@ -136,7 +145,7 @@ def exit_tax(i: dict) -> dict:
                      recognized_gain_cap_cents=s.get("recognized_gain_cap_cents"))
     r = compute_exit_tax(sale, _hh_tax(i["household"]))
     keys = ("total_gain", "unrecaptured_1250", "sec1245", "ltcg", "sec121_excluded", "fed_1250", "fed_1245", "fed_ltcg",
-            "niit", "state", "total", "net_before_tax", "net_proceeds")
+            "niit", "state", "released_loss_benefit", "total", "net_before_tax", "net_proceeds")
     out = {f"{k}_cents": r.figures[f"exit_tax.{k}"].value_cents for k in keys}
     out["rates_1250"] = [x.rate for x in r.stack.layers_1250]
     out["finding_count"] = len(r.findings)
@@ -180,10 +189,13 @@ def strategies(i: dict) -> dict:
         "boot_cents": by["exchange"]["boot_cents"], "mortgage_boot_cents": by["exchange"]["mortgage_boot_cents"],
         "tax_on_boot_cents": by["exchange"]["tax_on_boot_cents"], "gain_deferred_cents": by["exchange"]["gain_deferred_cents"],
         "dst_load_cents": by["exchange"]["dst_load_cents"],
+        "cash_after_tax_cents": by["exchange"]["cash_after_tax_cents"],
+        "cash_after_tax_at_horizon_cents": by["exchange"]["cash_after_tax_at_horizon_cents"],
+        "replacement_value_cents": by["exchange"]["replacement_value_cents"],
     }
 
 
-FUNCTIONS = {f.__name__: f for f in (depreciation_schedule, depreciation_basis, depreciation_full, loan_schedule,
+FUNCTIONS = {f.__name__: f for f in (depreciation_schedule, depreciation_basis, depreciation_full, loan_schedule, annual_debt,
                                      cash_flow_bridge, passive_allowance, passive_release, tax_stack, niit, state_tax,
                                      exit_tax, strategies)}
 
