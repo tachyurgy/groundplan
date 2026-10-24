@@ -6,7 +6,11 @@ import { execFileSync } from 'node:child_process';
 
 const dir = 'e2e/.results';
 const runs = [];
-const files = process.argv.slice(2).length ? process.argv.slice(2) : readdirSync(dir).filter((f) => /^(mock|live).*\.json$/.test(f)).map((f) => `${dir}/${f}`);
+const files = process.argv.slice(2).length
+  ? process.argv.slice(2)
+  : readdirSync(dir)
+      .filter((f) => /^(mock|live).*\.json$/.test(f))
+      .map((f) => `${dir}/${f}`);
 for (const file of files) {
   const rep = JSON.parse(readFileSync(file, 'utf8'));
   const urlOf = Object.fromEntries((rep.config?.projects ?? []).map((p) => [p.name, p.metadata?.url ?? (p.name === 'parity' ? 'python vs go' : '')]));
@@ -30,7 +34,13 @@ runs.sort((a, b) => a.project.localeCompare(b.project));
 let axe = null;
 const axeFiles = readdirSync(dir).filter((f) => f.startsWith('axe') && f.endsWith('.jsonl'));
 if (axeFiles.length) {
-  const rows = axeFiles.flatMap((f) => readFileSync(`${dir}/${f}`, 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)));
+  const rows = axeFiles.flatMap((f) =>
+    readFileSync(`${dir}/${f}`, 'utf8')
+      .trim()
+      .split('\n')
+      .filter(Boolean)
+      .map((l) => JSON.parse(l)),
+  );
   axe = { pages: rows.length, serious: rows.reduce((a, r) => a + r.serious, 0), critical: rows.reduce((a, r) => a + r.critical, 0) };
 }
 

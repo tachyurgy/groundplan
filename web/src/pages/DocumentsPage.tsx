@@ -384,7 +384,12 @@ function DocViewer({ documentId, page, onPage }: { documentId: string; page: num
             Extracted on page {page} <span className="font-normal text-ink-500">({pageFields.length} fields)</span>
           </h3>
           {pageFields.length === 0 && <p className="text-xs text-ink-500">No fields extracted on this page.</p>}
-          <ul className="max-h-[560px] divide-y divide-ink-100 overflow-y-auto overscroll-contain pr-1" data-testid="extracted-fields" tabIndex={0} aria-label={`Fields extracted on page ${page}`}>
+          <ul
+            className="max-h-[560px] divide-y divide-ink-100 overflow-y-auto overscroll-contain pr-1"
+            data-testid="extracted-fields"
+            tabIndex={0}
+            aria-label={`Fields extracted on page ${page}`}
+          >
             {pageFields.map((f) => (
               <li
                 key={f.id}
@@ -395,7 +400,9 @@ function DocViewer({ documentId, page, onPage }: { documentId: string; page: num
                 className={`grid grid-cols-[minmax(0,1fr)_minmax(0,auto)] gap-x-3 gap-y-0.5 py-1.5 ${hl === f.id ? 'bg-brand-50' : ''}`}
               >
                 <span className="min-w-0 font-mono text-[11.5px] break-words text-ink-900">{f.field.replace(/\./g, '.\u200b')}</span>
-                <span className={`text-right text-[13px] ${typeof f.value === 'number' ? 'num whitespace-nowrap' : 'max-w-[11rem] break-words'}`}>{fmtValue(f.value, f.unit)}</span>
+                <span className={`text-right text-[13px] ${typeof f.value === 'number' ? 'num whitespace-nowrap' : 'max-w-[11rem] break-words'}`}>
+                  {fmtValue(f.value, f.unit)}
+                </span>
                 <span className="min-w-0 truncate text-[11px] text-ink-500">{f.property_key ?? 'household'}</span>
                 <span className={`text-right text-[11px] ${f.confidence < 0.9 ? 'text-est-600' : 'text-ink-500'}`}>
                   {Math.round(f.confidence * 100)}% via {f.extractor}
