@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, PrivateAttr
 
 DocumentKind = Literal[
     "form_1040",
@@ -53,6 +53,10 @@ class Page(BaseModel):
     words: list[Word]
     source: Literal["text", "ocr"]
     skew_deg: float = 0.0  # skew estimated (and removed) before OCR
+    # the deskewed raster for OCR pages, kept in memory only so extractors can re-OCR value zones
+    _image: Any = PrivateAttr(default=None)
+    _dpi: int = PrivateAttr(default=300)
+    _zone_cache: dict = PrivateAttr(default_factory=dict)
 
     def text(self) -> str:
         return " ".join(w.text for w in self.words)
@@ -77,6 +81,7 @@ class ExtractedField(BaseModel):
     document_key: str  # filename of the source document
     entity_hint: Literal["household", "property", "loan"]
     property_key: str | None = None  # normalized address, or column id if no address
+    address_raw: str | None = None  # the address as printed on this document (provenance for resolution)
     field: str  # e.g. "schedule_e.line3.rents"
     value: Any
     unit: Unit
