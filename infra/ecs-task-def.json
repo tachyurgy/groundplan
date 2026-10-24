@@ -1,0 +1,53 @@
+{
+  "_comment": "SKETCH, NOT APPLIED. Fargate task for the API. DB credentials come from Secrets Manager (RDS-managed secret); the task role carries only Bedrock invoke (optional narrative) + CloudWatch logs. Run migrations as a one-off task with command override [\"alembic\",\"upgrade\",\"head\"] before each deploy.",
+  "family": "groundplan-api",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "runtimePlatform": {"cpuArchitecture": "ARM64", "operatingSystemFamily": "LINUX"},
+  "executionRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/groundplan-ecs-execution",
+  "taskRoleArn": "arn:aws:iam::<ACCOUNT_ID>:role/groundplan-api-task",
+  "containerDefinitions": [
+    {
+      "name": "api",
+      "image": "<ACCOUNT_ID>.dkr.ecr.us-west-2.amazonaws.com/groundplan-api:<GIT_SHA>",
+      "essential": true,
+      "portMappings": [{"containerPort": 8000, "protocol": "tcp"}],
+      "readonlyRootFilesystem": true,
+      "environment": [
+        {"name": "GP_LLM_PROVIDER", "value": ""},
+        {"name": "GP_RETAIN_UPLOADS_SECONDS", "value": "0"},
+        {"name": "GP_CORS_ORIGINS", "value": "[\"https://app.example.com\"]"},
+        {"name": "DB_HOST", "value": "<rds-endpoint>"},
+        {"name": "DB_NAME", "value": "groundplan"}
+      ],
+      "secrets": [
+        {"name": "DB_USER", "valueFrom": "arn:aws:secretsmanager:us-west-2:<ACCOUNT_ID>:secret:rds!db-<id>:username::"},
+        {"name": "DB_PASSWORD", "valueFrom": "arn:aws:secretsmanager:us-west-2:<ACCOUNT_ID>:secret:rds!db-<id>:password::"}
+      ],
+      "entryPoint": ["sh", "-c"],
+      "command": ["export GP_DATABASE_URL=\"postgresql+psycopg://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}?sslmode=verify-full\" && exec uvicorn groundplan.api:app --host 0.0.0.0 --port 8000 --proxy-headers"],
+      "healthCheck": {"command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health')\""], "interval": 30, "timeout": 5, "retries": 3},
+      "logConfiguration": {"logDriver": "awslogs", "options": {"awslogs-group": "/ecs/groundplan-api", "awslogs-region": "us-west-2", "awslogs-stream-prefix": "api"}},
+      "mountPoints": [{"sourceVolume": "tmp", "containerPath": "/tmp"}]
+    }
+  ],
+  "volumes": [{"name": "tmp"}],
+  "_task_role_policy_sketch": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {"Sid": "BedrockNarrativeOnly", "Effect": "Allow", "Action": ["bedrock:InvokeModel", "bedrock:Converse"],
+       "Resource": "arn:aws:bedrock:us-west-2::foundation-model/anthropic.*",
+       "Condition": {"StringEquals": {"aws:RequestedRegion": "us-west-2"}}},
+      {"Sid": "NoS3ForUploads", "Effect": "Deny", "Action": ["s3:PutObject"], "Resource": "*"}
+    ]
+  },
+  "_execution_role_policy_sketch": {
+    "Version": "2012-10-17",
+    "Statement": [
+      {"Effect": "Allow", "Action": ["secretsmanager:GetSecretValue"], "Resource": "arn:aws:secretsmanager:us-west-2:<ACCOUNT_ID>:secret:rds!db-*"},
+      {"Effect": "Allow", "Action": ["ecr:GetAuthorizationToken", "ecr:BatchGetImage", "ecr:GetDownloadUrlForLayer", "logs:CreateLogStream", "logs:PutLogEvents"], "Resource": "*"}
+    ]
+  }
+}
