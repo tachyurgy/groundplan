@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+  body {
+    @apply bg-ink-50 text-ink-900 antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  .num {
+    @apply font-mono tabular-nums;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.01em;
+  }
+  h1 {
+    @apply text-2xl font-semibold tracking-tight text-ink-950;
+  }
+  h2 {
+    @apply text-base font-semibold tracking-tight text-ink-950;
+  }
+  h3 {
+    @apply text-sm font-semibold text-ink-900;
+  }
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible {
+    @apply outline-none ring-2 ring-brand-500/50 ring-offset-1;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-md bg-white shadow-card;
+  }
+  .card-head {
+    @apply flex items-center justify-between gap-3 border-b border-ink-100 px-4 py-2.5;
+  }
+  .card-body {
+    @apply px-4 py-3;
+  }
+  .label {
+    @apply text-[11px] font-medium uppercase tracking-[0.08em] text-ink-500;
+  }
+  .btn {
+    @apply inline-flex h-8 items-center gap-1.5 rounded border border-ink-200 bg-white px-3 text-sm font-medium text-ink-900 shadow-sm transition-colors hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply border-brand-600 bg-brand-600 text-white hover:bg-brand-700;
+  }
+  .btn-sm {
+    @apply h-7 px-2 text-xs;
+  }
+  .input {
+    @apply h-8 w-full rounded border border-ink-200 bg-white px-2 text-sm text-ink-900 shadow-sm placeholder:text-ink-300 focus:border-brand-500;
+  }
+  .input-num {
+    @apply input num text-right;
+  }
+  .tbl {
+    @apply w-full border-collapse text-sm;
+  }
+  .tbl th {
+    @apply label border-b border-ink-200 px-2 py-1.5 text-left font-medium;
+  }
+  .tbl td {
+    @apply border-b border-ink-100 px-2 py-1.5 align-middle;
+  }
+  .tbl tr:last-child td {
+    @apply border-b-0;
+  }
+  .tbl .r {
+    @apply text-right;
+  }
+  .tbl tbody tr:hover td {
+    @apply bg-ink-50/70;
+  }
+  .figure-btn {
+    @apply num cursor-pointer rounded-sm px-0.5 underline decoration-ink-200 decoration-dotted underline-offset-[3px] hover:bg-brand-50 hover:decoration-brand-500;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #d6d9e0;
+  border-radius: 6px;
+  border: 2px solid #f6f7f9;
+}
