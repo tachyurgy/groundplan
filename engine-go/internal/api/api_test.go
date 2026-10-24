@@ -306,3 +306,37 @@ func TestIntegration(t *testing.T) {
 		}
 	})
 }
+
+func TestClientIPBehindPagesProxy(t *testing.T) {
+	s := bareServer()
+	s.Cfg.PagesProxyKey = "s3cret-key"
+	req := func(h map[string]string) *http.Request {
+		r := httptest.NewRequest("GET", "/api/v1/households", nil)
+		r.RemoteAddr = "10.0.0.5:4444"
+		for k, v := range h {
+			r.Header.Set(k, v)
+		}
+		return r
+	}
+	cases := []struct {
+		name string
+		h    map[string]string
+		want string
+	}{
+		{"key + client ip", map[string]string{"X-GP-Proxy-Key": "s3cret-key", "X-Client-IP": "198.51.100.23", "CF-Connecting-IP": "172.71.1.1"}, "198.51.100.23"},
+		{"ipv6 canonicalized", map[string]string{"X-GP-Proxy-Key": "s3cret-key", "X-Client-IP": "2001:DB8:0:0::1"}, "2001:db8::1"},
+		{"wrong key ignores X-Client-IP", map[string]string{"X-GP-Proxy-Key": "nope", "X-Client-IP": "198.51.100.23", "CF-Connecting-IP": "172.71.1.1"}, "172.71.1.1"},
+		{"no key ignores X-Client-IP", map[string]string{"X-Client-IP": "198.51.100.23", "X-Forwarded-For": "203.0.113.7, 10.1.1.1"}, "203.0.113.7"},
+		{"key + garbage ip falls back", map[string]string{"X-GP-Proxy-Key": "s3cret-key", "X-Client-IP": "not-an-ip", "CF-Connecting-IP": "172.71.1.1"}, "172.71.1.1"},
+		{"nothing -> peer", map[string]string{}, "10.0.0.5"},
+	}
+	for _, c := range cases {
+		if got := s.clientIP(req(c.h), "10.0.0.5"); got != c.want {
+			t.Errorf("%s: got %s want %s", c.name, got, c.want)
+		}
+	}
+	s.Cfg.PagesProxyKey = "" // unset key: X-Client-IP is never trusted, even with a header claiming the key
+	if got := s.clientIP(req(map[string]string{"X-GP-Proxy-Key": "", "X-Client-IP": "198.51.100.23"}), "10.0.0.5"); got != "10.0.0.5" {
+		t.Errorf("unset key trusted X-Client-IP: %s", got)
+	}
+}

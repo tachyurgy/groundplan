@@ -7,6 +7,7 @@
 //	GP_PIPELINE_URL                  http://gp-pipeline:8090 (document uploads; unset = 503 on upload)
 //	GP_CORS_ORIGINS                  comma list (default: the two twin front ends + localhost dev ports)
 //	GP_EVAL_PATH                     eval-latest.json for /eval/latest
+//	GP_PAGES_PROXY_KEY               shared secret: with a matching X-GP-Proxy-Key header, X-Client-IP is the client IP
 //	GP_SWEEP_ENABLED=false           disable the 14-day idle-workspace sweep
 package main
 
@@ -104,6 +105,7 @@ func run(addr string) error {
 		RequestTimeout:  time.Duration(envInt("GP_REQUEST_TIMEOUT_S", 30)) * time.Second,
 		PipelineTimeout: time.Duration(envInt("GP_PIPELINE_TIMEOUT_S", 120)) * time.Second,
 		PipelineURL:     os.Getenv("GP_PIPELINE_URL"),
+		PagesProxyKey:   strings.TrimSpace(os.Getenv("GP_PAGES_PROXY_KEY")),
 	}
 	srv := &http.Server{Addr: addr, Handler: api.New(svc, cfg), ReadHeaderTimeout: 10 * time.Second, ReadTimeout: 60 * time.Second,
 		WriteTimeout: cfg.PipelineTimeout + 60*time.Second, IdleTimeout: 120 * time.Second, MaxHeaderBytes: 64 << 10}

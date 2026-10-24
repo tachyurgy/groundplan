@@ -3,12 +3,14 @@ package api
 import (
 	"context"
 	"crypto/rand"
+	"crypto/subtle"
 	"encoding/hex"
 	"errors"
 	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
+	"net/netip"
 	"regexp"
 	"runtime"
 	"runtime/debug"
@@ -33,6 +35,7 @@ type Config struct {
 	RequestTimeout  time.Duration
 	PipelineTimeout time.Duration
 	PipelineURL     string
+	PagesProxyKey   string // GP_PAGES_PROXY_KEY: shared secret of the Cloudflare Pages Function proxy
 }
 
 // Server wires the services into an http.Handler.
@@ -249,7 +252,7 @@ func (s *Server) ensureWorkspace(r *http.Request) (string, error) {
 		peer = peer[:i]
 	}
 	peer = strings.Trim(peer, "[]")
-	if _, err := s.Svc.EnsureWorkspace(r.Context(), wid, service.ClientIP(r.Header, peer)); err != nil {
+	if _, err := s.Svc.EnsureWorkspace(r.Context(), wid, s.clientIP(r, peer)); err != nil {
 		return "", err
 	}
 	return wid, nil
@@ -257,3 +260,19 @@ func (s *Server) ensureWorkspace(r *http.Request) (string, error) {
 
 // runtimeLabel is "go1.26.5".
 func runtimeLabel() string { return runtime.Version() }
+
+// clientIP is the per-IP abuse key. Behind the Pages Function proxy every request carries the Worker's egress IP in
+// CF-Connecting-IP, so the proxy forwards the visitor's address as X-Client-IP together with X-GP-Proxy-Key.
+// X-Client-IP is trusted ONLY when the key matches GP_PAGES_PROXY_KEY (constant-time) and the value parses as an IP;
+// otherwise the usual CF-Connecting-IP / X-Forwarded-For / peer order applies.
+func (s *Server) clientIP(r *http.Request, peer string) string {
+	if key := s.Cfg.PagesProxyKey; key != "" {
+		got := r.Header.Get("X-GP-Proxy-Key")
+		if got != "" && subtle.ConstantTimeCompare([]byte(got), []byte(key)) == 1 {
+			if addr, err := netip.ParseAddr(strings.TrimSpace(r.Header.Get("X-Client-IP"))); err == nil {
+				return addr.Unmap().String()
+			}
+		}
+	}
+	return service.ClientIP(r.Header, peer)
+}
