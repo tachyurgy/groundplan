@@ -33,7 +33,7 @@ const PROPERTY_FIELDS: AssumptionField[] = [
   { key: 'vacancy_rate', label: 'Vacancy', kind: 'rate', min: 0, max: 0.9 },
   { key: 'capex_reserve_rate', label: 'CapEx reserve (of rent)', kind: 'rate', min: 0, max: 0.5 },
   { key: 'selling_cost_rate', label: 'Selling costs', kind: 'rate', min: 0, max: 0.2 },
-  { key: 'land_pct', label: 'Land allocation', kind: 'rate', min: 0, max: 1, hint: 'Bounded to 60-80% by the engine, with a note' },
+  { key: 'land_pct', label: 'Land allocation', kind: 'rate', min: 0, max: 1, hint: 'Land share, bounded to 20-40% (improvements 60-80%), with a note' },
   { key: 'arm_index', label: 'ARM index after reset', kind: 'rate', min: 0, max: 0.2 },
   { key: 'horizon', label: 'Horizon (years)', kind: 'int', min: 1, max: 30 },
 ];
@@ -286,7 +286,7 @@ function DepreciationTab({ a }: { a: PropertyAnalysis }) {
         <FigureRow label={`Depreciation ${a.year}`} figure={d.annual} />
         <FigureRow label={`Accumulated through ${a.year}`} figure={d.accumulated} strong />
         <p className="mt-2 text-[11px] text-ink-500">
-          Method {d.method === 'sl_27_5' ? '27.5-yr straight line, mid-month (Pub 946 Table A-6)' : d.method}. {d.land_pct_bounded ? 'Land allocation was bounded to 60-80%.' : ''} Recapture uses allowable even where the return claimed less.
+          Method {d.method === 'sl_27_5' ? '27.5-yr straight line, mid-month (Pub 946 Table A-6)' : d.method}. {d.land_pct_bounded ? 'Land share was bounded to 20-40%.' : ''} Recapture uses allowable even where the return claimed less.
         </p>
         <div className="mt-4 h-52">
           <ResponsiveContainer>

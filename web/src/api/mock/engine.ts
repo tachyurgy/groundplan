@@ -101,7 +101,7 @@ const A39_FIRST_YEAR = [2.461, 2.247, 2.033, 1.819, 1.605, 1.391, 1.177, 0.963, 
 
 export function depreciationSchedule(p: Property, throughYear: number): { rows: DepreciationScheduleRow[]; basis: Cents; bounded: boolean } {
   const rawLand = p.land_pct;
-  const land = Math.min(0.8, Math.max(0.6, rawLand));
+  const land = Math.min(0.4, Math.max(0.2, rawLand));
   const bounded = land !== rawLand;
   const basis = roundCents((p.purchase_price_cents + p.improvements_cents) * (1 - land));
   const nonres = p.property_type === 'commercial';
@@ -402,7 +402,7 @@ export function analyzeProperty(ctx: EngineContext, year: number, horizon: numbe
   const ledgerRows = ctx.ledgers.filter((l) => l.property_id === p.id);
   const accumulated = dep.rows.filter((r) => r.year < year + 1).reduce((s, r) => s + r.amount_cents, 0);
   const thruPrior = dep.rows.filter((r) => r.year <= year - 1).reduce((s, r) => s + r.amount_cents, 0);
-  const basisFig = fig(blocking, 'depreciation.depreciable_basis', dep.basis, [inp('property.purchase_price', p.purchase_price_cents, docSrc(ctx, 'closing.purchase_price', 'purchase record'), { unit: 'cents' }), inp('property.improvements', p.improvements_cents, manual('improvements entered'), { unit: 'cents' }), inp('property.land_pct', p.land_pct, ov.land_pct !== undefined ? manual('assumptions panel') : dflt(`land_pct ${p.land_pct}`), { unit: 'rate' })], '(purchase_price + improvements) × (1 − land_pct), land_pct bounded to [0.60, 0.80]', dep.bounded ? ['land_pct was outside [0.60, 0.80] and was bounded.'] : [], 'Depreciable basis');
+  const basisFig = fig(blocking, 'depreciation.depreciable_basis', dep.basis, [inp('property.purchase_price', p.purchase_price_cents, docSrc(ctx, 'closing.purchase_price', 'purchase record'), { unit: 'cents' }), inp('property.improvements', p.improvements_cents, manual('improvements entered'), { unit: 'cents' }), inp('property.land_pct', p.land_pct, ov.land_pct !== undefined ? manual('assumptions panel') : dflt(`land_pct ${p.land_pct}`), { unit: 'rate' })], '(purchase_price + improvements) × (1 − land_pct), land_pct bounded to [0.20, 0.40] (improvements 60-80%)', dep.bounded ? ['land_pct was outside [0.20, 0.40] and was bounded.'] : [], 'Depreciable basis');
   const annualAmt = dep.rows.find((r) => r.year === year)?.amount_cents ?? 0;
   const annualFig = fig(blocking, 'depreciation.annual', annualAmt, [figIn(basisFig), inp('table', 'Pub 946 Table A-6 (27.5-yr, mid-month)', dflt('IRS table'))], 'basis × table%(year, month placed in service)', [], `Depreciation ${year}`);
   const accFig = fig(blocking, 'depreciation.accumulated', accumulated, [figIn(basisFig), ...ledgerRows.map((l) => inp(`ledger.${l.tax_year}.allowed`, l.allowed_cents, docSrc(ctx, 'form_4562.part3.line19h.deduction', 'Form 4562'), { unit: 'cents', label: `${l.tax_year} allowed` }))], 'Σ allowable depreciation through end of year (allowed-or-allowable: uses allowable when the return claimed less)', ledgerRows.some((l) => l.allowed_cents < l.allowable_cents) ? ['A ledger year claimed less than allowable; recapture still uses allowable (Finding: outlier).'] : [], 'Accumulated depreciation');
@@ -557,7 +557,7 @@ export const OBSERVATION_RULES: { id: string; text: string }[] = [
   { id: 'io_ending', text: 'interest-only period ends within 24 months' },
   { id: 'arm_reset', text: 'ARM resets within 24 months' },
   { id: 'loan_maturity', text: 'loan matures within 36 months' },
-  { id: 'land_pct_bounded', text: 'land_pct was bounded to [0.60, 0.80]' },
+  { id: 'land_pct_bounded', text: 'land_pct was bounded to [0.20, 0.40]' },
   { id: 'depreciation_mismatch', text: 'depreciation on return differs from allowable by > 5%' },
   { id: 'value_estimated', text: 'value_source is estimated' },
   { id: 'suspended_losses', text: 'suspended losses present (a taxable sale would release them)' },
@@ -597,7 +597,7 @@ function observe(
     }
     if (l.maturity_date < cutoff36) add('loan_maturity', 'warn', `${p.nickname}: ${l.lender} loan matures ${l.maturity_date}.`, [`loan.${l.id}.balance_at_year_end`]);
   }
-  if (bounded) add('land_pct_bounded', 'info', `${p.nickname}: land allocation was bounded to the [60%, 80%] range.`, ['depreciation.depreciable_basis']);
+  if (bounded) add('land_pct_bounded', 'info', `${p.nickname}: land share was bounded to 20-40% (improvements 60-80%).`, ['depreciation.depreciable_basis']);
   for (const l of ledgers) {
     if (l.allowable_cents > 0 && Math.abs(l.allowed_cents - l.allowable_cents) / l.allowable_cents > 0.05) add('depreciation_mismatch', 'warn', `${p.nickname}: ${l.tax_year} depreciation claimed (${fmtD(l.allowed_cents / 100)}) differs from allowable (${fmtD(l.allowable_cents / 100)}) by ${(((l.allowable_cents - l.allowed_cents) / l.allowable_cents) * 100).toFixed(1)}%.`, ['depreciation.accumulated']);
   }
@@ -878,7 +878,7 @@ export function simulate(req: SimulationRequest): SimulationResult {
       let cf = 0;
       for (const ev of req.events.filter((e) => e.year === year)) {
         if (ev.type === 'buy') {
-          props.push({ nickname: ev.property_ref, property_type: 'sfr', current_value_cents: ev.amount_cents ?? 0, debt_cents: ev.debt_cents ?? 0, noi_cents: roundCents((ev.amount_cents ?? 0) * req.assumptions.cap_rate), purchase_price_cents: ev.amount_cents ?? 0, purchase_date: `${year}-01-01`, land_pct: 0.7, value: ev.amount_cents ?? 0, debt: ev.debt_cents ?? 0, noi: roundCents((ev.amount_cents ?? 0) * req.assumptions.cap_rate), basis: roundCents((ev.amount_cents ?? 0) * 0.3), acc: 0, active: true, rate: ev.rate ?? 0.065 });
+          props.push({ nickname: ev.property_ref, property_type: 'sfr', current_value_cents: ev.amount_cents ?? 0, debt_cents: ev.debt_cents ?? 0, noi_cents: roundCents((ev.amount_cents ?? 0) * req.assumptions.cap_rate), purchase_price_cents: ev.amount_cents ?? 0, purchase_date: `${year}-01-01`, land_pct: 0.3, value: ev.amount_cents ?? 0, debt: ev.debt_cents ?? 0, noi: roundCents((ev.amount_cents ?? 0) * req.assumptions.cap_rate), basis: roundCents((ev.amount_cents ?? 0) * 0.7), acc: 0, active: true, rate: ev.rate ?? 0.065 });
           cash -= (ev.amount_cents ?? 0) - (ev.debt_cents ?? 0);
         }
         const target = props.find((p) => p.active && p.nickname === ev.property_ref);

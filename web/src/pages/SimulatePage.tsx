@@ -13,10 +13,10 @@ const $ = (d: number) => Math.round(d * 100);
 
 /** Seeded with the Okafor-Lindqvist portfolio (values, debt, NOI before debt service). */
 const SEED_PROPERTIES: SimulationProperty[] = [
-  { nickname: 'Maple duplex', property_type: 'multifamily', current_value_cents: $(620_000), debt_cents: $(146_212), noi_cents: $(25_960), purchase_price_cents: $(285_000), purchase_date: '2012-05-15', land_pct: 0.6 },
-  { nickname: 'Tahoe cabin', property_type: 'vacation_str', current_value_cents: $(725_000), debt_cents: $(359_410), noi_cents: $(3_020), purchase_price_cents: $(540_000), purchase_date: '2019-08-01', land_pct: 0.7 },
-  { nickname: 'Elm SFR', property_type: 'sfr', current_value_cents: $(640_000), debt_cents: $(457_500), noi_cents: $(25_826), purchase_price_cents: $(610_000), purchase_date: '2024-06-14', land_pct: 0.7 },
-  { nickname: 'Oak condo', property_type: 'sfr', current_value_cents: $(455_000), debt_cents: $(85_000), noi_cents: $(12_304), purchase_price_cents: $(310_000), purchase_date: '2015-03-10', land_pct: 0.7 },
+  { nickname: 'Maple duplex', property_type: 'multifamily', current_value_cents: $(620_000), debt_cents: $(146_212), noi_cents: $(25_960), purchase_price_cents: $(285_000), purchase_date: '2012-05-15', land_pct: 0.4 },
+  { nickname: 'Tahoe cabin', property_type: 'vacation_str', current_value_cents: $(725_000), debt_cents: $(359_410), noi_cents: $(3_020), purchase_price_cents: $(540_000), purchase_date: '2019-08-01', land_pct: 0.3 },
+  { nickname: 'Elm SFR', property_type: 'sfr', current_value_cents: $(640_000), debt_cents: $(457_500), noi_cents: $(25_826), purchase_price_cents: $(610_000), purchase_date: '2024-06-14', land_pct: 0.3 },
+  { nickname: 'Oak condo', property_type: 'sfr', current_value_cents: $(455_000), debt_cents: $(85_000), noi_cents: $(12_304), purchase_price_cents: $(310_000), purchase_date: '2015-03-10', land_pct: 0.3 },
 ];
 
 const SEED_EVENTS: SimulationEvent[] = [

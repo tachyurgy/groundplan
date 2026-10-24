@@ -408,8 +408,8 @@
         "land_pct": "0.70"
       },
       "expected": {
-        "basis_cents": 16000000,
-        "land_pct": "0.60",
+        "basis_cents": 24000000,
+        "land_pct": "0.40",
         "bounded": true
       },
       "hand_checked": [

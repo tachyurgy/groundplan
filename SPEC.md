@@ -46,7 +46,7 @@ Household      id, advisor_id, name, filing_status (single|mfj|mfs|hoh), state (
                goal (text, e.g. "retire in 7 years, stop managing property"), notes
 Property       id, household_id, nickname, address_line1, city, state, zip, property_type
                (sfr|multifamily|vacation_str|commercial|land|self_rental|other), units,
-               purchase_date, purchase_price_cents, placed_in_service_date, land_pct (0.6..0.8 default 0.70),
+               purchase_date, purchase_price_cents, placed_in_service_date, land_pct (LAND share, bounded 0.20..0.40 = improvements 60-80%, default 0.30),
                improvements_cents (capital improvements added to basis), cost_seg_study (bool),
                current_value_cents, value_source (estimated|confirmed), value_as_of,
                appreciation_rate, rent_growth_rate, expense_growth_rate, vacancy_rate, mgmt_fee_rate,
@@ -97,7 +97,7 @@ May 2.273, Jun 1.970, Jul 1.667, Aug 1.364, Sep 1.061, Oct 0.758, Nov 0.455, Dec
 year 28 = remainder (table: 1.970 for Jan ... ). Implement from the table, and also a "simple" mode (basis/27.5 full
 years) with a flag, defaulting to the table. Nonresidential = 39-yr mid-month (first-year by month: Jan 2.461, Feb 2.247,
 Mar 2.033, Apr 1.819, May 1.605, Jun 1.391, Jul 1.177, Aug 0.963, Sep 0.749, Oct 0.535, Nov 0.321, Dec 0.107; then 2.564%).
-Depreciable basis = (purchase_price + improvements) × (1 - land_pct), land_pct bounded to [0.60, 0.80] with a note when
+Depreciable basis = (purchase_price + improvements) × (1 - land_pct), land_pct (land share) bounded to [0.20, 0.40] with a note when
 bounded; default 0.70. Accumulated depreciation through end of year Y-1 for sale in Y. "Allowed or allowable": if a ledger
 says less was claimed than allowable, recapture still uses allowable (flag it as a Finding kind=outlier).
 Cost-seg / bonus: if `cost_seg_study` or ledger method=bonus, the ledger amounts override the table and the bonus

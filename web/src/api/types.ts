@@ -67,7 +67,7 @@ export interface Property {
   purchase_date: ISODate;
   purchase_price_cents: Cents;
   placed_in_service_date: ISODate;
-  land_pct: Rate; // 0.60..0.80, default 0.70
+  land_pct: Rate; // LAND share 0.20..0.40 (improvements 60-80%), default 0.30
   improvements_cents: Cents;
   cost_seg_study: boolean;
   current_value_cents: Cents;

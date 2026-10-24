@@ -9,7 +9,7 @@ months remaining in the year (so a property placed in service in October gets 3/
 Depreciable basis = (purchase_price + improvements) x (1 - land_pct).
 DEVIATION FROM SPEC: the spec writes land_pct "0.6..0.8 default 0.70" while its own worked example (d) needs a
 $400k purchase to yield a $280k basis (land = 30%). Real land shares run 20-60% (high-cost CA lots at the top), so land_pct is bounded to
-[0.20, 0.60], default 0.30, with a Figure note whenever the bound bites.
+[0.20, 0.40] (= improvements bounded 60-80%, as the target product documents), default 0.30, with a Figure note whenever the bound bites.
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from decimal import Decimal
 from groundplan.engine.figure import D, Figure, Input, cents, derive_status, money, pct
 
 LAND_PCT_MIN = Decimal("0.20")
-LAND_PCT_MAX = Decimal("0.60")
+LAND_PCT_MAX = Decimal("0.40")
 LAND_PCT_DEFAULT = Decimal("0.30")
 
 # First-year percentage by month placed in service (1..12), Pub 946 Table A-6 (27.5-yr, mid-month).
