@@ -173,6 +173,20 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
    `figure`, `document_id`/`bbox`, `label`, `roe_rate`, `dst_yield`), they are emitted. Source type `figure`
    marks a computed input.
 
+## GP_ENGINE=go: the strangler migration to the Go engine
+
+`services/engine_proxy.py` + `engine/wire.py`. With `GP_ENGINE=go` (and `GP_ENGINE_GO_URL`, default
+`http://gp-go-api:8080`) the API still owns the DB, tenancy, provenance and presentation, but the pure engine calls
+cross the wire: `POST {url}/engine/analyze {property, household, year, horizon}` and
+`POST {url}/engine/strategies {property, household, assumptions}` (PropertyModel / HouseholdModel /
+StrategyAssumptions as JSON: Decimal -> string, date -> ISO, tax-year keys -> strings, per-field provenance `Input`s
+included). This API serves the same two endpoints as the reference implementation. Any failure (connect, 1 s connect
+timeout, 5 s read timeout, non-200, bad JSON) falls back to the Python engine and logs `engine_go_fallback`, then skips
+Go for 30 s (breaker). Analysis results are also diffed on every `*_cents` field (`engine_go_diff` log line) while Go's
+answer is served. `X-Engine: go|python` on `/analysis` and `/strategies` says which engine answered; `/meta.engine`
+says which is configured. `tests/test_engine_proxy.py` forwards to this app's own `/engine/*` on a real uvicorn and
+asserts byte-identical JSON for every demo property, then kills the target and asserts the fallback.
+
 ## What is stubbed
 
 * Alerts are computed on the fly (`/alerts`), not persisted or scheduled. The `alerts` table exists.
@@ -184,7 +198,7 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
 
 1. Postgres RLS policies keyed on `current_setting('app.advisor_id')`, so a missed `scoped()` cannot leak.
 2. The async document worker (SQS + Fargate) with idempotency keys on sha256.
-3. Wire the `GP_ENGINE=go` proxy and run both engines in shadow mode, diffing cents per request.
+3. Shadow mode for strategies too (run both, serve one, diff), and a per-workspace engine switch.
 4. Persist alerts with a daily job; email/CRM hooks.
 5. State tables: indexing updates per year, local taxes (NYC, MD counties), more partial-exclusion states.
 6. Property-level tax modeling over the hold period (annual income tax on cash flow, passive-loss usage per year).

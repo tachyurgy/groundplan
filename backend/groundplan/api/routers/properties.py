@@ -90,9 +90,10 @@ def _strip_private(an: dict) -> dict:
 
 @router.get("/properties/{property_id}/analysis",
             description="Overrides as query params: " + ", ".join(svc.ANALYSIS_OVERRIDES))
-def property_analysis(property_id: str, request: Request, year: int | None = Query(None, ge=1990, le=2100),
+def property_analysis(property_id: str, request: Request, response: Response, year: int | None = Query(None, ge=1990, le=2100),
                       horizon: int = Query(10, ge=1, le=40), c: Ctx = Depends()):
     p, (an, _, _) = _analysis(c, property_id, request, year, horizon)
+    response.headers["X-Engine"] = an.get("_engine", "python")
     out = _strip_private(an)
     out["property"] = svc.property_dict(p)
     loans = {ln.id: svc.loan_dict(ln) for ln in p.loans}
@@ -122,11 +123,14 @@ def property_figure(property_id: str, key: str, request: Request, year: int | No
 
 @router.get("/properties/{property_id}/strategies",
             description="Overrides as query params: " + ", ".join(svc.STRATEGY_OVERRIDES))
-def property_strategies(property_id: str, request: Request, horizon: int = Query(10, ge=1, le=40), c: Ctx = Depends()):
+def property_strategies(property_id: str, request: Request, response: Response, horizon: int = Query(10, ge=1, le=40),
+                        c: Ctx = Depends()):
     p = c.property(property_id)
     params = {k: request.query_params.get(k) for k in svc.STRATEGY_OVERRIDES}
     try:
-        return svc.strategies(c.s, p, c.aid, horizon, params)
+        r = svc.strategies(c.s, p, c.aid, horizon, params)
+        response.headers["X-Engine"] = r.pop("_engine", "python")
+        return r
     except (ValueError, ArithmeticError) as e:
         raise Problem(422, "Invalid strategy assumption", str(e)) from e
 

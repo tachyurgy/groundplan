@@ -2238,6 +2238,90 @@
           }
         }
       }
+    },
+    "/engine/analyze": {
+      "post": {
+        "tags": [
+          "engine (internal wire API)"
+        ],
+        "summary": "Pure engine: PropertyModel + HouseholdModel -> analysis JSON",
+        "operationId": "engine_analyze_engine_analyze_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Body",
+                "description": "{property, household, year, horizon} in the wire format"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/engine/strategies": {
+      "post": {
+        "tags": [
+          "engine (internal wire API)"
+        ],
+        "summary": "Pure engine: PropertyModel + HouseholdModel + StrategyAssumptions -> comparison JSON",
+        "operationId": "engine_strategies_engine_strategies_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": true,
+                "type": "object",
+                "title": "Body",
+                "description": "{property, household, assumptions} in the wire format"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

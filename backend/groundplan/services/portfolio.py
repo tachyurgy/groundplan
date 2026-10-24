@@ -18,6 +18,7 @@ from groundplan.engine.loans import LoanInput
 from groundplan.engine.models import DEFAULTS, HouseholdModel, PropertyModel
 from groundplan.engine.narrative import generate_narrative
 from groundplan.engine.observations import usd
+from groundplan.services import engine_proxy
 
 # Schedule E line number -> engine input key
 SCHED_E_LINE = {3: "gross_rent_cents", 4: "other_income_cents", 9: "insurance_cents", 11: "mgmt_cents",
@@ -171,6 +172,17 @@ def analyze(s: Session, p: m.Property, advisor_id: str, year: int | None = None,
     applied = apply_overrides(pm, overrides)
     hm = household_model(h)
     an = analyze_property(pm, hm, year or h.tax_year_latest, horizon)
+    an["_engine"] = "python"
+    if engine_proxy.enabled():
+        remote = engine_proxy.analyze(pm, hm, year or h.tax_year_latest, horizon)
+        if remote is not None:
+            from fastapi.encoders import jsonable_encoder
+
+            diff = engine_proxy.cents_diff(jsonable_encoder({k: v for k, v in an.items() if not k.startswith("_")}), remote)
+            if diff:
+                engine_proxy.log.warning("engine_go_diff property=%s n=%d first=%s", p.id, len(diff), diff[:5])
+            an.update(remote)  # serve the Go engine's numbers; Python keeps provenance internals + observations
+            an["_engine"] = "go"
     an["overrides_applied"] = applied
     ctx = obs.property_context(p.nickname, an, pm, DEFAULTS["reinvest_rate"], date(an["year"] + 1, 1, 1))
     an["observations"] = [_obs_api(o, i) for i, o in enumerate(obs.evaluate(ctx, "property", p.id))]
@@ -414,7 +426,10 @@ def strategies(s: Session, p: m.Property, advisor_id: str, horizon: int = 10, pa
     a = StrategyAssumptions(horizon_years=horizon, appreciation_rate=params.get("appreciation_rate"),
                             rent_growth=params.get("rent_growth"), expense_growth=params.get("expense_growth"),
                             reinvest_rate=str(params.get("reinvest_rate", DEFAULTS["reinvest_rate"])), exchange=x)
-    r = present(compare_strategies(pm, hm, a), base, reason)
+    raw = engine_proxy.strategies(pm, hm, a) if engine_proxy.enabled() else None
+    engine = "go" if raw is not None else "python"
+    r = present(raw if raw is not None else compare_strategies(pm, hm, a), base, reason)
+    r["_engine"] = engine
     r["assumptions"]["exchange"] = {"replacement_value_cents": r["paths"][2]["terminal"]["replacement_value_cents"],
                                     "replacement_debt_cents": r["paths"][2]["terminal"]["replacement_debt_cents"],
                                     "dst": x.dst, "load_rate": float(x.load_rate), "dst_yield": float(x.dst_yield),

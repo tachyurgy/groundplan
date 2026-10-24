@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from groundplan import __version__
 from groundplan.api import problems
-from groundplan.api.routers import documents, households, misc, properties, workspace
+from groundplan.api.routers import documents, engine, households, misc, properties, workspace
 from groundplan.config import get_settings
 
 API_PREFIX = "/api/v1"
@@ -74,6 +74,7 @@ def create_app() -> FastAPI:
     problems.install(app)
     for r in (workspace.router, misc.router, households.router, properties.router, documents.router):
         app.include_router(r, prefix=API_PREFIX)
+    app.include_router(engine.router)  # /engine/analyze, /engine/strategies: the wire API the Go port also serves
     return app
 
 
