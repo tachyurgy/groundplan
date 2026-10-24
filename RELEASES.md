@@ -1,5 +1,19 @@
 # Groundplan releases
 
+## 2026-10-23 (late) — Python engine: three calculation fixes (gp-python-api 0dd3906b9b7a)
+- **What deployed:** gp-python-api on Box B (https://gp-python-api.levelbrook.com), image built from commit 0dd3906.
+- **Changed:** loans table back-filled year no longer doubles the year-end balance (Maple 2025 row $294,074.78 ->
+  $147,037.39 = equity total debt); 1031 cash boot after the tax on boot is invested at the reinvest rate and counted in
+  terminal wealth, default replacement value = rolled equity + replacement debt (Maple 10y, $50k cash out: $587,141.31 ->
+  $568,582.50, now below the no-cash $580,602.21); released suspended losses credit the ordinary tax they save
+  (new Figure `exit_tax.released_loss_benefit`; Maple sell-now tax $96,600.26 -> $92,155.66). New golden cases (GOLDEN commit);
+  /meta now reports the git sha instead of 0.1.0. The Go engine is not ported yet, so Python/Go parity diverges on these
+  figures until it is.
+- **How:** tar backend/ pipeline/ fixtures/ infra/ -> /root/groundplan/src-py, `docker build -f infra/Dockerfile.api
+  --build-arg GP_GIT_SHA=<sha>`, `docker run` on the kamal network (256m), builder prune.
+- **Verified:** pytest 130 passed, ruff clean; live /meta version 0dd3906b9b7a; fresh workspace Maple loans row, sell tax and
+  1031 terminal wealth with `cash_taken_cents=5000000` show the numbers above.
+
 ## 2026-10-23 (night) — Front ends live: gp-python.levelbrook.com and gp-go.levelbrook.com
 - **What deployed:** Cloudflare Pages projects `gp-python` and `gp-go`, the same React build twice (VITE_STACK), each
   proxying `/api/*` to its backend through a Pages Function. Live: https://gp-python.levelbrook.com,
