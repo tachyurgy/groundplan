@@ -28,16 +28,15 @@ const (
 )
 
 type spec struct {
-	name      string
-	k         kind
-	required  bool
-	nullable  bool
-	def       any // default when absent (model_dump includes it)
-	choices   []string
-	minLen    int
-	maxLen    int
-	ge, le    *float64
-	hasDefNil bool
+	name     string
+	k        kind
+	required bool
+	nullable bool
+	def      any // default when absent (model_dump includes it)
+	choices  []string
+	minLen   int
+	maxLen   int
+	ge, le   *float64
 }
 
 func f(v float64) *float64 { return &v }
@@ -103,26 +102,6 @@ func (p *parsed) datep(k string) *time.Time {
 		return &v
 	}
 	return nil
-}
-
-func typeName(v any) string {
-	switch v.(type) {
-	case nil:
-		return "NoneType"
-	case string:
-		return "str"
-	case int64:
-		return "int"
-	case jsonx.Float:
-		return "float"
-	case bool:
-		return "bool"
-	case []any:
-		return "list"
-	case *jsonx.Obj:
-		return "dict"
-	}
-	return "object"
 }
 
 var boolTrue = map[string]bool{"1": true, "on": true, "t": true, "true": true, "y": true, "yes": true}

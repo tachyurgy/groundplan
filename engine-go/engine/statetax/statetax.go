@@ -166,7 +166,7 @@ func ExitTax(state string, gainCents, otherIncomeCents int64, fs string, replace
 	other := dec.I(otherIncomeCents)
 	tax := TaxOnCents(other.Add(taxableGain), r, fs).Sub(TaxOnCents(other, r, fs))
 	tax = dec.Max(dec.Zero, tax)
-	if replacementState != nil && *replacementState != "" && strings.ToUpper(*replacementState) != strings.ToUpper(state) &&
+	if replacementState != nil && *replacementState != "" && !strings.EqualFold(*replacementState, state) &&
 		inClawback(strings.ToUpper(state)) {
 		findings = append(findings, jsonx.O("kind", "info", "field", "exchange.replacement_state", "severity", "info",
 			"message", fmt.Sprintf("%s is a clawback state: deferred gain on an out-of-state 1031 replacement "+

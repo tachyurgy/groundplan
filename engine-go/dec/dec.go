@@ -130,7 +130,25 @@ func (a D) Quo(b D) D {
 	if b.IsZero() {
 		panic(&ArithmeticError{Msg: "[<class 'decimal.DivisionByZero'>]"})
 	}
-	check(Ctx.Quo(&r.v, a.ptr(), b.ptr()))
+	cond, err := Ctx.Quo(&r.v, a.ptr(), b.ptr())
+	check(cond, err)
+	if !cond.Inexact() {
+		// GDA/libmpdec: an exact quotient takes the ideal exponent exp(a) - exp(b), dropping trailing zeros
+		ideal := a.v.Exponent - b.v.Exponent
+		ten := apd.NewBigInt(10)
+		var q, rem apd.BigInt
+		for r.v.Exponent < ideal && !(r.v.Coeff.Sign() == 0) {
+			q.QuoRem(&r.v.Coeff, ten, &rem)
+			if rem.Sign() != 0 {
+				break
+			}
+			r.v.Coeff.Set(&q)
+			r.v.Exponent++
+		}
+		if (r.v.Coeff.Sign() == 0) && r.v.Exponent < ideal {
+			r.v.Exponent = ideal
+		}
+	}
 	return r
 }
 
