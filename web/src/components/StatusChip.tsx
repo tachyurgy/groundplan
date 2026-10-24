@@ -16,10 +16,10 @@ export function StatusChip({ status, compact = false, title }: { status: FigureS
       title={tip}
       data-testid="status-chip"
       data-status={status}
-      className={`inline-flex shrink-0 items-center gap-1 rounded-full px-1.5 py-px text-[10.5px] font-semibold uppercase tracking-wide ring-1 ring-inset ${STATUS_CLASS[status]}`}
+      className={`inline-flex shrink-0 items-center gap-1 rounded-full ${compact ? 'px-1.5 text-[9.5px]' : 'px-2 text-[10.5px]'} py-px font-semibold uppercase tracking-wide ring-1 ring-inset ${STATUS_CLASS[status]}`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${DOT[status]}`} aria-hidden />
-      {compact ? STATUS_LABEL[status].slice(0, 4) : STATUS_LABEL[status]}
+      {STATUS_LABEL[status]}
     </span>
   );
 }

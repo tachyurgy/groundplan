@@ -22,7 +22,7 @@ export function FigureValue({ figure, signed = false, compact = false, chip = fa
   const blocked = figure.status === 'blocked';
   const text = display ?? (compact ? formatCentsCompact(figure.value_cents) : formatCents(figure.value_cents));
   return (
-    <span className={`inline-flex items-center gap-1.5 ${className}`}>
+    <span className={`inline-flex flex-wrap items-center gap-x-1.5 gap-y-0.5 ${className}`}>
       <button
         type="button"
         data-testid="figure"
@@ -42,8 +42,8 @@ export function FigureValue({ figure, signed = false, compact = false, chip = fa
 export function FigureRow({ label, figure, signed, strong, indent, display }: { label: string; figure: Figure | null | undefined; signed?: boolean; strong?: boolean; indent?: boolean; display?: string }) {
   return (
     <div className={`flex items-baseline justify-between gap-3 py-1 ${strong ? 'border-t border-ink-200 pt-1.5 font-semibold' : ''}`}>
-      <span className={`text-sm ${indent ? 'pl-3 text-ink-500' : 'text-ink-700'}`}>{label}</span>
-      <span className="flex items-center gap-2">
+      <span className={`min-w-0 text-sm ${indent ? 'pl-3 text-ink-500' : 'text-ink-700'}`}>{label}</span>
+      <span className="flex shrink-0 items-center gap-2">
         {figure && <StatusChip status={figure.status} compact />}
         <FigureValue figure={figure} signed={signed} display={display} />
       </span>

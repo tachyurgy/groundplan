@@ -39,7 +39,8 @@ import type {
   FactSheetRow,
   FigureStatus,
 } from '../types';
-import { deriveStatus } from '../../lib/status';
+import { deriveStatus, rollupStatus } from '../../lib/status';
+import { formatCents } from '../../lib/money';
 
 // ---------------------------------------------------------------------------
 // helpers
@@ -542,7 +543,7 @@ export function exitTax(
   };
 }
 
-const fmtD = (d: number) => d.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const fmtD = (d: number) => formatCents(Math.round(d * 100));
 
 // ---------------------------------------------------------------------------
 // §2.10 observations (rule table)
@@ -790,6 +791,18 @@ export function strategies(ctx: EngineContext, horizon: number, a: ScenarioAssum
   };
 
   const paths = [hold, sell, exchange];
+  // Every path is built on the same property analysis: a strategy figure can never be more certain than
+  // the value / cash flow / exit tax it starts from (a projection input is not a document).
+  const baseStatus = rollupStatus([base.equity.value, base.cash_flow.net_cash_flow, base.exit_tax.exit_tax_total, base.equity.total_debt]);
+  const lift = (f: Figure) => {
+    f.status = rollupStatus([f.status, baseStatus]);
+    if (!f.inputs.some((i) => i.key === 'analysis.base')) f.inputs.push({ key: 'analysis.base', value: baseStatus, source: { type: 'manual', ref: 'property analysis (value, cash flow, exit tax)' }, label: `Base analysis status: ${baseStatus}` });
+  };
+  for (const p of paths) {
+    Object.values(p.terminal).forEach(lift);
+    if (p.boot) Object.values(p.boot).forEach(lift);
+    p.proceeds_use?.forEach((u) => lift(u.value));
+  }
   const matrix = buildMatrix(paths, ex.dst);
   return {
     property_id: p.id,

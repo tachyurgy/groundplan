@@ -68,9 +68,9 @@ export function ReportsPage() {
       />
       <HouseholdNav id={id} />
       <div className="grid gap-5 xl:grid-cols-[1.1fr_1fr]">
-        <Card title="Report preview" actions={<span className="text-xs text-ink-500">client-ready; generated on the fly, not stored</span>}>
-          <div className="mx-auto max-w-[680px] rounded-sm bg-white px-6 py-6 ring-1 ring-ink-200">
-            <div className="flex items-baseline justify-between border-b-2 border-ink-950 pb-2">
+        <Card title="Report preview" actions={<span className="hidden text-xs text-ink-500 sm:inline">client-ready; generated on the fly, not stored</span>}>
+          <div className="mx-auto max-w-[680px] rounded-sm bg-white px-3 py-4 ring-1 ring-ink-200 sm:px-6 sm:py-6">
+            <div className="flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-ink-950 pb-2">
               <div>
                 <div className="label">Real estate portfolio review</div>
                 <div className="text-xl font-semibold tracking-tight">{d.household.name} household</div>
@@ -99,7 +99,7 @@ export function ReportsPage() {
                 </div>
               ))}
             </div>
-            <table className="tbl mt-5">
+            <div className="mt-5 overflow-x-auto"><table className="tbl">
               <thead>
                 <tr>
                   <th>Property</th>
@@ -129,7 +129,7 @@ export function ReportsPage() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table></div>
             <h3 className="mt-5">Observations</h3>
             <ul className="mt-1 space-y-1">
               {d.observations.slice(0, 6).map((o) => (

@@ -34,7 +34,7 @@
 
 @layer components {
   .card {
-    @apply rounded-md bg-white shadow-card;
+    @apply min-w-0 rounded-md bg-white shadow-card;
   }
   .card-head {
     @apply flex items-center justify-between gap-3 border-b border-ink-100 px-4 py-2.5;
@@ -79,7 +79,7 @@
     @apply bg-ink-50/70;
   }
   .figure-btn {
-    @apply num cursor-pointer rounded-sm px-0.5 underline decoration-ink-200 decoration-dotted underline-offset-[3px] hover:bg-brand-50 hover:decoration-brand-500;
+    @apply num cursor-pointer whitespace-nowrap rounded-sm px-0.5 underline decoration-ink-200 decoration-dotted underline-offset-[3px] hover:bg-brand-50 hover:decoration-brand-500;
   }
 }
 

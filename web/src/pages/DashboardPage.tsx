@@ -12,6 +12,15 @@ import { FILING_LABEL, PROPERTY_TYPE_LABEL, formatDate, formatDateTime, titleCas
 import { formatCents, formatRate, signClass } from '../lib/money';
 import { rollupStatus } from '../lib/status';
 
+const ALERT_LABEL: Record<string, string> = {
+  arm_reset: 'ARM reset',
+  io_period_ending: 'Interest-only period ends',
+  cash_flow_negative: 'Negative cash flow',
+  value_drift: 'Stale value',
+  loan_maturity: 'Loan maturity',
+  roe_below_threshold: 'Low return on equity',
+};
+
 function PropertyCardView({ c, householdId }: { c: PropertyCard; householdId: string }) {
   const p = c.property;
   return (
@@ -42,7 +51,7 @@ function PropertyCardView({ c, householdId }: { c: PropertyCard; householdId: st
           ).map(([k, v]) => (
             <div key={k} className="min-w-0">
               <dt className="label">{k}</dt>
-              <dd className="mt-0.5">{v}</dd>
+              <dd className="mt-0.5 min-w-0">{v}</dd>
             </div>
           ))}
         </dl>
@@ -97,7 +106,7 @@ export function DashboardPage() {
             <div key={a.id} className="flex min-w-[260px] max-w-[340px] shrink-0 items-start gap-2 rounded border border-ink-200 bg-white px-3 py-2 text-xs shadow-sm">
               <span className="num mt-px shrink-0 rounded bg-ink-100 px-1.5 py-px text-[10.5px] font-semibold text-ink-700">{formatDate(a.due_date)}</span>
               <span>
-                <span className="font-semibold text-ink-900">{titleCase(a.kind)}.</span> <span className="text-ink-700">{a.message}</span>
+                <span className="font-semibold text-ink-900">{ALERT_LABEL[a.kind] ?? titleCase(a.kind)}.</span> <span className="text-ink-700">{a.message}</span>
               </span>
             </div>
           ))}

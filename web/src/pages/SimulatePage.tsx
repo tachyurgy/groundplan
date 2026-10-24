@@ -240,7 +240,7 @@ export function SimulatePage() {
                     </ResponsiveContainer>
                   </div>
                 </Card>
-                <Card title="Equity vs debt (median path)">
+                <Card title="Equity vs debt (one seeded run)">
                   <div className="h-52">
                     <ResponsiveContainer>
                       <AreaChart data={data} margin={{ top: 4, right: 8, left: 8, bottom: 0 }}>

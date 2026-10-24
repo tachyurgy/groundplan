@@ -144,7 +144,7 @@ function StrategiesView({ id }: { id: string }) {
               </Card>
             )}
             <Card title="What the proceeds do">
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-4">
                 {s.paths
                   .filter((p) => p.proceeds_use)
                   .map((p) => (
