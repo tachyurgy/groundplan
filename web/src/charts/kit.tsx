@@ -89,7 +89,7 @@ export function Legend({ items }: { items: LegendItem[] }) {
 
 export interface TableSpec {
   columns: { key: string; label: string; money?: boolean; align?: 'left' | 'right' }[];
-  rows: Record<string, ReactNode | number>[];
+  rows: Record<string, unknown>[];
 }
 
 export function ChartFrame({
@@ -150,7 +150,7 @@ export function ChartFrame({
                 <tr key={i}>
                   {table.columns.map((c) => (
                     <td key={c.key} className={`${c.money || c.align === 'right' ? 'r num' : ''}`}>
-                      {c.money && typeof r[c.key] === 'number' ? formatCents(r[c.key] as number) : (r[c.key] as ReactNode)}
+                      {c.money && typeof r[c.key] === 'number' ? formatCents(r[c.key] as number) : (r[c.key] as ReactNode) ?? '—'}
                     </td>
                   ))}
                 </tr>

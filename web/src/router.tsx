@@ -86,7 +86,7 @@ export const strategiesRoute = createRoute({
   path: '/properties/$propertyId/strategies',
   validateSearch: strategiesSearch,
   loader: ({ context, params }) =>
-    Promise.all([context.queryClient.ensureQueryData(strategiesQuery(params.propertyId, { horizon: 10 })), context.queryClient.ensureQueryData(analysisQuery(params.propertyId, {}))]),
+    Promise.all([context.queryClient.ensureQueryData(strategiesQuery(params.propertyId, {})), context.queryClient.ensureQueryData(analysisQuery(params.propertyId, {}))]),
   component: page(() => import('./pages/StrategiesPage'), 'StrategiesPage'),
   pendingComponent: () => <PageSkeleton kind="split" />,
   errorComponent: RouteError,

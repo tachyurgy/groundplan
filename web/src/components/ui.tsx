@@ -60,13 +60,13 @@ export const TabPanel = RTabs.Content;
 
 export function PageHeader({ back, title, children, actions }: { back?: ReactNode; title: ReactNode; children?: ReactNode; actions?: ReactNode }) {
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-x-4 gap-y-3">
+    <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-x-4">
       <div className="min-w-0 flex-1">
         {back && <div className="mb-1.5 text-sm">{back}</div>}
         <h1 className="break-words">{title}</h1>
         {children && <div className="mt-1.5 max-w-[72ch] text-sm leading-relaxed text-ink-500">{children}</div>}
       </div>
-      {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
+      {actions && <div className="flex flex-wrap items-center gap-2 [&>*]:flex-1 sm:[&>*]:flex-none">{actions}</div>}
     </div>
   );
 }

@@ -65,7 +65,7 @@ export function BracketFill({ ordinary, l1245, l1250, ltcg }: { ordinary: number
           </text>
         </svg>
       )}
-      <ul className="mt-1 grid gap-x-6 gap-y-1 text-xs text-ink-700 sm:grid-cols-2">
+      <ul className="mt-2 mb-1 grid gap-x-6 gap-y-1 text-xs text-ink-700 sm:grid-cols-2">
         {slices
           .filter((s) => s.rate !== undefined)
           .map((s, i) => (
