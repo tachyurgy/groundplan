@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { http, HttpResponse } from 'msw';
 import { api, ApiError, ContractError } from '../api/client';
-import { AnalysisSchema, DashboardSchema, StrategiesSchema } from '../api/schemas';
+import { AnalysisSchema, DashboardSchema, Figure, StrategiesSchema } from '../api/schemas';
 import { server } from './server';
 
 const HH = 'hh_okafor_lindqvist';
@@ -28,6 +28,14 @@ describe('API contract (Zod at the boundary)', () => {
     asStrings.property.vacancy_rate = '0.050000';
     const parsed = AnalysisSchema.parse(asStrings);
     expect(parsed.property.vacancy_rate).toBe(0.05);
+  });
+
+  it('ratio figures (DSCR) arrive with value_cents null and are normalized once', () => {
+    const f = { key: 'loans.dscr', value_cents: null, value: '0.7633', unit: 'ratio', status: 'confirmed', inputs: [], formula: 'NOI / debt service', notes: [] };
+    const parsed = Figure.parse(f);
+    expect(parsed.ratio).toBeCloseTo(0.7633);
+    expect(parsed.value_cents).toBe(76);
+    expect(() => Figure.parse({ ...f, unit: 'cents' })).toThrow();
   });
 
   it('a renamed field is a ContractError naming the path, never NaN on screen', async () => {

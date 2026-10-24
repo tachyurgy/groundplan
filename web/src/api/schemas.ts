@@ -23,6 +23,8 @@ export interface FigureT {
   notes: string[];
   label?: string | null;
   unit?: string | null;
+  /** set for unit 'ratio' figures (DSCR): the API sends value_cents null and the ratio in `value` */
+  ratio?: number | null;
 }
 export interface FigureInputT {
   key: string;
@@ -52,8 +54,21 @@ export const FigureInput: z.ZodType<FigureInputT> = z.lazy(() =>
   }),
 );
 
+/**
+ * Ratio figures (DSCR) carry `value_cents: null` and the ratio as a Decimal string in `value`.
+ * Normalize once here: `ratio` holds the number and value_cents holds ratio × 100 so sorting and
+ * charts keep working; anything else with a null value_cents is still a contract error.
+ */
+const ratioFix = (raw: unknown) => {
+  if (raw && typeof raw === 'object' && (raw as { value_cents?: unknown }).value_cents === null && (raw as { unit?: unknown }).unit === 'ratio') {
+    const r = Number((raw as { value?: unknown }).value);
+    if (Number.isFinite(r)) return { ...(raw as object), value_cents: Math.round(r * 100), ratio: r };
+  }
+  return raw;
+};
+
 export const Figure: z.ZodType<FigureT> = z.lazy(() =>
-  z.looseObject({
+  z.preprocess(ratioFix, z.looseObject({
     key: z.string(),
     value_cents: cents,
     status,
@@ -62,7 +77,8 @@ export const Figure: z.ZodType<FigureT> = z.lazy(() =>
     notes: z.array(z.string()).default([]),
     label: z.string().nullish(),
     unit: z.string().nullish(),
-  }),
+    ratio: z.number().nullish(),
+  })),
 );
 
 const Property = z.looseObject({

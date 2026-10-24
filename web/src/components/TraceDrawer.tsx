@@ -144,7 +144,7 @@ export default function TraceDrawer() {
             </div>
             <div className="mt-3 flex flex-wrap items-center gap-3">
               <span data-testid="trace-value" className={`num text-2xl font-medium ${signClass(f.value_cents)} ${f.status === 'blocked' ? 'line-through decoration-blk-600' : ''}`}>
-                {formatCents(f.value_cents, { exact: true })}
+                {f.unit === 'ratio' ? (f.ratio ?? f.value_cents / 100).toFixed(2) : formatCents(f.value_cents, { exact: true })}
               </span>
               <StatusChip status={f.status} />
               {remote.isFetching && <span className="text-[11px] text-ink-500">loading full tree…</span>}

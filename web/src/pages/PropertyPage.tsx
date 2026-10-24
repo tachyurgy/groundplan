@@ -486,7 +486,7 @@ function LoanBlock({ l, narrow }: { l: LoanSummaryT; narrow: boolean }) {
             Debt service <FigureValue figure={l.annual_debt_service} />
           </span>
           <span>
-            DSCR <FigureValue figure={l.dscr} display={(l.dscr.value_cents / 100).toFixed(2)} />
+            DSCR <FigureValue figure={l.dscr} display={(l.dscr.ratio ?? l.dscr.value_cents / 100).toFixed(2)} />
           </span>
           {l.loan.maturity_date && <span>Matures {formatDate(l.loan.maturity_date)}</span>}
         </div>

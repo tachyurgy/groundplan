@@ -175,7 +175,7 @@ export interface Document {
   bytes_retained: false;
 }
 
-export type FieldUnit = 'cents' | 'date' | 'text' | 'bool' | 'rate';
+export type FieldUnit = 'cents' | 'date' | 'text' | 'bool' | 'rate' | 'ratio';
 export type ExtractorKind = 'rules' | 'ocr' | 'llm';
 export type EntityHint = 'household' | 'property';
 
@@ -260,6 +260,7 @@ export interface Figure {
   notes: string[];
   label?: string;
   unit?: FieldUnit;
+  ratio?: number;
 }
 
 export interface ExchangeAssumptions {

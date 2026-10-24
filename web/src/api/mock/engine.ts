@@ -461,7 +461,7 @@ export function analyzeProperty(ctx: EngineContext, year: number, horizon: numbe
       annual: years.map((y) => ({ year: y.year, principal_cents: y.principal, interest_cents: y.interest, balance_end_cents: y.balanceEnd, rate: y.rate, marker: y.marker })),
       months,
       months_total: months.length,
-      dscr: fig(blocking, `loan.${loan.id}.dscr`, ads > 0 ? roundCents((noi / ads) * 100) : 0, [figIn(noiFig), inp('annual_debt_service', ads, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents' })], 'NOI / annual debt service (shown ×100 in cents)', [ads > 0 ? `DSCR = ${(noi / ads).toFixed(2)}` : 'No debt service'], 'DSCR'),
+      dscr: { unit: 'ratio' as const, ...fig(blocking, `loan.${loan.id}.dscr`, ads > 0 ? roundCents((noi / ads) * 100) : 0, [figIn(noiFig), inp('annual_debt_service', ads, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents' })], 'NOI / annual debt service', [ads > 0 ? `DSCR = ${(noi / ads).toFixed(2)}` : 'No debt service'], 'DSCR'), ratio: ads > 0 ? noi / ads : 0 },
       annual_debt_service: fig(blocking, `loan.${loan.id}.annual_debt_service`, ads, [inp('loan.monthly_payment', loan.monthly_payment_cents, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents' })], 'Σ monthly payments in year', [], 'Annual debt service'),
       balance_at_year_end: fig(blocking, `loan.${loan.id}.balance_at_year_end`, y0?.balanceEnd ?? 0, [inp('loan.balance', loan.balance_cents, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents', label: `Balance as of ${loan.balance_as_of}` })], 'balance_at(Dec 31) from amortization', [], 'Balance at year end'),
     };
