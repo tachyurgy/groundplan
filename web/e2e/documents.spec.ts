@@ -30,6 +30,12 @@ test('upload the 2025 Schedule E: summary, page image, Maple blocked on a rent c
   await expect(viewer).toContainText('2025_schedule_e.pdf');
   await expect(viewer.locator('[data-testid=pdf-page] canvas')).toBeVisible({ timeout: 20_000 });
   await expect(viewer.locator('[data-testid=pdf-page] button').first()).toBeVisible();
+  await expect(viewer.getByText(/pdf\.js:/)).toHaveCount(0); // the real page rendered, not the schematic fallback
+  // extraction boxes sit inside the rendered page
+  const page_ = await viewer.locator('[data-testid=pdf-page]').boundingBox();
+  const box = await viewer.locator('[data-testid=pdf-page] button').first().boundingBox();
+  expect(box!.x).toBeGreaterThanOrEqual(page_!.x - 1);
+  expect(box!.y + box!.height).toBeLessThanOrEqual(page_!.y + page_!.height + 1);
   await expect(viewer.getByTestId('extracted-fields').locator('li').first()).toBeVisible();
   await shot(page, info, '06-documents-upload');
 

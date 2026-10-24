@@ -4,9 +4,18 @@ import { fileStore } from './fileStore';
 
 const LETTER: [number, number] = [612, 792];
 
+type Viewport = { width: number; height: number; convertToViewportPoint: (x: number, y: number) => number[] };
+
+/** PDF-space box -> canvas pixels. (pdf.js 6 dropped convertToViewportRectangle; two corner points do the same.) */
+function toViewportRect(vp: Viewport, r: number[]): number[] {
+  const [x1, y1] = vp.convertToViewportPoint(r[0], r[1]);
+  const [x2, y2] = vp.convertToViewportPoint(r[2], r[3]);
+  return [x1, y1, x2, y2];
+}
+
 type PdfDoc = { numPages: number; getPage: (n: number) => Promise<PdfPageProxy>; destroy: () => Promise<void> };
 type PdfPageProxy = {
-  getViewport: (o: { scale: number }) => { width: number; height: number; convertToViewportRectangle: (r: number[]) => number[] };
+  getViewport: (o: { scale: number }) => Viewport;
   render: (o: { canvasContext: CanvasRenderingContext2D; canvas: HTMLCanvasElement; viewport: unknown }) => { promise: Promise<void> };
 };
 
@@ -81,8 +90,8 @@ export function PdfPage({ documentId, page, fields, width = 420, highlight, onPi
         if (cancelled) return;
         setSize([base.width, base.height]);
         const m = new Map<string, number[]>();
-        for (const f of fields) m.set(f.id, vp.convertToViewportRectangle(f.bbox));
-        if (focusBox) m.set('__focus', vp.convertToViewportRectangle(focusBox));
+        for (const f of fields) m.set(f.id, toViewportRect(vp, f.bbox));
+        if (focusBox) m.set('__focus', toViewportRect(vp, focusBox));
         setRects(m);
         setErr(null);
       } catch (e) {
