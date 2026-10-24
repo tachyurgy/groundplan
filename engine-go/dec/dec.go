@@ -311,3 +311,6 @@ func Sum(xs ...D) D {
 
 // GoString aids debugging.
 func (a D) GoString() string { return fmt.Sprintf("dec.S(%q)", a.String()) }
+
+// MarshalText lets encoding/json render a decimal as its Python str().
+func (a D) MarshalText() ([]byte, error) { return []byte(a.String()), nil }

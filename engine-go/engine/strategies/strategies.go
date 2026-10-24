@@ -78,6 +78,10 @@ func ints(o *jsonx.Obj, k string) int64 {
 		return v
 	case int:
 		return int64(v)
+	case *int64:
+		if v != nil {
+			return *v
+		}
 	}
 	return 0
 }
