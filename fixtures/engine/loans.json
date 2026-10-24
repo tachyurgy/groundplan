@@ -1,0 +1,347 @@
+{
+  "description": "Monthly amortization: fixed, interest-only, ARM reset, HELOC, balloon, paid-off lien",
+  "rounding": "Decimal exact, ROUND_HALF_UP to the cent once per figure/row",
+  "cases": [
+    {
+      "name": "fixed_30yr_300k_6_5",
+      "fn": "loan_schedule",
+      "input": {
+        "loan_type": "fixed",
+        "balance_cents": 30000000,
+        "balance_as_of": "2024-12-31",
+        "rate": "0.065",
+        "term_months": 360,
+        "years": [
+          2025,
+          2054
+        ],
+        "rows": [
+          1,
+          360
+        ]
+      },
+      "expected": {
+        "months": 360,
+        "first_payment_cents": 189620,
+        "last_balance_cents": 0,
+        "annual": [
+          {
+            "year": 2025,
+            "principal_cents": 335312,
+            "interest_cents": 1940128,
+            "debt_service_cents": 2275440,
+            "balloon_cents": 0,
+            "balance_end_cents": 29664688
+          },
+          {
+            "year": 2054,
+            "principal_cents": 2197751,
+            "interest_cents": 78160,
+            "debt_service_cents": 2275911,
+            "balloon_cents": 0,
+            "balance_end_cents": 0
+          }
+        ],
+        "row1": {
+          "index": 1,
+          "year": 2025,
+          "month": 1,
+          "rate": "0.065",
+          "payment_cents": 189620,
+          "interest_cents": 162500,
+          "principal_cents": 27120,
+          "balance_cents": 29972880,
+          "phase": "amortizing"
+        },
+        "row360": {
+          "index": 360,
+          "year": 2054,
+          "month": 12,
+          "rate": "0.065",
+          "payment_cents": 190091,
+          "interest_cents": 1024,
+          "principal_cents": 189067,
+          "balance_cents": 0,
+          "phase": "amortizing"
+        }
+      },
+      "hand_checked": [
+        "first_payment_cents",
+        "last_balance_cents",
+        "months"
+      ]
+    },
+    {
+      "name": "interest_only_36_then_amortizing",
+      "fn": "loan_schedule",
+      "input": {
+        "loan_type": "interest_only",
+        "balance_cents": 50000000,
+        "balance_as_of": "2024-12-31",
+        "rate": "0.0575",
+        "term_months": 360,
+        "io_months": 36,
+        "years": [
+          2025,
+          2027,
+          2028
+        ],
+        "rows": [
+          36,
+          37
+        ]
+      },
+      "expected": {
+        "first_payment_cents": 239583,
+        "months": 360,
+        "annual": [
+          {
+            "year": 2025,
+            "principal_cents": 0,
+            "interest_cents": 2874996,
+            "debt_service_cents": 2874996,
+            "balloon_cents": 0,
+            "balance_end_cents": 50000000
+          },
+          {
+            "year": 2027,
+            "principal_cents": 0,
+            "interest_cents": 2874996,
+            "debt_service_cents": 2874996,
+            "balloon_cents": 0,
+            "balance_end_cents": 50000000
+          },
+          {
+            "year": 2028,
+            "principal_cents": 796597,
+            "interest_cents": 2854223,
+            "debt_service_cents": 3650820,
+            "balloon_cents": 0,
+            "balance_end_cents": 49203403
+          }
+        ],
+        "row36": {
+          "index": 36,
+          "year": 2027,
+          "month": 12,
+          "rate": "0.0575",
+          "payment_cents": 239583,
+          "interest_cents": 239583,
+          "principal_cents": 0,
+          "balance_cents": 50000000,
+          "phase": "interest_only"
+        },
+        "row37": {
+          "index": 37,
+          "year": 2028,
+          "month": 1,
+          "rate": "0.0575",
+          "payment_cents": 304235,
+          "interest_cents": 239583,
+          "principal_cents": 64652,
+          "balance_cents": 49935348,
+          "phase": "amortizing"
+        }
+      },
+      "hand_checked": [
+        "first_payment_cents",
+        "months"
+      ]
+    },
+    {
+      "name": "arm_7_1_io_reset_2027",
+      "fn": "loan_schedule",
+      "input": {
+        "loan_type": "arm",
+        "balance_cents": 50000000,
+        "balance_as_of": "2024-12-31",
+        "rate": "0.0575",
+        "term_months": 360,
+        "io_months": 30,
+        "arm_reset_date": "2027-07-01",
+        "arm_index": "0.04",
+        "arm_index_margin": "0.0275",
+        "years": [
+          2026,
+          2027,
+          2028
+        ],
+        "rows": [
+          30,
+          31
+        ]
+      },
+      "expected": {
+        "first_payment_cents": 239583,
+        "annual": [
+          {
+            "year": 2026,
+            "principal_cents": 0,
+            "interest_cents": 2874996,
+            "debt_service_cents": 2874996,
+            "balloon_cents": 0,
+            "balance_end_cents": 50000000
+          },
+          {
+            "year": 2027,
+            "principal_cents": 318909,
+            "interest_cents": 3120543,
+            "debt_service_cents": 3439452,
+            "balloon_cents": 0,
+            "balance_end_cents": 49681091
+          },
+          {
+            "year": 2028,
+            "principal_cents": 670940,
+            "interest_cents": 3332968,
+            "debt_service_cents": 4003908,
+            "balloon_cents": 0,
+            "balance_end_cents": 49010151
+          }
+        ],
+        "row30": {
+          "index": 30,
+          "year": 2027,
+          "month": 6,
+          "rate": "0.0575",
+          "payment_cents": 239583,
+          "interest_cents": 239583,
+          "principal_cents": 0,
+          "balance_cents": 50000000,
+          "phase": "interest_only"
+        },
+        "row31": {
+          "index": 31,
+          "year": 2027,
+          "month": 7,
+          "rate": "0.0675",
+          "payment_cents": 333659,
+          "interest_cents": 281250,
+          "principal_cents": 52409,
+          "balance_cents": 49947591,
+          "phase": "arm_reset"
+        },
+        "months": 360
+      },
+      "hand_checked": [
+        "first_payment_cents"
+      ]
+    },
+    {
+      "name": "heloc_interest_only_revolving",
+      "fn": "loan_schedule",
+      "input": {
+        "loan_type": "heloc",
+        "balance_cents": 6000000,
+        "balance_as_of": "2024-12-31",
+        "rate": "0.085",
+        "term_months": 120,
+        "years": [
+          2025,
+          2030
+        ]
+      },
+      "expected": {
+        "first_payment_cents": 42500,
+        "last_balance_cents": 6000000,
+        "annual": [
+          {
+            "year": 2025,
+            "principal_cents": 0,
+            "interest_cents": 510000,
+            "debt_service_cents": 510000,
+            "balloon_cents": 0,
+            "balance_end_cents": 6000000
+          },
+          {
+            "year": 2030,
+            "principal_cents": 0,
+            "interest_cents": 510000,
+            "debt_service_cents": 510000,
+            "balloon_cents": 0,
+            "balance_end_cents": 6000000
+          }
+        ],
+        "months": 120
+      },
+      "hand_checked": [
+        "annual",
+        "first_payment_cents",
+        "last_balance_cents"
+      ]
+    },
+    {
+      "name": "balloon_25yr_amort_5yr_maturity",
+      "fn": "loan_schedule",
+      "input": {
+        "loan_type": "balloon",
+        "balance_cents": 100000000,
+        "balance_as_of": "2024-12-31",
+        "rate": "0.07",
+        "term_months": 300,
+        "maturity_date": "2029-12-31",
+        "years": [
+          2025,
+          2029
+        ]
+      },
+      "expected": {
+        "last_balance_cents": 0,
+        "annual": [
+          {
+            "year": 2025,
+            "principal_cents": 1529811,
+            "interest_cents": 6951537,
+            "debt_service_cents": 8481348,
+            "balloon_cents": 0,
+            "balance_end_cents": 98470189
+          },
+          {
+            "year": 2029,
+            "principal_cents": 2022494,
+            "interest_cents": 6458854,
+            "debt_service_cents": 8481348,
+            "balloon_cents": 91162164,
+            "balance_end_cents": 0
+          }
+        ],
+        "months": 61,
+        "first_payment_cents": 706779
+      },
+      "hand_checked": [
+        "last_balance_cents"
+      ]
+    },
+    {
+      "name": "paid_off_first_lien_contributes_zero",
+      "fn": "loan_schedule",
+      "input": {
+        "loan_type": "fixed",
+        "balance_cents": 0,
+        "balance_as_of": "2024-12-31",
+        "rate": "0.04",
+        "is_paid_off": true,
+        "years": [
+          2025
+        ]
+      },
+      "expected": {
+        "months": 0,
+        "annual": [
+          {
+            "year": 2025,
+            "principal_cents": 0,
+            "interest_cents": 0,
+            "debt_service_cents": 0,
+            "balloon_cents": 0,
+            "balance_end_cents": 0
+          }
+        ]
+      },
+      "hand_checked": [
+        "annual",
+        "months"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,501 @@
+{
+  "description": "MACRS 27.5/39-yr mid-month table by month, year-28 remainder, worked example (d) in both modes, land bounding, allowed-vs-allowable, cost-seg 1245 tagging",
+  "rounding": "Decimal exact, ROUND_HALF_UP to the cent once per figure/row",
+  "cases": [
+    {
+      "name": "residential_27_5_jan",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-01-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "3.485",
+        "first_year_cents": 348500,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 28,
+        "last_year": 2027,
+        "last_year_cents": 197900,
+        "year28_cents": 197900
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_feb",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-02-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "3.182",
+        "first_year_cents": 318200,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 28,
+        "last_year": 2027,
+        "last_year_cents": 228200,
+        "year28_cents": 228200
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_mar",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-03-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "2.879",
+        "first_year_cents": 287900,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 28,
+        "last_year": 2027,
+        "last_year_cents": 258500,
+        "year28_cents": 258500
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_apr",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-04-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "2.576",
+        "first_year_cents": 257600,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 28,
+        "last_year": 2027,
+        "last_year_cents": 288800,
+        "year28_cents": 288800
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_may",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-05-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "2.273",
+        "first_year_cents": 227300,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 28,
+        "last_year": 2027,
+        "last_year_cents": 319100,
+        "year28_cents": 319100
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_jun",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-06-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "1.970",
+        "first_year_cents": 197000,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 28,
+        "last_year": 2027,
+        "last_year_cents": 349400,
+        "year28_cents": 349400
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_jul",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-07-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "1.667",
+        "first_year_cents": 166700,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 29,
+        "last_year": 2028,
+        "last_year_cents": 16100,
+        "year28_cents": 363600
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_aug",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-08-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "1.364",
+        "first_year_cents": 136400,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 29,
+        "last_year": 2028,
+        "last_year_cents": 46400,
+        "year28_cents": 363600
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_sep",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-09-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "1.061",
+        "first_year_cents": 106100,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 29,
+        "last_year": 2028,
+        "last_year_cents": 76700,
+        "year28_cents": 363600
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_oct",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-10-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "0.758",
+        "first_year_cents": 75800,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 29,
+        "last_year": 2028,
+        "last_year_cents": 107000,
+        "year28_cents": 363600
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_nov",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-11-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "0.455",
+        "first_year_cents": 45500,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 29,
+        "last_year": 2028,
+        "last_year_cents": 137300,
+        "year28_cents": 363600
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_27_5_dec",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-12-15",
+        "class": "residential"
+      },
+      "expected": {
+        "first_year_pct": "0.152",
+        "first_year_cents": 15200,
+        "second_year_cents": 363600,
+        "total_cents": 10000000,
+        "years": 29,
+        "last_year": 2028,
+        "last_year_cents": 167600,
+        "year28_cents": 363600
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "residential_year28_remainder_jan",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2000-01-15"
+      },
+      "expected": {
+        "years": 28,
+        "year28_cents": 197900,
+        "last_year": 2027
+      },
+      "hand_checked": [
+        "last_year",
+        "year28_cents",
+        "years"
+      ]
+    },
+    {
+      "name": "nonresidential_39_mar",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 10000000,
+        "placed_in_service": "2010-03-01",
+        "class": "nonresidential"
+      },
+      "expected": {
+        "first_year_pct": "2.033",
+        "first_year_cents": 203300,
+        "second_year_cents": 256400,
+        "total_cents": 10000000,
+        "years": 40,
+        "last_year_cents": 53500
+      },
+      "hand_checked": [
+        "first_year_cents",
+        "first_year_pct",
+        "second_year_cents",
+        "total_cents"
+      ]
+    },
+    {
+      "name": "worked_example_d_table",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 28000000,
+        "placed_in_service": "2011-10-15",
+        "mode": "table",
+        "accumulated_through": 2025
+      },
+      "expected": {
+        "first_year_cents": 212240,
+        "second_year_cents": 1018080,
+        "accumulated_cents": 14465360
+      },
+      "hand_checked": [
+        "accumulated_cents",
+        "first_year_cents",
+        "second_year_cents"
+      ]
+    },
+    {
+      "name": "worked_example_d_simple",
+      "fn": "depreciation_schedule",
+      "input": {
+        "basis_cents": 28000000,
+        "placed_in_service": "2011-10-15",
+        "mode": "simple",
+        "accumulated_through": 2025
+      },
+      "expected": {
+        "first_year_cents": 254545,
+        "second_year_cents": 1018182,
+        "accumulated_cents": 14509093
+      },
+      "hand_checked": [
+        "accumulated_cents",
+        "first_year_cents",
+        "second_year_cents"
+      ]
+    },
+    {
+      "name": "basis_worked_example_d",
+      "fn": "depreciation_basis",
+      "input": {
+        "purchase_price_cents": 40000000,
+        "land_pct": "0.30"
+      },
+      "expected": {
+        "basis_cents": 28000000,
+        "bounded": false
+      },
+      "hand_checked": [
+        "basis_cents",
+        "bounded"
+      ]
+    },
+    {
+      "name": "basis_land_bounded_high",
+      "fn": "depreciation_basis",
+      "input": {
+        "purchase_price_cents": 40000000,
+        "improvements_cents": 0,
+        "land_pct": "0.70"
+      },
+      "expected": {
+        "basis_cents": 24000000,
+        "land_pct": "0.40",
+        "bounded": true
+      },
+      "hand_checked": [
+        "basis_cents",
+        "bounded",
+        "land_pct"
+      ]
+    },
+    {
+      "name": "basis_default_land_estimated",
+      "fn": "depreciation_basis",
+      "input": {
+        "purchase_price_cents": 50000000,
+        "improvements_cents": 5000000
+      },
+      "expected": {
+        "basis_cents": 38500000,
+        "land_pct": "0.30",
+        "status": "estimated"
+      },
+      "hand_checked": [
+        "basis_cents",
+        "land_pct",
+        "status"
+      ]
+    },
+    {
+      "name": "allowed_less_than_allowable_outlier",
+      "fn": "depreciation_full",
+      "input": {
+        "purchase_price_cents": 60000000,
+        "land_pct": "0.30",
+        "placed_in_service": "2024-06-10",
+        "property_type": "sfr",
+        "as_of_year": 2025,
+        "ledger": [
+          {
+            "tax_year": 2024,
+            "allowed_cents": 728112,
+            "allowable_cents": 827400,
+            "method": "sl_27_5"
+          }
+        ]
+      },
+      "expected": {
+        "accumulated_cents": 827400,
+        "outlier": true,
+        "current_year_cents": 1527120
+      },
+      "hand_checked": [
+        "accumulated_cents",
+        "current_year_cents",
+        "outlier"
+      ]
+    },
+    {
+      "name": "cost_seg_bonus_tagged_1245",
+      "fn": "depreciation_full",
+      "input": {
+        "purchase_price_cents": 100000000,
+        "land_pct": "0.30",
+        "placed_in_service": "2022-01-15",
+        "property_type": "sfr",
+        "as_of_year": 2024,
+        "cost_seg_study": true,
+        "ledger": [
+          {
+            "tax_year": 2022,
+            "allowed_cents": 15000000,
+            "method": "bonus"
+          },
+          {
+            "tax_year": 2023,
+            "allowed_cents": 2000000,
+            "method": "cost_seg"
+          }
+        ]
+      },
+      "expected": {
+        "accumulated_cents": 17000000,
+        "sec1245_cents": 12015300
+      },
+      "hand_checked": [
+        "accumulated_cents",
+        "sec1245_cents"
+      ]
+    }
+  ]
+}

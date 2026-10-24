@@ -21,7 +21,7 @@ from datetime import date
 from decimal import Decimal
 
 from groundplan.engine import tax_tables
-from groundplan.engine.figure import D, Figure, Input, money, ratio
+from groundplan.engine.figure import D, Figure, Input, derive_status, money, ratio
 from groundplan.engine.state_tax import state_exit_tax
 
 SEC121_EXCLUSION = {"single": 25_000_000, "mfs": 25_000_000, "hoh": 25_000_000, "mfj": 50_000_000}
@@ -175,17 +175,22 @@ def compute_exit_tax(sale: SaleInput, hh: HouseholdTax, blocked: set[str] | None
     f["exit_tax.fed_1245"] = st.tax_1245
     f["exit_tax.fed_1250"] = st.tax_1250
     f["exit_tax.fed_ltcg"] = st.tax_ltcg
-    for key in ("exit_tax.fed_1245", "exit_tax.fed_1250", "exit_tax.fed_ltcg"):
+    for key, comp in (("exit_tax.fed_1245", "exit_tax.sec1245"), ("exit_tax.fed_1250", "exit_tax.unrecaptured_1250"),
+                      ("exit_tax.fed_ltcg", "exit_tax.ltcg")):
         f[key].notes = st.notes[:1] + f[key].notes
+        f[key].inputs.append(Input.figure(f[comp]))
+        f[key].status = derive_status(f[key].inputs, blocked)
     nii = int(recognized - excluded) + hh.rental_nii_cents
     magi_with_gain = hh.magi_cents + int(recognized - excluded) - hh.released_suspended_losses_cents
     f["exit_tax.niit"] = tax_tables.niit(nii, magi_with_gain, hh.filing_status, [
         Input.of("net_investment_income_cents", nii, src="figure", ref="exit_tax.total_gain + rental NII"),
         hh.inp("magi_cents"), Input.of("magi_with_gain_cents", magi_with_gain, src="figure", ref="household.magi + recognized gain"),
-        Input.of("filing_status", hh.filing_status)])
+        Input.of("filing_status", hh.filing_status), Input.figure(f["exit_tax.total_gain"])])
     other_income_for_state = hh.wages_cents + hh.other_income_cents - hh.released_suspended_losses_cents
     state_fig, state_findings = state_exit_tax(hh.state, int(recognized - excluded), other_income_for_state, hh.filing_status,
                                                sale.replacement_state)
+    state_fig.inputs.append(Input.figure(f["exit_tax.total_gain"]))
+    state_fig.status = derive_status(state_fig.inputs, blocked)
     f["exit_tax.state"] = state_fig
     findings += state_findings
     total = (f["exit_tax.fed_1250"].dec + f["exit_tax.fed_1245"].dec + f["exit_tax.fed_ltcg"].dec + f["exit_tax.niit"].dec

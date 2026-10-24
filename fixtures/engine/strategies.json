@@ -1,0 +1,273 @@
+{
+  "description": "Hold / sell / 1031 incl. full and partial mortgage boot, DST load, suspended-loss release vs carry",
+  "rounding": "Decimal exact, ROUND_HALF_UP to the cent once per figure/row",
+  "cases": [
+    {
+      "name": "1031_no_boot_release_vs_not",
+      "fn": "strategies",
+      "input": {
+        "property": {
+          "id": "duplex",
+          "property_type": "multifamily",
+          "purchase_date": "2012-05-01",
+          "purchase_price_cents": 31000000,
+          "land_pct": "0.30",
+          "improvements_cents": 2000000,
+          "current_value_cents": 78000000,
+          "appreciation_rate": "0.035",
+          "rent_growth_rate": "0.03",
+          "expense_growth_rate": "0.03",
+          "vacancy_rate": "0.05",
+          "capex_reserve_rate": "0.05",
+          "selling_cost_rate": "0.06",
+          "loans": [
+            {
+              "loan_type": "fixed",
+              "balance_cents": 18500000,
+              "balance_as_of": "2025-12-31",
+              "rate": "0.0375",
+              "term_months": 196
+            }
+          ],
+          "years": {
+            "2025": {
+              "gross_rent_cents": 5040000,
+              "taxes_cents": 620000,
+              "insurance_cents": 210000,
+              "repairs_cents": 380000,
+              "utilities_cents": 240000,
+              "other_cents": 90000,
+              "mortgage_interest_cents": 700000,
+              "depreciation_cents": 840000
+            }
+          }
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "CA",
+          "tax_year": 2025,
+          "wages_cents": 16000000,
+          "other_income_cents": 1200000,
+          "magi_cents": 18600000,
+          "carryforward_cents": 1420000
+        },
+        "horizon_years": 10
+      },
+      "expected": {
+        "boot_cents": 0,
+        "tax_on_boot_cents": 0,
+        "sell_released_cents": 1420000,
+        "exchange_released_cents": 0,
+        "recommended": null,
+        "hold_terminal_wealth_cents": 91522940,
+        "sell_terminal_wealth_cents": 70855657,
+        "exchange_terminal_wealth_cents": 84061709,
+        "sell_tax_now_cents": 15254571,
+        "gain_deferred_cents": 51763971
+      },
+      "hand_checked": [
+        "boot_cents",
+        "exchange_released_cents",
+        "recommended",
+        "sell_released_cents",
+        "tax_on_boot_cents"
+      ]
+    },
+    {
+      "name": "1031_full_mortgage_boot",
+      "fn": "strategies",
+      "input": {
+        "property": {
+          "id": "duplex",
+          "property_type": "multifamily",
+          "purchase_date": "2012-05-01",
+          "purchase_price_cents": 31000000,
+          "land_pct": "0.30",
+          "improvements_cents": 2000000,
+          "current_value_cents": 78000000,
+          "appreciation_rate": "0.035",
+          "rent_growth_rate": "0.03",
+          "expense_growth_rate": "0.03",
+          "vacancy_rate": "0.05",
+          "capex_reserve_rate": "0.05",
+          "selling_cost_rate": "0.06",
+          "loans": [
+            {
+              "loan_type": "fixed",
+              "balance_cents": 18500000,
+              "balance_as_of": "2025-12-31",
+              "rate": "0.0375",
+              "term_months": 196
+            }
+          ],
+          "years": {
+            "2025": {
+              "gross_rent_cents": 5040000,
+              "taxes_cents": 620000,
+              "insurance_cents": 210000,
+              "repairs_cents": 380000,
+              "utilities_cents": 240000,
+              "other_cents": 90000,
+              "mortgage_interest_cents": 700000,
+              "depreciation_cents": 840000
+            }
+          }
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "CA",
+          "tax_year": 2025,
+          "wages_cents": 16000000,
+          "other_income_cents": 1200000,
+          "magi_cents": 18600000,
+          "carryforward_cents": 1420000
+        },
+        "exchange": {
+          "replacement_debt_cents": 0
+        }
+      },
+      "expected": {
+        "mortgage_boot_cents": 18500000,
+        "boot_cents": 18500000,
+        "tax_on_boot_cents": 5842057,
+        "gain_deferred_cents": 33263971,
+        "exchange_terminal_wealth_cents": 116484143
+      },
+      "hand_checked": [
+        "boot_cents",
+        "mortgage_boot_cents"
+      ]
+    },
+    {
+      "name": "1031_partial_mortgage_boot_plus_cash",
+      "fn": "strategies",
+      "input": {
+        "property": {
+          "id": "duplex",
+          "property_type": "multifamily",
+          "purchase_date": "2012-05-01",
+          "purchase_price_cents": 31000000,
+          "land_pct": "0.30",
+          "improvements_cents": 2000000,
+          "current_value_cents": 78000000,
+          "appreciation_rate": "0.035",
+          "rent_growth_rate": "0.03",
+          "expense_growth_rate": "0.03",
+          "vacancy_rate": "0.05",
+          "capex_reserve_rate": "0.05",
+          "selling_cost_rate": "0.06",
+          "loans": [
+            {
+              "loan_type": "fixed",
+              "balance_cents": 18500000,
+              "balance_as_of": "2025-12-31",
+              "rate": "0.0375",
+              "term_months": 196
+            }
+          ],
+          "years": {
+            "2025": {
+              "gross_rent_cents": 5040000,
+              "taxes_cents": 620000,
+              "insurance_cents": 210000,
+              "repairs_cents": 380000,
+              "utilities_cents": 240000,
+              "other_cents": 90000,
+              "mortgage_interest_cents": 700000,
+              "depreciation_cents": 840000
+            }
+          }
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "CA",
+          "tax_year": 2025,
+          "wages_cents": 16000000,
+          "other_income_cents": 1200000,
+          "magi_cents": 18600000,
+          "carryforward_cents": 1420000
+        },
+        "exchange": {
+          "replacement_debt_cents": 10000000,
+          "cash_taken_cents": 2000000
+        }
+      },
+      "expected": {
+        "mortgage_boot_cents": 8500000,
+        "boot_cents": 10500000,
+        "tax_on_boot_cents": 3509100,
+        "gain_deferred_cents": 41263971,
+        "exchange_terminal_wealth_cents": 99439356
+      },
+      "hand_checked": [
+        "boot_cents",
+        "mortgage_boot_cents"
+      ]
+    },
+    {
+      "name": "dst_load_reduces_working_equity",
+      "fn": "strategies",
+      "input": {
+        "property": {
+          "id": "duplex",
+          "property_type": "multifamily",
+          "purchase_date": "2012-05-01",
+          "purchase_price_cents": 31000000,
+          "land_pct": "0.30",
+          "improvements_cents": 2000000,
+          "current_value_cents": 78000000,
+          "appreciation_rate": "0.035",
+          "rent_growth_rate": "0.03",
+          "expense_growth_rate": "0.03",
+          "vacancy_rate": "0.05",
+          "capex_reserve_rate": "0.05",
+          "selling_cost_rate": "0.06",
+          "loans": [
+            {
+              "loan_type": "fixed",
+              "balance_cents": 18500000,
+              "balance_as_of": "2025-12-31",
+              "rate": "0.0375",
+              "term_months": 196
+            }
+          ],
+          "years": {
+            "2025": {
+              "gross_rent_cents": 5040000,
+              "taxes_cents": 620000,
+              "insurance_cents": 210000,
+              "repairs_cents": 380000,
+              "utilities_cents": 240000,
+              "other_cents": 90000,
+              "mortgage_interest_cents": 700000,
+              "depreciation_cents": 840000
+            }
+          }
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "CA",
+          "tax_year": 2025,
+          "wages_cents": 16000000,
+          "other_income_cents": 1200000,
+          "magi_cents": 18600000,
+          "carryforward_cents": 1420000
+        },
+        "exchange": {
+          "dst": true,
+          "load_rate": "0.085",
+          "dst_yield": "0.05"
+        }
+      },
+      "expected": {
+        "dst_load_cents": 4659700,
+        "boot_cents": 0,
+        "exchange_terminal_wealth_cents": 80655977
+      },
+      "hand_checked": [
+        "boot_cents",
+        "dst_load_cents"
+      ]
+    }
+  ]
+}

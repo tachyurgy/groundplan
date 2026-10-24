@@ -1,0 +1,177 @@
+{
+  "description": "Passive loss allowance phase-out (worked example (c)), MFS, RE professional, release vs 1031",
+  "rounding": "Decimal exact, ROUND_HALF_UP to the cent once per figure/row",
+  "cases": [
+    {
+      "name": "magi_100k_full_allowance",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -3000000,
+        "magi_cents": 10000000
+      },
+      "expected": {
+        "allowance_cents": 2500000,
+        "deductible_cents": 2500000,
+        "suspended_new_cents": 500000,
+        "carryforward_end_cents": 500000
+      },
+      "hand_checked": [
+        "allowance_cents",
+        "carryforward_end_cents",
+        "deductible_cents",
+        "suspended_new_cents"
+      ]
+    },
+    {
+      "name": "worked_example_c_magi_130k",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -2000000,
+        "magi_cents": 13000000
+      },
+      "expected": {
+        "allowance_cents": 1000000,
+        "deductible_cents": 1000000,
+        "suspended_new_cents": 1000000
+      },
+      "hand_checked": [
+        "allowance_cents",
+        "deductible_cents",
+        "suspended_new_cents"
+      ]
+    },
+    {
+      "name": "worked_example_c_magi_140k",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -2000000,
+        "magi_cents": 14000000
+      },
+      "expected": {
+        "allowance_cents": 500000,
+        "deductible_cents": 500000,
+        "suspended_new_cents": 1500000
+      },
+      "hand_checked": [
+        "allowance_cents",
+        "deductible_cents",
+        "suspended_new_cents"
+      ]
+    },
+    {
+      "name": "worked_example_c_magi_150k",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -2000000,
+        "magi_cents": 15000000,
+        "prior_carryforward_cents": 1420000
+      },
+      "expected": {
+        "allowance_cents": 0,
+        "deductible_cents": 0,
+        "suspended_new_cents": 2000000,
+        "carryforward_end_cents": 3420000
+      },
+      "hand_checked": [
+        "allowance_cents",
+        "carryforward_end_cents",
+        "deductible_cents",
+        "suspended_new_cents"
+      ]
+    },
+    {
+      "name": "mfs_living_together_zero",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -1000000,
+        "magi_cents": 5000000,
+        "filing_status": "mfs"
+      },
+      "expected": {
+        "allowance_cents": 0,
+        "deductible_cents": 0
+      },
+      "hand_checked": [
+        "allowance_cents",
+        "deductible_cents"
+      ]
+    },
+    {
+      "name": "no_active_participation_zero",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -1000000,
+        "magi_cents": 5000000,
+        "active_participation": false
+      },
+      "expected": {
+        "allowance_cents": 0
+      },
+      "hand_checked": [
+        "allowance_cents"
+      ]
+    },
+    {
+      "name": "re_professional_fully_deductible",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": -6000000,
+        "magi_cents": 30000000,
+        "re_professional": true
+      },
+      "expected": {
+        "deductible_cents": 6000000,
+        "suspended_new_cents": 0
+      },
+      "hand_checked": [
+        "deductible_cents",
+        "suspended_new_cents"
+      ]
+    },
+    {
+      "name": "net_income_absorbs_carryforward",
+      "fn": "passive_allowance",
+      "input": {
+        "net_rental_cents": 500000,
+        "magi_cents": 20000000,
+        "prior_carryforward_cents": 1420000
+      },
+      "expected": {
+        "deductible_cents": 500000,
+        "carryforward_end_cents": 920000
+      },
+      "hand_checked": [
+        "carryforward_end_cents",
+        "deductible_cents"
+      ]
+    },
+    {
+      "name": "taxable_sale_releases_suspended",
+      "fn": "passive_release",
+      "input": {
+        "carryforward_cents": 1420000,
+        "disposition": "taxable_sale"
+      },
+      "expected": {
+        "released_cents": 1420000
+      },
+      "hand_checked": [
+        "released_cents"
+      ]
+    },
+    {
+      "name": "exchange_does_not_release",
+      "fn": "passive_release",
+      "input": {
+        "carryforward_cents": 1420000,
+        "disposition": "exchange"
+      },
+      "expected": {
+        "released_cents": 0
+      },
+      "hand_checked": [
+        "released_cents"
+      ]
+    }
+  ]
+}

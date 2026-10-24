@@ -1,0 +1,425 @@
+{
+  "description": "Bracket stacking at 3 income levels (one with 1250 under 25%), 1245, NIIT threshold edges, exit tax, Section 121, state table incl. unsupported state",
+  "rounding": "Decimal exact, ROUND_HALF_UP to the cent once per figure/row",
+  "cases": [
+    {
+      "name": "stack_low_income_1250_under_25pct",
+      "fn": "tax_stack",
+      "input": {
+        "ordinary_taxable_cents": 3000000,
+        "sec1250_cents": 10000000,
+        "ltcg_cents": 5000000,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "tax_1250_cents": 1530500,
+        "rates_1250": [
+          "0.12",
+          "0.22"
+        ],
+        "tax_ltcg_cents": 750000,
+        "rates_ltcg": [
+          "0.15"
+        ]
+      },
+      "hand_checked": [
+        "rates_1250",
+        "rates_ltcg",
+        "tax_1250_cents",
+        "tax_ltcg_cents"
+      ]
+    },
+    {
+      "name": "stack_mid_income",
+      "fn": "tax_stack",
+      "input": {
+        "ordinary_taxable_cents": 15000000,
+        "sec1250_cents": 10000000,
+        "ltcg_cents": 20000000,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "tax_1250_cents": 2286600,
+        "rates_1250": [
+          "0.22",
+          "0.24"
+        ],
+        "tax_ltcg_cents": 3000000
+      },
+      "hand_checked": [
+        "rates_1250",
+        "tax_1250_cents",
+        "tax_ltcg_cents"
+      ]
+    },
+    {
+      "name": "stack_high_income_1250_capped",
+      "fn": "tax_stack",
+      "input": {
+        "ordinary_taxable_cents": 45000000,
+        "sec1250_cents": 10000000,
+        "ltcg_cents": 20000000,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "tax_ordinary_cents": 9812600,
+        "tax_1250_cents": 2500000,
+        "rates_1250": [
+          "0.25",
+          "0.25"
+        ],
+        "tax_ltcg_cents": 3749750,
+        "rates_ltcg": [
+          "0.15",
+          "0.20"
+        ]
+      },
+      "hand_checked": [
+        "rates_1250",
+        "rates_ltcg",
+        "tax_1250_cents",
+        "tax_ltcg_cents",
+        "tax_ordinary_cents"
+      ]
+    },
+    {
+      "name": "stack_with_1245_no_cap",
+      "fn": "tax_stack",
+      "input": {
+        "ordinary_taxable_cents": 45000000,
+        "sec1245_cents": 5000000,
+        "sec1250_cents": 0,
+        "ltcg_cents": 0,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "tax_1245_cents": 1600000
+      },
+      "hand_checked": [
+        "tax_1245_cents"
+      ]
+    },
+    {
+      "name": "niit_exactly_at_threshold",
+      "fn": "niit",
+      "input": {
+        "nii_cents": 5000000,
+        "magi_cents": 25000000,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "niit_cents": 0
+      },
+      "hand_checked": [
+        "niit_cents"
+      ]
+    },
+    {
+      "name": "niit_one_dollar_over",
+      "fn": "niit",
+      "input": {
+        "nii_cents": 5000000,
+        "magi_cents": 25000100,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "niit_cents": 4
+      },
+      "hand_checked": [
+        "niit_cents"
+      ]
+    },
+    {
+      "name": "niit_capped_by_nii",
+      "fn": "niit",
+      "input": {
+        "nii_cents": 2000000,
+        "magi_cents": 30000000,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "niit_cents": 76000
+      },
+      "hand_checked": [
+        "niit_cents"
+      ]
+    },
+    {
+      "name": "niit_single_threshold",
+      "fn": "niit",
+      "input": {
+        "nii_cents": 10000000,
+        "magi_cents": 23000000,
+        "filing_status": "single"
+      },
+      "expected": {
+        "niit_cents": 114000
+      },
+      "hand_checked": [
+        "niit_cents"
+      ]
+    },
+    {
+      "name": "exit_tax_wa_mfj_hand_checked",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 100000000,
+          "purchase_price_cents": 50000000,
+          "accumulated_depreciation_cents": 15000000
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "WA",
+          "wages_cents": 20000000,
+          "magi_cents": 20000000
+        }
+      },
+      "expected": {
+        "total_gain_cents": 59000000,
+        "unrecaptured_1250_cents": 15000000,
+        "ltcg_cents": 44000000,
+        "fed_1250_cents": 3523600,
+        "fed_ltcg_cents": 7392250,
+        "niit_cents": 2052000,
+        "state_cents": 0,
+        "total_cents": 12967850,
+        "net_before_tax_cents": 94000000,
+        "net_proceeds_cents": 81032150,
+        "rates_1250": [
+          "0.22",
+          "0.24"
+        ]
+      },
+      "hand_checked": [
+        "fed_1250_cents",
+        "fed_ltcg_cents",
+        "ltcg_cents",
+        "net_before_tax_cents",
+        "net_proceeds_cents",
+        "niit_cents",
+        "rates_1250",
+        "state_cents",
+        "total_cents",
+        "total_gain_cents",
+        "unrecaptured_1250_cents"
+      ]
+    },
+    {
+      "name": "exit_tax_ca_with_payoff",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 85000000,
+          "loan_payoff_cents": 18000000,
+          "purchase_price_cents": 31000000,
+          "improvements_cents": 2000000,
+          "accumulated_depreciation_cents": 11500000
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "CA",
+          "wages_cents": 16000000,
+          "other_income_cents": 2600000,
+          "magi_cents": 18600000
+        }
+      },
+      "expected": {
+        "total_gain_cents": 58400000,
+        "unrecaptured_1250_cents": 11500000,
+        "fed_1250_cents": 2655600,
+        "fed_ltcg_cents": 7727250,
+        "niit_cents": 1976000,
+        "state_cents": 5479882,
+        "total_cents": 17838732,
+        "net_proceeds_cents": 44061268
+      },
+      "hand_checked": [
+        "total_gain_cents",
+        "unrecaptured_1250_cents"
+      ]
+    },
+    {
+      "name": "exit_tax_released_suspended_losses",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 100000000,
+          "purchase_price_cents": 50000000,
+          "accumulated_depreciation_cents": 15000000
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "WA",
+          "wages_cents": 20000000,
+          "magi_cents": 20000000,
+          "released_cents": 1420000
+        }
+      },
+      "expected": {
+        "total_gain_cents": 59000000,
+        "fed_1250_cents": 3495200,
+        "fed_ltcg_cents": 7321250,
+        "niit_cents": 1998040,
+        "total_cents": 12814490
+      },
+      "hand_checked": [
+        "total_gain_cents"
+      ]
+    },
+    {
+      "name": "section_121_converted_residence",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 90000000,
+          "purchase_price_cents": 40000000,
+          "accumulated_depreciation_cents": 2000000,
+          "sale_date": "2025-12-31",
+          "former_residence_until": "2024-06-30"
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "WA",
+          "wages_cents": 10000000,
+          "magi_cents": 10000000
+        }
+      },
+      "expected": {
+        "total_gain_cents": 46600000,
+        "unrecaptured_1250_cents": 2000000,
+        "sec121_excluded_cents": 44600000,
+        "ltcg_cents": 0,
+        "fed_ltcg_cents": 0,
+        "finding_count": 1,
+        "fed_1250_cents": 240000,
+        "total_cents": 240000
+      },
+      "hand_checked": [
+        "fed_ltcg_cents",
+        "finding_count",
+        "ltcg_cents",
+        "sec121_excluded_cents",
+        "total_gain_cents",
+        "unrecaptured_1250_cents"
+      ]
+    },
+    {
+      "name": "section_121_outside_window",
+      "fn": "exit_tax",
+      "input": {
+        "sale": {
+          "sale_price_cents": 90000000,
+          "purchase_price_cents": 40000000,
+          "accumulated_depreciation_cents": 2000000,
+          "sale_date": "2025-12-31",
+          "former_residence_until": "2019-06-30"
+        },
+        "household": {
+          "filing_status": "mfj",
+          "state": "WA",
+          "wages_cents": 10000000,
+          "magi_cents": 10000000
+        }
+      },
+      "expected": {
+        "sec121_excluded_cents": 0,
+        "ltcg_cents": 44600000
+      },
+      "hand_checked": [
+        "ltcg_cents",
+        "sec121_excluded_cents"
+      ]
+    },
+    {
+      "name": "state_ca_marginal",
+      "fn": "state_tax",
+      "input": {
+        "state": "CA",
+        "gain_cents": 50000000,
+        "other_income_cents": 18600000,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "finding_kinds": [],
+        "state_tax_cents": 4650000
+      },
+      "hand_checked": [
+        "finding_kinds"
+      ]
+    },
+    {
+      "name": "state_wa_real_estate_exempt",
+      "fn": "state_tax",
+      "input": {
+        "state": "WA",
+        "gain_cents": 50000000,
+        "other_income_cents": 0,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "state_tax_cents": 0
+      },
+      "hand_checked": [
+        "state_tax_cents"
+      ]
+    },
+    {
+      "name": "state_unsupported_finding",
+      "fn": "state_tax",
+      "input": {
+        "state": "HI",
+        "gain_cents": 50000000,
+        "other_income_cents": 0,
+        "filing_status": "mfj"
+      },
+      "expected": {
+        "state_tax_cents": 0,
+        "status": "estimated",
+        "finding_kinds": [
+          "unsupported_structure"
+        ]
+      },
+      "hand_checked": [
+        "finding_kinds",
+        "state_tax_cents",
+        "status"
+      ]
+    },
+    {
+      "name": "state_flat_co",
+      "fn": "state_tax",
+      "input": {
+        "state": "CO",
+        "gain_cents": 10000000,
+        "other_income_cents": 5000000,
+        "filing_status": "single"
+      },
+      "expected": {
+        "state_tax_cents": 440000
+      },
+      "hand_checked": [
+        "state_tax_cents"
+      ]
+    },
+    {
+      "name": "state_clawback_out_of_state_replacement",
+      "fn": "state_tax",
+      "input": {
+        "state": "OR",
+        "gain_cents": 10000000,
+        "other_income_cents": 5000000,
+        "filing_status": "mfj",
+        "replacement_state": "TX"
+      },
+      "expected": {
+        "finding_kinds": [
+          "info"
+        ]
+      },
+      "hand_checked": [
+        "finding_kinds"
+      ]
+    }
+  ]
+}

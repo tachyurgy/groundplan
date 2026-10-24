@@ -1,0 +1,101 @@
+{
+  "description": "NOI, net cash flow and the Schedule E bridge incl. worked examples (a) and (b)",
+  "rounding": "Decimal exact, ROUND_HALF_UP to the cent once per figure/row",
+  "cases": [
+    {
+      "name": "worked_example_a_duplex",
+      "fn": "cash_flow_bridge",
+      "input": {
+        "gross_rent_cents": 4800000,
+        "other_cents": 1800000,
+        "mortgage_interest_cents": 900000,
+        "depreciation_cents": 900000,
+        "principal_paid_cents": 600000
+      },
+      "expected": {
+        "line21_cents": 1200000,
+        "cash_flow_from_return_cents": 1500000,
+        "net_cash_flow_cents": 1500000,
+        "delta_cents": 0
+      },
+      "hand_checked": [
+        "cash_flow_from_return_cents",
+        "delta_cents",
+        "line21_cents",
+        "net_cash_flow_cents"
+      ]
+    },
+    {
+      "name": "worked_example_b_sfr",
+      "fn": "cash_flow_bridge",
+      "input": {
+        "gross_rent_cents": 3000000,
+        "other_cents": 1200000,
+        "mortgage_interest_cents": 1400000,
+        "depreciation_cents": 1200000,
+        "principal_paid_cents": 400000
+      },
+      "expected": {
+        "line21_cents": -800000,
+        "cash_flow_from_return_cents": 0,
+        "net_cash_flow_cents": 0,
+        "delta_cents": 0
+      },
+      "hand_checked": [
+        "cash_flow_from_return_cents",
+        "delta_cents",
+        "line21_cents",
+        "net_cash_flow_cents"
+      ]
+    },
+    {
+      "name": "vacancy_and_capex_reserve_create_delta",
+      "fn": "cash_flow_bridge",
+      "input": {
+        "gross_rent_cents": 4800000,
+        "taxes_cents": 600000,
+        "insurance_cents": 200000,
+        "repairs_cents": 300000,
+        "mgmt_cents": 400000,
+        "utilities_cents": 100000,
+        "hoa_cents": 0,
+        "other_cents": 200000,
+        "mortgage_interest_cents": 900000,
+        "depreciation_cents": 900000,
+        "principal_paid_cents": 600000,
+        "vacancy_rate": "0.05",
+        "capex_reserve_rate": "0.05"
+      },
+      "expected": {
+        "noi_cents": 2520000,
+        "net_cash_flow_cents": 1020000,
+        "cash_flow_from_return_cents": 1500000,
+        "delta_cents": -480000
+      },
+      "hand_checked": [
+        "cash_flow_from_return_cents",
+        "delta_cents",
+        "net_cash_flow_cents",
+        "noi_cents"
+      ]
+    },
+    {
+      "name": "capital_improvements_reduce_return_cash_flow",
+      "fn": "cash_flow_bridge",
+      "input": {
+        "gross_rent_cents": 4800000,
+        "other_cents": 1800000,
+        "mortgage_interest_cents": 900000,
+        "depreciation_cents": 900000,
+        "principal_paid_cents": 600000,
+        "capital_improvements_paid_cents": 500000
+      },
+      "expected": {
+        "cash_flow_from_return_cents": 1000000
+      },
+      "hand_checked": [
+        "cash_flow_from_return_cents"
+      ]
+    }
+  ]
+}
