@@ -689,7 +689,7 @@ export const alerts: Alert[] = [
     property_id: 'p3_elm',
     kind: 'cash_flow_negative',
     due_date: '2026-01-01',
-    message: 'Elm SFR net cash flow is negative for 2025 (−$9,172).',
+    message: 'Elm SFR net cash flow is negative for 2025 after debt service and reserves.',
     status: 'open',
   },
   {

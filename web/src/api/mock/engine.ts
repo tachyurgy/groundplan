@@ -326,7 +326,6 @@ export function analyzeProperty(ctx: EngineContext, year: number, horizon: numbe
   const loanProj = loans.map((l) => ({ loan: l, years: projectLoan(l, year, Math.max(horizon, 1), armIndex) }));
   const ds = loanProj.reduce((s, lp) => s + (lp.years[0]?.principal ?? 0) + (lp.years[0]?.interest ?? 0), 0);
   const principalY1 = loanProj.reduce((s, lp) => s + (lp.years[0]?.principal ?? 0), 0);
-  const interestY1 = loanProj.reduce((s, lp) => s + (lp.years[0]?.interest ?? 0), 0);
   const dsFig = fig(
     blocking,
     'cash_flow.debt_service',
@@ -625,7 +624,7 @@ function addMonths(iso: string, n: number): string {
 // ---------------------------------------------------------------------------
 
 export const DEFAULT_EXCHANGE = (p: Property, totalDebt: Cents) => ({
-  replacement_value_cents: roundCents(p.current_value_cents * 1.1),
+  replacement_value_cents: p.current_value_cents,
   replacement_debt_cents: totalDebt,
   dst: false,
   load_rate: 0.085,
@@ -725,6 +724,8 @@ export function strategies(ctx: EngineContext, horizon: number, a: ScenarioAssum
   const load = ex.dst ? roundCents(equityIn * ex.load_rate) : 0;
   const working = equityIn - load;
   const replacementValue = ex.dst ? working + ex.replacement_debt_cents : ex.replacement_value_cents;
+  // Equal-or-up rule: if the replacement costs more than working equity + new debt, the client adds cash.
+  const addedCash = ex.dst ? 0 : Math.max(0, replacementValue - ex.replacement_debt_cents - working);
   const carryoverBasis = base.exit_tax.adjusted_basis.value_cents + Math.max(0, replacementValue - base.exit_tax.sale_price.value_cents) + gainRecognized;
   const deferredGain = totalGain - gainRecognized;
   const newBasisDepreciable = roundCents(Math.max(0, replacementValue - p.current_value_cents) * 0.7);
@@ -753,7 +754,8 @@ export function strategies(ctx: EngineContext, horizon: number, a: ScenarioAssum
     const gainAtHorizon = Math.max(0, value * (1 - p.selling_cost_rate) - (carryoverBasis - (accCarry - accThrough(year - 1))));
     const effRate = totalGain > 0 ? base.exit_tax.exit_tax_total.value_cents / totalGain : 0.3;
     exDeferred = roundCents(Math.max(deferredGain, gainAtHorizon) * Math.max(effRate, 0.2));
-    exSeries.push({ year: year + i, cash_flow_cents: cf, equity_cents: value - exDebt, value_cents: value, debt_cents: exDebt, cumulative_tax_deferred_cents: exDeferred, wealth_cents: value - exDebt - exDeferred + exReinv });
+    const addedCashOpportunity = roundCents(addedCash * Math.pow(1 + r, i));
+    exSeries.push({ year: year + i, cash_flow_cents: cf, equity_cents: value - exDebt, value_cents: value, debt_cents: exDebt, cumulative_tax_deferred_cents: exDeferred, wealth_cents: value - exDebt - exDeferred + exReinv - addedCashOpportunity });
   }
   const exTerm = exSeries[horizon - 1];
   const exchange: StrategyPathResult = {
@@ -783,6 +785,7 @@ export function strategies(ctx: EngineContext, horizon: number, a: ScenarioAssum
       { label: 'Tax on boot', value: fig(blocking, 'strategy.exchange.use.tax_on_boot', -taxOnBoot, [], 'tax_on_boot', [], 'Tax on boot') },
       { label: ex.dst ? 'DST load' : 'Load / fees', value: fig(blocking, 'strategy.exchange.use.load', -load, [inp('exchange.load_rate', ex.load_rate, manual('assumptions'), { unit: 'rate' })], 'equity_in × load_rate (DST only)', [], 'Load') },
       { label: 'Working equity into replacement', value: fig(blocking, 'strategy.exchange.use.working_equity', working, [], 'net_before_tax − cash_taken − tax_on_boot − load', [], 'Working equity') },
+      { label: 'Added cash needed (equal-or-up)', value: fig(blocking, 'strategy.exchange.use.added_cash', addedCash, [inp('exchange.replacement_value', replacementValue, manual('assumptions'), { unit: 'cents' })], 'max(0, replacement_value − replacement_debt − working_equity); its opportunity cost at reinvest_rate is deducted from wealth', [], 'Added cash') },
     ],
   };
 
