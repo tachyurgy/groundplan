@@ -22,6 +22,7 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    func,
     select,
 )
 from sqlalchemy.dialects.postgresql import JSONB
@@ -46,6 +47,19 @@ class Advisor(Base):
     email: Mapped[str] = mapped_column(String(200), default="")
     # the advisor row is its own tenant root; advisor_id == id keeps the "advisor_id on every table" invariant
     advisor_id: Mapped[str] = mapped_column(String(36), index=True)
+    # SPEC §8.1: an advisor row IS a no-login workspace (id = the X-Workspace-Id header)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, server_default=func.now())
+    last_seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, server_default=func.now(), index=True)
+    created_ip: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
+
+class WorkspaceProvision(Base):
+    """Per-client-IP, per-UTC-day counter of new workspaces (abuse guard, SPEC §8.1). Not tenant data."""
+
+    __tablename__ = "workspace_provisions"
+    ip: Mapped[str] = mapped_column(String(64), primary_key=True)
+    day: Mapped[date] = mapped_column(Date, primary_key=True)
+    count: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
 
 
 class Household(TenantMixin, Base):
