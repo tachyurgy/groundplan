@@ -1,4 +1,4 @@
-import type { Figure, FigureStatus, Finding, FigureInput, SourceType } from '../api/types';
+import type { FigureStatus, Finding, FigureInput, SourceType } from '../api/types';
 
 /**
  * SPEC §1 rule: confirmed only if every input is document|manual; estimated if any input is
@@ -28,7 +28,7 @@ export function isHardSource(t: SourceType): boolean {
 }
 
 /** Roll several figures up to one status: blocked > estimated > confirmed. */
-export function rollupStatus(figs: (Figure | FigureStatus | null | undefined)[]): FigureStatus {
+export function rollupStatus(figs: ({ status: FigureStatus } | FigureStatus | null | undefined)[]): FigureStatus {
   let st: FigureStatus = 'confirmed';
   for (const f of figs) {
     if (!f) continue;

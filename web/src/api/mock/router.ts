@@ -19,7 +19,7 @@ import type {
 } from '../types';
 import { db, docRefsFor } from './state';
 import { analyzeProperty, strategies, simulate, factSheet, findFigure, DEFAULT_EXCHANGE, type EngineContext, type Overrides, fig } from './engine';
-import { evalSummary } from './household';
+import evalLatest from './eval-latest.json';
 import { rollupStatus } from '../../lib/status';
 import { formatCents } from '../../lib/money';
 
@@ -322,7 +322,7 @@ const routes: [string, RegExp, Handler][] = [
     return factSheet(analyzeProperty(ctx, ctx.household.tax_year_latest, 10), fmt);
   }],
   ['POST', /^\/simulate$/, (_m, _q, b) => simulate(b as SimulationRequest)],
-  ['GET', /^\/eval\/latest$/, () => evalSummary],
+  ['GET', /^\/eval\/latest$/, () => evalLatest],
 ];
 
 /** When a block finding is resolved with a chosen value, write it through so dependent figures unblock. */

@@ -75,3 +75,9 @@ export function overridesOnly<T extends Record<string, unknown>>(next: T, base: 
   }
   return out;
 }
+
+export const twinSearch = z.object({
+  to: z.string().max(2000).optional().catch(undefined),
+  hh: z.string().max(200).optional().catch(undefined),
+  prop: z.string().max(200).optional().catch(undefined),
+});

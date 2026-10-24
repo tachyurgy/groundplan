@@ -13,7 +13,7 @@ import { AppShell } from './components/AppShell';
 import { NotFound, RouteError } from './components/RouteError';
 import { PageSkeleton } from './components/Skeletons';
 import { analysisQuery, dashboardQuery, documentsQuery, evalQuery, findingsQuery, householdsQuery, strategiesQuery, alertsQuery } from './api/queries';
-import { documentsSearch, propertySearch, reportsSearch, simulateSearch, strategiesSearch } from './lib/search';
+import { twinSearch, documentsSearch, propertySearch, reportsSearch, simulateSearch, strategiesSearch } from './lib/search';
 
 export interface RouterContext {
   queryClient: QueryClient;
@@ -118,7 +118,15 @@ export const engineeringRoute = createRoute({
   errorComponent: RouteError,
 });
 
-const routeTree = rootRoute.addChildren([householdsRoute, dashboardRoute, documentsRoute, reportsRoute, propertyRoute, strategiesRoute, simulateRoute, evalRoute, engineeringRoute]);
+export const twinRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/twin',
+  validateSearch: twinSearch,
+  component: page(() => import('./pages/TwinPage'), 'TwinPage'),
+  errorComponent: RouteError,
+});
+
+const routeTree = rootRoute.addChildren([twinRoute, householdsRoute, dashboardRoute, documentsRoute, reportsRoute, propertyRoute, strategiesRoute, simulateRoute, evalRoute, engineeringRoute]);
 
 export function makeRouter(queryClient: QueryClient) {
   return createRouter({

@@ -13,6 +13,15 @@ export interface WaterfallStep {
   figure?: FigureT;
 }
 
+/** Running totals: totals reset the level, steps float from the previous level. Pure, outside render. */
+export function layout(steps: WaterfallStep[]) {
+  return steps.reduce<(WaterfallStep & { from: number; to: number })[]>((out, s) => {
+    const level = out.length ? out[out.length - 1].to : 0;
+    out.push(s.kind === 'total' ? { ...s, from: 0, to: s.value } : { ...s, from: level, to: level + s.value });
+    return out;
+  }, []);
+}
+
 /**
  * Horizontal waterfall: each row floats from the running total. Horizontal so it reads the same on a
  * phone (labels never collide) as on a desktop. Every row opens the traceability drawer for its figure.
@@ -22,16 +31,7 @@ export function Waterfall({ steps }: { steps: WaterfallStep[] }) {
   const narrow = useNarrow();
   const openTrace = useUi((s) => s.openTrace);
   const scope = useTraceScope();
-  let run = 0;
-  const rows = steps.map((s) => {
-    if (s.kind === 'total') {
-      run = s.value;
-      return { ...s, from: 0, to: s.value };
-    }
-    const from = run;
-    run += s.value;
-    return { ...s, from, to: run };
-  });
+  const rows = layout(steps);
   const max = Math.max(1, ...rows.map((r) => Math.max(r.from, r.to)));
   const min = Math.min(0, ...rows.map((r) => Math.min(r.from, r.to)));
   const labelW = narrow ? 108 : 168;

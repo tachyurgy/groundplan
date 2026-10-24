@@ -114,8 +114,8 @@ export function ChartFrame({
   const [showTable, setShowTable] = useState(false);
   return (
     <figure className="min-w-0" data-testid={testId}>
-      <div className="mb-2 flex flex-wrap items-start justify-between gap-x-3 gap-y-1">
-        <figcaption className="min-w-0">
+      <div className="mb-2 flex items-start justify-between gap-3">
+        <figcaption className="min-w-0 flex-1">
           <div className="text-sm font-semibold text-ink-950">{title}</div>
           <p className="mt-0.5 text-xs leading-relaxed text-ink-500" data-testid="chart-summary">
             {summary}

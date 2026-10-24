@@ -1,0 +1,3961 @@
+{
+  "generated_at": "2026-10-24T02:57:52+00:00",
+  "pipeline_version": "0.2.0",
+  "gold_schema": "groundplan.gold.v1",
+  "seed": 20240601,
+  "variants": {
+    "text": {
+      "variant": "text",
+      "seconds": 1.3,
+      "documents": 26,
+      "overall": {
+        "gold": 419,
+        "extracted": 419,
+        "correct": 419,
+        "precision": 1.0,
+        "recall": 1.0,
+        "doc_exact_match": 1.0
+      },
+      "classification": {
+        "kind_accuracy": 1.0,
+        "tax_year_accuracy": 1.0,
+        "confusion": [
+          {
+            "gold": "appraisal",
+            "predicted": "appraisal",
+            "count": 1
+          },
+          {
+            "gold": "closing_statement",
+            "predicted": "closing_statement",
+            "count": 1
+          },
+          {
+            "gold": "form_1040",
+            "predicted": "form_1040",
+            "count": 3
+          },
+          {
+            "gold": "form_4562",
+            "predicted": "form_4562",
+            "count": 10
+          },
+          {
+            "gold": "form_8582",
+            "predicted": "form_8582",
+            "count": 3
+          },
+          {
+            "gold": "mortgage_statement",
+            "predicted": "mortgage_statement",
+            "count": 5
+          },
+          {
+            "gold": "schedule_e",
+            "predicted": "schedule_e",
+            "count": 3
+          }
+        ]
+      },
+      "per_form": {
+        "appraisal": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing_statement": {
+          "gold": 6,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040": {
+          "gold": 69,
+          "extracted": 69,
+          "correct": 69,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562": {
+          "gold": 32,
+          "extracted": 32,
+          "correct": 32,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582": {
+          "gold": 32,
+          "extracted": 32,
+          "correct": 32,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage_statement": {
+          "gold": 76,
+          "extracted": 76,
+          "correct": 76,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e": {
+          "gold": 201,
+          "extracted": 201,
+          "correct": 201,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "per_field": {
+        "appraisal.effective_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "appraisal.market_value": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "appraisal.property_address": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.contract_sales_price": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.land_allocation_present": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.loan_amount": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.property_address": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.settlement_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.total_closing_costs": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.filing_status": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.home_address": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.home_state": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line11.agi": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line12.deduction": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line14.total_deductions": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line15.taxable_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line16.tax": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line18.tax_plus_sch2": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line1a.wages": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line1z.total_wages": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line22.tax_after_credits": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line24.total_tax": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line25a.w2_withholding": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line25d.total_withholding": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line26.estimated_payments": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line2b.taxable_interest": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line33.total_payments": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line34.overpaid": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line35a.refund": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line3a.qualified_dividends": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line3b.ordinary_dividends": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line8.schedule_1_income": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line9.total_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.activity": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line17.prior_macrs": {
+          "gold": 9,
+          "extracted": 9,
+          "correct": 9,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.basis": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.deduction": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.placed_in_service": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line22.total": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line10.passive_income": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line11.total_allowed": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1a.net_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1b.net_loss": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1c.prior_unallowed": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1d.combined": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line3.combined": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line4.loss": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line5.threshold": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line6.magi": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line9.special_allowance": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.unallowed_loss_total": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.ws5.unallowed_loss": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.credit_limit": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.index_margin": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.interest_paid_ytd": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.interest_rate": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.io_period_end": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.lender": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.lien_position": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.loan_number": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.loan_type_text": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.maturity_date": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.monthly_payment": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.next_rate_change_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.original_amount": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.origination_date": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.paid_in_full": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.payoff_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.principal_balance": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.principal_paid_ytd": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.property_address": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.statement_date": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.term_months": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line10.legal_professional": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line11.management_fees": {
+          "gold": 7,
+          "extracted": 7,
+          "correct": 7,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line12.mortgage_interest": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line14.repairs": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line15.supplies": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line16.taxes": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line17.utilities": {
+          "gold": 6,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line18.depreciation": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line19.other": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line1a.address": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line1b.type": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line2.fair_rental_days": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line2.personal_use_days": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line20.total_expenses": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line21.income_or_loss": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line22.deductible_loss": {
+          "gold": 6,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23a.total_rents": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23c.total_mortgage_interest": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23d.total_depreciation": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23e.total_expenses": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line24.income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line25.losses": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line26.total": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line3.rents": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line5.advertising": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line6.auto_travel": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line7.cleaning_maintenance": {
+          "gold": 8,
+          "extracted": 8,
+          "correct": 8,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line8.commissions": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line9.insurance": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "entity_resolution": {
+        "mentions": 32,
+        "correct": 32,
+        "accuracy": 1.0,
+        "gold_properties": 4,
+        "resolved_properties": 4,
+        "planted": [
+          {
+            "id": "p1_address_three_spellings",
+            "found": true
+          }
+        ],
+        "misplaced": []
+      },
+      "findings": {
+        "planted": 5,
+        "found": 5,
+        "recall": 1.0,
+        "rows": [
+          {
+            "id": "p2_str_unsupported",
+            "kind": "unsupported_structure",
+            "found": true,
+            "finding_key": "str:1187 lakeview dr, south lake tahoe, ca 96150"
+          },
+          {
+            "id": "p3_depreciation_12pct_low_2024",
+            "kind": "outlier",
+            "found": true,
+            "finding_key": "dep_outlier:2875 elm ct, roseville, ca 95661:2024"
+          },
+          {
+            "id": "p4_missing_from_2025",
+            "kind": "missing",
+            "found": true,
+            "finding_key": "missing_latest:915 oak hollow way unit 204, elk grove, ca 95758"
+          },
+          {
+            "id": "p3_closing_statement_no_land_split",
+            "kind": "missing",
+            "found": true,
+            "finding_key": "missing_land_split:2875 elm ct, roseville, ca 95661"
+          },
+          {
+            "id": "p2_2025_mortgage_interest_conflict",
+            "kind": "conflict",
+            "found": true,
+            "finding_key": "conflict:1187 lakeview dr, south lake tahoe, ca 96150:mortgage_interest:2025"
+          }
+        ],
+        "unplanted": [],
+        "unplanted_count": 0,
+        "unplanted_non_info": 0
+      },
+      "errors_sample": []
+    },
+    "scan": {
+      "variant": "scan",
+      "seconds": 72.8,
+      "documents": 26,
+      "overall": {
+        "gold": 419,
+        "extracted": 420,
+        "correct": 419,
+        "precision": 0.9976,
+        "recall": 1.0,
+        "doc_exact_match": 1.0
+      },
+      "classification": {
+        "kind_accuracy": 1.0,
+        "tax_year_accuracy": 1.0,
+        "confusion": [
+          {
+            "gold": "appraisal",
+            "predicted": "appraisal",
+            "count": 1
+          },
+          {
+            "gold": "closing_statement",
+            "predicted": "closing_statement",
+            "count": 1
+          },
+          {
+            "gold": "form_1040",
+            "predicted": "form_1040",
+            "count": 3
+          },
+          {
+            "gold": "form_4562",
+            "predicted": "form_4562",
+            "count": 10
+          },
+          {
+            "gold": "form_8582",
+            "predicted": "form_8582",
+            "count": 3
+          },
+          {
+            "gold": "mortgage_statement",
+            "predicted": "mortgage_statement",
+            "count": 5
+          },
+          {
+            "gold": "schedule_e",
+            "predicted": "schedule_e",
+            "count": 3
+          }
+        ]
+      },
+      "per_form": {
+        "appraisal": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing_statement": {
+          "gold": 6,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040": {
+          "gold": 69,
+          "extracted": 69,
+          "correct": 69,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562": {
+          "gold": 32,
+          "extracted": 32,
+          "correct": 32,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582": {
+          "gold": 32,
+          "extracted": 32,
+          "correct": 32,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage_statement": {
+          "gold": 76,
+          "extracted": 76,
+          "correct": 76,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e": {
+          "gold": 201,
+          "extracted": 202,
+          "correct": 201,
+          "precision": 0.995,
+          "recall": 1.0
+        }
+      },
+      "per_field": {
+        "appraisal.effective_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "appraisal.market_value": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "appraisal.property_address": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.contract_sales_price": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.land_allocation_present": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.loan_amount": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.property_address": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.settlement_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.total_closing_costs": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.filing_status": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.home_address": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.home_state": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line11.agi": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line12.deduction": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line14.total_deductions": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line15.taxable_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line16.tax": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line18.tax_plus_sch2": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line1a.wages": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line1z.total_wages": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line22.tax_after_credits": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line24.total_tax": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line25a.w2_withholding": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line25d.total_withholding": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line26.estimated_payments": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line2b.taxable_interest": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line33.total_payments": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line34.overpaid": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line35a.refund": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line3a.qualified_dividends": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line3b.ordinary_dividends": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line8.schedule_1_income": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line9.total_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.activity": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line17.prior_macrs": {
+          "gold": 9,
+          "extracted": 9,
+          "correct": 9,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.basis": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.deduction": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.placed_in_service": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line22.total": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line10.passive_income": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line11.total_allowed": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1a.net_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1b.net_loss": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1c.prior_unallowed": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1d.combined": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line3.combined": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line4.loss": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line5.threshold": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line6.magi": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line9.special_allowance": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.unallowed_loss_total": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.ws5.unallowed_loss": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.credit_limit": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.index_margin": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.interest_paid_ytd": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.interest_rate": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.io_period_end": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.lender": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.lien_position": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.loan_number": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.loan_type_text": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.maturity_date": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.monthly_payment": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.next_rate_change_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.original_amount": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.origination_date": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.paid_in_full": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.payoff_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.principal_balance": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.principal_paid_ytd": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.property_address": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.statement_date": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "mortgage.term_months": {
+          "gold": 4,
+          "extracted": 4,
+          "correct": 4,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line10.legal_professional": {
+          "gold": 3,
+          "extracted": 4,
+          "correct": 3,
+          "precision": 0.75,
+          "recall": 1.0
+        },
+        "schedule_e.line11.management_fees": {
+          "gold": 7,
+          "extracted": 7,
+          "correct": 7,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line12.mortgage_interest": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line14.repairs": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line15.supplies": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line16.taxes": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line17.utilities": {
+          "gold": 6,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line18.depreciation": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line19.other": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line1a.address": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line1b.type": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line2.fair_rental_days": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line2.personal_use_days": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line20.total_expenses": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line21.income_or_loss": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line22.deductible_loss": {
+          "gold": 6,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23a.total_rents": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23c.total_mortgage_interest": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23d.total_depreciation": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23e.total_expenses": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line24.income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line25.losses": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line26.total": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line3.rents": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line5.advertising": {
+          "gold": 5,
+          "extracted": 5,
+          "correct": 5,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line6.auto_travel": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line7.cleaning_maintenance": {
+          "gold": 8,
+          "extracted": 8,
+          "correct": 8,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line8.commissions": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line9.insurance": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 10,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "entity_resolution": {
+        "mentions": 32,
+        "correct": 32,
+        "accuracy": 1.0,
+        "gold_properties": 4,
+        "resolved_properties": 4,
+        "planted": [
+          {
+            "id": "p1_address_three_spellings",
+            "found": true
+          }
+        ],
+        "misplaced": []
+      },
+      "findings": {
+        "planted": 5,
+        "found": 5,
+        "recall": 1.0,
+        "rows": [
+          {
+            "id": "p2_str_unsupported",
+            "kind": "unsupported_structure",
+            "found": true,
+            "finding_key": "str:1187 lakeview dr, south lake tahoe, ca 96150"
+          },
+          {
+            "id": "p3_depreciation_12pct_low_2024",
+            "kind": "outlier",
+            "found": true,
+            "finding_key": "dep_outlier:2875 elm ct, roseville, ca 95661:2024"
+          },
+          {
+            "id": "p4_missing_from_2025",
+            "kind": "missing",
+            "found": true,
+            "finding_key": "missing_latest:915 oak hollow way unit 204, elk grove, ca 95758"
+          },
+          {
+            "id": "p3_closing_statement_no_land_split",
+            "kind": "missing",
+            "found": true,
+            "finding_key": "missing_land_split:2875 elm ct, roseville, ca 95661"
+          },
+          {
+            "id": "p2_2025_mortgage_interest_conflict",
+            "kind": "conflict",
+            "found": true,
+            "finding_key": "conflict:1187 lakeview dr, south lake tahoe, ca 96150:mortgage_interest:2025"
+          }
+        ],
+        "unplanted": [
+          {
+            "key": "low_conf:2023_form_1040.scan.pdf:form_1040.line10.adjustments:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line10.adjustments on 2023_form_1040.scan.pdf page 1 ('5', confidence 0.56); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.scan.pdf:form_1040.line10.adjustments:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line10.adjustments on 2024_form_1040.scan.pdf page 1 ('5', confidence 0.56); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line5.advertising:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line5.advertising on 2024_schedule_e.scan.pdf page 1 ('520', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line6.auto_travel:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line6.auto_travel on 2024_schedule_e.scan.pdf page 1 ('680', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line7.cleaning_maintenance:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line7.cleaning_maintenance on 2024_schedule_e.scan.pdf page 1 ('7,000', confidence 0.52); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line8.commissions:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line8.commissions on 2024_schedule_e.scan.pdf page 1 ('1,494', confidence 0.49); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line9.insurance:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line9.insurance on 2024_schedule_e.scan.pdf page 1 ('3,040', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line10.legal_professional:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line10.legal_professional on 2024_schedule_e.scan.pdf page 1 ('4', confidence 0.30); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line12.mortgage_interest:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2024_schedule_e.scan.pdf page 1 ('13,999', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line14.repairs:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2024_schedule_e.scan.pdf page 1 ('2,910', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line15.supplies:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line15.supplies on 2024_schedule_e.scan.pdf page 1 ('1,020', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line16.taxes:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line16.taxes on 2024_schedule_e.scan.pdf page 1 ('5,290', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line17.utilities:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line17.utilities on 2024_schedule_e.scan.pdf page 1 ('4,210', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line18.depreciation:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line18.depreciation on 2024_schedule_e.scan.pdf page 1 ('10,990', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.scan.pdf:schedule_e.line20.total_expenses:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line20.total_expenses on 2024_schedule_e.scan.pdf page 1 ('51,153', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.scan.pdf:form_1040.line10.adjustments:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line10.adjustments on 2025_form_1040.scan.pdf page 1 ('5', confidence 0.56); the form's arithmetic did not check out. Confirm against the page."
+          }
+        ],
+        "unplanted_count": 16,
+        "unplanted_non_info": 0
+      },
+      "errors_sample": []
+    },
+    "noise": {
+      "variant": "noise",
+      "seconds": 80.7,
+      "documents": 26,
+      "overall": {
+        "gold": 419,
+        "extracted": 219,
+        "correct": 103,
+        "precision": 0.4703,
+        "recall": 0.2458,
+        "doc_exact_match": 0.0
+      },
+      "classification": {
+        "kind_accuracy": 0.8077,
+        "tax_year_accuracy": 1.0,
+        "confusion": [
+          {
+            "gold": "appraisal",
+            "predicted": "appraisal",
+            "count": 1
+          },
+          {
+            "gold": "closing_statement",
+            "predicted": "closing_statement",
+            "count": 1
+          },
+          {
+            "gold": "form_1040",
+            "predicted": "form_1040",
+            "count": 3
+          },
+          {
+            "gold": "form_4562",
+            "predicted": "form_4562",
+            "count": 10
+          },
+          {
+            "gold": "form_8582",
+            "predicted": "form_8582",
+            "count": 3
+          },
+          {
+            "gold": "mortgage_statement",
+            "predicted": "other",
+            "count": 5
+          },
+          {
+            "gold": "schedule_e",
+            "predicted": "schedule_e",
+            "count": 3
+          }
+        ]
+      },
+      "per_form": {
+        "appraisal": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 2,
+          "precision": 0.6667,
+          "recall": 0.6667
+        },
+        "closing_statement": {
+          "gold": 6,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 0.5
+        },
+        "form_1040": {
+          "gold": 69,
+          "extracted": 57,
+          "correct": 32,
+          "precision": 0.5614,
+          "recall": 0.4638
+        },
+        "form_4562": {
+          "gold": 32,
+          "extracted": 32,
+          "correct": 13,
+          "precision": 0.4062,
+          "recall": 0.4062
+        },
+        "form_8582": {
+          "gold": 32,
+          "extracted": 13,
+          "correct": 8,
+          "precision": 0.6154,
+          "recall": 0.25
+        },
+        "mortgage_statement": {
+          "gold": 76,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "schedule_e": {
+          "gold": 201,
+          "extracted": 111,
+          "correct": 45,
+          "precision": 0.4054,
+          "recall": 0.2239
+        }
+      },
+      "per_field": {
+        "appraisal.effective_date": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "appraisal.market_value": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "appraisal.property_address": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "closing.contract_sales_price": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.land_allocation_present": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "closing.loan_amount": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "closing.property_address": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "closing.settlement_date": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "closing.total_closing_costs": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.filing_status": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.home_address": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.home_state": {
+          "gold": 3,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "form_1040.line11.agi": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 1,
+          "precision": 0.3333,
+          "recall": 0.3333
+        },
+        "form_1040.line12.deduction": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 2,
+          "precision": 0.6667,
+          "recall": 0.6667
+        },
+        "form_1040.line14.total_deductions": {
+          "gold": 3,
+          "extracted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.3333
+        },
+        "form_1040.line15.taxable_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line16.tax": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 1,
+          "precision": 0.3333,
+          "recall": 0.3333
+        },
+        "form_1040.line18.tax_plus_sch2": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 2,
+          "precision": 0.6667,
+          "recall": 0.6667
+        },
+        "form_1040.line1a.wages": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 2,
+          "precision": 0.6667,
+          "recall": 0.6667
+        },
+        "form_1040.line1z.total_wages": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line22.tax_after_credits": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 1,
+          "precision": 0.3333,
+          "recall": 0.3333
+        },
+        "form_1040.line24.total_tax": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 2,
+          "precision": 0.6667,
+          "recall": 0.6667
+        },
+        "form_1040.line25a.w2_withholding": {
+          "gold": 3,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "form_1040.line25d.total_withholding": {
+          "gold": 3,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 0.3333
+        },
+        "form_1040.line26.estimated_payments": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_1040.line2b.taxable_interest": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 1,
+          "precision": 0.3333,
+          "recall": 0.3333
+        },
+        "form_1040.line33.total_payments": {
+          "gold": 3,
+          "extracted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.3333
+        },
+        "form_1040.line34.overpaid": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line35a.refund": {
+          "gold": 3,
+          "extracted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_1040.line3a.qualified_dividends": {
+          "gold": 3,
+          "extracted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_1040.line3b.ordinary_dividends": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_1040.line8.schedule_1_income": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_1040.line9.total_income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 1,
+          "precision": 0.3333,
+          "recall": 0.3333
+        },
+        "form_4562.activity": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 2,
+          "precision": 0.2,
+          "recall": 0.2
+        },
+        "form_4562.line17.prior_macrs": {
+          "gold": 9,
+          "extracted": 9,
+          "correct": 9,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.basis": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_4562.line19h.deduction": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line19h.placed_in_service": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_4562.line22.total": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_8582.line10.passive_income": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_8582.line11.total_allowed": {
+          "gold": 2,
+          "extracted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "form_8582.line1a.net_income": {
+          "gold": 3,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "form_8582.line1b.net_loss": {
+          "gold": 3,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 0.3333
+        },
+        "form_8582.line1c.prior_unallowed": {
+          "gold": 1,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line1d.combined": {
+          "gold": 3,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 0.3333
+        },
+        "form_8582.line3.combined": {
+          "gold": 3,
+          "extracted": 1,
+          "correct": 1,
+          "precision": 1.0,
+          "recall": 0.3333
+        },
+        "form_8582.line4.loss": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.5
+        },
+        "form_8582.line5.threshold": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.5
+        },
+        "form_8582.line6.magi": {
+          "gold": 2,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "form_8582.line9.special_allowance": {
+          "gold": 2,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "form_8582.unallowed_loss_total": {
+          "gold": 2,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "form_8582.ws5.unallowed_loss": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.credit_limit": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.index_margin": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.interest_paid_ytd": {
+          "gold": 4,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.interest_rate": {
+          "gold": 4,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.io_period_end": {
+          "gold": 2,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.lender": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.lien_position": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.loan_number": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.loan_type_text": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.maturity_date": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.monthly_payment": {
+          "gold": 4,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.next_rate_change_date": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.original_amount": {
+          "gold": 4,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.origination_date": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.paid_in_full": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.payoff_date": {
+          "gold": 1,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.principal_balance": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.principal_paid_ytd": {
+          "gold": 4,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.property_address": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.statement_date": {
+          "gold": 5,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "mortgage.term_months": {
+          "gold": 4,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "schedule_e.line10.legal_professional": {
+          "gold": 3,
+          "extracted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line11.management_fees": {
+          "gold": 7,
+          "extracted": 4,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line12.mortgage_interest": {
+          "gold": 10,
+          "extracted": 6,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line14.repairs": {
+          "gold": 10,
+          "extracted": 8,
+          "correct": 5,
+          "precision": 0.625,
+          "recall": 0.5
+        },
+        "schedule_e.line15.supplies": {
+          "gold": 10,
+          "extracted": 4,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line16.taxes": {
+          "gold": 10,
+          "extracted": 6,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line17.utilities": {
+          "gold": 6,
+          "extracted": 5,
+          "correct": 1,
+          "precision": 0.2,
+          "recall": 0.1667
+        },
+        "schedule_e.line18.depreciation": {
+          "gold": 10,
+          "extracted": 4,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line19.other": {
+          "gold": 2,
+          "extracted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line1a.address": {
+          "gold": 10,
+          "extracted": 10,
+          "correct": 1,
+          "precision": 0.1,
+          "recall": 0.1
+        },
+        "schedule_e.line1b.type": {
+          "gold": 10,
+          "extracted": 6,
+          "correct": 6,
+          "precision": 1.0,
+          "recall": 0.6
+        },
+        "schedule_e.line2.fair_rental_days": {
+          "gold": 10,
+          "extracted": 1,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line2.personal_use_days": {
+          "gold": 10,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        },
+        "schedule_e.line20.total_expenses": {
+          "gold": 10,
+          "extracted": 5,
+          "correct": 0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "schedule_e.line21.income_or_loss": {
+          "gold": 10,
+          "extracted": 7,
+          "correct": 1,
+          "precision": 0.1429,
+          "recall": 0.1
+        },
+        "schedule_e.line22.deductible_loss": {
+          "gold": 6,
+          "extracted": 4,
+          "correct": 1,
+          "precision": 0.25,
+          "recall": 0.1667
+        },
+        "schedule_e.line23a.total_rents": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23c.total_mortgage_interest": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23d.total_depreciation": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line23e.total_expenses": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line24.income": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line25.losses": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line26.total": {
+          "gold": 3,
+          "extracted": 3,
+          "correct": 3,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "schedule_e.line3.rents": {
+          "gold": 10,
+          "extracted": 7,
+          "correct": 4,
+          "precision": 0.5714,
+          "recall": 0.4
+        },
+        "schedule_e.line5.advertising": {
+          "gold": 5,
+          "extracted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.2
+        },
+        "schedule_e.line6.auto_travel": {
+          "gold": 10,
+          "extracted": 5,
+          "correct": 1,
+          "precision": 0.2,
+          "recall": 0.1
+        },
+        "schedule_e.line7.cleaning_maintenance": {
+          "gold": 8,
+          "extracted": 2,
+          "correct": 1,
+          "precision": 0.5,
+          "recall": 0.125
+        },
+        "schedule_e.line8.commissions": {
+          "gold": 3,
+          "extracted": 2,
+          "correct": 2,
+          "precision": 1.0,
+          "recall": 0.6667
+        },
+        "schedule_e.line9.insurance": {
+          "gold": 10,
+          "extracted": 0,
+          "correct": 0,
+          "precision": null,
+          "recall": 0.0
+        }
+      },
+      "entity_resolution": {
+        "mentions": 32,
+        "correct": 7,
+        "accuracy": 0.2188,
+        "gold_properties": 4,
+        "resolved_properties": 10,
+        "planted": [
+          {
+            "id": "p1_address_three_spellings",
+            "found": false
+          }
+        ],
+        "misplaced": [
+          {
+            "file": "2023_schedule_e.noise.pdf",
+            "printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+            "gold": "p2",
+            "resolved": "1187 lakeview dr south lake tahoe, ca 96150 02"
+          },
+          {
+            "file": "2023_schedule_e.noise.pdf",
+            "printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+            "gold": "p4",
+            "resolved": "15 oak hollow way unit 204, ca 957380000000 eee"
+          },
+          {
+            "file": "2023_form_4562_3.noise.pdf",
+            "printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+            "gold": "p4",
+            "resolved": "bental 515 oak hollow way unit 204, blk grave, ca 35758"
+          },
+          {
+            "file": "2024_schedule_e.noise.pdf",
+            "printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+            "gold": "p2",
+            "resolved": "1187 lakeview dr, south lake tahoe, ca 96150"
+          },
+          {
+            "file": "2024_schedule_e.noise.pdf",
+            "printed": "2875 Elm Ct, Roseville, CA 95661",
+            "gold": "p3",
+            "resolved": "2875 elm ct roseville, ca 9566 00"
+          },
+          {
+            "file": "2024_schedule_e.noise.pdf",
+            "printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+            "gold": "p4",
+            "resolved": "915 dak hollow way unit 204, ca 95758 0000000000"
+          },
+          {
+            "file": "2024_form_4562_1.noise.pdf",
+            "printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+            "gold": "p1",
+            "resolved": "l420 maple st, sacramento, ca 95838"
+          },
+          {
+            "file": "2024_form_4562_3.noise.pdf",
+            "printed": "2875 Elm Ct, Roseville, CA 95661",
+            "gold": "p3",
+            "resolved": "2875 elm ct, roseville, ca 95661"
+          },
+          {
+            "file": "2024_form_4562_4.noise.pdf",
+            "printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+            "gold": "p4",
+            "resolved": "bental 515 oak hollow way unit 204, blk grave, ca 35758"
+          },
+          {
+            "file": "2024_form_8582.noise.pdf",
+            "printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+            "gold": "p2",
+            "resolved": null
+          },
+          {
+            "file": "2024_form_8582.noise.pdf",
+            "printed": "2875 Elm Ct, Roseville, CA 95661",
+            "gold": "p3",
+            "resolved": null
+          },
+          {
+            "file": "2024_form_8582.noise.pdf",
+            "printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+            "gold": "p4",
+            "resolved": null
+          },
+          {
+            "file": "2025_schedule_e.noise.pdf",
+            "printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+            "gold": "p2",
+            "resolved": "1187 lakeview dr south lake tahoe, ca 96150 02"
+          },
+          {
+            "file": "2025_schedule_e.noise.pdf",
+            "printed": "2875 Elm Ct, Roseville, CA 95661",
+            "gold": "p3",
+            "resolved": "2875 elm ct roseville, ca 9566 00"
+          },
+          {
+            "file": "2025_form_4562_1.noise.pdf",
+            "printed": "1420 Maple St., Sacramento, CA 95838",
+            "gold": "p1",
+            "resolved": "l420 maple st, sacramento, ca 95838"
+          },
+          {
+            "file": "2025_form_4562_3.noise.pdf",
+            "printed": "2875 Elm Ct, Roseville, CA 95661",
+            "gold": "p3",
+            "resolved": "2875 elm ct, roseville, ca 95661"
+          },
+          {
+            "file": "2025_form_8582.noise.pdf",
+            "printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+            "gold": "p2",
+            "resolved": null
+          },
+          {
+            "file": "2025_form_8582.noise.pdf",
+            "printed": "2875 Elm Ct, Roseville, CA 95661",
+            "gold": "p3",
+            "resolved": null
+          },
+          {
+            "file": "stmt_1_2025.noise.pdf",
+            "printed": "1420 Maple St, Sacramento, CA 95838",
+            "gold": "p1",
+            "resolved": null
+          },
+          {
+            "file": "stmt_2_2025.noise.pdf",
+            "printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+            "gold": "p2",
+            "resolved": null
+          }
+        ]
+      },
+      "findings": {
+        "planted": 5,
+        "found": 1,
+        "recall": 0.2,
+        "rows": [
+          {
+            "id": "p2_str_unsupported",
+            "kind": "unsupported_structure",
+            "found": false,
+            "finding_key": null
+          },
+          {
+            "id": "p3_depreciation_12pct_low_2024",
+            "kind": "outlier",
+            "found": false,
+            "finding_key": null
+          },
+          {
+            "id": "p4_missing_from_2025",
+            "kind": "missing",
+            "found": false,
+            "finding_key": null
+          },
+          {
+            "id": "p3_closing_statement_no_land_split",
+            "kind": "missing",
+            "found": false,
+            "finding_key": null
+          },
+          {
+            "id": "p2_2025_mortgage_interest_conflict",
+            "kind": "conflict",
+            "found": true,
+            "finding_key": "low_conf:2025_form_4562_2.noise.pdf:form_4562.line22.total:lib lakeview or, south lake tahoa, ca 96150"
+          }
+        ],
+        "unplanted": [
+          {
+            "key": "str:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "unsupported_structure",
+            "severity": "warn",
+            "message": "1187 Lakeview Dr: Schedule E type 3 (vacation / short-term rental). Short-term rental rules apply (average stay <= 7 days can make the activity non-passive or non-rental); not modeled. Verify with the CPA."
+          },
+          {
+            "key": "missing_latest:15 oak hollow way unit 204, ca 957380000000 eee",
+            "kind": "missing",
+            "severity": "warn",
+            "message": "$15 Oak Hollow Way Unit 204 Elk Grove appears on the 2023 Schedule E but not on 2025: sold? converted to personal use? Confirm status before relying on 2025."
+          },
+          {
+            "key": "str:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "unsupported_structure",
+            "severity": "warn",
+            "message": "1187 Lakeview Dr: Schedule E type 3 (vacation / short-term rental). Short-term rental rules apply (average stay <= 7 days can make the activity non-passive or non-rental); not modeled. Verify with the CPA."
+          },
+          {
+            "key": "missing_latest:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "missing",
+            "severity": "warn",
+            "message": "1187 Lakeview Dr appears on the 2024 Schedule E but not on 2025: sold? converted to personal use? Confirm status before relying on 2025."
+          },
+          {
+            "key": "missing_latest:915 dak hollow way unit 204, ca 95758 0000000000",
+            "kind": "missing",
+            "severity": "warn",
+            "message": "915 Dak Hollow Way Unit 204 Elk Grove appears on the 2024 Schedule E but not on 2025: sold? converted to personal use? Confirm status before relying on 2025."
+          },
+          {
+            "key": "low_conf:2023_form_1040.noise.pdf:form_1040.line25d.total_withholding:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line25d.total_withholding on 2023_form_1040.noise.pdf page 2 ('25604', confidence 0.57); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line3.rents:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line3.rents on 2023_schedule_e.noise.pdf page 1 ('38,400', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line11.management_fees:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line11.management_fees on 2023_schedule_e.noise.pdf page 1 ('02', confidence 0.58); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line12.mortgage_interest:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2023_schedule_e.noise.pdf page 1 ('56295)', confidence 0.55); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line14.repairs:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2023_schedule_e.noise.pdf page 1 ('2650', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line14.repairs:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2023_schedule_e.noise.pdf page 1 ('2,380', confidence 0.50); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line15.supplies:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line15.supplies on 2023_schedule_e.noise.pdf page 1 ('40', confidence 0.34); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line16.taxes:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line16.taxes on 2023_schedule_e.noise.pdf page 1 ('818', confidence 0.30); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line17.utilities:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line17.utilities on 2023_schedule_e.noise.pdf page 1 ('O60', confidence 0.30); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line18.depreciation:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line18.depreciation on 2023_schedule_e.noise.pdf page 1 ('10,990', confidence 0.40); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line20.total_expenses:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line20.total_expenses on 2023_schedule_e.noise.pdf page 1 ('49,923', confidence 0.39); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line21.income_or_loss:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line21.income_or_loss on 2023_schedule_e.noise.pdf page 1 ('7', confidence 0.57); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line6.auto_travel:15 oak hollow way unit 204, ca 957380000000 eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line6.auto_travel on 2023_schedule_e.noise.pdf page 1 ('2', confidence 0.58); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line12.mortgage_interest:15 oak hollow way unit 204, ca 957380000000 eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2023_schedule_e.noise.pdf page 1 ('5,148', confidence 0.57); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line14.repairs:15 oak hollow way unit 204, ca 957380000000 eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2023_schedule_e.noise.pdf page 1 ('180', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_schedule_e.noise.pdf:schedule_e.line19.other:15 oak hollow way unit 204, ca 957380000000 eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line19.other on 2023_schedule_e.noise.pdf page 1 ('8560', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_form_4562_2.noise.pdf:form_4562.line22.total:lib lakeview or, south lake tahoa, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_4562.line22.total on 2023_form_4562_2.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2023_form_4562_3.noise.pdf:form_4562.line22.total:bental 515 oak hollow way unit 204, blk grave, ca 35758",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_4562.line22.total on 2023_form_4562_3.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line2b.taxable_interest:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line2b.taxable_interest on 2024_form_1040.noise.pdf page 1 ('8', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line3a.qualified_dividends:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line3a.qualified_dividends on 2024_form_1040.noise.pdf page 1 ('4', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line3b.ordinary_dividends:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line3b.ordinary_dividends on 2024_form_1040.noise.pdf page 1 ('8', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line12.deduction:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line12.deduction on 2024_form_1040.noise.pdf page 1 ('20', confidence 0.56); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line16.tax:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line16.tax on 2024_form_1040.noise.pdf page 2 ('23,205', confidence 0.52); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line33.total_payments:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line33.total_payments on 2024_form_1040.noise.pdf page 2 ('28,013', confidence 0.55); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_1040.noise.pdf:form_1040.line35a.refund:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line35a.refund on 2024_form_1040.noise.pdf page 2 ('8', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line3.rents:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line3.rents on 2024_schedule_e.noise.pdf page 1 ('0,800', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line6.auto_travel:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line6.auto_travel on 2024_schedule_e.noise.pdf page 1 ('268', confidence 0.55); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line3.rents:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line3.rents on 2024_schedule_e.noise.pdf page 1 ('49,800', confidence 0.32); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line5.advertising:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line5.advertising on 2024_schedule_e.noise.pdf page 1 ('820', confidence 0.45); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line6.auto_travel:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line6.auto_travel on 2024_schedule_e.noise.pdf page 1 ('680', confidence 0.34); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line7.cleaning_maintenance:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line7.cleaning_maintenance on 2024_schedule_e.noise.pdf page 1 ('7,000', confidence 0.50); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line8.commissions:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line8.commissions on 2024_schedule_e.noise.pdf page 1 ('1,494', confidence 0.53); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line12.mortgage_interest:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2024_schedule_e.noise.pdf page 1 ('8,999', confidence 0.34); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line14.repairs:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2024_schedule_e.noise.pdf page 1 ('2,910', confidence 0.35); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line16.taxes:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line16.taxes on 2024_schedule_e.noise.pdf page 1 ('5290', confidence 0.41); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line17.utilities:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line17.utilities on 2024_schedule_e.noise.pdf page 1 ('210', confidence 0.41); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line20.total_expenses:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line20.total_expenses on 2024_schedule_e.noise.pdf page 1 ('84,353', confidence 0.22); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line21.income_or_loss:1187 lakeview dr, south lake tahoe, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line21.income_or_loss on 2024_schedule_e.noise.pdf page 1 ('(1,353)', confidence 0.52); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line3.rents:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line3.rents on 2024_schedule_e.noise.pdf page 1 ('20,100', confidence 0.30); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line10.legal_professional:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line10.legal_professional on 2024_schedule_e.noise.pdf page 1 ('00', confidence 0.41); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line14.repairs:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2024_schedule_e.noise.pdf page 1 ('4,920', confidence 0.32); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line15.supplies:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line15.supplies on 2024_schedule_e.noise.pdf page 1 ('160', confidence 0.45); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line16.taxes:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line16.taxes on 2024_schedule_e.noise.pdf page 1 ('3,410', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line17.utilities:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line17.utilities on 2024_schedule_e.noise.pdf page 1 ('0', confidence 0.32); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line18.depreciation:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line18.depreciation on 2024_schedule_e.noise.pdf page 1 ('6,526', confidence 0.39); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line20.total_expenses:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line20.total_expenses on 2024_schedule_e.noise.pdf page 1 ('87,678', confidence 0.24); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line21.income_or_loss:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line21.income_or_loss on 2024_schedule_e.noise.pdf page 1 ('(7,578)', confidence 0.52); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line12.mortgage_interest:915 dak hollow way unit 204, ca 95758 0000000000",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2024_schedule_e.noise.pdf page 2 ('155', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line16.taxes:915 dak hollow way unit 204, ca 95758 0000000000",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line16.taxes on 2024_schedule_e.noise.pdf page 2 ('2950', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_schedule_e.noise.pdf:schedule_e.line22.deductible_loss:915 dak hollow way unit 204, ca 95758 0000000000",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line22.deductible_loss on 2024_schedule_e.noise.pdf page 2 ('154569)', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_4562_2.noise.pdf:form_4562.line22.total:lib lakeview or, south lake tahoa, ca 96150",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_4562.line22.total on 2024_form_4562_2.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_4562_3.noise.pdf:form_4562.line22.total:2875 elm ct, roseville, ca 95661",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_4562.line22.total on 2024_form_4562_3.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_4562_4.noise.pdf:form_4562.line22.total:bental 515 oak hollow way unit 204, blk grave, ca 35758",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_4562.line22.total on 2024_form_4562_4.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_8582.noise.pdf:form_8582.line4.loss:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line4.loss on 2024_form_8582.noise.pdf page 1 ('4,000', confidence 0.57); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_8582.noise.pdf:form_8582.line5.threshold:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line5.threshold on 2024_form_8582.noise.pdf page 1 ('150,000', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2024_form_8582.noise.pdf:form_8582.line6.magi:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line6.magi on 2024_form_8582.noise.pdf page 1 ('179,650', confidence 0.55); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line3a.qualified_dividends:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line3a.qualified_dividends on 2025_form_1040.noise.pdf page 1 ('900', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line3b.ordinary_dividends:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line3b.ordinary_dividends on 2025_form_1040.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line11.agi:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line11.agi on 2025_form_1040.noise.pdf page 1 ('185,950', confidence 0.60); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line16.tax:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line16.tax on 2025_form_1040.noise.pdf page 2 ('28807', confidence 0.59); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line18.tax_plus_sch2:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line18.tax_plus_sch2 on 2025_form_1040.noise.pdf page 2 ('380', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line24.total_tax:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line24.total_tax on 2025_form_1040.noise.pdf page 2 ('28', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line33.total_payments:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line33.total_payments on 2025_form_1040.noise.pdf page 2 ('8,579', confidence 0.53); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_1040.noise.pdf:form_1040.line35a.refund:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_1040.line35a.refund on 2025_form_1040.noise.pdf page 2 ('7', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line3.rents:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line3.rents on 2025_schedule_e.noise.pdf page 1 ('42,600', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line6.auto_travel:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line6.auto_travel on 2025_schedule_e.noise.pdf page 1 ('8', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line11.management_fees:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line11.management_fees on 2025_schedule_e.noise.pdf page 1 ('08', confidence 0.56); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line12.mortgage_interest:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2025_schedule_e.noise.pdf page 1 ('(830', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line14.repairs:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2025_schedule_e.noise.pdf page 1 ('4,022', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line17.utilities:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line17.utilities on 2025_schedule_e.noise.pdf page 1 ('4260', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line21.income_or_loss:1420 maple st sacramento, ca 95838 0000000 ee eee",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line21.income_or_loss on 2025_schedule_e.noise.pdf page 1 ('292', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line5.advertising:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line5.advertising on 2025_schedule_e.noise.pdf page 1 ('560', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line7.cleaning_maintenance:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line7.cleaning_maintenance on 2025_schedule_e.noise.pdf page 1 ('7,240', confidence 0.53); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line8.commissions:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line8.commissions on 2025_schedule_e.noise.pdf page 1 ('1,434', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line12.mortgage_interest:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line12.mortgage_interest on 2025_schedule_e.noise.pdf page 1 ('8,990', confidence 0.37); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line14.repairs:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2025_schedule_e.noise.pdf page 1 ('2,640', confidence 0.37); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line15.supplies:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line15.supplies on 2025_schedule_e.noise.pdf page 1 ('18', confidence 0.38); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line16.taxes:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line16.taxes on 2025_schedule_e.noise.pdf page 1 ('8', confidence 0.40); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line17.utilities:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line17.utilities on 2025_schedule_e.noise.pdf page 1 ('4,390', confidence 0.39); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line20.total_expenses:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line20.total_expenses on 2025_schedule_e.noise.pdf page 1 ('2,134', confidence 0.34); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line21.income_or_loss:1187 lakeview dr south lake tahoe, ca 96150 02",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line21.income_or_loss on 2025_schedule_e.noise.pdf page 1 ('7', confidence 0.57); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line3.rents:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line3.rents on 2025_schedule_e.noise.pdf page 1 ('40,800', confidence 0.36); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line6.auto_travel:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line6.auto_travel on 2025_schedule_e.noise.pdf page 1 ('2', confidence 0.30); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line14.repairs:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line14.repairs on 2025_schedule_e.noise.pdf page 1 ('2180', confidence 0.34); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line15.supplies:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line15.supplies on 2025_schedule_e.noise.pdf page 1 ('230', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line18.depreciation:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line18.depreciation on 2025_schedule_e.noise.pdf page 1 ('6,175', confidence 0.30); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line20.total_expenses:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line20.total_expenses on 2025_schedule_e.noise.pdf page 1 ('88,287', confidence 0.23); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_schedule_e.noise.pdf:schedule_e.line21.income_or_loss:2875 elm ct roseville, ca 9566 00",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of schedule_e.line21.income_or_loss on 2025_schedule_e.noise.pdf page 1 ('(18,457)', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_4562_3.noise.pdf:form_4562.line22.total:2875 elm ct, roseville, ca 95661",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_4562.line22.total on 2025_form_4562_3.noise.pdf page 1 ('2', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_8582.noise.pdf:form_8582.line1c.prior_unallowed:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line1c.prior_unallowed on 2025_form_8582.noise.pdf page 1 ('(4,000)', confidence 0.54); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_8582.noise.pdf:form_8582.line4.loss:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line4.loss on 2025_form_8582.noise.pdf page 1 ('200', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_8582.noise.pdf:form_8582.line5.threshold:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line5.threshold on 2025_form_8582.noise.pdf page 1 ('158,000', confidence 0.56); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:2025_form_8582.noise.pdf:form_8582.line10.passive_income:None",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of form_8582.line10.passive_income on 2025_form_8582.noise.pdf page 1 ('829', confidence 0.51); the form's arithmetic did not check out. Confirm against the page."
+          },
+          {
+            "key": "low_conf:appraisal_1.noise.pdf:appraisal.market_value:l420 maple st, sacramento, ca 95838",
+            "kind": "conflict",
+            "severity": "info",
+            "message": "Low-confidence OCR read of appraisal.market_value on appraisal_1.noise.pdf page 1 ('$545,000', confidence 0.60); the form's arithmetic did not check out. Confirm against the page."
+          }
+        ],
+        "unplanted_count": 99,
+        "unplanted_non_info": 5
+      },
+      "errors_sample": [
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.home_state",
+          "gold": "CA",
+          "got": null,
+          "raw": null,
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line3a.qualified_dividends",
+          "gold": 318000,
+          "got": null,
+          "raw": null,
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line3b.ordinary_dividends",
+          "gold": 352000,
+          "got": 852000,
+          "raw": "8,520",
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line9.total_income",
+          "gold": 18353300,
+          "got": 1353300,
+          "raw": "13,533",
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line11.agi",
+          "gold": 18353300,
+          "got": 18453300,
+          "raw": "184,533",
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line14.total_deductions",
+          "gold": 2770000,
+          "got": null,
+          "raw": null,
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line16.tax",
+          "gold": 2489800,
+          "got": 489800,
+          "raw": "4898",
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line25a.w2_withholding",
+          "gold": 2560400,
+          "got": null,
+          "raw": null,
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line33.total_payments",
+          "gold": 2560400,
+          "got": null,
+          "raw": null,
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_form_1040.noise.pdf",
+          "field": "form_1040.line35a.refund",
+          "gold": 70600,
+          "got": null,
+          "raw": null,
+          "family": "form_1040"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line1a.address",
+          "gold": "1420 Maple St, Sacramento, CA 95838",
+          "got": "1420 Maple St, Sacramento, CA 95838 0000000 ee eee",
+          "raw": "1420 Maple St, Sacramento, CA 95838 0000000 ee eee",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line1a.address",
+          "gold": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "got": "1187 Lakeview Dr, South Lake Tahoe, CA 96150 02",
+          "raw": "1187 Lakeview Dr, South Lake Tahoe, CA 96150 02",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line1a.address",
+          "gold": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "got": "$15 Oak Hollow Way Unit 204 Elk Grove, CA 957380000000 eee",
+          "raw": "$15 Oak Hollow Way Unit 204 Elk Grove, CA 957380000000 eee",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line2.fair_rental_days",
+          "gold": 365,
+          "got": 6,
+          "raw": "6",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line2.personal_use_days",
+          "gold": 0,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line2.fair_rental_days",
+          "gold": 168,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line2.personal_use_days",
+          "gold": 24,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line1b.type",
+          "gold": 1,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line2.fair_rental_days",
+          "gold": 365,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line2.personal_use_days",
+          "gold": 0,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line3.rents",
+          "gold": 4620000,
+          "got": 2760000,
+          "raw": "27,600",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line3.rents",
+          "gold": 2760000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line5.advertising",
+          "gold": 48000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line6.auto_travel",
+          "gold": 24000,
+          "got": 200,
+          "raw": "2",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line6.auto_travel",
+          "gold": 62000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line6.auto_travel",
+          "gold": 12000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "gold": 60000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "gold": 672000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line8.commissions",
+          "gold": 138600,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line9.insurance",
+          "gold": 184000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line9.insurance",
+          "gold": 286000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line9.insurance",
+          "gold": 94000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line11.management_fees",
+          "gold": 307200,
+          "got": 200,
+          "raw": "02",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line11.management_fees",
+          "gold": 220800,
+          "got": 20800,
+          "raw": "208",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line12.mortgage_interest",
+          "gold": 629500,
+          "got": -5629500,
+          "raw": "56295)",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line12.mortgage_interest",
+          "gold": 1430700,
+          "got": 514800,
+          "raw": "5,148",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line12.mortgage_interest",
+          "gold": 514800,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line14.repairs",
+          "gold": 118000,
+          "got": 18000,
+          "raw": "180",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line15.supplies",
+          "gold": 18000,
+          "got": 4000,
+          "raw": "40",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line15.supplies",
+          "gold": 94000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line15.supplies",
+          "gold": 9000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line16.taxes",
+          "gold": 342000,
+          "got": 81800,
+          "raw": "818",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line16.taxes",
+          "gold": 518000,
+          "got": 2887000,
+          "raw": "28,870",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line16.taxes",
+          "gold": 287000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line17.utilities",
+          "gold": 114000,
+          "got": 6000,
+          "raw": "O60",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line17.utilities",
+          "gold": 406000,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line18.depreciation",
+          "gold": 839900,
+          "got": 1099000,
+          "raw": "10,990",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line18.depreciation",
+          "gold": 1099000,
+          "got": 663200,
+          "raw": "6,632",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line18.depreciation",
+          "gold": 663200,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line19.other",
+          "gold": 456000,
+          "got": 856000,
+          "raw": "8560",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line20.total_expenses",
+          "gold": 2783600,
+          "got": 4992300,
+          "raw": "49,923",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line20.total_expenses",
+          "gold": 4992300,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line20.total_expenses",
+          "gold": 2374800,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line21.income_or_loss",
+          "gold": 1056400,
+          "got": 700,
+          "raw": "7",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line21.income_or_loss",
+          "gold": -372300,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line21.income_or_loss",
+          "gold": 385200,
+          "got": null,
+          "raw": null,
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_schedule_e.noise.pdf",
+          "field": "schedule_e.line22.deductible_loss",
+          "gold": -372300,
+          "got": 733500,
+          "raw": "7335",
+          "family": "schedule_e"
+        },
+        {
+          "file": "2023_form_4562_1.noise.pdf",
+          "field": "form_4562.activity",
+          "gold": "1420 Maple St, Sacramento, CA 95838",
+          "got": "1420 Maple St, Sacramento, CA 988398",
+          "raw": "RENTAL 1420 Maple St, Sacramento, CA 988398",
+          "family": "form_4562"
+        },
+        {
+          "file": "2023_form_4562_1.noise.pdf",
+          "field": "form_4562.line22.total",
+          "gold": 839900,
+          "got": 200,
+          "raw": "2",
+          "family": "form_4562"
+        },
+        {
+          "file": "2023_form_4562_2.noise.pdf",
+          "field": "form_4562.activity",
+          "gold": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "got": "LIB? Lakeview Or, South Lake Tahoa, CA 96150",
+          "raw": "RENTAL LIB? Lakeview Or, South Lake Tahoa, CA 96150",
+          "family": "form_4562"
+        }
+      ],
+      "params": {
+        "dpi": 100,
+        "rotation": 2.0,
+        "quality": 35
+      }
+    }
+  },
+  "summary": {
+    "text": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "doc_exact_match": 1.0,
+      "kind_accuracy": 1.0,
+      "entity_resolution_accuracy": 1.0,
+      "finding_recall": 1.0
+    },
+    "scan": {
+      "precision": 0.9976,
+      "recall": 1.0,
+      "doc_exact_match": 1.0,
+      "kind_accuracy": 1.0,
+      "entity_resolution_accuracy": 1.0,
+      "finding_recall": 1.0
+    },
+    "noise": {
+      "precision": 0.4703,
+      "recall": 0.2458,
+      "doc_exact_match": 0.0,
+      "kind_accuracy": 0.8077,
+      "entity_resolution_accuracy": 0.2188,
+      "finding_recall": 0.2
+    }
+  }
+}

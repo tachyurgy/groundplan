@@ -361,8 +361,7 @@ function AppreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
 
 function DepreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
   const d = a.depreciation;
-  let cum = 0;
-  const rows = d.schedule.map((r) => ({ ...r, cum: (cum += r.amount_cents), projected: r.year > a.year }));
+  const rows = withCumulative(d.schedule, a.year);
   return (
     <div className="grid gap-x-8 gap-y-6 xl:grid-cols-[1fr_1.1fr]">
       <div>
@@ -417,6 +416,13 @@ function DepreciationTab({ a, narrow }: { a: AnalysisT; narrow: boolean }) {
       </div>
     </div>
   );
+}
+
+function withCumulative(schedule: AnalysisT['depreciation']['schedule'], year: number) {
+  return schedule.reduce<(AnalysisT['depreciation']['schedule'][number] & { cum: number; projected: boolean })[]>((out, r) => {
+    out.push({ ...r, cum: (out.length ? out[out.length - 1].cum : 0) + r.amount_cents, projected: r.year > year });
+    return out;
+  }, []);
 }
 
 function ExitTab({ a }: { a: AnalysisT }) {

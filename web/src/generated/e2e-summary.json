@@ -1,0 +1,8 @@
+{
+  "generated_at": null,
+  "note": "Filled in by scripts/summarize-e2e.mjs after a Playwright run.",
+  "runs": [],
+  "unit": null,
+  "bundle": null,
+  "axe": null
+}
