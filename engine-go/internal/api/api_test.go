@@ -227,6 +227,16 @@ func TestIntegration(t *testing.T) {
 	})
 
 	t.Run("resolve moves the figure from blocked to confirmed", func(t *testing.T) {
+		// the seed carries no blocking finding (it surfaces when the 2025 Schedule E is uploaded): import one the way
+		// the pipeline reports it, through import-reconciled
+		_, mp := getJSON(t, s, "GET", "/api/v1/properties/"+maple, wsA, "")
+		key := mp.(map[string]any)["property_key"].(string)
+		payload := `{"household": {}, "properties": [], "findings": [{"key": "conflict:test:rents", "kind": "conflict",
+			"field": "schedule_e.line3.rents", "severity": "block", "tax_year": 2025, "property_key": "` + key + `",
+			"message": "rents disagree", "candidates": [{"source": "schedule_e", "value": 5160000}, {"source": "rent roll", "value": 5040000}]}]}`
+		if c, b := getJSON(t, s, "POST", "/api/v1/households/"+hid+"/import-reconciled", wsA, payload); c != 200 {
+			t.Fatalf("import: %d %v", c, b)
+		}
 		_, an := getJSON(t, s, "GET", "/api/v1/properties/"+maple+"/analysis", wsA, "")
 		if st := an.(map[string]any)["cash_flow"].(map[string]any)["net_cash_flow"].(map[string]any)["status"]; st != "blocked" {
 			t.Fatalf("before: %v", st)
