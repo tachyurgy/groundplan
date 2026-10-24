@@ -325,3 +325,69 @@ def leads_trails(paths: list[dict], h: HouseholdModel, p: PropertyModel) -> dict
         "note": "a measure is neutral when all three paths are within 1% of each other; there is no overall winner",
     }
     return m
+
+
+def _f(key: str, cents_: int, formula: str, inputs: list[Input] | None = None, notes: list[str] | None = None,
+       status: str | None = None) -> dict:
+    fig = money(key, Decimal(cents_), inputs or [Input.of(key, cents_, src="figure", ref="strategies")], formula, notes)
+    if status:
+        fig.status = status
+    return fig.to_dict()
+
+
+def present(r: dict) -> dict:
+    """Add the Figure-shaped fields the web client renders (types.ts StrategyComparison) without dropping the
+    scalar *_cents fields the golden fixtures and the Go port compare."""
+    a = r["assumptions"]
+    for pth in r["paths"]:
+        t = pth["terminal"]
+        st = t["terminal_wealth"]["status"]
+        key = pth["path"]
+        t["cumulative_cash_flow"] = _f(f"strategy.{key}.cumulative_cash_flow", t["cumulative_cash_flow_cents"],
+                                       "sum of yearly net cash flow over the horizon", status=st)
+        t["tax_paid_now"] = _f(f"strategy.{key}.tax_paid_now", t["tax_paid_now_cents"], "tax due at decision time", status=st)
+        if key == "hold":
+            t["deferred_liability"] = _f("strategy.hold.deferred_liability", t["exit_tax_at_horizon_cents"],
+                                         "exit tax if sold at the horizon (grows with depreciation and appreciation)", status=st)
+            t["ending_equity"] = _f("strategy.hold.ending_equity", t["ending_equity_cents"], "value - debt at horizon", status=st)
+        elif key == "sell":
+            t["deferred_liability"] = _f("strategy.sell.deferred_liability", 0, "nothing deferred: tax paid now", status=st)
+            t["ending_equity"] = _f("strategy.sell.ending_equity", 0, "no property held", status=st)
+            pth["proceeds_use"] = [
+                {"label": "Net proceeds after tax, today", "value": _f("strategy.sell.net_proceeds", t["net_proceeds_today_cents"],
+                                                                       "net before tax - exit tax", status=st)},
+                {"label": "Exit tax paid now", "value": _f("strategy.sell.exit_tax", t["exit_tax_today_cents"],
+                                                           "fed_1250 + fed_1245 + fed_ltcg + niit + state", status=st)},
+                {"label": f"Proceeds invested at {Decimal(a['reinvest_rate']) * 100:.1f}% for {a['horizon_years']} years",
+                 "value": t["terminal_wealth"]},
+            ]
+        else:
+            t["deferred_liability"] = _f("strategy.exchange.deferred_liability", t["deferred_liability_at_horizon_cents"],
+                                         "tax due if the replacement is sold at the horizon (carryover basis)",
+                                         notes=["shown explicitly and subtracted from terminal wealth"], status=st)
+            last = pth["series"][-1]
+            t["ending_equity"] = _f("strategy.exchange.ending_equity", last["equity_cents"], "replacement value - debt at horizon",
+                                    status=st)
+            pth["boot"] = {
+                "cash_boot": _f("exchange.cash_boot", t["cash_taken_cents"], "cash taken out of the exchange", status=st),
+                "mortgage_boot": _f("exchange.mortgage_boot", t["mortgage_boot_cents"], "max(0, old debt paid off - replacement debt)",
+                                    status=st),
+                "total_boot": t["boot"],
+                "gain_recognized": _f("exchange.gain_recognized", t["gain_recognized_cents"], "min(boot, total gain)", status=st),
+                "tax_on_boot": _f("exchange.tax_on_boot", t["tax_on_boot_cents"], "boot taxed through the same exit-tax stack",
+                                  status=st),
+            }
+            pth["proceeds_use"] = [
+                {"label": "Equity rolled into the replacement", "value": _f("exchange.equity_rolled", t["exchange_equity_cents"],
+                                                                            "net before tax - cash taken", status=st)},
+                {"label": "Gain deferred (carried into the replacement basis)",
+                 "value": _f("exchange.gain_deferred", t["gain_deferred_cents"], "total gain - gain recognized", status=st)},
+            ]
+            if pth.get("dst"):
+                pth["proceeds_use"].append({"label": "DST load (fees and sponsor costs)",
+                                            "value": _f("exchange.dst_load", t["dst_load_cents"], "exchange equity x load_rate",
+                                                        status=st)})
+    r["horizon_years"] = a["horizon_years"]
+    r["caveats"] = {pp["path"]: pp["caveats"] for pp in r["paths"]}
+    r["matrix_explain"] = r["matrix"].pop("_explain")
+    return r

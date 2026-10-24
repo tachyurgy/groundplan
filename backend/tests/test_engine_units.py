@@ -44,7 +44,7 @@ def test_analysis_and_observations():
     p = _demo_property()
     h = HouseholdModel(magi_cents=18_000_000)
     an = analyze_property(p, h, 2025)
-    assert an["cash_flow"]["net_annual"]["status"] == "estimated"  # default vacancy/capex
+    assert an["cash_flow"]["net_cash_flow"]["status"] == "estimated"  # default vacancy/capex
     ctx = observations.property_context("Test", an, p, Decimal("0.06"), date(2026, 1, 1))
     rules = {o["rule"] for o in observations.evaluate(ctx, "property")}
     assert {"cash_flow_negative", "value_estimated", "io_ending"} <= rules

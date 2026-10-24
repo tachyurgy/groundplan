@@ -67,7 +67,7 @@ RULES: tuple[Rule, ...] = (
     Rule("loan_maturity", "property", "warn", lambda c: _within(c.get("maturity_months"), 36),
          lambda c: f"A loan on {c['name']} matures in {c['maturity_months']} months.", ("loans.schedule",)),
     Rule("land_pct_bounded", "property", "info", lambda c: bool(c.get("land_pct_bounded")),
-         lambda c: f"The land share for {c['name']} was outside 20-40% and was bounded; confirm with the assessor split.",
+         lambda c: f"The land share for {c['name']} was outside 20-60% and was bounded; confirm with the assessor split.",
          ("depreciation.depreciable_basis",)),
     Rule("depreciation_gap", "property", "warn", lambda c: bool(c.get("dep_outlier")),
          lambda c: f"Depreciation claimed on the return for {c['name']} differs from the allowable amount by more than 5%; recapture still uses allowable.",
@@ -109,14 +109,13 @@ def property_context(name: str, an: dict, p, reinvest_rate: Decimal, today: date
         if ln.maturity_date:
             v = _months_until(ln.maturity_date, today)
             mat = v if mat is None else min(mat, v)
-    basis_notes = an["depreciation"]["basis"]["notes"]
     return {
         "name": name, "net_cash_flow_cents": an.get("_net_cents"), "dscr": an.get("_dscr"), "roe": an.get("_roe"),
         "reinvest_rate": reinvest_rate, "equity_cents": an.get("_equity_cents") or 0, "exit_tax_cents": an.get("_exit_tax_cents") or 0,
         "io_end_months": io_end, "arm_reset_months": arm, "maturity_months": mat,
-        "land_pct_bounded": any("bounded" in n for n in basis_notes), "dep_outlier": an.get("_dep_outlier"),
+        "land_pct_bounded": an.get("_land_bounded"), "dep_outlier": an.get("_dep_outlier"),
         "value_source": p.value_source, "value_cents": p.current_value_cents,
-        "concentration": an["equity"]["concentration"].get("value"), "avg_stay_days": p.avg_stay_days,
+        "concentration": an.get("_concentration"), "avg_stay_days": p.avg_stay_days,
     }
 
 

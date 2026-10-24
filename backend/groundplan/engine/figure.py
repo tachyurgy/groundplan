@@ -7,7 +7,7 @@ worst status upward.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 from decimal import ROUND_HALF_UP, Decimal
 from typing import Any
 
@@ -51,6 +51,8 @@ class Source:
     type: str = "manual"  # document | manual | public_data | default | figure
     ref: str | None = None  # document id / "Schedule E line 3" / figure key / rule name
     page: int | None = None
+    document_id: str | None = None
+    bbox: list[float] | None = None
 
     def __post_init__(self) -> None:
         if self.type not in SOURCE_TYPES:
@@ -63,6 +65,23 @@ class Input:
     value: Any
     source: Source = field(default_factory=Source)
     status: str | None = None  # only set when the input is itself a Figure
+    child: Figure | None = field(default=None, repr=False, compare=False)  # the child Figure (inputs tree)
+    label: str | None = None
+
+    def to_dict(self, depth: int = 1) -> dict[str, Any]:
+        src = {"type": self.source.type, "ref": self.source.ref, "page": self.source.page}
+        if self.source.document_id:
+            src["document_id"] = self.source.document_id
+        if self.source.bbox:
+            src["bbox"] = self.source.bbox
+        d: dict[str, Any] = {"key": self.key, "value": self.value, "source": src}
+        if self.status is not None:
+            d["status"] = self.status
+        if self.label:
+            d["label"] = self.label
+        if self.child is not None and depth > 0:
+            d["figure"] = self.child.to_dict(depth - 1)
+        return d
 
     @classmethod
     def of(cls, key: str, value: Any, src: str = "manual", ref: str | None = None, page: int | None = None) -> Input:
@@ -75,6 +94,7 @@ class Input:
             value=fig.value_cents if fig.value_cents is not None else fig.value,
             source=Source(type="figure", ref=fig.key),
             status=fig.status,
+            child=fig,
         )
 
 
@@ -100,14 +120,21 @@ class Figure:
             return Decimal(self.value_cents)
         return D(self.value) if self.value is not None else Decimal(0)
 
-    def to_dict(self) -> dict[str, Any]:
-        d = asdict(self)
-        for inp in d["inputs"]:
-            if inp.get("status") is None:
-                inp.pop("status", None)
-        if self.unit == "cents":
-            d.pop("value", None)
+    def to_dict(self, depth: int = 1) -> dict[str, Any]:
+        """JSON shape. `depth` = how many levels of child Figures to inline under inputs[].figure."""
+        d: dict[str, Any] = {"key": self.key, "value_cents": self.value_cents, "status": self.status,
+                             "inputs": [i.to_dict(depth) for i in self.inputs], "formula": self.formula,
+                             "notes": list(self.notes), "unit": self.unit}
+        if self.unit != "cents":
+            d["value"] = self.value
         return d
+
+    def walk(self):
+        """Yield this Figure and every descendant Figure (depth-first)."""
+        yield self
+        for i in self.inputs:
+            if i.child is not None:
+                yield from i.child.walk()
 
 
 def derive_status(inputs: list[Input], blocked_keys: set[str] | frozenset[str] | None = None) -> str:

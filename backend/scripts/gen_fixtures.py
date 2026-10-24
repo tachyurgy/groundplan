@@ -51,7 +51,7 @@ dep.append(C("basis_worked_example_d", "depreciation_basis", {"purchase_price_ce
              {"basis_cents": 28_000_000, "bounded": False}))
 dep.append(C("basis_land_bounded_high", "depreciation_basis",
              {"purchase_price_cents": 40_000_000, "improvements_cents": 0, "land_pct": "0.70"},
-             {"basis_cents": 24_000_000, "land_pct": "0.40", "bounded": True}))
+             {"basis_cents": 16_000_000, "land_pct": "0.60", "bounded": True}))
 dep.append(C("basis_default_land_estimated", "depreciation_basis", {"purchase_price_cents": 50_000_000, "improvements_cents": 5_000_000},
              {"basis_cents": 38_500_000, "land_pct": "0.30", "status": "estimated"}))
 dep.append(C("allowed_less_than_allowable_outlier", "depreciation_full",
