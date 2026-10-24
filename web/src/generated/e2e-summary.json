@@ -1,8 +1,123 @@
 {
-  "generated_at": null,
-  "note": "Filled in by scripts/summarize-e2e.mjs after a Playwright run.",
-  "runs": [],
-  "unit": null,
-  "bundle": null,
-  "axe": null
+  "generated_at": "2026-10-24T04:13:53.007Z",
+  "unit": {
+    "files": 10,
+    "tests": 40,
+    "passed": 40
+  },
+  "runs": [
+    {
+      "project": "go-android",
+      "target": "https://gp-go.levelbrook.com",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 3,
+      "flaky": 0
+    },
+    {
+      "project": "go-desktop",
+      "target": "https://gp-go.levelbrook.com",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    {
+      "project": "go-iphone",
+      "target": "https://gp-go.levelbrook.com",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 1,
+      "flaky": 0
+    },
+    {
+      "project": "go-tablet",
+      "target": "https://gp-go.levelbrook.com",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 3,
+      "flaky": 0
+    },
+    {
+      "project": "mock-android",
+      "target": "http://localhost:4173",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 3,
+      "flaky": 0
+    },
+    {
+      "project": "mock-desktop",
+      "target": "http://localhost:4173",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 2,
+      "flaky": 0
+    },
+    {
+      "project": "mock-iphone",
+      "target": "http://localhost:4173",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 2,
+      "flaky": 0
+    },
+    {
+      "project": "mock-tablet",
+      "target": "http://localhost:4173",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 3,
+      "flaky": 0
+    },
+    {
+      "project": "parity",
+      "target": "python vs go",
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    {
+      "project": "python-android",
+      "target": "https://gp-python.levelbrook.com",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 3,
+      "flaky": 0
+    },
+    {
+      "project": "python-desktop",
+      "target": "https://gp-python.levelbrook.com",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0
+    },
+    {
+      "project": "python-iphone",
+      "target": "https://gp-python.levelbrook.com",
+      "passed": 14,
+      "failed": 0,
+      "skipped": 1,
+      "flaky": 0
+    },
+    {
+      "project": "python-tablet",
+      "target": "https://gp-python.levelbrook.com",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 3,
+      "flaky": 0
+    }
+  ],
+  "axe": {
+    "pages": 180,
+    "serious": 0,
+    "critical": 0
+  },
+  "bundle": {
+    "initial_gzip_kb": 158.6,
+    "budget_kb": 200
+  }
 }

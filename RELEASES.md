@@ -1,5 +1,21 @@
 # Groundplan releases
 
+## 2026-10-23 (night) — Front ends live: gp-python.levelbrook.com and gp-go.levelbrook.com
+- **What deployed:** Cloudflare Pages projects `gp-python` and `gp-go`, the same React build twice (VITE_STACK), each
+  proxying `/api/*` to its backend through a Pages Function. Live: https://gp-python.levelbrook.com,
+  https://gp-go.levelbrook.com.
+- **Changed:** web rebuilt on React 19 + React Compiler, Vite 8, Tailwind 4, TanStack Router (typed URL state) +
+  Query, Zod at the API boundary, Radix primitives, Recharts 3 + hand-built SVG charts (waterfall, sensitivity
+  heatmap, bracket fill, diverging bars, sparklines), TanStack Virtual, MSW mock backend; no-login workspaces;
+  stack badge + twin link; upload summary for the Schedule E demo flow; `/engineering` page; CI workflow.
+- **How:** `cd web && scripts/deploy-pages.sh python` and `... go` (wrangler pages deploy of dist + functions, lbtrack
+  installed, `_routes.json`), secrets `API_ORIGIN` + `PROXY_KEY` per project, custom domains via the Pages API +
+  proxied CNAMEs.
+- **Verified:** Vitest 40/40; Playwright mock 50 passed (4 viewports), live 107 passed across Python and Go at 4
+  viewports plus the Python-vs-Go parity walk (headline figures identical for all 4 properties via the twin link);
+  axe 0 serious / 0 critical across 180 page scans (light + dark); initial JS 158.6 KB gzip (budget 200); a
+  workspace created through each proxy records the visitor IP on both backends.
+
 ## 2026-10-23 — gp-go-api upload-conflict semantics, JSON seed unpinned; gp-python-api properties_touched order
 - **What deployed:** gp-go-api `707bcbf` and gp-python-api `707bcbf73185` (Box B).
 - **Changed:** Go ports the new ingest rules (blocking conflict instead of overwrite, decided conflicts stay closed, no
