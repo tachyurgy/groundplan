@@ -54,7 +54,7 @@ pipeline-service:
 	cd pipeline && uv run uvicorn gp_pipeline.service:app --port 8090
 
 parity:
-	uv run --no-project --with httpx python scripts/parity.py $(A) $(B)
+	python3 scripts/parity.py $(A) $(B)
 
 fixtures:
 	cd $(BACKEND) && uv run python -m scripts.gen_fixtures
