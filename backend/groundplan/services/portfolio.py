@@ -139,15 +139,39 @@ def _obs_api(o: dict, idx: int) -> dict:
             "rule": o["rule"], "message": o["message"], "property_id": o.get("property_id"), "figures": o["cites"]}
 
 
+ANALYSIS_OVERRIDES = ("appreciation_rate", "rent_growth_rate", "expense_growth_rate", "vacancy_rate", "capex_reserve_rate",
+                      "selling_cost_rate", "land_pct", "current_value_cents", "arm_index")
+
+
+def apply_overrides(pm: PropertyModel, overrides: dict | None) -> list[str]:
+    """Apply what-if overrides from the UI (query params). Returns the keys applied (they count as manual inputs)."""
+    applied = []
+    for k, v in (overrides or {}).items():
+        if v is None or v == "":
+            continue
+        if k == "arm_index":
+            for ln in pm.loans:
+                if ln.loan_type == "arm":
+                    ln.arm_index = Decimal(str(v))
+            applied.append(k)
+        elif k == "current_value_cents":
+            pm.current_value_cents = int(v)
+            pm.value_source = "confirmed"  # an advisor-entered value is a manual input
+            applied.append(k)
+        elif k in ANALYSIS_OVERRIDES:
+            setattr(pm, k, Decimal(str(v)))
+            applied.append(k)
+    return applied
+
+
 def analyze(s: Session, p: m.Property, advisor_id: str, year: int | None = None, horizon: int = 10,
             overrides: dict | None = None) -> tuple[dict, PropertyModel, HouseholdModel]:
     h = p.household
     pm = property_model(s, p, advisor_id, h.findings)
-    for k, v in (overrides or {}).items():
-        if v is not None and hasattr(pm, k):
-            setattr(pm, k, Decimal(str(v)) if k.endswith("_rate") else v)
+    applied = apply_overrides(pm, overrides)
     hm = household_model(h)
     an = analyze_property(pm, hm, year or h.tax_year_latest, horizon)
+    an["overrides_applied"] = applied
     ctx = obs.property_context(p.nickname, an, pm, DEFAULTS["reinvest_rate"], date(an["year"] + 1, 1, 1))
     an["observations"] = [_obs_api(o, i) for i, o in enumerate(obs.evaluate(ctx, "property", p.id))]
     return an, pm, hm
@@ -363,3 +387,39 @@ def field_dict(f: m.ExtractedField) -> dict:
     return {"id": f.id, "document_id": f.document_id, "entity_hint": f.entity_hint, "property_key": f.property_key, "field": f.field,
             "value": f.value, "unit": f.unit, "page": f.page, "bbox": f.bbox, "confidence": f.confidence, "extractor": f.extractor,
             "raw_text": f.raw_text}
+
+
+STRATEGY_OVERRIDES = ("appreciation_rate", "rent_growth", "expense_growth", "reinvest_rate", "arm_index",
+                      "replacement_value_cents", "replacement_debt_cents", "cash_taken_cents", "dst", "load_rate", "dst_yield",
+                      "replacement_state")
+
+
+def strategies(s: Session, p: m.Property, advisor_id: str, horizon: int = 10, params: dict | None = None) -> dict:
+    from groundplan.engine.strategies import ExchangeAssumptions, StrategyAssumptions, compare_strategies, present
+
+    params = {k: v for k, v in (params or {}).items() if v is not None and v != ""}
+    an, pm, hm = analyze(s, p, advisor_id, horizon=1, overrides={"arm_index": params.get("arm_index")})
+    statuses = [an["cash_flow"]["net_cash_flow"]["status"], an["equity"]["equity"]["status"], an["exit_tax"]["exit_tax_total"]["status"]]
+    base = figure_status(*statuses)
+    reason = None
+    if base != "confirmed":
+        culprits = [n for n, st in zip(("cash flow", "equity", "exit tax"), statuses, strict=True) if st == base]
+        reason = f"base analysis {base}: " + ", ".join(culprits)
+    x = ExchangeAssumptions(
+        replacement_value_cents=int(params["replacement_value_cents"]) if "replacement_value_cents" in params else None,
+        replacement_debt_cents=int(params["replacement_debt_cents"]) if "replacement_debt_cents" in params else None,
+        dst=str(params.get("dst", "false")).lower() in ("1", "true", "yes", "on"),
+        load_rate=str(params.get("load_rate", DEFAULTS["dst_load_rate"])), dst_yield=str(params.get("dst_yield", DEFAULTS["dst_yield"])),
+        cash_taken_cents=int(params.get("cash_taken_cents", 0)), replacement_state=params.get("replacement_state"))
+    a = StrategyAssumptions(horizon_years=horizon, appreciation_rate=params.get("appreciation_rate"),
+                            rent_growth=params.get("rent_growth"), expense_growth=params.get("expense_growth"),
+                            reinvest_rate=str(params.get("reinvest_rate", DEFAULTS["reinvest_rate"])), exchange=x)
+    r = present(compare_strategies(pm, hm, a), base, reason)
+    r["assumptions"]["exchange"] = {"replacement_value_cents": r["paths"][2]["terminal"]["replacement_value_cents"],
+                                    "replacement_debt_cents": r["paths"][2]["terminal"]["replacement_debt_cents"],
+                                    "dst": x.dst, "load_rate": float(x.load_rate), "dst_yield": float(x.dst_yield),
+                                    "cash_taken_cents": x.cash_taken_cents}
+    for k in ("appreciation_rate", "rent_growth", "expense_growth", "reinvest_rate"):
+        r["assumptions"][k] = float(r["assumptions"][k])
+    r["assumptions"]["sale_year"] = r["assumptions"]["start_year"]
+    return r

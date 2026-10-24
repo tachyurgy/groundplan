@@ -93,6 +93,7 @@ def _run_once(req: SimRequest, appr_shocks: np.ndarray | None, rent_shocks: np.n
     for e in req.events:
         events_by_year.setdefault(int(e["year"]), []).append(e)
     rows = []
+    cum_tax = 0.0
     for t in range(req.years):
         yr = req.start_year + t
         cf_total = 0.0
@@ -163,11 +164,13 @@ def _run_once(req: SimRequest, appr_shocks: np.ndarray | None, rent_shocks: np.n
                 p.debt_cents = new_debt
                 p.rate = float(e.get("rate", p.rate))
                 p.remaining_years = int(e.get("term_years", 30))
+        cum_tax += tax_total
         equity = sum(p.value_cents - p.debt_cents for p in props.values() if p.active)
         debt = sum(p.debt_cents for p in props.values() if p.active)
         value = sum(p.value_cents for p in props.values() if p.active)
         rows.append({"year": yr, "net_worth": equity + cash, "cash_flow": cf_total, "taxes_paid": tax_total,
-                     "equity": equity, "debt": debt, "value": value, "cash": cash})
+                     "equity": equity, "debt": debt, "value": value, "cash": cash,
+                     "cum_taxes": cum_tax})
     return {"rows": rows}
 
 
@@ -179,7 +182,7 @@ def simulate(req: SimRequest) -> dict:
     if req.runs and req.runs > 0:
         rng = np.random.Generator(np.random.PCG64(req.seed))
         n_props = max(1, len(req.properties) + sum(1 for e in req.events if e.get("type") in ("buy", "exchange")))
-        metrics = ("net_worth", "cash_flow", "taxes_paid", "equity", "debt")
+        metrics = ("net_worth", "cash_flow", "taxes_paid", "equity", "debt", "cum_taxes")
         acc = {m: np.zeros((req.runs, req.years)) for m in metrics}
         for k in range(req.runs):
             a = rng.normal(0.0, req.appr_sigma, size=(req.years, n_props)) if req.appr_sigma else None

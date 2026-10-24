@@ -48,7 +48,7 @@ ignore = ["B008", "E501"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-filterwarnings = ["error::DeprecationWarning:groundplan.*"]
+filterwarnings = ["error::DeprecationWarning:groundplan.*", "ignore::DeprecationWarning:fastapi.testclient", "ignore:Using `httpx`"]
 
 [tool.uv]
 python-preference = "managed"

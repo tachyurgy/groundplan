@@ -335,10 +335,31 @@ def _f(key: str, cents_: int, formula: str, inputs: list[Input] | None = None, n
     return fig.to_dict()
 
 
-def present(r: dict) -> dict:
+_ORDER = {"confirmed": 0, "estimated": 1, "blocked": 2}
+
+
+def _worst(a: str, b: str) -> str:
+    return a if _ORDER[a] >= _ORDER[b] else b
+
+
+def present(r: dict, base_status: str = "confirmed", base_reason: str | None = None) -> dict:
     """Add the Figure-shaped fields the web client renders (types.ts StrategyComparison) without dropping the
-    scalar *_cents fields the golden fixtures and the Go port compare."""
+    scalar *_cents fields the golden fixtures and the Go port compare.
+
+    `base_status` is the worst status of the property's base analysis (cash flow, equity, exit tax): every strategy
+    figure inherits it, so a strategy built on an estimated value or a blocked rent figure is never shown as confirmed.
+    """
     a = r["assumptions"]
+    for pth in r["paths"]:
+        tw = pth["terminal"]["terminal_wealth"]
+        new = _worst(tw["status"], base_status)
+        if new != tw["status"]:
+            tw["status"] = new
+            tw["inputs"].append({"key": "base_analysis.status", "value": base_status, "status": base_status,
+                                 "source": {"type": "figure", "ref": base_reason or "property analysis", "page": None}})
+        boot = pth["terminal"].get("boot")
+        if boot:
+            boot["status"] = _worst(boot["status"], base_status)
     for pth in r["paths"]:
         t = pth["terminal"]
         st = t["terminal_wealth"]["status"]
@@ -387,6 +408,7 @@ def present(r: dict) -> dict:
                 pth["proceeds_use"].append({"label": "DST load (fees and sponsor costs)",
                                             "value": _f("exchange.dst_load", t["dst_load_cents"], "exchange equity x load_rate",
                                                         status=st)})
+    r["base_status"] = base_status
     r["horizon_years"] = a["horizon_years"]
     r["caveats"] = {pp["path"]: pp["caveats"] for pp in r["paths"]}
     r["matrix_explain"] = r["matrix"].pop("_explain")
