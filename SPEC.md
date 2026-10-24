@@ -1,7 +1,7 @@
-# Groundplan — real estate planning engine for financial advisors (local clone, interview prep)
+# Groundplan — real estate planning engine for financial advisors
 
-Groundplan is a faithful functional clone of a real-estate-planning SaaS for financial advisors, built to run
-LOCALLY ONLY (never deployed). Goal: a candidate can demo and defend every layer in a technical working session.
+Groundplan is a faithful functional clone of a real-estate-planning SaaS for financial advisors.
+Originally local-only; §8 (2026-10-23) adds a public no-login deploy. Goal: a candidate can demo and defend every layer in a technical working session.
 Stack mirrors the target company exactly: **Python 3.12 + FastAPI + SQLAlchemy 2 + Alembic + PostgreSQL 17**,
 **React 18 + TypeScript + Vite + Tailwind + Recharts**, AWS-shaped packaging (Dockerfile per service,
 docker-compose, an `infra/` folder with an ECS/Fargate task definition + Terraform sketch that is NOT applied),
@@ -304,7 +304,7 @@ proxying `/api` to :8000.
 loads `../fixtures/engine/*.json` and asserts byte-equal cents. Use `math/big` or `shopspring/decimal`-free integer-cents
 arithmetic with explicit rounding identical to Python's (document the rounding rule in both). Provide a tiny HTTP
 service (`cmd/engine-server`, stdlib net/http) exposing POST /analyze and POST /strategies with the same JSON as §3 so
-the FastAPI app can proxy to it behind a flag `GP_ENGINE=go|python` — the migration path Davis wants, demonstrated.
+the FastAPI app can proxy to it behind a flag `GP_ENGINE=go|python` — the Python-to-Go migration path, demonstrated.
 
 ## 7. Quality bar
 - `make test` green (pytest for both packages, vitest, go test). Golden fixtures cover: depreciation table by month
@@ -318,3 +318,45 @@ the FastAPI app can proxy to it behind a flag `GP_ENGINE=go|python` — the migr
   simple mode exact: 280000/27.5 = 10181.82 × 14.25 ≈ 145k — document which).
 - README per package: how to run, how it is structured, the trade-offs, what is stubbed, what you would do next.
 - No secrets in the repo. No network in tests. `ruff` clean. Commit early and often as `Levelbrook Consulting`.
+
+## 8. Public twin deploy (added 2026-10-23): one product, two backends, two front ends, no logins
+
+Goal: the same product running twice, end to end, so a reviewer can click both and see identical numbers:
+- **Python stack**: React front end at `https://gp-python.levelbrook.com` (Cloudflare Pages project `gp-python`)
+  → API `https://gp-python-api.levelbrook.com` (FastAPI container `gp-python-api` on Box B).
+- **Go stack**: React front end at `https://gp-go.levelbrook.com` (Pages project `gp-go`)
+  → API `https://gp-go-api.levelbrook.com` (Go container `gp-go-api` on Box B).
+- **Document pipeline** stays Python (OCR/ML lives in Python at most shops that move the core API to Go): internal
+  container `gp-pipeline` on the docker network `kamal`, no public route, `POST http://gp-pipeline:8090/extract`
+  (multipart `file`, form `household_hint` optional) → `{document, extracted_fields, findings, properties_touched, reconciled}`
+  exactly the shape §3 `POST /households/{id}/documents` returns minus DB ids. Both APIs call it over HTTP
+  (`GP_PIPELINE_URL`); locally the Python API falls back to calling `gp_pipeline` in-process when the URL is unset.
+- Same Postgres 17 server (`lb-postgres`), separate databases `groundplan_py` and `groundplan_go`, role `groundplan`.
+  **Alembic is the single schema source of truth**: the Go service ships the Alembic-generated SQL (`engine-go/migrations/*.sql`,
+  produced with `alembic upgrade head --sql`) and refuses to start if `alembic_version` does not match.
+
+### 8.1 Tenancy without logins: workspaces
+- The front end creates a random UUIDv4 on first load, stores it in `localStorage["gp.workspace"]`, and sends it on every
+  request as header **`X-Workspace-Id`**. The workspace id IS the tenant (`advisor_id`); every query is filtered by it
+  (that is the "tenant isolation at the DB layer" story, now load-bearing).
+- First request with an unknown workspace id → the API provisions an advisor row (firm "Demo workspace") and **seeds the demo
+  household(s)** for it (same seed as `scripts.seed`), in one transaction, idempotent under concurrent first requests
+  (unique constraint + ON CONFLICT). Missing/invalid header → 400 problem+json (except `/health`, `/meta`, `/eval/latest`).
+- Abuse guards: max 30 new workspaces per client IP per day (IP from `X-Forwarded-For` first hop / `CF-Connecting-IP`),
+  max 20 households and 50 documents per workspace, upload max 15 MB, request body max 20 MB. 429 problem+json when exceeded.
+- `POST /api/v1/workspace/reset` → deletes the workspace's data and re-seeds. `GET /api/v1/workspace` →
+  `{id, created_at, households, documents}`.
+- Housekeeping: workspaces idle > 14 days are deleted by a startup + every-6-hours sweep (`last_seen_at` column).
+- CORS: allow origins `https://gp-python.levelbrook.com`, `https://gp-go.levelbrook.com`, `http://localhost:5173`,
+  `http://localhost:4173`, any `https://*.gp-python.pages.dev` / `*.gp-go.pages.dev`; allow header `X-Workspace-Id`, `Content-Type`.
+  (The front ends also proxy `/api/*` same-origin through a Pages Function, so CORS is the fallback, not the main path.)
+
+### 8.2 `GET /api/v1/meta` (both backends, no workspace needed)
+`{"backend": "python"|"go", "version": "<git sha>", "engine": "python"|"go", "runtime": "CPython 3.12.x"|"go1.26.x",
+  "started_at": ISO8601, "db": "postgres 17"}`. The front end shows this in a footer badge and links to the twin stack.
+
+### 8.3 Parity contract
+- The FastAPI OpenAPI document (`backend/openapi.json`, regenerated by `make openapi`) is THE contract. The Go server must
+  serve every path in it with JSON that validates against it; `scripts/parity.py <base_a> <base_b>` walks every GET for a fresh
+  workspace on both, runs the same mutations, and diffs the JSON (ignoring ids/timestamps). Cents must be byte-identical.
+- No field named `recommended` anywhere in any response (test asserts it on both backends).
