@@ -233,7 +233,7 @@ export function EngineeringPage() {
           />
           <Lib
             name="MSW"
-            why="One set of request handlers serves the in-browser demo (`--mode mock`, a service worker), Vitest (msw/node) and the Playwright mock run. The app's real fetch client, headers and error handling all run; only the server is fake, with a separate in-memory database per workspace id, like the real APIs."
+            why="One set of request handlers serves the in-browser demo (vite --mode mock, in a service worker), Vitest (msw/node) and the Playwright mock run. The app's real fetch client, headers and error handling all run; only the server is fake, with a separate in-memory database per workspace id, like the real APIs."
           />
           <Lib
             name="pdf.js"
