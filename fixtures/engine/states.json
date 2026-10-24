@@ -1,0 +1,73 @@
+{
+  "_comment": "State income tax treatment of real-estate gains. Every row verify:true -- interview demo, shapes over last decimals. Bracket rows: [rate, upper_bound_dollars|null] cumulative. Gains are ordinary income unless ltcg_exclusion is set. States not listed are UNSUPPORTED (Finding), never guessed.",
+  "tax_year": 2025,
+  "clawback_states": ["CA", "OR", "MA", "MT"],
+  "states": {
+    "WA": {"name": "Washington", "kind": "none", "verify": true, "source": "WA has no personal income tax; the 7% capital gains excise (gains > ~$270k) applies to securities, real estate is exempt (RCW 82.87.050)", "note": "no income tax; RE gains exempt from the capital gains excise"},
+    "TX": {"name": "Texas", "kind": "none", "verify": true, "source": "no personal income tax", "note": "no income tax"},
+    "FL": {"name": "Florida", "kind": "none", "verify": true, "source": "no personal income tax", "note": "no income tax"},
+    "NV": {"name": "Nevada", "kind": "none", "verify": true, "source": "no personal income tax", "note": "no income tax"},
+    "SD": {"name": "South Dakota", "kind": "none", "verify": true, "source": "no personal income tax", "note": "no income tax"},
+    "WY": {"name": "Wyoming", "kind": "none", "verify": true, "source": "no personal income tax", "note": "no income tax"},
+    "AK": {"name": "Alaska", "kind": "none", "verify": true, "source": "no personal income tax", "note": "no income tax"},
+    "TN": {"name": "Tennessee", "kind": "none", "verify": true, "source": "Hall tax repealed 2021", "note": "no income tax"},
+    "NH": {"name": "New Hampshire", "kind": "none", "verify": true, "source": "interest & dividends tax only (repealed 2025); no tax on RE gains", "note": "interest/dividends only -> 0 for real estate gains"},
+    "AZ": {"name": "Arizona", "kind": "flat", "rate": "0.025", "ltcg_exclusion": "0.25", "verify": true, "source": "AZ flat 2.5% (2023+); 25% exclusion for long-term gains on assets acquired after 2011 (A.R.S. 43-1022(26))", "note": "flat 2.5%, 25% LTCG exclusion"},
+    "CO": {"name": "Colorado", "kind": "flat", "rate": "0.044", "verify": true, "source": "CO flat 4.4% (2024-2025)", "note": "flat 4.4%"},
+    "GA": {"name": "Georgia", "kind": "flat", "rate": "0.0539", "verify": true, "source": "GA flat 5.39% (2024; 5.19% for 2025 per HB 111 -- verify)", "note": "flat 5.39%"},
+    "IL": {"name": "Illinois", "kind": "flat", "rate": "0.0495", "verify": true, "source": "IL flat 4.95%", "note": "flat 4.95%"},
+    "IN": {"name": "Indiana", "kind": "flat", "rate": "0.03", "verify": true, "source": "IN 3.0% (2025); county taxes extra (not modeled)", "note": "flat 3.0% + county (not modeled)"},
+    "KY": {"name": "Kentucky", "kind": "flat", "rate": "0.04", "verify": true, "source": "KY 4.0% (2024-2025)", "note": "flat 4.0%"},
+    "MI": {"name": "Michigan", "kind": "flat", "rate": "0.0425", "verify": true, "source": "MI flat 4.25%", "note": "flat 4.25%"},
+    "NC": {"name": "North Carolina", "kind": "flat", "rate": "0.0425", "verify": true, "source": "NC 4.25% (2025)", "note": "flat 4.25%"},
+    "PA": {"name": "Pennsylvania", "kind": "flat", "rate": "0.0307", "verify": true, "source": "PA flat 3.07%; local EIT not modeled", "note": "flat 3.07%"},
+    "UT": {"name": "Utah", "kind": "flat", "rate": "0.045", "verify": true, "source": "UT 4.5% (2025)", "note": "flat 4.5%"},
+    "MS": {"name": "Mississippi", "kind": "flat", "rate": "0.044", "verify": true, "source": "MS 4.4% (2025) on income over $10k", "note": "flat 4.4%"},
+    "ID": {"name": "Idaho", "kind": "flat", "rate": "0.05695", "verify": true, "source": "ID 5.695% (2024-2025)", "note": "flat 5.695%"},
+    "CA": {"name": "California", "kind": "brackets", "verify": true, "source": "CA FTB 2024 rate schedules (2025 indexing pending) + 1% Mental Health Services tax over $1M", "note": "1% to 12.3% brackets + 1% MHS over $1M; gains fully taxable as ordinary income",
+      "brackets": {
+        "single": [["0.01", 10756], ["0.02", 25499], ["0.04", 40245], ["0.06", 55866], ["0.08", 70606], ["0.093", 360659], ["0.103", 432787], ["0.113", 721314], ["0.123", null]],
+        "mfj": [["0.01", 21512], ["0.02", 50998], ["0.04", 80490], ["0.06", 111732], ["0.08", 141212], ["0.093", 721318], ["0.103", 865574], ["0.113", 1442628], ["0.123", null]],
+        "hoh": [["0.01", 21527], ["0.02", 51000], ["0.04", 65744], ["0.06", 81364], ["0.08", 96107], ["0.093", 490493], ["0.103", 588593], ["0.113", 980987], ["0.123", null]]
+      },
+      "surtaxes": [{"rate": "0.01", "over": 1000000, "name": "Mental Health Services tax"}]},
+    "NY": {"name": "New York", "kind": "brackets", "verify": true, "source": "NY 2025 rate schedule (4% to 10.9%); NYC resident tax not modeled", "note": "4% to 10.9% brackets",
+      "brackets": {
+        "single": [["0.04", 8500], ["0.045", 11700], ["0.0525", 13900], ["0.055", 80650], ["0.06", 215400], ["0.0685", 1077550], ["0.0965", 5000000], ["0.103", 25000000], ["0.109", null]],
+        "mfj": [["0.04", 17150], ["0.045", 23600], ["0.0525", 27900], ["0.055", 161550], ["0.06", 323200], ["0.0685", 2155350], ["0.0965", 5000000], ["0.103", 25000000], ["0.109", null]],
+        "hoh": [["0.04", 12800], ["0.045", 17650], ["0.0525", 20900], ["0.055", 107650], ["0.06", 269300], ["0.0685", 1616450], ["0.0965", 5000000], ["0.103", 25000000], ["0.109", null]]
+      }},
+    "NJ": {"name": "New Jersey", "kind": "brackets", "verify": true, "source": "NJ gross income tax rate schedules (1.4% to 10.75%)", "note": "1.4% to 10.75% brackets",
+      "brackets": {
+        "single": [["0.014", 20000], ["0.0175", 35000], ["0.035", 40000], ["0.05525", 75000], ["0.0637", 500000], ["0.0897", 1000000], ["0.1075", null]],
+        "mfj": [["0.014", 20000], ["0.0175", 50000], ["0.0245", 70000], ["0.035", 80000], ["0.05525", 150000], ["0.0637", 500000], ["0.0897", 1000000], ["0.1075", null]]
+      }},
+    "OR": {"name": "Oregon", "kind": "brackets", "verify": true, "source": "OR 2025 rate schedule (4.75/6.75/8.75/9.9)", "note": "4.75% to 9.9% brackets",
+      "brackets": {
+        "single": [["0.0475", 4400], ["0.0675", 11050], ["0.0875", 125000], ["0.099", null]],
+        "mfj": [["0.0475", 8800], ["0.0675", 22100], ["0.0875", 250000], ["0.099", null]]
+      }},
+    "MA": {"name": "Massachusetts", "kind": "brackets", "verify": true, "source": "MA 5% flat + 4% surtax over $1,083,150 (2025 threshold); short-term gains taxed at 8.5% not modeled", "note": "5% + 4% surtax over ~$1.08M",
+      "brackets": {"all": [["0.05", null]]},
+      "surtaxes": [{"rate": "0.04", "over": 1083150, "name": "Fair Share surtax"}]},
+    "MN": {"name": "Minnesota", "kind": "brackets", "verify": true, "source": "MN 2025 rate schedule (5.35/6.8/7.85/9.85) -- verify indexing", "note": "5.35% to 9.85% brackets",
+      "brackets": {
+        "single": [["0.0535", 32570], ["0.068", 106990], ["0.0785", 198630], ["0.0985", null]],
+        "mfj": [["0.0535", 47620], ["0.068", 189180], ["0.0785", 330410], ["0.0985", null]]
+      }},
+    "VA": {"name": "Virginia", "kind": "brackets", "verify": true, "source": "VA rate schedule (2/3/5/5.75), same for all statuses", "note": "2% to 5.75% brackets",
+      "brackets": {"all": [["0.02", 3000], ["0.03", 5000], ["0.05", 17000], ["0.0575", null]]}},
+    "MD": {"name": "Maryland", "kind": "brackets", "verify": true, "source": "MD 2025 rate schedule (2% to 5.75%); county/local income tax ~2.25-3.2% NOT modeled", "note": "2% to 5.75% + ~3.2% local (not modeled)",
+      "brackets": {
+        "single": [["0.02", 1000], ["0.03", 2000], ["0.04", 3000], ["0.0475", 100000], ["0.05", 125000], ["0.0525", 150000], ["0.055", 250000], ["0.0575", null]],
+        "mfj": [["0.02", 1000], ["0.03", 2000], ["0.04", 3000], ["0.0475", 150000], ["0.05", 175000], ["0.0525", 225000], ["0.055", 300000], ["0.0575", null]]
+      }},
+    "OH": {"name": "Ohio", "kind": "brackets", "verify": true, "source": "OH 2024 schedule (0% to $26,050; 2.75% to $100,000; 3.5% above); 2025 top rate 3.125% per HB 96 -- verify", "note": "0 / 2.75% / 3.5% brackets",
+      "brackets": {"all": [["0", 26050], ["0.0275", 100000], ["0.035", null]]}},
+    "WI": {"name": "Wisconsin", "kind": "brackets", "verify": true, "source": "WI 2024 rate schedule (3.5/4.4/5.3/7.65) -- 2025 indexing pending; 30% LTCG exclusion exists but is NOT applied here (verify)", "note": "3.5% to 7.65% brackets",
+      "brackets": {
+        "single": [["0.035", 14320], ["0.044", 28640], ["0.053", 315310], ["0.0765", null]],
+        "mfj": [["0.035", 19090], ["0.044", 38190], ["0.053", 420420], ["0.0765", null]]
+      }}
+  }
+}
