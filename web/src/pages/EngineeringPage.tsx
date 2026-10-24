@@ -252,10 +252,10 @@ export function EngineeringPage() {
           <strong>End-to-end tests</strong> (Playwright, its own Chromium) run the user journeys at four viewports (iPhone 390×844, Android 360×800, tablet
           768×1024, desktop 1440×900) against the mock build and against each live stack: households to dashboard to property; every analysis tab renders
           non-empty charts with real numbers; clicking a number opens the drawer and Escape returns focus; an assumption edit changes the figure, the URL, and
-          survives a reload; strategies with the horizon slider, DST toggle, waterfall and heatmap; upload a synthetic PDF, see fields and boxes, resolve a
-          finding and watch the figure leave Blocked; PDF and CSV downloads; the simulator; two browser contexts with separate workspaces and a reset. Every
-          page is scanned with axe, checked for console errors and for horizontal scroll at 360px. One test opens the same property on both live stacks and
-          asserts the headline figures are identical.
+          survives a reload; strategies with the horizon slider, DST toggle, waterfall and heatmap; upload the sample 2025 Schedule E, see its fields and boxes
+          on the real page, watch Maple duplex go Blocked on a rent conflict, resolve it in the queue and watch it unblock; PDF and CSV downloads; the
+          simulator; two browser contexts with separate workspaces and a reset. Every page is scanned with axe, checked for console errors and for horizontal
+          scroll at 360px. One test opens the same property on both live stacks and asserts the headline figures are identical.
         </p>
         {runs.length > 0 ? (
           <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="End-to-end results">
