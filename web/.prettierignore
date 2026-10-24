@@ -1,0 +1,10 @@
+dist
+dist-mock
+node_modules
+mock-public
+coverage
+playwright-report
+test-results
+e2e/screenshots
+src/api/openapi.gen.ts
+src/api/mock/household.ts

@@ -34,9 +34,26 @@ export function freshDb(): MockDb {
   };
 }
 
+/** One in-memory database per workspace id, mirroring the real backend's tenant isolation (SPEC §8.1). */
+const byWorkspace = new Map<string, { db: MockDb; created_at: string }>();
 export let db: MockDb = freshDb();
+let current = 'default';
+
+export function selectWorkspace(id: string) {
+  let w = byWorkspace.get(id);
+  if (!w) {
+    w = { db: freshDb(), created_at: new Date().toISOString() };
+    byWorkspace.set(id, w);
+  }
+  current = id;
+  db = w.db;
+  return w;
+}
+
 export function resetDb() {
   db = freshDb();
+  const w = byWorkspace.get(current);
+  if (w) w.db = db;
 }
 
 /** Provenance refs for a property: latest-year document field per field name. */

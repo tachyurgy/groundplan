@@ -7,7 +7,7 @@ const LETTER: [number, number] = [612, 792];
 type PdfDoc = { numPages: number; getPage: (n: number) => Promise<PdfPageProxy>; destroy: () => Promise<void> };
 type PdfPageProxy = {
   getViewport: (o: { scale: number }) => { width: number; height: number; convertToViewportRectangle: (r: number[]) => number[] };
-  render: (o: { canvasContext: CanvasRenderingContext2D; viewport: unknown }) => { promise: Promise<void> };
+  render: (o: { canvasContext: CanvasRenderingContext2D; canvas: HTMLCanvasElement; viewport: unknown }) => { promise: Promise<void> };
 };
 
 let pdfjsPromise: Promise<typeof import('pdfjs-dist')> | null = null;
@@ -77,7 +77,7 @@ export function PdfPage({ documentId, page, fields, width = 420, highlight, onPi
         canvas.style.height = `${vp.height}px`;
         const ctx = canvas.getContext('2d')!;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        await pg.render({ canvasContext: ctx, viewport: vp }).promise;
+        await pg.render({ canvasContext: ctx, canvas, viewport: vp }).promise;
         if (cancelled) return;
         setSize([base.width, base.height]);
         const m = new Map<string, number[]>();
@@ -118,7 +118,7 @@ export function PdfPage({ documentId, page, fields, width = 420, highlight, onPi
   const pageFields = fields.filter((f) => f.page === page);
 
   return (
-    <div className="relative overflow-hidden rounded-sm bg-white ring-1 ring-ink-200" style={{ width, height }} data-testid="pdf-page">
+    <div className="relative overflow-hidden rounded-sm bg-white text-ink-900 ring-1 ring-ink-200" style={{ width, height }} data-testid="pdf-page" data-theme="light">
       {file && !err ? (
         <canvas ref={canvasRef} className="block" />
       ) : (

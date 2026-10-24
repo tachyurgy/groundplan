@@ -113,7 +113,16 @@ function dashboard(hhId: string): Dashboard {
     total_value: sumFigure('portfolio.total_value', 'Portfolio value', cards.map((c) => labelled(c.value, c.property.nickname)), 'Σ property values'),
     total_equity: sumFigure('portfolio.total_equity', 'Total equity', cards.map((c) => labelled(c.equity, c.property.nickname)), 'Σ (value − liens)'),
     net_cash_flow: sumFigure('portfolio.net_cash_flow', 'Net cash flow (annual)', cards.map((c) => labelled(c.net_cash_flow, c.property.nickname)), 'Σ property net cash flow'),
-    exit_tax: sumFigure('portfolio.exit_tax', 'Embedded exit tax', cards.map((c) => labelled(c.exit_tax, c.property.nickname)), 'Σ exit tax if each property sold this year (each stacked separately)'),
+    total_debt: {
+      key: 'portfolio.total_debt',
+      label: 'Total debt',
+      value_cents: cards.reduce((s, c) => s + c.value.value_cents - c.equity.value_cents, 0),
+      status: rollupStatus(cards.flatMap((c) => [c.value, c.equity])),
+      inputs: cards.map((c) => ({ key: `${c.property.id}.debt`, value: c.value.value_cents - c.equity.value_cents, source: { type: 'manual', ref: 'value − equity (lien balances)' }, unit: 'cents', label: c.property.nickname })),
+      formula: 'Σ lien balances (value − equity per property)',
+      notes: [],
+    },
+    exit_tax_total: sumFigure('portfolio.exit_tax', 'Embedded exit tax', cards.map((c) => labelled(c.exit_tax, c.property.nickname)), 'Σ exit tax if each property sold this year (each stacked separately)'),
   };
   const sl = db.suspended.filter((s) => s.household_id === hhId).sort((a, b) => b.tax_year - a.tax_year)[0];
   if (sl) {
@@ -149,7 +158,7 @@ function narrative(goal: string, m: Record<string, Figure>, cards: PropertyCard[
   const parts = [
     `Against the stated goal ("${goal}"), the portfolio holds ${formatCents(m.total_equity.value_cents)} of equity across ${cards.length} properties and produces ${formatCents(m.net_cash_flow.value_cents)} of net cash flow a year after debt service and reserves.`,
     neg.length ? `${neg.join(' and ')} ${neg.length > 1 ? 'run' : 'runs'} negative, so the portfolio's income is carried by the remaining properties.` : 'Every property covers its own debt service.',
-    top ? `Selling everything this year would trigger an estimated ${formatCents(m.exit_tax.value_cents)} of combined exit tax; the largest single liability is ${top.property.nickname} at ${formatCents(top.exit_tax.value_cents)}, which grows with each year of depreciation.` : '',
+    top ? `Selling everything this year would trigger an estimated ${formatCents(m.exit_tax_total.value_cents)} of combined exit tax; the largest single liability is ${top.property.nickname} at ${formatCents(top.exit_tax.value_cents)}, which grows with each year of depreciation.` : '',
     m.suspended_losses ? `${formatCents(m.suspended_losses.value_cents)} of suspended passive losses would be released by a fully taxable sale, but not by a 1031 exchange.` : '',
     blocked.length ? `Figures for ${blocked.join(', ')} are blocked until the open reconciliation items are resolved; nothing here averages conflicting sources.` : '',
   ].filter(Boolean);

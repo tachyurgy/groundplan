@@ -1,70 +1,229 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Every colour is a CSS variable with a light and a dark value; Tailwind utilities
+ * (bg-surface, text-ink-700, ring-pos-600 ...) resolve to the variable, so one class works in both themes.
+ * The resolved theme is stamped on <html data-theme="light|dark"> before first paint (index.html) and
+ * kept in sync by lib/theme.ts (system default, user toggle wins).
+ */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+:root,
+[data-theme='light'] {
+  color-scheme: light;
+  --page: #f3f4f6;
+  --surface: #ffffff;
+  --surface-2: #f8f9fa;
+  --ink-950: #0f1720;
+  --ink-900: #1b2430;
+  --ink-700: #36404d;
+  --ink-500: #59626f;
+  --ink-400: #6f7783;
+  --ink-300: #a9afb8;
+  --ink-200: #d9dce1;
+  --ink-100: #eaecef;
+  --ink-50: #f3f4f6;
+  --brand-700: #173b6c;
+  --brand-600: #1f4f8f;
+  --brand-500: #2f65b0;
+  --brand-100: #e2ebf7;
+  --brand-50: #f0f5fb;
+  --pos-600: #10703e;
+  --pos-100: #e2f2e8;
+  --neg-600: #b3261e;
+  --neg-100: #fbe8e6;
+  --est-600: #855600;
+  --est-100: #fdf0cf;
+  --blk-600: #8b1d2c;
+  --blk-100: #fbe2e5;
+  /* chart series: categorical slots 1-5, validated (dataviz validate_palette.js) for adjacent pairs */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-muted: #a9afb8;
+  --grid: #e7e9ec;
+  --axis: #c3c7cd;
+  --shadow-card: 0 1px 2px rgb(15 23 32 / 0.05), 0 0 0 1px rgb(15 23 32 / 0.07);
+  --shadow-pop: 0 12px 40px rgb(15 23 32 / 0.16), 0 0 0 1px rgb(15 23 32 / 0.08);
+}
+
+:root[data-theme='dark'],
+[data-theme='dark'] {
+  color-scheme: dark;
+  --page: #0d1116;
+  --surface: #151a21;
+  --surface-2: #1a2029;
+  --ink-950: #f1f3f6;
+  --ink-900: #e2e6eb;
+  --ink-700: #c3c9d1;
+  --ink-500: #9ba4af;
+  --ink-400: #8a939e;
+  --ink-300: #5b646f;
+  --ink-200: #333b46;
+  --ink-100: #262d36;
+  --ink-50: #1c222a;
+  --brand-700: #b7cff2;
+  --brand-600: #9cbcee;
+  --brand-500: #79a5e6;
+  --brand-100: #1d2c45;
+  --brand-50: #172235;
+  --pos-600: #55c68f;
+  --pos-100: #11301f;
+  --neg-600: #f28b82;
+  --neg-100: #3a1916;
+  --est-600: #e6b85c;
+  --est-100: #33280e;
+  --blk-600: #f2919e;
+  --blk-100: #3d1820;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-muted: #5b646f;
+  --grid: #232a33;
+  --axis: #3a424d;
+  --shadow-card: 0 0 0 1px rgb(255 255 255 / 0.07);
+  --shadow-pop: 0 12px 40px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+@theme inline {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink-950: var(--ink-950);
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-400: var(--ink-400);
+  --color-ink-300: var(--ink-300);
+  --color-ink-200: var(--ink-200);
+  --color-ink-100: var(--ink-100);
+  --color-ink-50: var(--ink-50);
+  --color-brand-700: var(--brand-700);
+  --color-brand-600: var(--brand-600);
+  --color-brand-500: var(--brand-500);
+  --color-brand-100: var(--brand-100);
+  --color-brand-50: var(--brand-50);
+  --color-pos-600: var(--pos-600);
+  --color-pos-100: var(--pos-100);
+  --color-neg-600: var(--neg-600);
+  --color-neg-100: var(--neg-100);
+  --color-est-600: var(--est-600);
+  --color-est-100: var(--est-100);
+  --color-blk-600: var(--blk-600);
+  --color-blk-100: var(--blk-100);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
+  --color-series-4: var(--series-4);
+  --color-series-5: var(--series-5);
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
+}
 
 @layer base {
   html {
-    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
   }
   body {
-    @apply bg-ink-50 text-ink-900 antialiased;
-    font-feature-settings: 'cv11', 'ss01';
-  }
-  .num {
-    @apply font-mono tabular-nums;
-    font-variant-numeric: tabular-nums lining-nums;
-    letter-spacing: -0.01em;
+    @apply bg-page text-ink-900 antialiased;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
   }
   h1 {
-    @apply text-2xl font-semibold tracking-tight text-ink-950;
+    @apply text-[1.6rem] leading-tight font-semibold tracking-tight text-ink-950;
   }
   h2 {
-    @apply text-base font-semibold tracking-tight text-ink-950;
+    @apply text-[0.95rem] font-semibold tracking-tight text-ink-950;
   }
   h3 {
     @apply text-sm font-semibold text-ink-900;
   }
-  button:focus-visible,
-  a:focus-visible,
-  input:focus-visible,
-  select:focus-visible {
-    @apply outline-none ring-2 ring-brand-500/50 ring-offset-1;
+  :focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-@layer components {
-  .card {
-    @apply min-w-0 rounded-md bg-white shadow-card;
-  }
-  .card-head {
-    @apply flex items-center justify-between gap-3 border-b border-ink-100 px-4 py-2.5;
-  }
-  .card-body {
+@utility num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.02em;
+}
+
+@utility card {
+    @apply min-w-0 rounded-lg bg-surface shadow-card;
+}
+
+@utility card-head {
+    @apply flex min-h-11 items-center justify-between gap-3 border-b border-ink-100 px-4 py-2.5;
+}
+
+@utility card-body {
     @apply px-4 py-3;
-  }
-  .label {
-    @apply text-[11px] font-medium uppercase tracking-[0.08em] text-ink-500;
-  }
-  .btn {
-    @apply inline-flex h-8 items-center gap-1.5 rounded border border-ink-200 bg-white px-3 text-sm font-medium text-ink-900 shadow-sm transition-colors hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
-  }
-  .btn-primary {
-    @apply border-brand-600 bg-brand-600 text-white hover:bg-brand-700;
-  }
-  .btn-sm {
-    @apply h-7 px-2 text-xs;
-  }
-  .input {
-    @apply h-8 w-full rounded border border-ink-200 bg-white px-2 text-sm text-ink-900 shadow-sm placeholder:text-ink-300 focus:border-brand-500;
-  }
-  .input-num {
+}
+
+@utility label {
+    @apply text-xs font-medium text-ink-500;
+}
+
+@utility btn {
+    @apply inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-md border border-ink-200 bg-surface px-3 text-sm font-medium whitespace-nowrap text-ink-900 transition-colors select-none hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-8;
+}
+
+@utility btn-primary {
+    @apply border-brand-600 bg-brand-600 text-white hover:bg-brand-700 dark:text-ink-50 dark:hover:bg-brand-500;
+}
+
+@utility btn-sm {
+    @apply h-8 px-2.5 text-xs sm:h-7;
+}
+
+@utility btn-ghost {
+    @apply border-transparent bg-transparent hover:bg-ink-100;
+}
+
+@utility input {
+    @apply h-9 w-full rounded-md border border-ink-200 bg-surface px-2 text-sm text-ink-900 placeholder:text-ink-400 focus:border-brand-500 sm:h-8;
+}
+
+@utility input-num {
     @apply input num text-right;
-  }
-  .tbl {
+}
+
+@utility tbl {
     @apply w-full border-collapse text-sm;
-  }
+}
+
+@utility figure-btn {
+    @apply num cursor-pointer rounded-sm whitespace-nowrap underline decoration-ink-300 decoration-dotted underline-offset-[3px] transition-colors hover:bg-brand-50 hover:decoration-brand-500;
+}
+
+@utility chip {
+    @apply inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-px text-[11px] font-medium ring-1 ring-inset;
+}
+
+@utility skeleton {
+    @apply animate-pulse rounded bg-ink-100;
+}
+
+@layer components {
   .tbl th {
-    @apply label border-b border-ink-200 px-2 py-1.5 text-left font-medium;
+    @apply border-b border-ink-200 px-2 py-1.5 text-left text-xs font-medium whitespace-nowrap text-ink-500;
   }
   .tbl td {
     @apply border-b border-ink-100 px-2 py-1.5 align-middle;
@@ -76,19 +235,19 @@
     @apply text-right;
   }
   .tbl tbody tr:hover td {
-    @apply bg-ink-50/70;
-  }
-  .figure-btn {
-    @apply num cursor-pointer whitespace-nowrap rounded-sm px-0.5 underline decoration-ink-200 decoration-dotted underline-offset-[3px] hover:bg-brand-50 hover:decoration-brand-500;
+    @apply bg-ink-50;
   }
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: #d6d9e0;
-  border-radius: 6px;
-  border: 2px solid #f6f7f9;
+
+@media print {
+  header,
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
 }

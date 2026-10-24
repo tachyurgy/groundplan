@@ -376,9 +376,23 @@ export interface LoanYearRow {
   marker: 'io' | 'arm_reset' | 'balloon' | 'maturity' | null;
 }
 
+export interface LoanMonthRow {
+  index: number;
+  year: number;
+  month: number;
+  rate: Rate;
+  payment_cents: Cents;
+  interest_cents: Cents;
+  principal_cents: Cents;
+  balance_cents: Cents;
+  phase: string;
+}
+
 export interface LoanScheduleSummary {
   loan: Loan;
   annual: LoanYearRow[];
+  months?: LoanMonthRow[];
+  months_total?: number;
   dscr: Figure;
   annual_debt_service: Figure;
   balance_at_year_end: Figure;
@@ -450,6 +464,18 @@ export interface ExitTaxAnalysis {
   exit_tax_total: Figure;
   net_proceeds: Figure;
   stacking_notes: string[];
+  ordinary_taxable_other?: Figure;
+  layers_1245?: TaxLayer[];
+  layers_1250?: TaxLayer[];
+  layers_ltcg?: TaxLayer[];
+}
+
+export interface TaxLayer {
+  rate: number;
+  lower_cents: Cents;
+  upper_cents: Cents;
+  amount_cents: Cents;
+  tax_cents: Cents;
 }
 
 export interface PropertyAnalysis {

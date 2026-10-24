@@ -1,8 +1,14 @@
 node_modules
 dist
+dist-mock
 dist-ssr
 *.local
 .vite
 coverage
 .DS_Store
 npm-debug.log*
+playwright-report
+test-results
+e2e/screenshots
+e2e/.results
+.wrangler

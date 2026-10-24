@@ -151,7 +151,19 @@ export interface LoanYear {
 }
 
 /** Project a loan year-by-year from `startYear` for `years` years, starting from the statement balance. */
-export function projectLoan(loan: Loan, startYear: number, years: number, armIndex = 0.04): LoanYear[] {
+export interface LoanMonthRow {
+  index: number;
+  year: number;
+  month: number;
+  rate: number;
+  payment_cents: number;
+  interest_cents: number;
+  principal_cents: number;
+  balance_cents: number;
+  phase: 'io' | 'heloc' | 'amortizing' | 'arm' | 'balloon';
+}
+
+export function projectLoan(loan: Loan, startYear: number, years: number, armIndex = 0.04, monthsOut?: LoanMonthRow[]): LoanYear[] {
   const out: LoanYear[] = [];
   if (loan.is_paid_off || loan.balance_cents <= 0) {
     for (let i = 0; i < years; i++) out.push({ year: startYear + i, principal: 0, interest: 0, balanceEnd: 0, rate: loan.rate, marker: null });
@@ -194,6 +206,10 @@ export function projectLoan(loan: Loan, startYear: number, years: number, armInd
       marker = loan.loan_type === 'balloon' ? 'balloon' : 'maturity';
     }
     bal -= principal;
+    if (monthsOut) {
+      const phase: LoanMonthRow['phase'] = loan.loan_type === 'heloc' ? 'heloc' : inIO ? 'io' : marker === 'balloon' ? 'balloon' : armResetIdx !== null && m >= armResetIdx ? 'arm' : 'amortizing';
+      monthsOut.push({ index: m + 1, year: startYear + Math.floor(m / 12), month: (m % 12) + 1, rate, payment_cents: roundCents(principal + interest), interest_cents: roundCents(interest), principal_cents: roundCents(principal), balance_cents: roundCents(Math.max(0, bal)), phase });
+    }
     yearP += principal;
     yearI += interest;
     if ((m + 1) % 12 === 0) {
@@ -247,6 +263,31 @@ function bracketTax(brackets: Bracket[], from: number, to: number, cap?: number)
     if (limit >= to) break;
   }
   return tax;
+}
+
+export interface TaxLayer {
+  rate: number;
+  lower_cents: number;
+  upper_cents: number;
+  amount_cents: number;
+  tax_cents: number;
+}
+
+/** The bracket slices that dollars `from`..`to` occupy (dollars in, cents out). */
+function bracketLayers(brackets: Bracket[], from: number, to: number, cap?: number): TaxLayer[] {
+  const out: TaxLayer[] = [];
+  let lower = 0;
+  for (const [limit, rate] of brackets) {
+    const lo = Math.max(lower, from);
+    const hi = Math.min(limit, to);
+    if (hi > lo) {
+      const r = cap !== undefined ? Math.min(rate, cap) : rate;
+      out.push({ rate: r, lower_cents: roundCents(lo * 100), upper_cents: roundCents(hi * 100), amount_cents: roundCents((hi - lo) * 100), tax_cents: roundCents((hi - lo) * r * 100) });
+    }
+    lower = limit;
+    if (limit >= to) break;
+  }
+  return out;
 }
 
 function stateTaxOnGain(state: string, filing: string, ordinaryTaxable: number, gain: number): { tax: number; note: string } {
@@ -412,10 +453,14 @@ export function analyzeProperty(ctx: EngineContext, year: number, horizon: numbe
 
   const loanSummaries: LoanScheduleSummary[] = loanProj.map(({ loan, years }) => {
     const y0 = years[0];
+    const months: LoanMonthRow[] = [];
+    if (!loan.is_paid_off && loan.balance_cents > 0) projectLoan(loan, year, Math.max(1, Math.ceil(monthsBetween(`${year}-01`, loan.maturity_date) / 12)), armIndex, months);
     const ads = (y0?.principal ?? 0) + (y0?.interest ?? 0);
     return {
       loan,
       annual: years.map((y) => ({ year: y.year, principal_cents: y.principal, interest_cents: y.interest, balance_end_cents: y.balanceEnd, rate: y.rate, marker: y.marker })),
+      months,
+      months_total: months.length,
       dscr: fig(blocking, `loan.${loan.id}.dscr`, ads > 0 ? roundCents((noi / ads) * 100) : 0, [figIn(noiFig), inp('annual_debt_service', ads, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents' })], 'NOI / annual debt service (shown ×100 in cents)', [ads > 0 ? `DSCR = ${(noi / ads).toFixed(2)}` : 'No debt service'], 'DSCR'),
       annual_debt_service: fig(blocking, `loan.${loan.id}.annual_debt_service`, ads, [inp('loan.monthly_payment', loan.monthly_payment_cents, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents' })], 'Σ monthly payments in year', [], 'Annual debt service'),
       balance_at_year_end: fig(blocking, `loan.${loan.id}.balance_at_year_end`, y0?.balanceEnd ?? 0, [inp('loan.balance', loan.balance_cents, docSrc(ctx, `mortgage.${loan.id}`, 'statement'), { unit: 'cents', label: `Balance as of ${loan.balance_as_of}` })], 'balance_at(Dec 31) from amortization', [], 'Balance at year end'),
@@ -540,6 +585,10 @@ export function exitTax(
     exit_tax_total: totalFig,
     net_proceeds: netProcFig,
     stacking_notes: stack,
+    ordinary_taxable_other: fig(blocking, 'exit_tax.ordinary_taxable_other', roundCents(ordinaryTaxable * 100), [hhSrc('wages_cents'), hhSrc('other_income_cents'), inp('standard_deduction', std, dflt('IRS 2025 standard deduction'))], 'wages + other − standard deduction − released suspended losses', [], 'Ordinary taxable income (other)'),
+    layers_1245: bracketLayers(ord, ordinaryTaxable, top1245),
+    layers_1250: bracketLayers(ord, top1245, top1250, 0.25),
+    layers_ltcg: bracketLayers([[l0, 0], [l15, 0.15], [Infinity, 0.2]], ltcgLo, ltcgHi),
   };
 }
 
