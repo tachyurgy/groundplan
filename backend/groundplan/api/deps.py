@@ -2,23 +2,31 @@ from __future__ import annotations
 
 from collections.abc import Iterator
 
-from fastapi import Depends, Header
+from fastapi import Depends, Header, Request
 from sqlalchemy.orm import Session
 
-from groundplan.config import get_settings
 from groundplan.db import base
 from groundplan.db import models as m
+from groundplan.services import workspace as ws
 from groundplan.services.portfolio import get_owned
 
-from .problems import not_found
+from .problems import Problem, not_found
 
 
 def db() -> Iterator[Session]:
     yield from base.get_session()
 
 
-def advisor_id(x_advisor_id: str | None = Header(default=None, description="Optional; defaults to the dev advisor")) -> str:
-    return x_advisor_id or get_settings().dev_advisor_id
+def workspace_id(request: Request, x_workspace_id: str | None = Header(
+        default=None, description="Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. "
+                                  "Unknown ids are provisioned and seeded with the demo household on first use."),
+        s: Session = Depends(db)) -> str:
+    try:
+        wid = ws.parse_id(x_workspace_id)
+        ws.ensure(s, wid, ws.client_ip(request.headers, request.client.host if request.client else None))
+    except ws.WorkspaceError as e:
+        raise Problem(e.status, e.title, e.detail, f"https://groundplan.dev/problems/{e.kind}") from e
+    return wid
 
 
 def owned(s: Session, model, id_: str, aid: str, what: str):
@@ -29,7 +37,7 @@ def owned(s: Session, model, id_: str, aid: str, what: str):
 
 
 class Ctx:
-    def __init__(self, s: Session = Depends(db), aid: str = Depends(advisor_id)):
+    def __init__(self, s: Session = Depends(db), aid: str = Depends(workspace_id)):
         self.s = s
         self.aid = aid
 

@@ -4,7 +4,7 @@ PGHOST ?= /tmp
 BACKEND := backend
 API_PORT ?= 8000
 
-.PHONY: help db db-reset api seed migrate fixtures lint web pipeline-eval test test-backend test-pipeline test-web go-test
+.PHONY: help db db-reset api seed migrate migrations-sql openapi fixtures lint web pipeline-eval pipeline-service synth test test-backend test-pipeline test-web go-test parity
 
 help:
 	@echo "make db            create groundplan_dev + groundplan_test (if missing), migrate dev, load the demo household"
@@ -14,6 +14,11 @@ help:
 	@echo "make test          pytest (backend + pipeline), vitest (web), go test (engine-go) -- each skipped if absent"
 	@echo "make go-test       go test ./... in engine-go"
 	@echo "make fixtures      regenerate fixtures/engine/*.json (asserts the hand-checked values)"
+	@echo "make openapi       write backend/openapi.json (THE API contract for engine-go and web)"
+	@echo "make migrations-sql write backend/migrations.sql (offline Alembic SQL the Go service ships)"
+	@echo "make synth         regenerate the synthetic documents into fixtures/documents"
+	@echo "make pipeline-service run the gp-pipeline HTTP service on :8090"
+	@echo "make parity A=<base> B=<base>  diff the two backends (scripts/parity.py)"
 
 db:
 	@for d in groundplan_dev groundplan_test; do \
@@ -33,6 +38,23 @@ seed:
 
 api:
 	cd $(BACKEND) && uv run uvicorn groundplan.api:app --reload --port $(API_PORT)
+
+openapi:
+	cd $(BACKEND) && uv run python -c "import json; from groundplan.api import app; print(json.dumps(app.openapi(), indent=2))" > openapi.json
+	@echo "wrote $(BACKEND)/openapi.json"
+
+migrations-sql:
+	cd $(BACKEND) && uv run alembic upgrade head --sql 2>/dev/null > migrations.sql
+	@echo "wrote $(BACKEND)/migrations.sql"
+
+synth:
+	cd pipeline && uv run python -m gp_pipeline.synth --out ../fixtures/documents
+
+pipeline-service:
+	cd pipeline && uv run uvicorn gp_pipeline.service:app --port 8090
+
+parity:
+	uv run --no-project --with httpx python scripts/parity.py $(A) $(B)
 
 fixtures:
 	cd $(BACKEND) && uv run python -m scripts.gen_fixtures

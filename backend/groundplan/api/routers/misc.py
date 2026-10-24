@@ -5,11 +5,9 @@ from pathlib import Path
 
 from fastapi import APIRouter, Depends
 
-from groundplan import __version__
 from groundplan.api.deps import Ctx
 from groundplan.api.problems import Problem
 from groundplan.api.schemas import SimulateIn
-from groundplan.config import get_settings
 from groundplan.db import models as m
 from groundplan.engine.exit_tax import HouseholdTax
 from groundplan.engine.observations import rule_table
@@ -18,16 +16,6 @@ from groundplan.services import portfolio as svc
 
 router = APIRouter(tags=["system"])
 EVAL_PATH = Path(__file__).resolve().parents[4] / "fixtures" / "documents" / "eval-latest.json"
-
-
-@router.get("/health")
-def health(c: Ctx = Depends()):
-    from sqlalchemy import text
-
-    c.s.execute(text("select 1"))
-    st = get_settings()
-    return {"status": "ok", "version": __version__, "db": "ok", "engine": st.engine,
-            "narrative_provider": st.llm_provider or "template", "retain_uploads_seconds": st.retain_uploads_seconds}
 
 
 @router.get("/eval/latest", summary="Last pipeline eval summary (fixtures/documents/eval-latest.json)")

@@ -10,7 +10,7 @@ from groundplan.db.base import Base
 from tests.conftest import OTHER_ADVISOR
 
 API = "/api/v1"
-OTHER = {"X-Advisor-Id": OTHER_ADVISOR}
+OTHER = {"X-Workspace-Id": OTHER_ADVISOR}
 
 
 def _hid(client):

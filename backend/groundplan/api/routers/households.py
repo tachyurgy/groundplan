@@ -22,9 +22,13 @@ def list_households(c: Ctx = Depends()):
 
 @router.post("/households", status_code=201)
 def create_household(body: HouseholdIn, c: Ctx = Depends()):
-    from scripts.seed import ensure_advisor
+    from groundplan.config import get_settings
+    from groundplan.services import workspace as ws
 
-    ensure_advisor(c.s, c.aid)
+    cap = get_settings().max_households_per_workspace
+    if ws.counts(c.s, c.aid)[0] >= cap:
+        raise Problem(429, "Household limit reached", f"a workspace holds at most {cap} households; delete one or reset "
+                      "the workspace", "https://groundplan.dev/problems/household-limit")
     h = m.Household(advisor_id=c.aid, **body.model_dump())
     c.s.add(h)
     c.s.commit()

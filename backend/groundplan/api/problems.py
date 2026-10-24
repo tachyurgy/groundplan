@@ -24,7 +24,7 @@ def problem_response(status: int, title: str, detail: str | None, instance: str,
 
 
 def not_found(what: str, id_: str) -> Problem:
-    return Problem(404, f"{what} not found", f"No {what.lower()} {id_!r} for this advisor", "https://groundplan.dev/problems/not-found")
+    return Problem(404, f"{what} not found", f"No {what.lower()} {id_!r} in this workspace", "https://groundplan.dev/problems/not-found")
 
 
 def install(app: FastAPI) -> None:

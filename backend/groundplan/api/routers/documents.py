@@ -12,6 +12,7 @@ from groundplan.config import get_settings
 from groundplan.db import models as m
 from groundplan.services import ingest
 from groundplan.services import portfolio as svc
+from groundplan.services import workspace as ws
 from groundplan.services.pipeline_adapter import PipelineUnavailable, load_processor
 
 router = APIRouter(tags=["documents & findings"])
@@ -25,11 +26,16 @@ def _dump(x):
              summary="Upload a PDF; runs the pipeline in-process. File bytes are never persisted.")
 async def upload_document(household_id: str, file: UploadFile = File(...), c: Ctx = Depends()):
     h = c.household(household_id)
+    cap = get_settings().max_documents_per_workspace
+    if ws.counts(c.s, c.aid)[1] >= cap:
+        raise Problem(429, "Document limit reached", f"a workspace holds at most {cap} documents; delete some or reset the "
+                      "workspace", "https://groundplan.dev/problems/document-limit")
     limit = get_settings().max_upload_mb * 1024 * 1024
     data = await file.read(limit + 1)
     await file.close()
     if len(data) > limit:
-        raise Problem(413, "Upload too large", f"max {get_settings().max_upload_mb} MB")
+        raise Problem(413, "Upload too large", f"max {get_settings().max_upload_mb} MB",
+                      "https://groundplan.dev/problems/upload-too-large")
     sha = hashlib.sha256(data).hexdigest()
     filename = file.filename or "upload.pdf"
     try:

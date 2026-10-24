@@ -1,0 +1,3916 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Groundplan API",
+    "description": "Real estate planning engine for financial advisors. Every number is a Figure with provenance; money is integer cents; errors are RFC 7807 problem+json. Tenancy: every request (except /health, /meta, /eval/latest) carries `X-Workspace-Id` (a UUID); unknown workspaces are provisioned and seeded with the demo household on first use.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Liveness + DB check (no workspace needed)",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/meta": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Which backend is this (footer badge; no workspace needed)",
+        "operationId": "meta_api_v1_meta_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace": {
+      "get": {
+        "tags": [
+          "workspace"
+        ],
+        "summary": "This workspace: id, created_at, household and document counts",
+        "operationId": "get_workspace_api_v1_workspace_get",
+        "parameters": [
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workspace/reset": {
+      "post": {
+        "tags": [
+          "workspace"
+        ],
+        "summary": "Delete this workspace's data and re-seed the demo household",
+        "operationId": "reset_workspace_api_v1_workspace_reset_post",
+        "parameters": [
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/eval/latest": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Last pipeline eval summary (fixtures/documents/eval-latest.json)",
+        "operationId": "eval_latest_api_v1_eval_latest_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rules": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "The observation rule table (reviewable in one place)",
+        "operationId": "rules_api_v1_rules_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/simulate": {
+      "post": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Buy/sell-over-time simulation with Monte Carlo percentile bands",
+        "operationId": "run_simulation_api_v1_simulate_post",
+        "parameters": [
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulateIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households": {
+      "get": {
+        "tags": [
+          "households"
+        ],
+        "summary": "List households (HouseholdSummary[])",
+        "operationId": "list_households_api_v1_households_get",
+        "parameters": [
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Create Household",
+        "operationId": "create_household_api_v1_households_post",
+        "parameters": [
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HouseholdIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}": {
+      "get": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Get Household",
+        "operationId": "get_household_api_v1_households__household_id__get",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Patch Household",
+        "operationId": "patch_household_api_v1_households__household_id__patch",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HouseholdPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Delete Household",
+        "operationId": "delete_household_api_v1_households__household_id__delete",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/dashboard": {
+      "get": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Household Dashboard",
+        "operationId": "household_dashboard_api_v1_households__household_id__dashboard_get",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/alerts": {
+      "get": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Household Alerts",
+        "operationId": "household_alerts_api_v1_households__household_id__alerts_get",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/findings": {
+      "get": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Household Findings",
+        "operationId": "household_findings_api_v1_households__household_id__findings_get",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^(open|resolved|dismissed)$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/import-reconciled": {
+      "post": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Upsert a ReconciledHousehold (SPEC \u00a74.4) from gp_pipeline",
+        "operationId": "import_reconciled_api_v1_households__household_id__import_reconciled_post",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "ReconciledHousehold JSON",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/report.pdf": {
+      "get": {
+        "tags": [
+          "households"
+        ],
+        "summary": "Household Report",
+        "operationId": "household_report_api_v1_households__household_id__report_pdf_get",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/pdf": {}
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/properties": {
+      "post": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Create Property",
+        "operationId": "create_property_api_v1_households__household_id__properties_post",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}": {
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Get Property",
+        "operationId": "get_property_api_v1_properties__property_id__get",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Patch Property",
+        "operationId": "patch_property_api_v1_properties__property_id__patch",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Delete Property",
+        "operationId": "delete_property_api_v1_properties__property_id__delete",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/analysis": {
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Property Analysis",
+        "description": "Overrides as query params: appreciation_rate, rent_growth_rate, expense_growth_rate, vacancy_rate, capex_reserve_rate, selling_cost_rate, land_pct, current_value_cents, arm_index",
+        "operationId": "property_analysis_api_v1_properties__property_id__analysis_get",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 2100,
+                  "minimum": 1990
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Year"
+            }
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 40,
+              "minimum": 1,
+              "default": 10,
+              "title": "Horizon"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/figure/{key}": {
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "One Figure with its full inputs tree (traceability drawer)",
+        "operationId": "property_figure_api_v1_properties__property_id__figure__key__get",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Key"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Year"
+            }
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 40,
+              "minimum": 1,
+              "default": 10,
+              "title": "Horizon"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 40,
+              "minimum": 0,
+              "default": 12,
+              "title": "Depth"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/strategies": {
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Property Strategies",
+        "description": "Overrides as query params: appreciation_rate, rent_growth, expense_growth, reinvest_rate, arm_index, replacement_value_cents, replacement_debt_cents, cash_taken_cents, dst, load_rate, dst_yield, replacement_state",
+        "operationId": "property_strategies_api_v1_properties__property_id__strategies_get",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 40,
+              "minimum": 1,
+              "default": 10,
+              "title": "Horizon"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/loans": {
+      "post": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Create Loan",
+        "operationId": "create_loan_api_v1_properties__property_id__loans_post",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/loans/{loan_id}": {
+      "patch": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Patch Loan",
+        "operationId": "patch_loan_api_v1_loans__loan_id__patch",
+        "parameters": [
+          {
+            "name": "loan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Loan Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoanPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Delete Loan",
+        "operationId": "delete_loan_api_v1_loans__loan_id__delete",
+        "parameters": [
+          {
+            "name": "loan_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Loan Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/years/{tax_year}": {
+      "put": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Upsert RentRoll + ExpenseYear (+ DepreciationLedger) for a year",
+        "operationId": "put_year_api_v1_properties__property_id__years__tax_year__put",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "tax_year",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Tax Year"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/YearIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/scenarios": {
+      "post": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Create Scenario",
+        "operationId": "create_scenario_api_v1_properties__property_id__scenarios_post",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScenarioIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "List Scenarios",
+        "operationId": "list_scenarios_api_v1_properties__property_id__scenarios_get",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/scenarios/{scenario_id}": {
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Get Scenario",
+        "operationId": "get_scenario_api_v1_scenarios__scenario_id__get",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Scenario Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/properties/{property_id}/factsheet": {
+      "get": {
+        "tags": [
+          "properties"
+        ],
+        "summary": "Fact Sheet mapping (best-effort) for eMoney / RightCapital / MoneyGuidePro",
+        "operationId": "property_factsheet_api_v1_properties__property_id__factsheet_get",
+        "parameters": [
+          {
+            "name": "property_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Property Id"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(emoney|rightcapital|mgp|json|csv)$",
+              "default": "json",
+              "title": "Format"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/households/{household_id}/documents": {
+      "post": {
+        "tags": [
+          "documents & findings"
+        ],
+        "summary": "Upload a PDF; runs the pipeline in-process. File bytes are never persisted.",
+        "operationId": "upload_document_api_v1_households__household_id__documents_post",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_document_api_v1_households__household_id__documents_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "documents & findings"
+        ],
+        "summary": "List Documents",
+        "operationId": "list_documents_api_v1_households__household_id__documents_get",
+        "parameters": [
+          {
+            "name": "household_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Household Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/documents/{document_id}": {
+      "get": {
+        "tags": [
+          "documents & findings"
+        ],
+        "summary": "Get Document",
+        "operationId": "get_document_api_v1_documents__document_id__get",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "documents & findings"
+        ],
+        "summary": "Delete Document",
+        "operationId": "delete_document_api_v1_documents__document_id__delete",
+        "parameters": [
+          {
+            "name": "document_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Document Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/findings/{finding_id}/resolve": {
+      "post": {
+        "tags": [
+          "documents & findings"
+        ],
+        "summary": "Resolve with a chosen value; the value is written back to the data",
+        "operationId": "resolve_finding_api_v1_findings__finding_id__resolve_post",
+        "parameters": [
+          {
+            "name": "finding_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Finding Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResolveIn"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/findings/{finding_id}/dismiss": {
+      "post": {
+        "tags": [
+          "documents & findings"
+        ],
+        "summary": "Dismiss Finding",
+        "operationId": "dismiss_finding_api_v1_findings__finding_id__dismiss_post",
+        "parameters": [
+          {
+            "name": "finding_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Finding Id"
+            }
+          },
+          {
+            "name": "x-workspace-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use.",
+              "title": "X-Workspace-Id"
+            },
+            "description": "Workspace (tenant) id: a random UUIDv4 the client keeps in localStorage. Unknown ids are provisioned and seeded with the demo household on first use."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/DismissIn"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_upload_document_api_v1_households__household_id__documents_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file"
+        ],
+        "title": "Body_upload_document_api_v1_households__household_id__documents_post"
+      },
+      "DismissIn": {
+        "properties": {
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          },
+          "who": {
+            "type": "string",
+            "title": "Who",
+            "default": "advisor"
+          }
+        },
+        "type": "object",
+        "title": "DismissIn"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HouseholdIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "filing_status": {
+            "type": "string",
+            "enum": [
+              "single",
+              "mfj",
+              "mfs",
+              "hoh"
+            ],
+            "title": "Filing Status",
+            "default": "mfj"
+          },
+          "state": {
+            "type": "string",
+            "maxLength": 2,
+            "minLength": 2,
+            "title": "State",
+            "default": "CA"
+          },
+          "tax_year_latest": {
+            "type": "integer",
+            "title": "Tax Year Latest",
+            "default": 2025
+          },
+          "wages_cents": {
+            "type": "integer",
+            "title": "Wages Cents",
+            "default": 0
+          },
+          "other_income_cents": {
+            "type": "integer",
+            "title": "Other Income Cents",
+            "default": 0
+          },
+          "magi_cents": {
+            "type": "integer",
+            "title": "Magi Cents",
+            "default": 0
+          },
+          "active_participation": {
+            "type": "boolean",
+            "title": "Active Participation",
+            "default": true
+          },
+          "re_professional": {
+            "type": "boolean",
+            "title": "Re Professional",
+            "default": false
+          },
+          "net_worth_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Net Worth Cents"
+          },
+          "goal": {
+            "type": "string",
+            "title": "Goal",
+            "default": ""
+          },
+          "notes": {
+            "type": "string",
+            "title": "Notes",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "HouseholdIn"
+      },
+      "HouseholdPatch": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "filing_status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "single",
+                  "mfj",
+                  "mfs",
+                  "hoh"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filing Status"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          },
+          "tax_year_latest": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tax Year Latest"
+          },
+          "wages_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wages Cents"
+          },
+          "other_income_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Other Income Cents"
+          },
+          "magi_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Magi Cents"
+          },
+          "active_participation": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Participation"
+          },
+          "re_professional": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Re Professional"
+          },
+          "net_worth_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Net Worth Cents"
+          },
+          "goal": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Goal"
+          },
+          "notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Notes"
+          }
+        },
+        "type": "object",
+        "title": "HouseholdPatch"
+      },
+      "LoanIn": {
+        "properties": {
+          "lender": {
+            "type": "string",
+            "title": "Lender",
+            "default": ""
+          },
+          "loan_type": {
+            "type": "string",
+            "enum": [
+              "fixed",
+              "arm",
+              "interest_only",
+              "heloc",
+              "balloon"
+            ],
+            "title": "Loan Type",
+            "default": "fixed"
+          },
+          "original_cents": {
+            "type": "integer",
+            "title": "Original Cents",
+            "default": 0
+          },
+          "balance_cents": {
+            "type": "integer",
+            "title": "Balance Cents",
+            "default": 0
+          },
+          "balance_as_of": {
+            "type": "string",
+            "format": "date",
+            "title": "Balance As Of"
+          },
+          "rate": {
+            "type": "number",
+            "maximum": 0.5,
+            "minimum": 0.0,
+            "title": "Rate"
+          },
+          "term_months": {
+            "type": "integer",
+            "title": "Term Months",
+            "default": 360
+          },
+          "io_months": {
+            "type": "integer",
+            "title": "Io Months",
+            "default": 0
+          },
+          "arm_reset_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arm Reset Date"
+          },
+          "arm_index_margin": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arm Index Margin"
+          },
+          "monthly_payment_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Payment Cents"
+          },
+          "maturity_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maturity Date"
+          },
+          "lien_position": {
+            "type": "integer",
+            "title": "Lien Position",
+            "default": 1
+          },
+          "is_paid_off": {
+            "type": "boolean",
+            "title": "Is Paid Off",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "balance_as_of",
+          "rate"
+        ],
+        "title": "LoanIn"
+      },
+      "LoanPatch": {
+        "properties": {
+          "lender": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lender"
+          },
+          "loan_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "fixed",
+                  "arm",
+                  "interest_only",
+                  "heloc",
+                  "balloon"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loan Type"
+          },
+          "original_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Cents"
+          },
+          "balance_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Balance Cents"
+          },
+          "balance_as_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Balance As Of"
+          },
+          "rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 0.5,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate"
+          },
+          "term_months": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Term Months"
+          },
+          "io_months": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Io Months"
+          },
+          "arm_reset_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arm Reset Date"
+          },
+          "arm_index_margin": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Arm Index Margin"
+          },
+          "monthly_payment_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Monthly Payment Cents"
+          },
+          "maturity_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Maturity Date"
+          },
+          "lien_position": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lien Position"
+          },
+          "is_paid_off": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Paid Off"
+          }
+        },
+        "type": "object",
+        "title": "LoanPatch"
+      },
+      "MonteCarlo": {
+        "properties": {
+          "runs": {
+            "type": "integer",
+            "maximum": 5000.0,
+            "minimum": 0.0,
+            "title": "Runs",
+            "default": 0
+          },
+          "appr_sigma": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Appr Sigma",
+            "default": 0.0
+          },
+          "rent_sigma": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Rent Sigma",
+            "default": 0.0
+          },
+          "seed": {
+            "type": "integer",
+            "title": "Seed",
+            "default": 7
+          }
+        },
+        "type": "object",
+        "title": "MonteCarlo"
+      },
+      "PropertyIn": {
+        "properties": {
+          "nickname": {
+            "type": "string",
+            "title": "Nickname"
+          },
+          "address_line1": {
+            "type": "string",
+            "title": "Address Line1",
+            "default": ""
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "default": ""
+          },
+          "state": {
+            "type": "string",
+            "title": "State",
+            "default": ""
+          },
+          "zip": {
+            "type": "string",
+            "title": "Zip",
+            "default": ""
+          },
+          "property_type": {
+            "type": "string",
+            "enum": [
+              "sfr",
+              "multifamily",
+              "vacation_str",
+              "commercial",
+              "land",
+              "self_rental",
+              "other"
+            ],
+            "title": "Property Type",
+            "default": "sfr"
+          },
+          "units": {
+            "type": "integer",
+            "title": "Units",
+            "default": 1
+          },
+          "purchase_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purchase Date"
+          },
+          "purchase_price_cents": {
+            "type": "integer",
+            "title": "Purchase Price Cents",
+            "default": 0
+          },
+          "placed_in_service_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Placed In Service Date"
+          },
+          "land_pct": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Land Pct"
+          },
+          "improvements_cents": {
+            "type": "integer",
+            "title": "Improvements Cents",
+            "default": 0
+          },
+          "cost_seg_study": {
+            "type": "boolean",
+            "title": "Cost Seg Study",
+            "default": false
+          },
+          "current_value_cents": {
+            "type": "integer",
+            "title": "Current Value Cents",
+            "default": 0
+          },
+          "value_source": {
+            "type": "string",
+            "enum": [
+              "estimated",
+              "confirmed"
+            ],
+            "title": "Value Source",
+            "default": "estimated"
+          },
+          "value_as_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value As Of"
+          },
+          "appreciation_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appreciation Rate"
+          },
+          "rent_growth_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rent Growth Rate"
+          },
+          "expense_growth_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expense Growth Rate"
+          },
+          "vacancy_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vacancy Rate"
+          },
+          "mgmt_fee_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mgmt Fee Rate"
+          },
+          "capex_reserve_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capex Reserve Rate"
+          },
+          "selling_cost_rate": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selling Cost Rate"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "sold",
+              "converted"
+            ],
+            "title": "Status",
+            "default": "active"
+          },
+          "former_residence_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Former Residence Until"
+          },
+          "avg_stay_days": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Stay Days"
+          }
+        },
+        "type": "object",
+        "required": [
+          "nickname"
+        ],
+        "title": "PropertyIn"
+      },
+      "PropertyPatch": {
+        "properties": {
+          "nickname": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nickname"
+          },
+          "address_line1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Address Line1"
+          },
+          "city": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "City"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          },
+          "zip": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Zip"
+          },
+          "property_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "sfr",
+                  "multifamily",
+                  "vacation_str",
+                  "commercial",
+                  "land",
+                  "self_rental",
+                  "other"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Property Type"
+          },
+          "units": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Units"
+          },
+          "purchase_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purchase Date"
+          },
+          "purchase_price_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purchase Price Cents"
+          },
+          "placed_in_service_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Placed In Service Date"
+          },
+          "land_pct": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 1.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Land Pct"
+          },
+          "improvements_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Improvements Cents"
+          },
+          "cost_seg_study": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Seg Study"
+          },
+          "current_value_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Value Cents"
+          },
+          "value_source": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "estimated",
+                  "confirmed"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Source"
+          },
+          "value_as_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value As Of"
+          },
+          "appreciation_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Appreciation Rate"
+          },
+          "rent_growth_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rent Growth Rate"
+          },
+          "expense_growth_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expense Growth Rate"
+          },
+          "vacancy_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vacancy Rate"
+          },
+          "mgmt_fee_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mgmt Fee Rate"
+          },
+          "capex_reserve_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capex Reserve Rate"
+          },
+          "selling_cost_rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selling Cost Rate"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "sold",
+                  "converted"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "former_residence_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Former Residence Until"
+          },
+          "avg_stay_days": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Stay Days"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "PropertyPatch"
+      },
+      "ResolveIn": {
+        "properties": {
+          "value": {
+            "title": "Value"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "default": ""
+          },
+          "who": {
+            "type": "string",
+            "title": "Who",
+            "default": "advisor"
+          }
+        },
+        "type": "object",
+        "title": "ResolveIn"
+      },
+      "ScenarioIn": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "horizon_years": {
+            "type": "integer",
+            "maximum": 40.0,
+            "minimum": 1.0,
+            "title": "Horizon Years",
+            "default": 10
+          },
+          "assumptions": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Assumptions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "ScenarioIn"
+      },
+      "SimAssumptions": {
+        "properties": {
+          "appreciation_rate": {
+            "type": "number",
+            "title": "Appreciation Rate",
+            "default": 0.035
+          },
+          "rent_growth": {
+            "type": "number",
+            "title": "Rent Growth",
+            "default": 0.03
+          },
+          "expense_growth": {
+            "type": "number",
+            "title": "Expense Growth",
+            "default": 0.03
+          },
+          "reinvest_rate": {
+            "type": "number",
+            "title": "Reinvest Rate",
+            "default": 0.06
+          },
+          "cap_rate": {
+            "type": "number",
+            "title": "Cap Rate",
+            "default": 0.055
+          },
+          "vacancy_rate": {
+            "type": "number",
+            "title": "Vacancy Rate",
+            "default": 0.05
+          },
+          "filing_status": {
+            "type": "string",
+            "enum": [
+              "single",
+              "mfj",
+              "mfs",
+              "hoh"
+            ],
+            "title": "Filing Status",
+            "default": "mfj"
+          },
+          "state": {
+            "type": "string",
+            "title": "State",
+            "default": "CA"
+          },
+          "wages_cents": {
+            "type": "integer",
+            "title": "Wages Cents",
+            "default": 0
+          },
+          "other_income_cents": {
+            "type": "integer",
+            "title": "Other Income Cents",
+            "default": 0
+          },
+          "magi_cents": {
+            "type": "integer",
+            "title": "Magi Cents",
+            "default": 0
+          },
+          "starting_cash_cents": {
+            "type": "integer",
+            "title": "Starting Cash Cents",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "title": "SimAssumptions"
+      },
+      "SimEvent": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "year": {
+            "type": "integer",
+            "title": "Year"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "buy",
+              "sell",
+              "exchange",
+              "refi"
+            ],
+            "title": "Type"
+          },
+          "property_ref": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Property Ref"
+          },
+          "property_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Property Id"
+          },
+          "amount_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Cents"
+          },
+          "debt_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Debt Cents"
+          },
+          "rate": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rate"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "year",
+          "type"
+        ],
+        "title": "SimEvent"
+      },
+      "SimPropertyIn": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "nickname": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nickname"
+          },
+          "property_type": {
+            "type": "string",
+            "title": "Property Type",
+            "default": "sfr"
+          },
+          "current_value_cents": {
+            "type": "integer",
+            "title": "Current Value Cents"
+          },
+          "debt_cents": {
+            "type": "integer",
+            "title": "Debt Cents",
+            "default": 0
+          },
+          "rate": {
+            "type": "number",
+            "title": "Rate",
+            "default": 0.065
+          },
+          "remaining_years": {
+            "type": "integer",
+            "title": "Remaining Years",
+            "default": 30
+          },
+          "noi_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Noi Cents"
+          },
+          "gross_rent_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gross Rent Cents"
+          },
+          "expenses_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expenses Cents"
+          },
+          "purchase_price_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purchase Price Cents"
+          },
+          "purchase_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purchase Date"
+          },
+          "land_pct": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Land Pct"
+          },
+          "accumulated_depreciation_cents": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accumulated Depreciation Cents"
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "current_value_cents"
+        ],
+        "title": "SimPropertyIn"
+      },
+      "SimulateIn": {
+        "properties": {
+          "start_year": {
+            "type": "integer",
+            "title": "Start Year",
+            "default": 2026
+          },
+          "years": {
+            "type": "integer",
+            "maximum": 40.0,
+            "minimum": 1.0,
+            "title": "Years",
+            "default": 10
+          },
+          "household_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Household Id"
+          },
+          "properties": {
+            "items": {
+              "$ref": "#/components/schemas/SimPropertyIn"
+            },
+            "type": "array",
+            "title": "Properties"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/SimEvent"
+            },
+            "type": "array",
+            "title": "Events"
+          },
+          "assumptions": {
+            "$ref": "#/components/schemas/SimAssumptions"
+          },
+          "monte_carlo": {
+            "$ref": "#/components/schemas/MonteCarlo"
+          }
+        },
+        "type": "object",
+        "title": "SimulateIn"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "YearIn": {
+        "properties": {
+          "gross_rent_cents": {
+            "type": "integer",
+            "title": "Gross Rent Cents",
+            "default": 0
+          },
+          "other_income_cents": {
+            "type": "integer",
+            "title": "Other Income Cents",
+            "default": 0
+          },
+          "taxes_cents": {
+            "type": "integer",
+            "title": "Taxes Cents",
+            "default": 0
+          },
+          "insurance_cents": {
+            "type": "integer",
+            "title": "Insurance Cents",
+            "default": 0
+          },
+          "repairs_cents": {
+            "type": "integer",
+            "title": "Repairs Cents",
+            "default": 0
+          },
+          "mgmt_cents": {
+            "type": "integer",
+            "title": "Mgmt Cents",
+            "default": 0
+          },
+          "utilities_cents": {
+            "type": "integer",
+            "title": "Utilities Cents",
+            "default": 0
+          },
+          "hoa_cents": {
+            "type": "integer",
+            "title": "Hoa Cents",
+            "default": 0
+          },
+          "other_cents": {
+            "type": "integer",
+            "title": "Other Cents",
+            "default": 0
+          },
+          "mortgage_interest_cents": {
+            "type": "integer",
+            "title": "Mortgage Interest Cents",
+            "default": 0
+          },
+          "depreciation_cents": {
+            "type": "integer",
+            "title": "Depreciation Cents",
+            "default": 0
+          },
+          "depreciation": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Depreciation",
+            "description": "optional ledger row {allowed_cents, allowable_cents, method, note}"
+          }
+        },
+        "type": "object",
+        "title": "YearIn"
+      }
+    }
+  }
+}

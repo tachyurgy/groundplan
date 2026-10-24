@@ -52,4 +52,4 @@ def client(seeded):
 
     from groundplan.api import app
 
-    return TestClient(app)
+    return TestClient(app, headers={"X-Workspace-Id": DEV_ADVISOR})

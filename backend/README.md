@@ -40,7 +40,8 @@ groundplan/
   services/        portfolio (DB -> engine models, dashboard, alerts), ingest (import-reconciled, findings),
                    pipeline_adapter (lazy gp_pipeline), factsheet, report (PDF)
   api/             FastAPI app, routers, problem+json, request schemas
-alembic/           migrations (0001 = full SPEC §1 model)
+alembic/           migrations (0001 = full SPEC §1 model, 0002 = workspaces); `migrations.sql` = offline SQL (`make migrations-sql`)
+openapi.json       THE API contract (`make openapi`); engine-go ports against it, web generates TS types from it
 scripts/seed.py    the Okafor-Lindqvist demo household, loaded without the pipeline
 scripts/gen_fixtures.py  golden case definitions; asserts hand-computed values, then writes the JSON
 ```
@@ -127,8 +128,16 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
 `GET /households/{id}/alerts` · `POST /simulate` · `GET /eval/latest` · `POST /households/{id}/import-reconciled` ·
 `GET /rules` (the observation rule table).
 
-* Tenancy: optional `X-Advisor-Id` header (defaults to the dev advisor). Every query goes through
-  `db.models.scoped(Model, advisor_id)`; another advisor's ids return 404 (`tests/test_api.py::test_tenant_isolation`).
+* Tenancy = no-login **workspaces** (SPEC §8.1, `services/workspace.py`): every request except `/health`, `/meta` and
+  `/eval/latest` must carry `X-Workspace-Id: <uuid>` (missing/invalid -> 400 problem+json). The workspace id IS the
+  advisor id. An unknown id is provisioned and seeded with the demo household in one transaction; concurrent first
+  requests race on `INSERT ... ON CONFLICT (id) DO NOTHING`, so exactly one seeds (`tests/test_workspace.py`). Every query
+  goes through `db.models.scoped(Model, advisor_id)`; another workspace's ids return 404. Guards (429 problem+json): 30 new
+  workspaces per client IP per UTC day (`CF-Connecting-IP`, else first `X-Forwarded-For` hop; spoofable, a speed bump not
+  auth), 20 households and 50 documents per workspace; uploads > 15 MB and bodies > 20 MB -> 413. `GET /workspace`,
+  `POST /workspace/reset` (wipe + re-seed). Workspaces idle 14 days are deleted at startup and every 6 h. `GET /meta`
+  says which backend/engine/runtime answered. Local dev: the seed's dev advisor `00000000-0000-4000-8000-000000000001`
+  is a valid workspace id.
 * What-ifs as query params (the web client's names). `/analysis`: `appreciation_rate, rent_growth_rate,
   expense_growth_rate, vacancy_rate, capex_reserve_rate, selling_cost_rate, land_pct, current_value_cents, arm_index,
   year, horizon`. `/strategies`: `appreciation_rate, rent_growth, expense_growth, reinvest_rate, arm_index,
