@@ -52,7 +52,7 @@ export function DivergingBars({ rows }: { rows: DivergingRow[] }) {
                     disabled={!fig}
                     onClick={(e) => fig && openTrace({ figure: fig, ...scope, ...r.scope, returnFocus: e.currentTarget })}
                     className={`figure-btn block w-full text-[12px] ${r.value >= 0 ? 'text-left text-pos-600' : 'text-right text-neg-600'}`}
-                    aria-label={`${r.label} net cash flow ${formatCents(r.value)}`}
+                    aria-label={`${r.label}: ${formatCentsCompact(r.value)} net cash flow (${formatCents(r.value)})`}
                   >
                     {formatCentsCompact(r.value)}
                   </button>

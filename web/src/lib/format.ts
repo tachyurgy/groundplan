@@ -57,3 +57,8 @@ export const DOC_KIND_LABEL: Record<string, string> = {
   appraisal: 'Appraisal',
   other: 'Other',
 };
+
+/** "Okafor-Lindqvist" and "Okafor-Lindqvist household" both render as "Okafor-Lindqvist household". */
+export function householdTitle(name: string): string {
+  return /\bhousehold$/i.test(name.trim()) ? name.trim() : `${name.trim()} household`;
+}

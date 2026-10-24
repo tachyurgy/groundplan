@@ -10,12 +10,15 @@ export default tseslint.config(
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
     languageOptions: { ecmaVersion: 2023, globals: { ...globals.browser, ...globals.node } },
-    plugins: { 'react-hooks': reactHooks },
     rules: {
-      // react-hooks v7 "recommended" ships the React Compiler rules (purity, refs, set-state-in-render, ...)
-      ...reactHooks.configs.recommended.rules,
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
     },
+  },
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    plugins: { 'react-hooks': reactHooks },
+    // react-hooks v7 "recommended" ships the React Compiler rules (purity, refs, set-state-in-render, ...)
+    rules: { ...reactHooks.configs.recommended.rules },
   },
   prettier,
 );

@@ -68,7 +68,7 @@ export function Waterfall({ steps }: { steps: WaterfallStep[] }) {
                       data-key={r.figure.key}
                       onClick={(e) => openTrace({ figure: r.figure!, ...scope, returnFocus: e.currentTarget })}
                       className="figure-btn block w-full text-right text-[12px] text-ink-950"
-                      aria-label={`${r.label} ${formatCents(r.value)}. Show how this is calculated`}
+                      aria-label={`${r.label}: ${narrow ? formatCentsCompact(r.value) : formatCents(r.value)}. Show how this is calculated`}
                     >
                       {narrow ? formatCentsCompact(r.value) : formatCents(r.value)}
                     </button>

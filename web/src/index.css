@@ -18,7 +18,7 @@
   --ink-900: #1b2430;
   --ink-700: #36404d;
   --ink-500: #59626f;
-  --ink-400: #6f7783;
+  --ink-400: #646c78;
   --ink-300: #a9afb8;
   --ink-200: #d9dce1;
   --ink-100: #eaecef;
@@ -249,5 +249,14 @@
   }
   body {
     background: white;
+  }
+}
+
+@keyframes gp-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
   }
 }

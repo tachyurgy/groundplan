@@ -39,8 +39,31 @@ const byWorkspace = new Map<string, { db: MockDb; created_at: string }>();
 export let db: MockDb = freshDb();
 let current = 'default';
 
+const storeKey = (id: string) => `gp.mockdb.${id}`;
+
+/** Mock mode keeps each workspace's data in localStorage, so a reload behaves like the real backend. */
+function load(id: string): { db: MockDb; created_at: string } | null {
+  try {
+    const raw = globalThis.localStorage?.getItem(storeKey(id));
+    return raw ? (JSON.parse(raw) as { db: MockDb; created_at: string }) : null;
+  } catch {
+    return null;
+  }
+}
+
+export function persist() {
+  const w = byWorkspace.get(current);
+  if (!w) return;
+  try {
+    globalThis.localStorage?.setItem(storeKey(current), JSON.stringify(w));
+  } catch {
+    /* quota or blocked storage: the mock just forgets on reload */
+  }
+}
+
 export function selectWorkspace(id: string) {
-  let w = byWorkspace.get(id);
+  let w = byWorkspace.get(id) ?? load(id) ?? undefined;
+  if (w) byWorkspace.set(id, w);
   if (!w) {
     w = { db: freshDb(), created_at: new Date().toISOString() };
     byWorkspace.set(id, w);
@@ -54,6 +77,7 @@ export function resetDb() {
   db = freshDb();
   const w = byWorkspace.get(current);
   if (w) w.db = db;
+  persist();
 }
 
 /** Provenance refs for a property: latest-year document field per field name. */

@@ -1,6 +1,7 @@
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { getRouteApi } from '@tanstack/react-router';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { ApiError } from '../api/client';
 import { documentQuery, documentsQuery, findingsQuery, useDismissFinding, useResolveFinding, useUpload } from '../api/queries';
 import type { Document, ExtractedField, Finding, FindingCandidate } from '../api/types';
 import { useMeasure } from '../charts/kit';
@@ -53,33 +54,96 @@ export function DocumentsPage() {
   );
 }
 
-type LogRow = { name: string; state: 'uploading' | 'done' | 'error'; msg?: string };
+type LogRow = { id: string; name: string; state: 'uploading' | 'done' | 'error'; started: number; msg?: string };
+
+/** Turn API failures into something an advisor can act on (413 too big, 503 reader down, 429 limits). */
+function uploadError(e: unknown): string {
+  if (e instanceof ApiError) {
+    if (e.status === 413) return 'Over the 15 MB upload limit. Split the PDF or scan at a lower resolution.';
+    if (e.status === 503) return 'The document reader is unavailable right now. Nothing was saved; try again in a minute.';
+    if (e.status === 429) return e.message || 'Upload limit reached for this sandbox. Reset demo data to start over.';
+    if (e.status === 415 || e.status === 422) return e.message || 'This file could not be read as a PDF.';
+    if (e.isNetwork) return 'Could not reach the API. Check the connection and try again.';
+    return e.message;
+  }
+  return e instanceof Error ? e.message : String(e);
+}
+
+interface Sample {
+  file: string;
+  label: string;
+  kind?: string;
+  tax_year?: number;
+  scan?: boolean;
+}
+
+/** Sample returns shipped with the site (public/samples/index.json), so a reviewer on a phone can try an upload. */
+function useSamples() {
+  return useQuery({
+    queryKey: ['samples'],
+    queryFn: async () => {
+      const r = await fetch('/samples/index.json');
+      if (!r.ok) return [] as Sample[];
+      const j = (await r.json()) as unknown;
+      return Array.isArray(j) ? (j as Sample[]).filter((s) => s && typeof s.file === 'string') : [];
+    },
+    staleTime: Infinity,
+    retry: 0,
+  });
+}
+
+function Elapsed({ since }: { since: number }) {
+  const [now, setNow] = useState(since);
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(t);
+  }, []);
+  return <span className="num">{Math.max(0, Math.round((now - since) / 1000))}s</span>;
+}
 
 function UploadZone({ householdId, onUploaded }: { householdId: string; onUploaded: (d: Document) => void }) {
   const upload = useUpload(householdId);
+  const samples = useSamples();
   const [drag, setDrag] = useState(false);
+  const [sample, setSample] = useState('');
   const [log, setLog] = useState<LogRow[]>([]);
+  const patch = (id: string, p: Partial<LogRow>) => setLog((l) => l.map((x) => (x.id === id ? { ...x, ...p } : x)));
   const handle = async (files: FileList | File[]) => {
     for (const file of Array.from(files)) {
+      const id = `${file.name}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
       if (!/\.pdf$/i.test(file.name) && file.type !== 'application/pdf') {
-        setLog((l) => [{ name: file.name, state: 'error', msg: 'Only PDF files can be read' }, ...l]);
+        setLog((l) => [{ id, name: file.name, state: 'error', started: Date.now(), msg: 'Only PDF files can be read' }, ...l]);
         continue;
       }
       if (file.size > 15 * 1024 * 1024) {
-        setLog((l) => [{ name: file.name, state: 'error', msg: 'Larger than the 15 MB limit' }, ...l]);
+        setLog((l) => [{ id, name: file.name, state: 'error', started: Date.now(), msg: 'Over the 15 MB upload limit' }, ...l]);
         continue;
       }
-      setLog((l) => [{ name: file.name, state: 'uploading' }, ...l]);
+      setLog((l) => [{ id, name: file.name, state: 'uploading', started: Date.now() }, ...l]);
       try {
         const res = await upload.mutateAsync(file);
         fileStore.put(res.document.id, file); // keep the bytes in this tab only, for pdf.js
-        setLog((l) => l.map((x) => (x.name === file.name && x.state === 'uploading' ? { ...x, state: 'done', msg: `${res.extracted_fields.length} fields, ${res.findings.length} findings` } : x)));
+        patch(id, { state: 'done', msg: `${res.extracted_fields.length} fields, ${res.findings.length} findings` });
         onUploaded(res.document);
       } catch (e) {
-        setLog((l) => l.map((x) => (x.name === file.name && x.state === 'uploading' ? { ...x, state: 'error', msg: e instanceof Error ? e.message : String(e) } : x)));
+        patch(id, { state: 'error', msg: uploadError(e) });
       }
     }
   };
+  const trySample = async () => {
+    const s = samples.data?.find((x) => x.file === sample);
+    if (!s) return;
+    const id = `sample-${Date.now()}`;
+    try {
+      const r = await fetch(`/samples/${s.file}`);
+      if (!r.ok) throw new Error(`sample not found (${r.status})`);
+      const blob = await r.blob();
+      await handle([new File([blob], s.file.split('/').pop() ?? s.file, { type: 'application/pdf' })]);
+    } catch (e) {
+      setLog((l) => [{ id, name: s.file, state: 'error', started: Date.now(), msg: e instanceof Error ? e.message : String(e) }, ...l]);
+    }
+  };
+  const busy = log.some((l) => l.state === 'uploading');
   return (
     <div
       data-testid="dropzone"
@@ -93,22 +157,59 @@ function UploadZone({ householdId, onUploaded }: { householdId: string; onUpload
         setDrag(false);
         void handle(e.dataTransfer.files);
       }}
-      className={`flex flex-col gap-3 rounded-lg border-2 border-dashed px-4 py-4 transition-colors sm:flex-row sm:items-center ${drag ? 'border-brand-500 bg-brand-50' : 'border-ink-200 bg-surface'}`}
+      className={`rounded-lg border-2 border-dashed px-4 py-4 transition-colors ${drag ? 'border-brand-500 bg-brand-50' : 'border-ink-200 bg-surface'}`}
     >
-      <div className="flex-1">
-        <div className="text-sm font-semibold text-ink-950">Drop PDFs here</div>
-        <div className="text-xs leading-relaxed text-ink-500">Form 1040, Schedule E, Form 4562, Form 8582, mortgage statements, closing statements, appraisals. Text-layer or scanned, up to 15 MB each.</div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="flex-1">
+          <div className="text-sm font-semibold text-ink-950">Drop PDFs here</div>
+          <div className="text-xs leading-relaxed text-ink-500">Form 1040, Schedule E, Form 4562, Form 8582, mortgage statements, closing statements, appraisals. Text-layer or scanned, up to 15 MB each.</div>
+        </div>
+        <label className="btn cursor-pointer">
+          Choose files
+          <input type="file" accept="application/pdf,.pdf" multiple className="sr-only" data-testid="file-input" onChange={(e) => e.target.files && void handle(e.target.files)} />
+        </label>
       </div>
-      <label className="btn cursor-pointer">
-        Choose files
-        <input type="file" accept="application/pdf,.pdf" multiple className="sr-only" data-testid="file-input" onChange={(e) => e.target.files && void handle(e.target.files)} />
-      </label>
+      {!!samples.data?.length && (
+        <div className="mt-3 flex flex-col gap-2 border-t border-ink-100 pt-3 sm:flex-row sm:items-center" data-testid="samples">
+          <label htmlFor="sample-pick" className="text-sm text-ink-700 sm:shrink-0">
+            No returns handy? Try a sample:
+          </label>
+          <select id="sample-pick" className="input sm:max-w-sm" value={sample} onChange={(e) => setSample(e.target.value)} data-testid="sample-select">
+            <option value="">Choose a sample document</option>
+            {samples.data.map((s) => (
+              <option key={s.file} value={s.file}>
+                {s.label}
+                {s.scan ? ' (scanned, OCR)' : ''}
+              </option>
+            ))}
+          </select>
+          <button type="button" className="btn" disabled={!sample || busy} onClick={() => void trySample()} data-testid="sample-upload">
+            Run it through the reader
+          </button>
+        </div>
+      )}
       {log.length > 0 && (
-        <ul className="max-h-24 min-w-0 overflow-y-auto text-xs sm:w-[340px]" aria-live="polite" data-testid="upload-log">
-          {log.slice(0, 6).map((l, i) => (
-            <li key={i} className="flex justify-between gap-3 py-0.5">
-              <span className="truncate">{l.name}</span>
-              <span className={`shrink-0 ${l.state === 'error' ? 'text-neg-600' : l.state === 'done' ? 'text-pos-600' : 'text-ink-500'}`}>{l.state === 'uploading' ? 'extracting…' : l.msg}</span>
+        <ul className="mt-3 space-y-1.5 border-t border-ink-100 pt-3 text-xs" aria-live="polite" data-testid="upload-log">
+          {log.slice(0, 6).map((l) => (
+            <li key={l.id} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1">
+              <span className="truncate font-medium text-ink-900">{l.name}</span>
+              <span className={`text-right ${l.state === 'error' ? 'text-neg-600' : l.state === 'done' ? 'text-pos-600' : 'text-ink-500'}`}>
+                {l.state === 'uploading' ? (
+                  <>
+                    Reading <Elapsed since={l.started} />
+                  </>
+                ) : (
+                  l.msg
+                )}
+              </span>
+              {l.state === 'uploading' && (
+                <span className="col-span-2">
+                  <span className="block h-1 overflow-hidden rounded-full bg-ink-100" role="progressbar" aria-label={`Reading ${l.name}`}>
+                    <span className="block h-full w-1/3 animate-[gp-indeterminate_1.2s_ease-in-out_infinite] rounded-full bg-brand-500" />
+                  </span>
+                  <span className="mt-0.5 block text-[11px] text-ink-500">Text PDFs take about a second; scanned pages go through OCR and can take 10 seconds or more.</span>
+                </span>
+              )}
             </li>
           ))}
         </ul>

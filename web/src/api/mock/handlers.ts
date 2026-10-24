@@ -6,7 +6,7 @@
  */
 import { http, HttpResponse } from 'msw';
 import { MockHttpError, mockFetch } from './router';
-import { db, resetDb, selectWorkspace } from './state';
+import { db, persist, resetDb, selectWorkspace } from './state';
 import { factSheetCsv } from '../../lib/factsheet';
 import type { FactSheet } from '../types';
 
@@ -80,6 +80,7 @@ export const handlers = [
     try {
       const body = await readBody(request);
       const res = await mockFetch(request.method, url.pathname.replace(/^.*\/api\/v1/, '/api/v1') + url.search, body);
+      if (request.method !== 'GET') persist();
       if (/\/factsheet$/.test(path) && url.searchParams.get('format') === 'csv') {
         return new HttpResponse(factSheetCsv(res as FactSheet), { headers: { 'Content-Type': 'text/csv; charset=utf-8' } });
       }

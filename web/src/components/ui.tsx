@@ -14,7 +14,14 @@ export function Card({ title, actions, children, className = '', bodyClass = 'ca
           {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
         </div>
       )}
-      <div className={bodyClass}>{children}</div>
+      {/* a body that scrolls sideways must be reachable by keyboard (axe: scrollable-region-focusable) */}
+      {/overflow-(x-)?auto/.test(bodyClass) ? (
+        <div className={bodyClass} tabIndex={0} role="region" aria-label={typeof title === 'string' ? title : 'Scrollable content'}>
+          {children}
+        </div>
+      ) : (
+        <div className={bodyClass}>{children}</div>
+      )}
     </section>
   );
 }

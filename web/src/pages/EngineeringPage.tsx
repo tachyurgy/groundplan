@@ -49,7 +49,7 @@ function Architecture() {
     </g>
   );
   return (
-    <div className="overflow-x-auto rounded-lg bg-surface-2 p-3 ring-1 ring-ink-100">
+    <div className="overflow-x-auto rounded-lg bg-surface-2 p-3 ring-1 ring-ink-100" tabIndex={0} role="region" aria-label="Architecture diagram, scrolls sideways">
       <svg viewBox="0 0 900 250" className="min-w-[700px]" role="img" aria-label="Browser (React) calls a Cloudflare Pages Function at /api, which proxies to the Python or Go API on the server; both APIs use Postgres and call the internal Python document pipeline.">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
@@ -186,7 +186,7 @@ export function EngineeringPage() {
           reset. Every page is scanned with axe, checked for console errors and for horizontal scroll at 360px. One test opens the same property on both live stacks and asserts the headline figures are identical.
         </p>
         {runs.length > 0 ? (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="End-to-end results">
             <table className="tbl" data-testid="e2e-summary">
               <thead>
                 <tr>

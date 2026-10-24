@@ -283,7 +283,7 @@ function PathColumn({ p }: { p: StrategyPathT }) {
 function Matrix({ s }: { s: StrategiesT }) {
   const measures = Object.keys(MEASURE_LABEL).filter((m) => s.matrix[m]);
   return (
-    <div className="-mx-4 overflow-x-auto px-4">
+    <div className="-mx-4 overflow-x-auto px-4" tabIndex={0} role="region" aria-label="Comparison by measure, scrolls sideways">
       <table className="tbl min-w-[520px]" data-testid="strategy-matrix">
         <thead>
           <tr>

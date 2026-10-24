@@ -57,7 +57,7 @@ export function RouteError({ error, reset }: ErrorComponentProps) {
 export function NotFound() {
   return (
     <div className="mx-auto my-16 max-w-md text-center">
-      <p className="num text-5xl font-medium text-ink-300">404</p>
+      <p className="num text-5xl font-medium text-ink-500">404</p>
       <h1 className="mt-3 text-xl">There is no page at this address</h1>
       <p className="mt-2 text-sm text-ink-500">Check the link, or start from the household list.</p>
       <Link to="/" className="btn btn-primary mt-5">

@@ -100,7 +100,7 @@ function StackBadge({ compact = false }: { compact?: boolean }) {
     <span data-testid="stack-badge" data-backend={backend} className="inline-flex items-center gap-1.5 text-xs text-ink-500" title={meta.data?.runtime ? `${meta.data.runtime} · ${meta.data.db ?? ''}` : undefined}>
       <span aria-hidden className={`h-1.5 w-1.5 rounded-full ${dot}`} />
       {compact ? (BACKEND_LABEL[backend] ?? backend).split(' ')[0] : <>Backend: {BACKEND_LABEL[backend] ?? backend}</>}
-      {sha && !compact && <span className="num text-ink-400">· {sha}</span>}
+      {sha && !compact && <span className="num text-ink-500">· {sha}</span>}
     </span>
   );
 }

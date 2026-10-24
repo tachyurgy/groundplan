@@ -8,7 +8,7 @@ import { FigureValue } from '../components/FigureValue';
 import { HouseholdNav } from '../components/HouseholdNav';
 import { StatusChip } from '../components/StatusChip';
 import { Card, PageHeader, SeverityTag, TabPanel, Tabs } from '../components/ui';
-import { FILING_LABEL, PROPERTY_TYPE_LABEL } from '../lib/format';
+import { householdTitle, FILING_LABEL, PROPERTY_TYPE_LABEL } from '../lib/format';
 import { formatCents, formatRate } from '../lib/money';
 import { rollupStatus } from '../lib/status';
 import { TraceScope } from '../lib/traceScope';
@@ -69,7 +69,7 @@ export function ReportsPage() {
             <div className="flex flex-wrap items-baseline justify-between gap-2 border-b-2 border-ink-950 pb-2">
               <div>
                 <div className="label">Real estate portfolio review</div>
-                <div className="text-xl font-semibold tracking-tight">{d.household.name} household</div>
+                <div className="text-xl font-semibold tracking-tight">{householdTitle(d.household.name)}</div>
               </div>
               <div className="text-right text-xs text-ink-500">
                 {FILING_LABEL[d.household.filing_status]}, {d.household.state}
@@ -95,7 +95,7 @@ export function ReportsPage() {
                 </div>
               ))}
             </div>
-            <div className="mt-5 -mx-1 overflow-x-auto px-1">
+            <div className="mt-5 -mx-1 overflow-x-auto px-1" tabIndex={0} role="region" aria-label="Properties in the report">
               <table className="tbl min-w-[460px]">
                 <thead>
                   <tr>

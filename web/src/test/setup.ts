@@ -7,7 +7,7 @@ import { server } from './server';
 const realFetch = globalThis.fetch;
 globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit) => realFetch(typeof input === 'string' && input.startsWith('/') ? `http://localhost${input}` : input, init);
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+beforeAll(() => server.listen({ onUnhandledFrame: 'error' }));
 afterEach(() => {
   cleanup();
   server.resetHandlers();

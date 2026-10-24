@@ -12,7 +12,7 @@ import { HouseholdNav } from '../components/HouseholdNav';
 import { KpiTile } from '../components/KpiTile';
 import { StatusChip } from '../components/StatusChip';
 import { Card, PageHeader, SeverityTag } from '../components/ui';
-import { FILING_LABEL, PROPERTY_TYPE_LABEL, formatDate, formatDateTime, titleCase } from '../lib/format';
+import { householdTitle, FILING_LABEL, PROPERTY_TYPE_LABEL, formatDate, formatDateTime, titleCase } from '../lib/format';
 import { formatCents, formatCentsCompact, formatRate } from '../lib/money';
 import { rollupStatus } from '../lib/status';
 import { TraceScope } from '../lib/traceScope';
@@ -142,7 +142,7 @@ export function DashboardPage() {
             Households
           </Link>
         }
-        title={`${h.name} household`}
+        title={householdTitle(h.name)}
         actions={<ReportButton householdId={householdId} />}
       >
         {FILING_LABEL[h.filing_status]}, {h.state}, tax year {h.tax_year_latest}. Goal: <span className="text-ink-900">{h.goal}</span>
@@ -150,7 +150,7 @@ export function DashboardPage() {
       <HouseholdNav householdId={householdId} />
 
       {alerts.data && alerts.data.length > 0 && (
-        <section aria-label="Monitoring alerts" className="-mx-4 mb-5 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" data-testid="alerts-strip">
+        <section aria-label="Monitoring alerts" tabIndex={0} className="-mx-4 mb-5 flex snap-x gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" data-testid="alerts-strip">
           {alerts.data.map((a) => (
             <div key={a.id} className="flex w-[280px] shrink-0 snap-start items-start gap-2.5 rounded-md bg-surface px-3 py-2.5 text-xs shadow-card">
               <span className="num mt-px shrink-0 rounded bg-ink-100 px-1.5 py-0.5 text-[11px] font-medium text-ink-700">{formatDate(a.due_date)}</span>

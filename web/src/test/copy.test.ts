@@ -3,7 +3,7 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 function walk(dir: string): string[] {
-  return readdirSync(dir).flatMap((f) => {
+  return readdirSync(dir).flatMap((f: string) => {
     const p = join(dir, f);
     return statSync(p).isDirectory() ? (f === 'test' ? [] : walk(p)) : /\.(tsx?|css)$/.test(f) ? [p] : [];
   });
@@ -11,7 +11,7 @@ function walk(dir: string): string[] {
 
 describe('product rules in the source', () => {
   it('the UI never says "recommended" (the comparison describes; it does not pick)', () => {
-    const hits = walk(join(__dirname, '..')).filter((p) => /\brecommend(ed|ation|s)?\b/i.test(readFileSync(p, 'utf8')));
+    const hits = walk(join(process.cwd(), 'src')).filter((p) => /\brecommend(ed|ation|s)?\b/i.test(readFileSync(p, 'utf8')));
     expect(hits).toEqual([]);
   });
 });

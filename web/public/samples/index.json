@@ -1,0 +1,8 @@
+[
+  {"file": "2025_schedule_e.pdf", "label": "2025 Schedule E (rental income, 3 properties)", "kind": "schedule_e", "tax_year": 2025, "scan": false},
+  {"file": "2025_schedule_e.scan.pdf", "label": "2025 Schedule E, scanned (OCR)", "kind": "schedule_e", "tax_year": 2025, "scan": true},
+  {"file": "2025_form_1040.pdf", "label": "2025 Form 1040 (filing status, wages, AGI)", "kind": "form_1040", "tax_year": 2025, "scan": false},
+  {"file": "stmt_3_2025.pdf", "label": "Elm SFR mortgage statement (interest-only ARM)", "kind": "mortgage_statement", "tax_year": 2025, "scan": false},
+  {"file": "stmt_3_2025.scan.pdf", "label": "Elm SFR mortgage statement, scanned (OCR)", "kind": "mortgage_statement", "tax_year": 2025, "scan": true},
+  {"file": "appraisal_1.pdf", "label": "Maple duplex appraisal letter", "kind": "appraisal", "tax_year": 2025, "scan": false}
+]
