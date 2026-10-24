@@ -1,5 +1,17 @@
 # Groundplan releases
 
+## 2026-10-23 — gp-go-api upload-conflict semantics, JSON seed unpinned; gp-python-api properties_touched order
+- **What deployed:** gp-go-api `707bcbf` and gp-python-api `707bcbf73185` (Box B).
+- **Changed:** Go ports the new ingest rules (blocking conflict instead of overwrite, decided conflicts stay closed, no
+  renames, upload `import` counts); Go now seeds from `fixtures/seed/okafor-lindqvist.json` (the legacy-seed pin
+  `/root/groundplan/go-seed.json` was removed). Python: one-line change in `routers/documents.py` so
+  `properties_touched` is listed in property order (nickname, key) instead of by random uuid, matching Go.
+  New `scripts/parity_upload.py` (upload -> block -> resolve -> confirmed -> re-upload, text + scan).
+- **How:** `engine-go/deploy.sh`; Python: patched file into `/root/groundplan/src-py`, `flock .build.lock docker build -f
+  infra/Dockerfile.api --build-arg GP_GIT_SHA=707bcbf73185`, container recreated with the same run args.
+- **Verified:** from Box B against both live APIs: `scripts/parity.py` 182/182, `scripts/parity_upload.py` 24/24 with 0
+  invariant failures; both `/meta` report sha 707bcbf.
+
 ## 2026-10-23 (later) — Demo seed now = the synthetic documents' household (SEED CHANGED)
 - **Seed changed:** `backend/scripts/seed.py` now loads `fixtures/seed/okafor-lindqvist.json`, generated from
   `pipeline/gp_pipeline/synth/household.py` (new addresses, purchase prices, loans, values, years). Go port: load the

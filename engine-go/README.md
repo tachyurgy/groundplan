@@ -44,6 +44,12 @@ and one counted provision). Limits: 30 new workspaces per IP per day, 20 househo
 byte for byte (test-enforced). On start the server applies it to an empty database and refuses to start if
 `alembic_version` is anything but the embedded head (0002).
 
+**Upload conflicts:** a document value that differs from a stored non-zero rent/expense value is never written; it
+raises a block-severity conflict Finding `conflict:<property_key>:<column>:<year>` with both candidates (the upload is
+candidate 0). Resolving writes the chosen value back; a decided conflict never reopens; uploads never rename an
+existing property. The upload response carries `import {properties_created, properties_updated, conflicts_raised}`
+and lists `properties_touched` in property order (nickname, then key) on both stacks.
+
 **Documents:** `POST /households/{id}/documents` streams the multipart `file` into memory (15 MB cap), hashes it, sends
 it to `GP_PIPELINE_URL/extract` with the `household_hint` JSON, drops the bytes, then persists exactly like
 `services/ingest.py` (import the reconciled household, documents by sha256, fields replaced, findings by stable key).
@@ -106,8 +112,10 @@ compiler cannot fuse it into an FMA on arm64, and `x**n` is a correctly rounded 
 | RSS (`docker stats --no-stream`, idle) | 106 MiB (256 MiB cap) | 7.8 MiB (96 MiB cap) |
 | Image | Python 3.12 slim | 25 MB distroless static |
 
-Parity: local 182/182, live gp-python-api vs gp-go-api 182/182. Real uploads of the synthetic 2025 Schedule E
-(text layer and `.scan.pdf`) through gp-pipeline give the same dashboard on both stacks.
+Parity (live gp-python-api vs gp-go-api, run from Box B): `scripts/parity.py` **182/182**, and
+`scripts/parity_upload.py` **24/24** with 0 invariant failures: the 2025 Schedule E (text layer and OCR `.scan.pdf`)
+through gp-pipeline -> 0 new properties, 3 updated, 1 blocking rent conflict -> resolve with the document's value ->
+Maple confirmed with document provenance -> re-upload updates in place (one document, the decided conflict stays closed).
 
 ## Honest list of differences
 
@@ -115,11 +123,9 @@ Parity: local 182/182, live gp-python-api vs gp-go-api 182/182. Real uploads of 
   numpy uses PCG64; both are reproducible per seed but the bands differ. With sigma = 0 every number matches.
 - **Validation error texts** (422 `errors[].msg`) follow pydantic's wording for the common cases (missing, int/float/
   bool parsing, literal, bounds, extra fields); exotic inputs can word a message differently. Status, type and loc match.
-- **`properties_touched`** on an upload is sorted by property id, which is random per side, so its order differs.
 - **Timestamps** render in the database session time zone like psycopg, but values are per-request anyway.
 - **LLM narrative**: not wired in Go (the template provider is the default on both; Python only uses an LLM when
   `GP_LLM_PROVIDER` is set). `narrative.NumberGuard` is ported for when it is.
 - **CORS preflight** replies are Starlette-shaped but not header-for-header identical.
-- **Seed**: both load `fixtures/seed/okafor-lindqvist.json`. While the live Python API still ran the legacy
-  hand-written seed, gp-go-api was pinned to a JSON export of it via `/root/groundplan/go-seed.json` (GP_SEED_PATH);
-  remove that file and redeploy once gp-python-api runs the JSON seed.
+- **Seed**: both load `fixtures/seed/okafor-lindqvist.json` (embedded in Go, drift-tested). `deploy.sh` still honours an
+  optional `/root/groundplan/go-seed.json` override (GP_SEED_PATH); it is not present in production.
