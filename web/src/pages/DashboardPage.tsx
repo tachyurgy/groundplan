@@ -209,8 +209,8 @@ export function DashboardPage() {
                 <XAxis type="number" tickFormatter={centsTick} {...xAxisProps} tickCount={narrow ? 3 : 5} />
                 <YAxis type="category" dataKey="name" width={narrow ? 84 : 110} tick={{ fontSize: 12, fill: 'var(--ink-700)' }} tickLine={false} axisLine={false} />
                 <Tooltip cursor={{ fill: 'var(--ink-50)' }} content={(p) => <TooltipBody {...p} />} />
-                <Bar dataKey="equity" name="Equity" stackId="s" fill={C.s1} stroke="var(--surface)" strokeWidth={2} maxBarSize={24} />
-                <Bar dataKey="debt" name="Debt" stackId="s" fill={C.muted} stroke="var(--surface)" strokeWidth={2} radius={[0, 4, 4, 0]} maxBarSize={24} />
+                <Bar dataKey="equity" name="Equity" stackId="s" fill={C.s1} stroke="var(--surface)" strokeWidth={2} maxBarSize={24} isAnimationActive={false} />
+                <Bar dataKey="debt" name="Debt" stackId="s" fill={C.muted} stroke="var(--surface)" strokeWidth={2} radius={[0, 4, 4, 0]} maxBarSize={24} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartFrame>
@@ -257,6 +257,7 @@ export function DashboardPage() {
           title="Net cash flow by property, after debt service and reserves"
           summary={negCount ? `${negCount} of ${cards.length} properties run negative; the portfolio nets ${formatCents(m.net_cash_flow.value_cents)} a year.` : `Every property covers its own debt service; the portfolio nets ${formatCents(m.net_cash_flow.value_cents)} a year.`}
           height={cards.length * 32 + 4}
+          fluid
           table={{
             columns: [
               { key: 'label', label: 'Property' },

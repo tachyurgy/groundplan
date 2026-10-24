@@ -126,8 +126,8 @@ export function StrategiesPage() {
       </PageHeader>
 
       <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
-        <div className="space-y-5 lg:sticky lg:top-16 lg:self-start">
-          <Card>
+        <div className="order-2 space-y-5 lg:sticky lg:top-16 lg:order-1 lg:self-start">
+          <Card className="hidden lg:block">
             <HorizonSlider
               value={horizon}
               onChange={setDraft}
@@ -142,7 +142,18 @@ export function StrategiesPage() {
           <SaveScenario propertyId={propertyId} horizon={horizon} values={values} />
         </div>
 
-        <div className="min-w-0 space-y-5">
+        <div className="order-1 min-w-0 space-y-5 lg:order-2">
+          {/* phones: the horizon control sits above the results it drives */}
+          <Card className="lg:hidden">
+            <HorizonSlider
+              value={horizon}
+              onChange={setDraft}
+              onCommit={(v) => {
+                setSearch({ horizon: v === DEFAULT_HORIZON ? undefined : v });
+                setDraft(null);
+              }}
+            />
+          </Card>
           <div className="flex items-center justify-between">
             <p className="text-sm text-ink-700">
               At <span className="num">{horizon}</span> years the three paths end <span className="num font-medium text-ink-950">{formatCents(spread)}</span> apart in after-tax wealth.

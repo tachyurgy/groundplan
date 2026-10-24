@@ -99,6 +99,7 @@ export function ChartFrame({
   children,
   actions,
   testId,
+  fluid = false,
 }: {
   title: ReactNode;
   summary: string;
@@ -108,6 +109,8 @@ export function ChartFrame({
   children: ReactNode;
   actions?: ReactNode;
   testId?: string;
+  /** hand-built charts whose content can grow (labels wrap on phones): reserve height, allow growth */
+  fluid?: boolean;
 }) {
   const [showTable, setShowTable] = useState(false);
   return (
@@ -157,7 +160,7 @@ export function ChartFrame({
           </table>
         </div>
       ) : (
-        <div style={{ height }} className="min-w-0">
+        <div style={fluid ? { minHeight: height } : { height }} className="min-w-0">
           {children}
         </div>
       )}

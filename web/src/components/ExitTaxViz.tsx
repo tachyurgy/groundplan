@@ -31,6 +31,7 @@ export function SaleWaterfall({ x, title = 'Where the sale price goes' }: { x: E
       title={title}
       summary={`Of a ${formatCents(mag(x.sale_price))} sale, ${formatCents(x.net_proceeds.value_cents)} (${formatRate(keep, 0)}) reaches the client after costs, the loan payoff and ${formatCents(mag(x.exit_tax_total))} of tax.`}
       height={steps.length * 30 + 4}
+      fluid
       table={{ columns: [{ key: 'label', label: 'Step' }, { key: 'value', label: 'Amount', money: true }], rows: steps.map((s) => ({ label: s.label, value: s.value })) }}
     >
       <Waterfall steps={steps} />
@@ -70,6 +71,7 @@ export function StackingExplainer({ x }: { x: Exit }) {
           title="How the gain fills the brackets"
           summary="Ordinary income fills the brackets first; §1250 gain stacks on top at the bracket rate capped at 25%; long-term gain lands last at 0, 15 or 20% depending on where it starts."
           height={84}
+          fluid
           table={{
             columns: [
               { key: 'layer', label: 'Layer' },

@@ -1,11 +1,13 @@
 import { Slider } from 'radix-ui';
+import { useId } from 'react';
 
 /** Radix slider: keyboard (arrows, PageUp/Down, Home/End), touch-sized thumb, aria-valuetext in years. */
 export function HorizonSlider({ value, onChange, onCommit, min = 1, max = 30, label = 'Horizon' }: { value: number; onChange: (v: number) => void; onCommit?: (v: number) => void; min?: number; max?: number; label?: string }) {
+  const id = useId();
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between">
-        <span className="text-sm font-medium text-ink-900" id="horizon-label">
+        <span className="text-sm font-medium text-ink-900" id={id}>
           {label}
         </span>
         <span className="num text-sm font-medium text-ink-950" data-testid="horizon-value">
@@ -20,7 +22,7 @@ export function HorizonSlider({ value, onChange, onCommit, min = 1, max = 30, la
         value={[value]}
         onValueChange={([v]) => onChange(v)}
         onValueCommit={([v]) => onCommit?.(v)}
-        aria-labelledby="horizon-label"
+        aria-labelledby={id}
       >
         <Slider.Track className="relative h-1.5 grow rounded-full bg-ink-100">
           <Slider.Range className="absolute h-full rounded-full bg-brand-500" />

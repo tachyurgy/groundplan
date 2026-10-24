@@ -14,9 +14,9 @@ test('hold vs sell vs 1031: horizon, DST, waterfall, heatmap, no "recommended"',
   const w10 = await holdWealth.innerText();
 
   // horizon slider: keyboard operable; writes the URL on commit; all three paths change
-  await page.getByTestId('horizon-slider').focus();
+  await page.getByTestId('horizon-slider').filter({ visible: true }).focus();
   for (let i = 0; i < 5; i++) await page.keyboard.press('ArrowRight');
-  await expect(page.getByTestId('horizon-value')).toHaveText('15 yrs');
+  await expect(page.getByTestId('horizon-value').filter({ visible: true })).toHaveText('15 yrs');
   await expect(page).toHaveURL(/horizon=15/);
   await expect(holdWealth).not.toHaveText(w10);
 
@@ -40,6 +40,6 @@ test('hold vs sell vs 1031: horizon, DST, waterfall, heatmap, no "recommended"',
   const url = page.url();
   await page.goto(url);
   await settle(page);
-  await expect(page.getByTestId('horizon-value')).toHaveText('15 yrs');
+  await expect(page.getByTestId('horizon-value').filter({ visible: true })).toHaveText('15 yrs');
   await expect(page.getByLabel('Exchange into a DST')).toBeChecked();
 });
