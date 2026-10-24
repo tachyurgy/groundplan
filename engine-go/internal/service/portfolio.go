@@ -213,6 +213,60 @@ func OpenFindings(h *store.Household) []*store.Finding {
 			out = append(out, f)
 		}
 	}
+	return SortFindings(h, out)
+}
+
+var severityRank = map[string]int{"block": 0, "warn": 1, "info": 2}
+
+// SortFindings is sort_findings(h, findings): the one findings order on both stacks, severity rank (block, warn, info),
+// property nickname (no property first), kind, key, field, id; byte order, matching store.FindingsOrderBy (COLLATE "C").
+func SortFindings(h *store.Household, fs []*store.Finding) []*store.Finding {
+	nick := map[string]string{}
+	for _, p := range h.Properties {
+		nick[p.ID] = p.Nickname
+	}
+	type k struct {
+		rank    int
+		hasProp bool
+		nick    string
+		kind    string
+		key     string
+		field   string
+		id      string
+	}
+	keyOf := func(f *store.Finding) k {
+		r, ok := severityRank[f.Severity]
+		if !ok {
+			r = 3
+		}
+		x := k{rank: r, kind: f.Kind, field: f.Field, id: f.ID}
+		if f.PropertyID != nil {
+			x.nick, x.hasProp = nick[*f.PropertyID]
+		}
+		if f.Key != nil {
+			x.key = *f.Key
+		}
+		return x
+	}
+	out := append([]*store.Finding{}, fs...)
+	sort.SliceStable(out, func(i, j int) bool {
+		a, b := keyOf(out[i]), keyOf(out[j])
+		switch {
+		case a.rank != b.rank:
+			return a.rank < b.rank
+		case a.hasProp != b.hasProp:
+			return !a.hasProp
+		case a.nick != b.nick:
+			return a.nick < b.nick
+		case a.kind != b.kind:
+			return a.kind < b.kind
+		case a.key != b.key:
+			return a.key < b.key
+		case a.field != b.field:
+			return a.field < b.field
+		}
+		return a.id < b.id
+	})
 	return out
 }
 

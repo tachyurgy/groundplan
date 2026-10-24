@@ -249,3 +249,32 @@ def test_eval_latest_404_problem_when_missing(client):
     p = Path(__file__).resolve().parents[2] / "fixtures" / "documents" / "eval-latest.json"
     r = client.get(f"{API}/eval/latest")
     assert r.status_code == (200 if p.exists() else 404)
+
+
+def test_findings_order_is_explicit(client, db_session_factory):
+    """Findings come back severity rank (block, warn, info), property nickname (no property first), kind, key, field, id,
+    whatever the insert order, on the list, property and upload paths (same order as the Go stack)."""
+    from groundplan.db import models as m
+    from groundplan.services import portfolio as svc
+
+    hid = _hid(client)
+    with db_session_factory() as s:
+        h = s.get(m.Household, hid)
+        props = sorted(h.properties, key=lambda p: p.nickname)
+        rows = [("info", None, "missing", "z"), ("warn", props[-1].id, "conflict", "b"), ("block", props[0].id, "conflict", "a"),
+                ("warn", None, "missing", "a"), ("warn", props[0].id, "anomaly", "c"), ("block", None, "conflict", "q")]
+        for sev, pid, kind, key in rows:
+            h.findings.append(m.Finding(advisor_id=h.advisor_id, household_id=hid, property_id=pid, kind=kind,
+                                        key=f"order-test:{key}", field="f", severity=sev, message="order test"))
+        s.commit()
+        nick = {p.id: p.nickname for p in h.properties}
+        expect = [f.id for f in sorted(h.findings, key=lambda f: svc.finding_sort_key(f, nick))]
+        db_order = [f.id for f in s.execute(m.scoped(m.Finding, h.advisor_id).where(m.Finding.household_id == hid)
+                                            .order_by(*svc.findings_order_by())).scalars()]
+    got = [f["id"] for f in client.get(f"{API}/households/{hid}/findings").json()]
+    assert got == expect == db_order
+    sev = [f["severity"] for f in client.get(f"{API}/households/{hid}/findings").json()]
+    assert sev == sorted(sev, key=lambda x: svc.SEVERITY_RANK.get(x, 3))
+    pid0 = props[0].id
+    prop = [f["id"] for f in client.get(f"{API}/properties/{pid0}/analysis").json()["findings"]]
+    assert prop == [i for i in expect if i in set(prop)]

@@ -233,6 +233,13 @@ func scanLoan(r pgx.Row) (*Loan, error) {
 const findingCols = `id, advisor_id, household_id, property_id, key, tax_year, kind, field, severity, message, candidates, status,
 	resolution, created_at`
 
+// FindingsOrderBy is the ORDER BY for a SELECT ... FROM findings, identical to service.SortFindings and Python's
+// portfolio.findings_order_by: severity rank, property nickname (no property first), kind, key, field, id.
+const FindingsOrderBy = `CASE findings.severity WHEN 'block' THEN 0 WHEN 'warn' THEN 1 WHEN 'info' THEN 2 ELSE 3 END,
+	(SELECT nickname FROM properties WHERE properties.id = findings.property_id) IS NOT NULL,
+	COALESCE((SELECT nickname FROM properties WHERE properties.id = findings.property_id), '') COLLATE "C",
+	findings.kind COLLATE "C", COALESCE(findings.key, '') COLLATE "C", findings.field COLLATE "C", findings.id COLLATE "C"`
+
 func scanFinding(r pgx.Row) (*Finding, error) {
 	f := &Finding{}
 	var cand, res []byte

@@ -399,22 +399,13 @@ func (s *Server) findings(w http.ResponseWriter, r *http.Request) (any, error) {
 	if r.URL.Query().Has("status") && !statusRE.MatchString(status) {
 		return nil, validationProblem([]any{verr([]any{"query", "status"}, "String should match pattern '^(open|resolved|dismissed)$'", "string_pattern_mismatch")})
 	}
-	rows := append([]*store.Finding{}, h.Findings...)
-	sort.SliceStable(rows, func(i, j int) bool { return rows[i].CreatedAt.Before(rows[j].CreatedAt) })
+	rows := service.SortFindings(h, h.Findings)
 	var sel []*store.Finding
 	for _, f := range rows {
 		if status == "" || f.Status == status {
 			sel = append(sel, f)
 		}
 	}
-	order := map[string]int{"block": 0, "warn": 1, "info": 2}
-	rank := func(s string) int {
-		if v, ok := order[s]; ok {
-			return v
-		}
-		return 3
-	}
-	sort.SliceStable(sel, func(i, j int) bool { return rank(sel[i].Severity) < rank(sel[j].Severity) })
 	return anyList(sel, func(f *store.Finding) any { return service.FindingDict(f) }), nil
 }
 
@@ -721,7 +712,7 @@ func (s *Server) analysis(w http.ResponseWriter, r *http.Request) (any, error) {
 		}
 	}
 	var fs []any
-	for _, f := range p.Household.Findings {
+	for _, f := range service.SortFindings(p.Household, p.Household.Findings) {
 		if f.PropertyID != nil && *f.PropertyID == p.ID && f.Status == "open" {
 			fs = append(fs, service.FindingDict(f))
 		}
@@ -1329,7 +1320,7 @@ func (s *Server) uploadDocument(w http.ResponseWriter, r *http.Request) (any, er
 	importOut := jsonx.O("properties_created", impN("properties_created"), "properties_updated", impN("properties_updated"),
 		"conflicts_raised", impN("conflicts_raised"))
 	return jsonx.O("document", s.Svc.DocumentDict(doc), "extracted_fields", anyList(doc.Fields, func(f *store.Field) any { return service.FieldDict(f) }),
-		"findings", anyList(findings, func(f *store.Finding) any { return service.FindingDict(f) }), "properties_touched", touchedAny,
+		"findings", anyList(service.SortFindings(h, findings), func(f *store.Finding) any { return service.FindingDict(f) }), "properties_touched", touchedAny,
 		"import", importOut), nil
 }
 

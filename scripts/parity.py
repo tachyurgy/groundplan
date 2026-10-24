@@ -218,9 +218,13 @@ def main(argv=None) -> int:
 def _print(rows) -> int:
     w = max(len(r[0]) for r in rows)
     fails = [r for r in rows if r[1] == "FAIL"]
+    skips = [r for r in rows if r[1] == "SKIP"]
+    passed = [r for r in rows if r[1] == "PASS"]
     for name, st, n, first in rows:
         print(f"{name:<{w}}  {st:<4}  {n:>3}  {first[:110]}")
-    print(f"\n{len(rows) - len(fails)}/{len(rows)} checks passed" + (f", {len(fails)} FAILED" if fails else ""))
+    # a SKIP is neither a pass nor a fail: it is reported on its own and left out of the passed count
+    print(f"\n{len(passed)}/{len(rows) - len(skips)} checks passed" + (f", {len(skips)} SKIPPED" if skips else "")
+          + (f", {len(fails)} FAILED" if fails else ""))
     return 1 if fails else 0
 
 

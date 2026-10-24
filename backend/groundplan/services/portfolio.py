@@ -131,7 +131,7 @@ def property_model(s: Session, p: m.Property, advisor_id: str, findings: list[m.
 
 
 def open_findings(h: m.Household) -> list[m.Finding]:
-    return [f for f in h.findings if f.status == "open"]
+    return sort_findings(h, (f for f in h.findings if f.status == "open"))
 
 
 def _obs_api(o: dict, idx: int) -> dict:
@@ -381,6 +381,31 @@ def loan_dict(ln: m.Loan) -> dict:
             "rate": _num(ln.rate), "term_months": ln.term_months, "io_months": ln.io_months, "arm_reset_date": _iso(ln.arm_reset_date),
             "arm_index_margin": _num(ln.arm_index_margin), "monthly_payment_cents": ln.monthly_payment_cents,
             "maturity_date": _iso(ln.maturity_date), "lien_position": ln.lien_position, "is_paid_off": ln.is_paid_off}
+
+
+SEVERITY_RANK = {"block": 0, "warn": 1, "info": 2}
+
+
+def finding_sort_key(f: m.Finding, nicknames: dict[str, str]) -> tuple:
+    """The one findings order on both stacks: severity rank (block, warn, info), property nickname (no property first),
+    kind, key, field, id. Plain code-point string order, matching ORDER BY ... COLLATE "C" in SQL and the Go sort."""
+    nick = nicknames.get(f.property_id) if f.property_id else None
+    return (SEVERITY_RANK.get(f.severity, 3), nick is not None, nick or "", f.kind or "", f.key or "", f.field or "", f.id or "")
+
+
+def sort_findings(h: m.Household, findings) -> list[m.Finding]:
+    nicknames = {p.id: p.nickname for p in h.properties}
+    return sorted(findings, key=lambda f: finding_sort_key(f, nicknames))
+
+
+def findings_order_by():
+    """ORDER BY for a findings SELECT, identical to finding_sort_key."""
+    from sqlalchemy import case, func, select
+
+    nick = select(m.Property.nickname).where(m.Property.id == m.Finding.property_id).scalar_subquery()
+    return (case(*((m.Finding.severity == k, v) for k, v in SEVERITY_RANK.items()), else_=3),
+            nick.is_not(None), func.coalesce(nick, "").collate("C"), m.Finding.kind.collate("C"),
+            func.coalesce(m.Finding.key, "").collate("C"), m.Finding.field.collate("C"), m.Finding.id.collate("C"))
 
 
 def finding_dict(f: m.Finding) -> dict:

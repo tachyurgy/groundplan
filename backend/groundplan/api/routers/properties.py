@@ -99,7 +99,8 @@ def property_analysis(property_id: str, request: Request, response: Response, ye
     loans = {ln.id: svc.loan_dict(ln) for ln in p.loans}
     for row in out["loans"]:
         row["loan"] = loans.get(row["loan_id"])
-    out["findings"] = [svc.finding_dict(f) for f in p.household.findings if f.property_id == p.id and f.status == "open"]
+    out["findings"] = [svc.finding_dict(f) for f in svc.sort_findings(p.household, p.household.findings)
+                       if f.property_id == p.id and f.status == "open"]
     return out
 
 

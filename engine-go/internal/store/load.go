@@ -169,7 +169,7 @@ func fillHousehold(ctx context.Context, q Q, h *Household) error {
 			dby[f.DocumentID].Fields = append(dby[f.DocumentID].Fields, f)
 		}
 	}
-	if h.Findings, err = queryAll(ctx, q, scanFinding, `SELECT `+findingCols+` FROM findings WHERE household_id = $1 AND advisor_id = $2 ORDER BY ctid`, h.ID, h.AdvisorID); err != nil {
+	if h.Findings, err = queryAll(ctx, q, scanFinding, `SELECT `+findingCols+` FROM findings WHERE household_id = $1 AND advisor_id = $2 ORDER BY `+FindingsOrderBy, h.ID, h.AdvisorID); err != nil {
 		return err
 	}
 	return nil

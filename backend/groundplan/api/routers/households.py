@@ -73,11 +73,10 @@ def household_alerts(household_id: str, c: Ctx = Depends()):
 def household_findings(household_id: str, status: str | None = Query(None, pattern="^(open|resolved|dismissed)$"),
                        c: Ctx = Depends()):
     h = c.household(household_id)
-    q = m.scoped(m.Finding, c.aid).where(m.Finding.household_id == h.id).order_by(m.Finding.created_at)
+    q = m.scoped(m.Finding, c.aid).where(m.Finding.household_id == h.id).order_by(*svc.findings_order_by())
     if status:
         q = q.where(m.Finding.status == status)
-    order = {"block": 0, "warn": 1, "info": 2}
-    rows = sorted(c.s.execute(q).scalars().all(), key=lambda f: order.get(f.severity, 3))
+    rows = c.s.execute(q).scalars().all()
     return [svc.finding_dict(f) for f in rows]
 
 
