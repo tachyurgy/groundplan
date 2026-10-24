@@ -79,6 +79,8 @@ class ExtractedField(BaseModel):
     """SPEC §1 ExtractedField (minus the DB ids)."""
 
     document_key: str  # filename of the source document
+    document_kind: str | None = None
+    tax_year: int | None = None  # tax year of the source document
     entity_hint: Literal["household", "property", "loan"]
     property_key: str | None = None  # normalized address, or column id if no address
     address_raw: str | None = None  # the address as printed on this document (provenance for resolution)
@@ -211,13 +213,15 @@ class PropertyOut(BaseModel):
 
 
 class HouseholdOut(BaseModel):
+    """Household facts read from the documents. ``None`` = not seen in this batch (the importer leaves it alone)."""
+
     name: str
-    filing_status: Literal["single", "mfj", "mfs", "hoh"]
-    state: str
-    tax_year_latest: int
-    wages_cents: int
-    other_income_cents: int = 0
-    magi_cents: int
+    filing_status: Literal["single", "mfj", "mfs", "hoh"] | None = None
+    state: str | None = None
+    tax_year_latest: int | None = None
+    wages_cents: int | None = None
+    other_income_cents: int | None = None
+    magi_cents: int | None = None
     active_participation: bool = True
     re_professional: bool = False
     goal: str = ""

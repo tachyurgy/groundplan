@@ -16,7 +16,15 @@ import re
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 
-from gp_pipeline.extract.layout import Row, bbox_of, clean_numeric, conf_of, group_rows, merge_money_tokens, parse_money
+from gp_pipeline.extract.layout import (
+    Row,
+    bbox_of,
+    clean_numeric,
+    conf_of,
+    group_rows,
+    merge_money_tokens,
+    parse_money,
+)
 from gp_pipeline.extract.zones import zone_words
 from gp_pipeline.models import ExtractedField, Page, Word
 
@@ -24,6 +32,7 @@ LABEL_X_MIN = 55.0
 NUM_X_MAX = 60.0
 TEXT_BASE_CONF = 0.97
 OCR_BASE_CONF = 0.92
+NUMERIC_CHARS = "0123456789,.()$-"
 
 
 @dataclass
@@ -46,8 +55,8 @@ def norm_text(s: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9$%]+", " ", s.lower())).strip()
 
 
-def label_text(row: Row) -> str:
-    return " ".join(w.text for w in row.words if w.x0 >= LABEL_X_MIN - 3)
+def label_text(row: Row, x_min: float = LABEL_X_MIN) -> str:
+    return " ".join(w.text for w in row.words if w.x0 >= x_min - 3)
 
 
 def margin_token(row: Row) -> str:
@@ -70,16 +79,18 @@ def phrase_score(phrase: str, text: str) -> float:
     return best
 
 
-def find_anchors(page: Page, specs: list[LineSpec], start_y: float = 0.0, accept: float = 0.72) -> dict[str, Anchor]:
+def find_anchors(page: Page, specs: list[LineSpec], start_y: float = 0.0, accept: float = 0.72,
+                 label_x_min: float = LABEL_X_MIN) -> dict[str, Anchor]:
     rows = [r for r in group_rows(page.words) if r.cy >= start_y]
     found: dict[str, Anchor] = {}
     i0 = 0
     for spec in specs:
         disp = (spec.display or spec.line).lower()
         best: tuple[float, int] | None = None
-        for i in range(i0, min(len(rows), i0 + 14)):
+        window = len(rows) if not found else min(len(rows), i0 + 24)
+        for i in range(i0, window):
             r = rows[i]
-            s = phrase_score(spec.phrase, label_text(r))
+            s = phrase_score(spec.phrase, label_text(r, label_x_min))
             if margin_token(r) == disp:
                 s += 0.12
             if best is None or s > best[0] + 1e-9:
@@ -96,6 +107,9 @@ def value_tokens(page: Page, zone: tuple[float, float], cy: float, top: float, b
                  tol: float = 5.0, psm: int = 4) -> list[Word]:
     ws = zone_words(page, zone[0], top, zone[1], bottom, psm=psm)
     near = [w for w in ws if abs((w.top + w.bottom) / 2 - cy) <= tol]
+    if page.source == "ocr" and not any(ch.isdigit() for w in near for ch in w.text):
+        # column read missed it (sparse strips, lone "0"): re-read just this cell as one line
+        near = zone_words(page, zone[0], cy - 7.0, zone[1], cy + 6.5, psm=7, whitelist=NUMERIC_CHARS)
     return merge_money_tokens(near)
 
 

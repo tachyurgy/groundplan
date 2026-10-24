@@ -1,0 +1,7224 @@
+{
+  "documents": [
+    {
+      "fields": [
+        {
+          "address_printed": null,
+          "bbox": [
+            36,
+            123.5,
+            123.7,
+            131.9
+          ],
+          "entity": "household",
+          "field": "form_1040.home_address",
+          "page": 1,
+          "property_key": null,
+          "text": "4412 CAMELLIA AVE",
+          "unit": "text",
+          "value": "4412 CAMELLIA AVE"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            300,
+            145.6,
+            310.3,
+            153.9
+          ],
+          "entity": "household",
+          "field": "form_1040.home_state",
+          "page": 1,
+          "property_key": null,
+          "text": "CA",
+          "unit": "text",
+          "value": "CA"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            120,
+            171,
+            127,
+            178
+          ],
+          "entity": "household",
+          "field": "form_1040.filing_status",
+          "page": 1,
+          "property_key": null,
+          "text": "X",
+          "unit": "text",
+          "value": "mfj"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            239.6,
+            580.0,
+            247.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line1a.wages",
+          "page": 1,
+          "property_key": null,
+          "text": "168,200",
+          "unit": "cents",
+          "value": 16820000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            365.6,
+            580.0,
+            373.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line1z.total_wages",
+          "page": 1,
+          "property_key": null,
+          "text": "168,200",
+          "unit": "cents",
+          "value": 16820000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            393.6,
+            580.0,
+            401.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line2b.taxable_interest",
+          "page": 1,
+          "property_key": null,
+          "text": "1,120",
+          "unit": "cents",
+          "value": 112000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            450.2,
+            407.6,
+            476.0,
+            415.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line3a.qualified_dividends",
+          "page": 1,
+          "property_key": null,
+          "text": "3,180",
+          "unit": "cents",
+          "value": 318000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            421.6,
+            580.0,
+            429.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line3b.ordinary_dividends",
+          "page": 1,
+          "property_key": null,
+          "text": "3,520",
+          "unit": "cents",
+          "value": 352000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            533.5,
+            580.0,
+            541.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line8.schedule_1_income",
+          "page": 1,
+          "property_key": null,
+          "text": "10,693",
+          "unit": "cents",
+          "value": 1069300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            547.5,
+            580.0,
+            555.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line9.total_income",
+          "page": 1,
+          "property_key": null,
+          "text": "183,533",
+          "unit": "cents",
+          "value": 18353300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            575.5,
+            580.0,
+            583.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line11.agi",
+          "page": 1,
+          "property_key": null,
+          "text": "183,533",
+          "unit": "cents",
+          "value": 18353300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            589.5,
+            580.0,
+            597.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line12.deduction",
+          "page": 1,
+          "property_key": null,
+          "text": "27,700",
+          "unit": "cents",
+          "value": 2770000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            617.5,
+            580.0,
+            625.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line14.total_deductions",
+          "page": 1,
+          "property_key": null,
+          "text": "27,700",
+          "unit": "cents",
+          "value": 2770000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            631.5,
+            580.0,
+            639.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line15.taxable_income",
+          "page": 1,
+          "property_key": null,
+          "text": "155,833",
+          "unit": "cents",
+          "value": 15583300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            51.5,
+            580.0,
+            59.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line16.tax",
+          "page": 2,
+          "property_key": null,
+          "text": "24,898",
+          "unit": "cents",
+          "value": 2489800
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            79.5,
+            580.0,
+            87.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line18.tax_plus_sch2",
+          "page": 2,
+          "property_key": null,
+          "text": "24,898",
+          "unit": "cents",
+          "value": 2489800
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            135.6,
+            580.0,
+            143.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line22.tax_after_credits",
+          "page": 2,
+          "property_key": null,
+          "text": "24,898",
+          "unit": "cents",
+          "value": 2489800
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            163.6,
+            580.0,
+            171.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line24.total_tax",
+          "page": 2,
+          "property_key": null,
+          "text": "24,898",
+          "unit": "cents",
+          "value": 2489800
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            445.0,
+            191.6,
+            476.0,
+            199.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line25a.w2_withholding",
+          "page": 2,
+          "property_key": null,
+          "text": "25,604",
+          "unit": "cents",
+          "value": 2560400
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            233.6,
+            580.0,
+            241.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line25d.total_withholding",
+          "page": 2,
+          "property_key": null,
+          "text": "25,604",
+          "unit": "cents",
+          "value": 2560400
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            275.6,
+            580.0,
+            283.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line33.total_payments",
+          "page": 2,
+          "property_key": null,
+          "text": "25,604",
+          "unit": "cents",
+          "value": 2560400
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            564.5,
+            289.6,
+            580.0,
+            297.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line34.overpaid",
+          "page": 2,
+          "property_key": null,
+          "text": "706",
+          "unit": "cents",
+          "value": 70600
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            564.5,
+            303.6,
+            580.0,
+            311.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line35a.refund",
+          "page": 2,
+          "property_key": null,
+          "text": "706",
+          "unit": "cents",
+          "value": 70600
+        }
+      ],
+      "file": "2023_form_1040.pdf",
+      "kind": "form_1040",
+      "pages": 2,
+      "scan_file": "2023_form_1040.scan.pdf",
+      "sha256": "8a574999541a3d47a7c810d833b56f6bd17ffcebeaa2dc5826ba1d556796efc6",
+      "tax_year": 2023
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            66,
+            168.6,
+            246.6,
+            176.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1420 Maple St, Sacramento, CA 95838",
+          "unit": "text",
+          "value": "1420 Maple St, Sacramento, CA 95838"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            66,
+            181.6,
+            293.0,
+            189.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            66,
+            194.6,
+            313.7,
+            202.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p4",
+          "text": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "unit": "text",
+          "value": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            104.8,
+            237.6,
+            110.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p1",
+          "text": "2",
+          "unit": "int",
+          "value": 2
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            436.5,
+            237.6,
+            452.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p1",
+          "text": "365",
+          "unit": "int",
+          "value": 365
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            516.8,
+            237.6,
+            522.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p1",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            104.8,
+            250.6,
+            110.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p2",
+          "text": "3",
+          "unit": "int",
+          "value": 3
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            436.5,
+            250.6,
+            452.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p2",
+          "text": "168",
+          "unit": "int",
+          "value": 168
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            511.7,
+            250.6,
+            522.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p2",
+          "text": "24",
+          "unit": "int",
+          "value": 24
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            104.8,
+            263.6,
+            110.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p4",
+          "text": "1",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            436.5,
+            263.6,
+            452.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p4",
+          "text": "365",
+          "unit": "int",
+          "value": 365
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            516.8,
+            263.6,
+            522.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p4",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            381.0,
+            330.6,
+            412.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p1",
+          "text": "38,400",
+          "unit": "cents",
+          "value": 3840000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            330.6,
+            496.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p2",
+          "text": "46,200",
+          "unit": "cents",
+          "value": 4620000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            549.0,
+            330.6,
+            580.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p4",
+          "text": "27,600",
+          "unit": "cents",
+          "value": 2760000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            367.6,
+            496.0,
+            375.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line5.advertising",
+          "page": 1,
+          "property_key": "p2",
+          "text": "480",
+          "unit": "cents",
+          "value": 48000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            396.5,
+            380.6,
+            412.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p1",
+          "text": "240",
+          "unit": "cents",
+          "value": 24000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            380.6,
+            496.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p2",
+          "text": "620",
+          "unit": "cents",
+          "value": 62000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            564.5,
+            380.6,
+            580.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p4",
+          "text": "120",
+          "unit": "cents",
+          "value": 12000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            396.5,
+            393.6,
+            412.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p1",
+          "text": "600",
+          "unit": "cents",
+          "value": 60000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            393.6,
+            496.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "6,720",
+          "unit": "cents",
+          "value": 672000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            406.6,
+            496.0,
+            414.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line8.commissions",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1,386",
+          "unit": "cents",
+          "value": 138600
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            419.6,
+            412.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1,840",
+          "unit": "cents",
+          "value": 184000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            419.6,
+            496.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "2,860",
+          "unit": "cents",
+          "value": 286000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            564.5,
+            419.6,
+            580.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p4",
+          "text": "940",
+          "unit": "cents",
+          "value": 94000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            445.6,
+            412.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,072",
+          "unit": "cents",
+          "value": 307200
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            445.6,
+            580.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 1,
+          "property_key": "p4",
+          "text": "2,208",
+          "unit": "cents",
+          "value": 220800
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            458.6,
+            412.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p1",
+          "text": "6,295",
+          "unit": "cents",
+          "value": 629500
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            458.6,
+            496.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p2",
+          "text": "14,307",
+          "unit": "cents",
+          "value": 1430700
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            458.6,
+            580.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p4",
+          "text": "5,148",
+          "unit": "cents",
+          "value": 514800
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            484.6,
+            412.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p1",
+          "text": "2,650",
+          "unit": "cents",
+          "value": 265000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            484.6,
+            496.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p2",
+          "text": "2,380",
+          "unit": "cents",
+          "value": 238000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            484.6,
+            580.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p4",
+          "text": "1,180",
+          "unit": "cents",
+          "value": 118000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            396.5,
+            497.6,
+            412.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p1",
+          "text": "180",
+          "unit": "cents",
+          "value": 18000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            497.6,
+            496.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p2",
+          "text": "940",
+          "unit": "cents",
+          "value": 94000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            569.7,
+            497.6,
+            580.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p4",
+          "text": "90",
+          "unit": "cents",
+          "value": 9000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            510.6,
+            412.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,420",
+          "unit": "cents",
+          "value": 342000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            510.6,
+            496.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p2",
+          "text": "5,180",
+          "unit": "cents",
+          "value": 518000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            510.6,
+            580.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p4",
+          "text": "2,870",
+          "unit": "cents",
+          "value": 287000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            523.5,
+            412.0,
+            531.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line17.utilities",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1,140",
+          "unit": "cents",
+          "value": 114000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            523.5,
+            496.0,
+            531.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line17.utilities",
+          "page": 1,
+          "property_key": "p2",
+          "text": "4,060",
+          "unit": "cents",
+          "value": 406000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            536.5,
+            412.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            536.5,
+            496.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            536.5,
+            580.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p4",
+          "text": "6,632",
+          "unit": "cents",
+          "value": 663200
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            549.5,
+            580.0,
+            557.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line19.other",
+          "page": 1,
+          "property_key": "p4",
+          "text": "4,560",
+          "unit": "cents",
+          "value": 456000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            381.0,
+            562.5,
+            412.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p1",
+          "text": "27,836",
+          "unit": "cents",
+          "value": 2783600
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            562.5,
+            496.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p2",
+          "text": "49,923",
+          "unit": "cents",
+          "value": 4992300
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            549.0,
+            562.5,
+            580.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p4",
+          "text": "23,748",
+          "unit": "cents",
+          "value": 2374800
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            381.0,
+            575.5,
+            412.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p1",
+          "text": "10,564",
+          "unit": "cents",
+          "value": 1056400
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            459.9,
+            575.5,
+            496.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p2",
+          "text": "(3,723)",
+          "unit": "cents",
+          "value": -372300
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            575.5,
+            580.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p4",
+          "text": "3,852",
+          "unit": "cents",
+          "value": 385200
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            459.9,
+            596.8,
+            496.0,
+            605.1
+          ],
+          "entity": "property",
+          "field": "schedule_e.line22.deductible_loss",
+          "page": 1,
+          "property_key": "p2",
+          "text": "(3,723)",
+          "unit": "cents",
+          "value": -372300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            459.9,
+            611.8,
+            496.0,
+            620.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23a.total_rents",
+          "page": 1,
+          "property_key": null,
+          "text": "112,200",
+          "unit": "cents",
+          "value": 11220000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            465.0,
+            635.8,
+            496.0,
+            644.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23c.total_mortgage_interest",
+          "page": 1,
+          "property_key": null,
+          "text": "25,750",
+          "unit": "cents",
+          "value": 2575000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            465.0,
+            647.8,
+            496.0,
+            656.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23d.total_depreciation",
+          "page": 1,
+          "property_key": null,
+          "text": "26,021",
+          "unit": "cents",
+          "value": 2602100
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            459.9,
+            659.8,
+            496.0,
+            668.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23e.total_expenses",
+          "page": 1,
+          "property_key": null,
+          "text": "101,507",
+          "unit": "cents",
+          "value": 10150700
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            671.8,
+            580.0,
+            680.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line24.income",
+          "page": 1,
+          "property_key": null,
+          "text": "14,416",
+          "unit": "cents",
+          "value": 1441600
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            683.8,
+            580.0,
+            692.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line25.losses",
+          "page": 1,
+          "property_key": null,
+          "text": "(3,723)",
+          "unit": "cents",
+          "value": -372300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            695.8,
+            580.0,
+            704.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line26.total",
+          "page": 1,
+          "property_key": null,
+          "text": "10,693",
+          "unit": "cents",
+          "value": 1069300
+        }
+      ],
+      "file": "2023_schedule_e.pdf",
+      "kind": "schedule_e",
+      "pages": 1,
+      "scan_file": "2023_schedule_e.scan.pdf",
+      "sha256": "14f682267a13d21c2e8a0ffd78402716a99309dfb96053860c2fff39a380c8dc",
+      "tax_year": 2023
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            250,
+            100.3,
+            450.6,
+            107.7
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p1",
+          "text": "RENTAL - 1420 Maple St, Sacramento, CA 95838",
+          "unit": "text",
+          "value": "1420 Maple St, Sacramento, CA 95838"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            554.2,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            554.2,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        }
+      ],
+      "file": "2023_form_4562_1.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2023_form_4562_1.scan.pdf",
+      "sha256": "aaf932efbd84b879d17d4facae5a5c4a675076642045ce699fab91e7895c1045",
+      "tax_year": 2023
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            250,
+            100.4,
+            486.0,
+            107.6
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p2",
+          "text": "RENTAL - 1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            549.0,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            549.0,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        }
+      ],
+      "file": "2023_form_4562_2.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2023_form_4562_2.scan.pdf",
+      "sha256": "15d6105ee3a784c25ac043ae2d3a2caa923f06484c4a88ae073782d2737aa47b",
+      "tax_year": 2023
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            250,
+            100.8,
+            486.0,
+            107.5
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p4",
+          "text": "RENTAL - 915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "unit": "text",
+          "value": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p4",
+          "text": "6,632",
+          "unit": "cents",
+          "value": 663200
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p4",
+          "text": "6,632",
+          "unit": "cents",
+          "value": 663200
+        }
+      ],
+      "file": "2023_form_4562_3.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2023_form_4562_3.scan.pdf",
+      "sha256": "cc4c84d7ed74b7aae9d4c7dc283fd2181870378913a771a8de5ca1f4efbbdc48",
+      "tax_year": 2023
+    },
+    {
+      "fields": [
+        {
+          "address_printed": null,
+          "bbox": [
+            445.0,
+            151.6,
+            476.0,
+            159.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1a.net_income",
+          "page": 1,
+          "property_key": null,
+          "text": "14,416",
+          "unit": "cents",
+          "value": 1441600
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            439.9,
+            164.6,
+            476.0,
+            172.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1b.net_loss",
+          "page": 1,
+          "property_key": null,
+          "text": "(3,723)",
+          "unit": "cents",
+          "value": -372300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            190.6,
+            580.0,
+            198.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1d.combined",
+          "page": 1,
+          "property_key": null,
+          "text": "10,693",
+          "unit": "cents",
+          "value": 1069300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            266.6,
+            580.0,
+            274.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line3.combined",
+          "page": 1,
+          "property_key": null,
+          "text": "10,693",
+          "unit": "cents",
+          "value": 1069300
+        }
+      ],
+      "file": "2023_form_8582.pdf",
+      "kind": "form_8582",
+      "pages": 2,
+      "scan_file": "2023_form_8582.scan.pdf",
+      "sha256": "67efa8996d391a1a9fdff182e9268c0eafd5dafc4849ce92d251174df3c32590",
+      "tax_year": 2023
+    },
+    {
+      "fields": [
+        {
+          "address_printed": null,
+          "bbox": [
+            36,
+            123.5,
+            123.7,
+            131.9
+          ],
+          "entity": "household",
+          "field": "form_1040.home_address",
+          "page": 1,
+          "property_key": null,
+          "text": "4412 CAMELLIA AVE",
+          "unit": "text",
+          "value": "4412 CAMELLIA AVE"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            300,
+            145.6,
+            310.3,
+            153.9
+          ],
+          "entity": "household",
+          "field": "form_1040.home_state",
+          "page": 1,
+          "property_key": null,
+          "text": "CA",
+          "unit": "text",
+          "value": "CA"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            120,
+            171,
+            127,
+            178
+          ],
+          "entity": "household",
+          "field": "form_1040.filing_status",
+          "page": 1,
+          "property_key": null,
+          "text": "X",
+          "unit": "text",
+          "value": "mfj"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            239.6,
+            580.0,
+            247.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line1a.wages",
+          "page": 1,
+          "property_key": null,
+          "text": "174,300",
+          "unit": "cents",
+          "value": 17430000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            365.6,
+            580.0,
+            373.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line1z.total_wages",
+          "page": 1,
+          "property_key": null,
+          "text": "174,300",
+          "unit": "cents",
+          "value": 17430000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            393.6,
+            580.0,
+            401.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line2b.taxable_interest",
+          "page": 1,
+          "property_key": null,
+          "text": "1,480",
+          "unit": "cents",
+          "value": 148000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            450.2,
+            407.6,
+            476.0,
+            415.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line3a.qualified_dividends",
+          "page": 1,
+          "property_key": null,
+          "text": "3,540",
+          "unit": "cents",
+          "value": 354000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            421.6,
+            580.0,
+            429.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line3b.ordinary_dividends",
+          "page": 1,
+          "property_key": null,
+          "text": "3,870",
+          "unit": "cents",
+          "value": 387000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            547.5,
+            580.0,
+            555.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line9.total_income",
+          "page": 1,
+          "property_key": null,
+          "text": "179,650",
+          "unit": "cents",
+          "value": 17965000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            575.5,
+            580.0,
+            583.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line11.agi",
+          "page": 1,
+          "property_key": null,
+          "text": "179,650",
+          "unit": "cents",
+          "value": 17965000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            589.5,
+            580.0,
+            597.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line12.deduction",
+          "page": 1,
+          "property_key": null,
+          "text": "29,200",
+          "unit": "cents",
+          "value": 2920000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            617.5,
+            580.0,
+            625.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line14.total_deductions",
+          "page": 1,
+          "property_key": null,
+          "text": "29,200",
+          "unit": "cents",
+          "value": 2920000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            631.5,
+            580.0,
+            639.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line15.taxable_income",
+          "page": 1,
+          "property_key": null,
+          "text": "150,450",
+          "unit": "cents",
+          "value": 15045000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            51.5,
+            580.0,
+            59.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line16.tax",
+          "page": 2,
+          "property_key": null,
+          "text": "23,205",
+          "unit": "cents",
+          "value": 2320500
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            79.5,
+            580.0,
+            87.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line18.tax_plus_sch2",
+          "page": 2,
+          "property_key": null,
+          "text": "23,205",
+          "unit": "cents",
+          "value": 2320500
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            135.6,
+            580.0,
+            143.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line22.tax_after_credits",
+          "page": 2,
+          "property_key": null,
+          "text": "23,205",
+          "unit": "cents",
+          "value": 2320500
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            163.6,
+            580.0,
+            171.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line24.total_tax",
+          "page": 2,
+          "property_key": null,
+          "text": "23,205",
+          "unit": "cents",
+          "value": 2320500
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            445.0,
+            191.6,
+            476.0,
+            199.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line25a.w2_withholding",
+          "page": 2,
+          "property_key": null,
+          "text": "24,013",
+          "unit": "cents",
+          "value": 2401300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            233.6,
+            580.0,
+            241.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line25d.total_withholding",
+          "page": 2,
+          "property_key": null,
+          "text": "24,013",
+          "unit": "cents",
+          "value": 2401300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            247.6,
+            580.0,
+            255.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line26.estimated_payments",
+          "page": 2,
+          "property_key": null,
+          "text": "4,000",
+          "unit": "cents",
+          "value": 400000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            275.6,
+            580.0,
+            283.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line33.total_payments",
+          "page": 2,
+          "property_key": null,
+          "text": "28,013",
+          "unit": "cents",
+          "value": 2801300
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            289.6,
+            580.0,
+            297.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line34.overpaid",
+          "page": 2,
+          "property_key": null,
+          "text": "4,808",
+          "unit": "cents",
+          "value": 480800
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            303.6,
+            580.0,
+            311.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line35a.refund",
+          "page": 2,
+          "property_key": null,
+          "text": "4,808",
+          "unit": "cents",
+          "value": 480800
+        }
+      ],
+      "file": "2024_form_1040.pdf",
+      "kind": "form_1040",
+      "pages": 2,
+      "scan_file": "2024_form_1040.scan.pdf",
+      "sha256": "7a346cb21fe7a84c403a0cfbce5166605e1acbf4e5b152f03082c37d92fea875",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            66,
+            168.6,
+            313.7,
+            176.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "unit": "text",
+          "value": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            66,
+            181.6,
+            293.0,
+            189.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            66,
+            194.6,
+            231.1,
+            202.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p3",
+          "text": "2875 Elm Ct, Roseville, CA 95661",
+          "unit": "text",
+          "value": "2875 Elm Ct, Roseville, CA 95661"
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            104.8,
+            237.6,
+            110.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p1",
+          "text": "2",
+          "unit": "int",
+          "value": 2
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            436.5,
+            237.6,
+            452.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p1",
+          "text": "365",
+          "unit": "int",
+          "value": 365
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            516.8,
+            237.6,
+            522.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p1",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            104.8,
+            250.6,
+            110.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p2",
+          "text": "3",
+          "unit": "int",
+          "value": 3
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            436.5,
+            250.6,
+            452.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p2",
+          "text": "175",
+          "unit": "int",
+          "value": 175
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            511.7,
+            250.6,
+            522.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p2",
+          "text": "21",
+          "unit": "int",
+          "value": 21
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            104.8,
+            263.6,
+            110.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p3",
+          "text": "1",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            436.5,
+            263.6,
+            452.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p3",
+          "text": "184",
+          "unit": "int",
+          "value": 184
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            516.8,
+            263.6,
+            522.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p3",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            381.0,
+            330.6,
+            412.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p1",
+          "text": "40,800",
+          "unit": "cents",
+          "value": 4080000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            330.6,
+            496.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p2",
+          "text": "49,800",
+          "unit": "cents",
+          "value": 4980000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            330.6,
+            580.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p3",
+          "text": "20,100",
+          "unit": "cents",
+          "value": 2010000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            396.5,
+            367.6,
+            412.0,
+            375.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line5.advertising",
+          "page": 1,
+          "property_key": "p1",
+          "text": "120",
+          "unit": "cents",
+          "value": 12000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            367.6,
+            496.0,
+            375.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line5.advertising",
+          "page": 1,
+          "property_key": "p2",
+          "text": "520",
+          "unit": "cents",
+          "value": 52000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            367.6,
+            580.0,
+            375.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line5.advertising",
+          "page": 1,
+          "property_key": "p3",
+          "text": "275",
+          "unit": "cents",
+          "value": 27500
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            396.5,
+            380.6,
+            412.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p1",
+          "text": "260",
+          "unit": "cents",
+          "value": 26000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            380.6,
+            496.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p2",
+          "text": "680",
+          "unit": "cents",
+          "value": 68000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            380.6,
+            580.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p3",
+          "text": "190",
+          "unit": "cents",
+          "value": 19000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            393.6,
+            496.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "7,000",
+          "unit": "cents",
+          "value": 700000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            393.6,
+            580.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p3",
+          "text": "450",
+          "unit": "cents",
+          "value": 45000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            406.6,
+            496.0,
+            414.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line8.commissions",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1,494",
+          "unit": "cents",
+          "value": 149400
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            419.6,
+            412.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1,960",
+          "unit": "cents",
+          "value": 196000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            419.6,
+            496.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "3,040",
+          "unit": "cents",
+          "value": 304000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            419.6,
+            580.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p3",
+          "text": "1,340",
+          "unit": "cents",
+          "value": 134000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            396.5,
+            432.6,
+            412.0,
+            440.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line10.legal_professional",
+          "page": 1,
+          "property_key": "p1",
+          "text": "350",
+          "unit": "cents",
+          "value": 35000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            432.6,
+            580.0,
+            440.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line10.legal_professional",
+          "page": 1,
+          "property_key": "p3",
+          "text": "600",
+          "unit": "cents",
+          "value": 60000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            445.6,
+            412.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,264",
+          "unit": "cents",
+          "value": 326400
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            445.6,
+            580.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 1,
+          "property_key": "p3",
+          "text": "1,608",
+          "unit": "cents",
+          "value": 160800
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            458.6,
+            412.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p1",
+          "text": "6,067",
+          "unit": "cents",
+          "value": 606700
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            458.6,
+            496.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p2",
+          "text": "13,999",
+          "unit": "cents",
+          "value": 1399900
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            458.6,
+            580.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p3",
+          "text": "11,199",
+          "unit": "cents",
+          "value": 1119900
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            484.6,
+            412.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,180",
+          "unit": "cents",
+          "value": 318000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            484.6,
+            496.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p2",
+          "text": "2,910",
+          "unit": "cents",
+          "value": 291000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            484.6,
+            580.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p3",
+          "text": "1,920",
+          "unit": "cents",
+          "value": 192000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            396.5,
+            497.6,
+            412.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p1",
+          "text": "210",
+          "unit": "cents",
+          "value": 21000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            497.6,
+            496.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1,020",
+          "unit": "cents",
+          "value": 102000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            497.6,
+            580.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p3",
+          "text": "160",
+          "unit": "cents",
+          "value": 16000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            510.6,
+            412.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,490",
+          "unit": "cents",
+          "value": 349000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            510.6,
+            496.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p2",
+          "text": "5,290",
+          "unit": "cents",
+          "value": 529000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            510.6,
+            580.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p3",
+          "text": "3,410",
+          "unit": "cents",
+          "value": 341000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            523.5,
+            412.0,
+            531.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line17.utilities",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1,190",
+          "unit": "cents",
+          "value": 119000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            523.5,
+            496.0,
+            531.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line17.utilities",
+          "page": 1,
+          "property_key": "p2",
+          "text": "4,210",
+          "unit": "cents",
+          "value": 421000
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            386.2,
+            536.5,
+            412.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            536.5,
+            496.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            536.5,
+            580.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p3",
+          "text": "6,526",
+          "unit": "cents",
+          "value": 652600
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            381.0,
+            562.5,
+            412.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p1",
+          "text": "28,490",
+          "unit": "cents",
+          "value": 2849000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            562.5,
+            496.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p2",
+          "text": "51,153",
+          "unit": "cents",
+          "value": 5115300
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            562.5,
+            580.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p3",
+          "text": "27,678",
+          "unit": "cents",
+          "value": 2767800
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            381.0,
+            575.5,
+            412.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p1",
+          "text": "12,310",
+          "unit": "cents",
+          "value": 1231000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            459.9,
+            575.5,
+            496.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p2",
+          "text": "(1,353)",
+          "unit": "cents",
+          "value": -135300
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            543.9,
+            575.5,
+            580.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p3",
+          "text": "(7,578)",
+          "unit": "cents",
+          "value": -757800
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            459.9,
+            596.8,
+            496.0,
+            605.1
+          ],
+          "entity": "property",
+          "field": "schedule_e.line22.deductible_loss",
+          "page": 1,
+          "property_key": "p2",
+          "text": "(1,021)",
+          "unit": "cents",
+          "value": -102100
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            543.9,
+            596.8,
+            580.0,
+            605.1
+          ],
+          "entity": "property",
+          "field": "schedule_e.line22.deductible_loss",
+          "page": 1,
+          "property_key": "p3",
+          "text": "(5,720)",
+          "unit": "cents",
+          "value": -572000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            459.9,
+            611.8,
+            496.0,
+            620.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23a.total_rents",
+          "page": 1,
+          "property_key": null,
+          "text": "139,500",
+          "unit": "cents",
+          "value": 13950000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            465.0,
+            635.8,
+            496.0,
+            644.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23c.total_mortgage_interest",
+          "page": 1,
+          "property_key": null,
+          "text": "36,420",
+          "unit": "cents",
+          "value": 3642000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            465.0,
+            647.8,
+            496.0,
+            656.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23d.total_depreciation",
+          "page": 1,
+          "property_key": null,
+          "text": "32,547",
+          "unit": "cents",
+          "value": 3254700
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            459.9,
+            659.8,
+            496.0,
+            668.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23e.total_expenses",
+          "page": 1,
+          "property_key": null,
+          "text": "143,500",
+          "unit": "cents",
+          "value": 14350000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            671.8,
+            580.0,
+            680.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line24.income",
+          "page": 1,
+          "property_key": null,
+          "text": "12,310",
+          "unit": "cents",
+          "value": 1231000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            538.7,
+            683.8,
+            580.0,
+            692.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line25.losses",
+          "page": 1,
+          "property_key": null,
+          "text": "(12,310)",
+          "unit": "cents",
+          "value": -1231000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            574.8,
+            695.8,
+            580.0,
+            704.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line26.total",
+          "page": 1,
+          "property_key": null,
+          "text": "0",
+          "unit": "cents",
+          "value": 0
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            66,
+            168.6,
+            313.7,
+            176.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 2,
+          "property_key": "p4",
+          "text": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "unit": "text",
+          "value": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            104.8,
+            237.6,
+            110.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 2,
+          "property_key": "p4",
+          "text": "1",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            436.5,
+            237.6,
+            452.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 2,
+          "property_key": "p4",
+          "text": "365",
+          "unit": "int",
+          "value": 365
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            516.8,
+            237.6,
+            522.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 2,
+          "property_key": "p4",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            381.0,
+            330.6,
+            412.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 2,
+          "property_key": "p4",
+          "text": "28,800",
+          "unit": "cents",
+          "value": 2880000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            396.5,
+            380.6,
+            412.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 2,
+          "property_key": "p4",
+          "text": "130",
+          "unit": "cents",
+          "value": 13000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            396.5,
+            393.6,
+            412.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 2,
+          "property_key": "p4",
+          "text": "350",
+          "unit": "cents",
+          "value": 35000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            419.6,
+            412.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 2,
+          "property_key": "p4",
+          "text": "1,010",
+          "unit": "cents",
+          "value": 101000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            445.6,
+            412.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 2,
+          "property_key": "p4",
+          "text": "2,304",
+          "unit": "cents",
+          "value": 230400
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            458.6,
+            412.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 2,
+          "property_key": "p4",
+          "text": "5,155",
+          "unit": "cents",
+          "value": 515500
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            484.6,
+            412.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 2,
+          "property_key": "p4",
+          "text": "9,158",
+          "unit": "cents",
+          "value": 915800
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            396.5,
+            497.6,
+            412.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 2,
+          "property_key": "p4",
+          "text": "110",
+          "unit": "cents",
+          "value": 11000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            510.6,
+            412.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 2,
+          "property_key": "p4",
+          "text": "2,930",
+          "unit": "cents",
+          "value": 293000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            536.5,
+            412.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 2,
+          "property_key": "p4",
+          "text": "6,632",
+          "unit": "cents",
+          "value": 663200
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            386.2,
+            549.5,
+            412.0,
+            557.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line19.other",
+          "page": 2,
+          "property_key": "p4",
+          "text": "8,400",
+          "unit": "cents",
+          "value": 840000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            381.0,
+            562.5,
+            412.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 2,
+          "property_key": "p4",
+          "text": "36,179",
+          "unit": "cents",
+          "value": 3617900
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            375.9,
+            575.5,
+            412.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 2,
+          "property_key": "p4",
+          "text": "(7,379)",
+          "unit": "cents",
+          "value": -737900
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            375.9,
+            596.8,
+            412.0,
+            605.1
+          ],
+          "entity": "property",
+          "field": "schedule_e.line22.deductible_loss",
+          "page": 2,
+          "property_key": "p4",
+          "text": "(5,569)",
+          "unit": "cents",
+          "value": -556900
+        }
+      ],
+      "file": "2024_schedule_e.pdf",
+      "kind": "schedule_e",
+      "pages": 2,
+      "scan_file": "2024_schedule_e.scan.pdf",
+      "sha256": "c8555a6fe4afc289343841866d215f3ad4690583c60f639616fb6c03713f8302",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            250,
+            100.8,
+            486.0,
+            107.5
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p1",
+          "text": "RENTAL - 1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "unit": "text",
+          "value": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838"
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            554.2,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        },
+        {
+          "address_printed": "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "bbox": [
+            554.2,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        }
+      ],
+      "file": "2024_form_4562_1.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2024_form_4562_1.scan.pdf",
+      "sha256": "75ceb4f052ca6d942bfaeee07cdec64ce6f896e9cffe1441b5c279c94c8df61d",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            250,
+            100.4,
+            486.0,
+            107.6
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p2",
+          "text": "RENTAL - 1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            549.0,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            549.0,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        }
+      ],
+      "file": "2024_form_4562_2.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2024_form_4562_2.scan.pdf",
+      "sha256": "4da437db144cff8357a4ec8af3c6e881d2624daea4d3817ed635d6be0481f493",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            250,
+            100.3,
+            437.0,
+            107.7
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p3",
+          "text": "RENTAL - 2875 Elm Ct, Roseville, CA 95661",
+          "unit": "text",
+          "value": "2875 Elm Ct, Roseville, CA 95661"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            176,
+            380.6,
+            212.1,
+            388.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line19h.placed_in_service",
+          "page": 1,
+          "property_key": "p3",
+          "text": "07/2024",
+          "unit": "text",
+          "value": "2024-07"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            309.9,
+            380.6,
+            346.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line19h.basis",
+          "page": 1,
+          "property_key": "p3",
+          "text": "444,850",
+          "unit": "cents",
+          "value": 44485000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            380.6,
+            580.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line19h.deduction",
+          "page": 1,
+          "property_key": "p3",
+          "text": "6,526",
+          "unit": "cents",
+          "value": 652600
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p3",
+          "text": "6,526",
+          "unit": "cents",
+          "value": 652600
+        }
+      ],
+      "file": "2024_form_4562_3.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2024_form_4562_3.scan.pdf",
+      "sha256": "7f11b8a3a7502378ab9d20c2a14538b28423e55b95c2fe8aece5216faf75442f",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            250,
+            100.8,
+            486.0,
+            107.5
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p4",
+          "text": "RENTAL - 915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "unit": "text",
+          "value": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p4",
+          "text": "6,632",
+          "unit": "cents",
+          "value": 663200
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            554.2,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p4",
+          "text": "6,632",
+          "unit": "cents",
+          "value": 663200
+        }
+      ],
+      "file": "2024_form_4562_4.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2024_form_4562_4.scan.pdf",
+      "sha256": "8d1dc31b320e882d603e403af7936c4eb980473de1dc08cca3b14980633974ff",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": null,
+          "bbox": [
+            445.0,
+            151.6,
+            476.0,
+            159.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1a.net_income",
+          "page": 1,
+          "property_key": null,
+          "text": "12,310",
+          "unit": "cents",
+          "value": 1231000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            434.7,
+            164.6,
+            476.0,
+            172.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1b.net_loss",
+          "page": 1,
+          "property_key": null,
+          "text": "(16,310)",
+          "unit": "cents",
+          "value": -1631000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            190.6,
+            580.0,
+            198.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1d.combined",
+          "page": 1,
+          "property_key": null,
+          "text": "(4,000)",
+          "unit": "cents",
+          "value": -400000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            266.6,
+            580.0,
+            274.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line3.combined",
+          "page": 1,
+          "property_key": null,
+          "text": "(4,000)",
+          "unit": "cents",
+          "value": -400000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            322.2,
+            580.0,
+            330.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line4.loss",
+          "page": 1,
+          "property_key": null,
+          "text": "4,000",
+          "unit": "cents",
+          "value": 400000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            439.9,
+            335.2,
+            476.0,
+            343.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line5.threshold",
+          "page": 1,
+          "property_key": null,
+          "text": "150,000",
+          "unit": "cents",
+          "value": 15000000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            439.9,
+            348.2,
+            476.0,
+            356.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line6.magi",
+          "page": 1,
+          "property_key": null,
+          "text": "179,650",
+          "unit": "cents",
+          "value": 17965000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            574.8,
+            395.2,
+            580.0,
+            403.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line9.special_allowance",
+          "page": 1,
+          "property_key": null,
+          "text": "0",
+          "unit": "cents",
+          "value": 0
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            421.2,
+            580.0,
+            429.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line10.passive_income",
+          "page": 1,
+          "property_key": null,
+          "text": "12,310",
+          "unit": "cents",
+          "value": 1231000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            434.2,
+            580.0,
+            442.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line11.total_allowed",
+          "page": 1,
+          "property_key": null,
+          "text": "12,310",
+          "unit": "cents",
+          "value": 1231000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            566.7,
+            196.4,
+            580.0,
+            203.6
+          ],
+          "entity": "property",
+          "field": "form_8582.ws5.unallowed_loss",
+          "page": 2,
+          "property_key": "p2",
+          "text": "332",
+          "unit": "cents",
+          "value": 33200
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            557.8,
+            208.4,
+            580.0,
+            215.6
+          ],
+          "entity": "property",
+          "field": "form_8582.ws5.unallowed_loss",
+          "page": 2,
+          "property_key": "p3",
+          "text": "1,858",
+          "unit": "cents",
+          "value": 185800
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            557.8,
+            220.4,
+            580.0,
+            227.6
+          ],
+          "entity": "property",
+          "field": "form_8582.ws5.unallowed_loss",
+          "page": 2,
+          "property_key": "p4",
+          "text": "1,810",
+          "unit": "cents",
+          "value": 181000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            557.8,
+            232.4,
+            580.0,
+            239.6
+          ],
+          "entity": "household",
+          "field": "form_8582.unallowed_loss_total",
+          "page": 2,
+          "property_key": null,
+          "text": "4,000",
+          "unit": "cents",
+          "value": 400000
+        }
+      ],
+      "file": "2024_form_8582.pdf",
+      "kind": "form_8582",
+      "pages": 2,
+      "scan_file": "2024_form_8582.scan.pdf",
+      "sha256": "fba6f130025a171b47b884d1d5f52b9d22795d67ee5e9c8434a9777980e59f32",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": null,
+          "bbox": [
+            36,
+            123.5,
+            123.7,
+            131.9
+          ],
+          "entity": "household",
+          "field": "form_1040.home_address",
+          "page": 1,
+          "property_key": null,
+          "text": "4412 CAMELLIA AVE",
+          "unit": "text",
+          "value": "4412 CAMELLIA AVE"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            300,
+            145.6,
+            310.3,
+            153.9
+          ],
+          "entity": "household",
+          "field": "form_1040.home_state",
+          "page": 1,
+          "property_key": null,
+          "text": "CA",
+          "unit": "text",
+          "value": "CA"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            120,
+            171,
+            127,
+            178
+          ],
+          "entity": "household",
+          "field": "form_1040.filing_status",
+          "page": 1,
+          "property_key": null,
+          "text": "X",
+          "unit": "text",
+          "value": "mfj"
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            239.6,
+            580.0,
+            247.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line1a.wages",
+          "page": 1,
+          "property_key": null,
+          "text": "180,100",
+          "unit": "cents",
+          "value": 18010000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            365.6,
+            580.0,
+            373.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line1z.total_wages",
+          "page": 1,
+          "property_key": null,
+          "text": "180,100",
+          "unit": "cents",
+          "value": 18010000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            393.6,
+            580.0,
+            401.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line2b.taxable_interest",
+          "page": 1,
+          "property_key": null,
+          "text": "1,640",
+          "unit": "cents",
+          "value": 164000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            450.2,
+            407.6,
+            476.0,
+            415.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line3a.qualified_dividends",
+          "page": 1,
+          "property_key": null,
+          "text": "3,900",
+          "unit": "cents",
+          "value": 390000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            421.6,
+            580.0,
+            429.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line3b.ordinary_dividends",
+          "page": 1,
+          "property_key": null,
+          "text": "4,210",
+          "unit": "cents",
+          "value": 421000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            547.5,
+            580.0,
+            555.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line9.total_income",
+          "page": 1,
+          "property_key": null,
+          "text": "185,950",
+          "unit": "cents",
+          "value": 18595000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            575.5,
+            580.0,
+            583.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line11.agi",
+          "page": 1,
+          "property_key": null,
+          "text": "185,950",
+          "unit": "cents",
+          "value": 18595000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            589.5,
+            580.0,
+            597.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line12.deduction",
+          "page": 1,
+          "property_key": null,
+          "text": "31,500",
+          "unit": "cents",
+          "value": 3150000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            617.5,
+            580.0,
+            625.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line14.total_deductions",
+          "page": 1,
+          "property_key": null,
+          "text": "31,500",
+          "unit": "cents",
+          "value": 3150000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            543.9,
+            631.5,
+            580.0,
+            639.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line15.taxable_income",
+          "page": 1,
+          "property_key": null,
+          "text": "154,450",
+          "unit": "cents",
+          "value": 15445000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            51.5,
+            580.0,
+            59.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line16.tax",
+          "page": 2,
+          "property_key": null,
+          "text": "23,807",
+          "unit": "cents",
+          "value": 2380700
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            79.5,
+            580.0,
+            87.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line18.tax_plus_sch2",
+          "page": 2,
+          "property_key": null,
+          "text": "23,807",
+          "unit": "cents",
+          "value": 2380700
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            135.6,
+            580.0,
+            143.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line22.tax_after_credits",
+          "page": 2,
+          "property_key": null,
+          "text": "23,807",
+          "unit": "cents",
+          "value": 2380700
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            163.6,
+            580.0,
+            171.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line24.total_tax",
+          "page": 2,
+          "property_key": null,
+          "text": "23,807",
+          "unit": "cents",
+          "value": 2380700
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            445.0,
+            191.6,
+            476.0,
+            199.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line25a.w2_withholding",
+          "page": 2,
+          "property_key": null,
+          "text": "24,579",
+          "unit": "cents",
+          "value": 2457900
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            233.6,
+            580.0,
+            241.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line25d.total_withholding",
+          "page": 2,
+          "property_key": null,
+          "text": "24,579",
+          "unit": "cents",
+          "value": 2457900
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            247.6,
+            580.0,
+            255.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line26.estimated_payments",
+          "page": 2,
+          "property_key": null,
+          "text": "4,000",
+          "unit": "cents",
+          "value": 400000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            275.6,
+            580.0,
+            283.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line33.total_payments",
+          "page": 2,
+          "property_key": null,
+          "text": "28,579",
+          "unit": "cents",
+          "value": 2857900
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            289.6,
+            580.0,
+            297.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line34.overpaid",
+          "page": 2,
+          "property_key": null,
+          "text": "4,772",
+          "unit": "cents",
+          "value": 477200
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            554.2,
+            303.6,
+            580.0,
+            311.9
+          ],
+          "entity": "household",
+          "field": "form_1040.line35a.refund",
+          "page": 2,
+          "property_key": null,
+          "text": "4,772",
+          "unit": "cents",
+          "value": 477200
+        }
+      ],
+      "file": "2025_form_1040.pdf",
+      "kind": "form_1040",
+      "pages": 2,
+      "scan_file": "2025_form_1040.scan.pdf",
+      "sha256": "b596d381b5372f91af399694e5643e911bbad0a475e86a136bea7bb8b2b1527d",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            66,
+            168.6,
+            251.8,
+            176.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1420 Maple St., Sacramento, CA 95838",
+          "unit": "text",
+          "value": "1420 Maple St., Sacramento, CA 95838"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            66,
+            181.6,
+            293.0,
+            189.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            66,
+            194.6,
+            231.1,
+            202.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1a.address",
+          "page": 1,
+          "property_key": "p3",
+          "text": "2875 Elm Ct, Roseville, CA 95661",
+          "unit": "text",
+          "value": "2875 Elm Ct, Roseville, CA 95661"
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            104.8,
+            237.6,
+            110.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p1",
+          "text": "2",
+          "unit": "int",
+          "value": 2
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            436.5,
+            237.6,
+            452.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p1",
+          "text": "365",
+          "unit": "int",
+          "value": 365
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            516.8,
+            237.6,
+            522.0,
+            245.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p1",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            104.8,
+            250.6,
+            110.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p2",
+          "text": "3",
+          "unit": "int",
+          "value": 3
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            436.5,
+            250.6,
+            452.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p2",
+          "text": "171",
+          "unit": "int",
+          "value": 171
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            511.7,
+            250.6,
+            522.0,
+            258.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p2",
+          "text": "18",
+          "unit": "int",
+          "value": 18
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            104.8,
+            263.6,
+            110.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line1b.type",
+          "page": 1,
+          "property_key": "p3",
+          "text": "1",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            436.5,
+            263.6,
+            452.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.fair_rental_days",
+          "page": 1,
+          "property_key": "p3",
+          "text": "365",
+          "unit": "int",
+          "value": 365
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            516.8,
+            263.6,
+            522.0,
+            271.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line2.personal_use_days",
+          "page": 1,
+          "property_key": "p3",
+          "text": "0",
+          "unit": "int",
+          "value": 0
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            381.0,
+            330.6,
+            412.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p1",
+          "text": "42,600",
+          "unit": "cents",
+          "value": 4260000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            330.6,
+            496.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p2",
+          "text": "47,800",
+          "unit": "cents",
+          "value": 4780000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            330.6,
+            580.0,
+            338.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line3.rents",
+          "page": 1,
+          "property_key": "p3",
+          "text": "40,800",
+          "unit": "cents",
+          "value": 4080000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            367.6,
+            496.0,
+            375.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line5.advertising",
+          "page": 1,
+          "property_key": "p2",
+          "text": "560",
+          "unit": "cents",
+          "value": 56000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            396.5,
+            380.6,
+            412.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p1",
+          "text": "280",
+          "unit": "cents",
+          "value": 28000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            380.6,
+            496.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p2",
+          "text": "710",
+          "unit": "cents",
+          "value": 71000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            380.6,
+            580.0,
+            388.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line6.auto_travel",
+          "page": 1,
+          "property_key": "p3",
+          "text": "310",
+          "unit": "cents",
+          "value": 31000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            396.5,
+            393.6,
+            412.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p1",
+          "text": "900",
+          "unit": "cents",
+          "value": 90000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            393.6,
+            496.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "7,240",
+          "unit": "cents",
+          "value": 724000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            393.6,
+            580.0,
+            401.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line7.cleaning_maintenance",
+          "page": 1,
+          "property_key": "p3",
+          "text": "380",
+          "unit": "cents",
+          "value": 38000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            406.6,
+            496.0,
+            414.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line8.commissions",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1,434",
+          "unit": "cents",
+          "value": 143400
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            419.6,
+            412.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p1",
+          "text": "2,110",
+          "unit": "cents",
+          "value": 211000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            419.6,
+            496.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "3,250",
+          "unit": "cents",
+          "value": 325000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            419.6,
+            580.0,
+            427.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line9.insurance",
+          "page": 1,
+          "property_key": "p3",
+          "text": "2,760",
+          "unit": "cents",
+          "value": 276000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            480.5,
+            432.6,
+            496.0,
+            440.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line10.legal_professional",
+          "page": 1,
+          "property_key": "p2",
+          "text": "450",
+          "unit": "cents",
+          "value": 45000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            445.6,
+            412.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,408",
+          "unit": "cents",
+          "value": 340800
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            445.6,
+            580.0,
+            453.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line11.management_fees",
+          "page": 1,
+          "property_key": "p3",
+          "text": "3,264",
+          "unit": "cents",
+          "value": 326400
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            458.6,
+            412.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p1",
+          "text": "5,830",
+          "unit": "cents",
+          "value": 583000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            458.6,
+            496.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p2",
+          "text": "13,990",
+          "unit": "cents",
+          "value": 1399000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            458.6,
+            580.0,
+            466.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line12.mortgage_interest",
+          "page": 1,
+          "property_key": "p3",
+          "text": "26,878",
+          "unit": "cents",
+          "value": 2687800
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            484.6,
+            412.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p1",
+          "text": "4,022",
+          "unit": "cents",
+          "value": 402200
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            484.6,
+            496.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p2",
+          "text": "2,640",
+          "unit": "cents",
+          "value": 264000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            484.6,
+            580.0,
+            492.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line14.repairs",
+          "page": 1,
+          "property_key": "p3",
+          "text": "2,180",
+          "unit": "cents",
+          "value": 218000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            396.5,
+            497.6,
+            412.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p1",
+          "text": "240",
+          "unit": "cents",
+          "value": 24000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            497.6,
+            496.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1,080",
+          "unit": "cents",
+          "value": 108000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            564.5,
+            497.6,
+            580.0,
+            505.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line15.supplies",
+          "page": 1,
+          "property_key": "p3",
+          "text": "230",
+          "unit": "cents",
+          "value": 23000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            510.6,
+            412.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3,560",
+          "unit": "cents",
+          "value": 356000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            510.6,
+            496.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p2",
+          "text": "5,400",
+          "unit": "cents",
+          "value": 540000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            554.2,
+            510.6,
+            580.0,
+            518.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line16.taxes",
+          "page": 1,
+          "property_key": "p3",
+          "text": "7,080",
+          "unit": "cents",
+          "value": 708000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            523.5,
+            412.0,
+            531.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line17.utilities",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1,260",
+          "unit": "cents",
+          "value": 126000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            470.2,
+            523.5,
+            496.0,
+            531.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line17.utilities",
+          "page": 1,
+          "property_key": "p2",
+          "text": "4,390",
+          "unit": "cents",
+          "value": 439000
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            386.2,
+            536.5,
+            412.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            536.5,
+            496.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            536.5,
+            580.0,
+            544.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line18.depreciation",
+          "page": 1,
+          "property_key": "p3",
+          "text": "16,175",
+          "unit": "cents",
+          "value": 1617500
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            381.0,
+            562.5,
+            412.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p1",
+          "text": "30,009",
+          "unit": "cents",
+          "value": 3000900
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            465.0,
+            562.5,
+            496.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p2",
+          "text": "52,134",
+          "unit": "cents",
+          "value": 5213400
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            562.5,
+            580.0,
+            570.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line20.total_expenses",
+          "page": 1,
+          "property_key": "p3",
+          "text": "59,257",
+          "unit": "cents",
+          "value": 5925700
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            381.0,
+            575.5,
+            412.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p1",
+          "text": "12,591",
+          "unit": "cents",
+          "value": 1259100
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            459.9,
+            575.5,
+            496.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p2",
+          "text": "(4,334)",
+          "unit": "cents",
+          "value": -433400
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            538.7,
+            575.5,
+            580.0,
+            583.9
+          ],
+          "entity": "property",
+          "field": "schedule_e.line21.income_or_loss",
+          "page": 1,
+          "property_key": "p3",
+          "text": "(18,457)",
+          "unit": "cents",
+          "value": -1845700
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            459.9,
+            596.8,
+            496.0,
+            605.1
+          ],
+          "entity": "property",
+          "field": "schedule_e.line22.deductible_loss",
+          "page": 1,
+          "property_key": "p2",
+          "text": "(2,395)",
+          "unit": "cents",
+          "value": -239500
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            538.7,
+            596.8,
+            580.0,
+            605.1
+          ],
+          "entity": "property",
+          "field": "schedule_e.line22.deductible_loss",
+          "page": 1,
+          "property_key": "p3",
+          "text": "(10,196)",
+          "unit": "cents",
+          "value": -1019600
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            459.9,
+            611.8,
+            496.0,
+            620.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23a.total_rents",
+          "page": 1,
+          "property_key": null,
+          "text": "131,200",
+          "unit": "cents",
+          "value": 13120000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            465.0,
+            635.8,
+            496.0,
+            644.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23c.total_mortgage_interest",
+          "page": 1,
+          "property_key": null,
+          "text": "46,698",
+          "unit": "cents",
+          "value": 4669800
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            465.0,
+            647.8,
+            496.0,
+            656.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23d.total_depreciation",
+          "page": 1,
+          "property_key": null,
+          "text": "35,564",
+          "unit": "cents",
+          "value": 3556400
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            459.9,
+            659.8,
+            496.0,
+            668.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line23e.total_expenses",
+          "page": 1,
+          "property_key": null,
+          "text": "141,400",
+          "unit": "cents",
+          "value": 14140000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            671.8,
+            580.0,
+            680.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line24.income",
+          "page": 1,
+          "property_key": null,
+          "text": "12,591",
+          "unit": "cents",
+          "value": 1259100
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            538.7,
+            683.8,
+            580.0,
+            692.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line25.losses",
+          "page": 1,
+          "property_key": null,
+          "text": "(12,591)",
+          "unit": "cents",
+          "value": -1259100
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            574.8,
+            695.8,
+            580.0,
+            704.1
+          ],
+          "entity": "household",
+          "field": "schedule_e.line26.total",
+          "page": 1,
+          "property_key": null,
+          "text": "0",
+          "unit": "cents",
+          "value": 0
+        }
+      ],
+      "file": "2025_schedule_e.pdf",
+      "kind": "schedule_e",
+      "pages": 1,
+      "scan_file": "2025_schedule_e.scan.pdf",
+      "sha256": "c549ac96e119fa34483da9518135b00901f50f2f45eb2b7cbd262786367dbeb0",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            250,
+            100.3,
+            455.2,
+            107.7
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p1",
+          "text": "RENTAL - 1420 Maple St., Sacramento, CA 95838",
+          "unit": "text",
+          "value": "1420 Maple St., Sacramento, CA 95838"
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            554.2,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        },
+        {
+          "address_printed": "1420 Maple St., Sacramento, CA 95838",
+          "bbox": [
+            554.2,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p1",
+          "text": "8,399",
+          "unit": "cents",
+          "value": 839900
+        }
+      ],
+      "file": "2025_form_4562_1.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2025_form_4562_1.scan.pdf",
+      "sha256": "aaf029110a2187fd9b1d2eb29a4f767b4c896aeb19e3c09ba0ef18a6f8a02408",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            250,
+            100.4,
+            486.0,
+            107.6
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p2",
+          "text": "RENTAL - 1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            549.0,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            549.0,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p2",
+          "text": "10,990",
+          "unit": "cents",
+          "value": 1099000
+        }
+      ],
+      "file": "2025_form_4562_2.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2025_form_4562_2.scan.pdf",
+      "sha256": "ed99cd7da24194c13e43ba0186c132b381738041d03927f5c9df77d3730a2269",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            250,
+            100.3,
+            437.0,
+            107.7
+          ],
+          "entity": "property",
+          "field": "form_4562.activity",
+          "page": 1,
+          "property_key": "p3",
+          "text": "RENTAL - 2875 Elm Ct, Roseville, CA 95661",
+          "unit": "text",
+          "value": "2875 Elm Ct, Roseville, CA 95661"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            216.6,
+            580.0,
+            224.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line17.prior_macrs",
+          "page": 1,
+          "property_key": "p3",
+          "text": "16,175",
+          "unit": "cents",
+          "value": 1617500
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            549.0,
+            435.6,
+            580.0,
+            443.9
+          ],
+          "entity": "property",
+          "field": "form_4562.line22.total",
+          "page": 1,
+          "property_key": "p3",
+          "text": "16,175",
+          "unit": "cents",
+          "value": 1617500
+        }
+      ],
+      "file": "2025_form_4562_3.pdf",
+      "kind": "form_4562",
+      "pages": 1,
+      "scan_file": "2025_form_4562_3.scan.pdf",
+      "sha256": "c657a7dbd340e7fc3975b5ff2c648dab493db0d0e682dfebf9ef4d4d83f6d834",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": null,
+          "bbox": [
+            445.0,
+            151.6,
+            476.0,
+            159.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1a.net_income",
+          "page": 1,
+          "property_key": null,
+          "text": "12,591",
+          "unit": "cents",
+          "value": 1259100
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            434.7,
+            164.6,
+            476.0,
+            172.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1b.net_loss",
+          "page": 1,
+          "property_key": null,
+          "text": "(22,791)",
+          "unit": "cents",
+          "value": -2279100
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            439.9,
+            177.6,
+            476.0,
+            185.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1c.prior_unallowed",
+          "page": 1,
+          "property_key": null,
+          "text": "(4,000)",
+          "unit": "cents",
+          "value": -400000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            538.7,
+            190.6,
+            580.0,
+            198.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line1d.combined",
+          "page": 1,
+          "property_key": null,
+          "text": "(14,200)",
+          "unit": "cents",
+          "value": -1420000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            538.7,
+            266.6,
+            580.0,
+            274.9
+          ],
+          "entity": "household",
+          "field": "form_8582.line3.combined",
+          "page": 1,
+          "property_key": null,
+          "text": "(14,200)",
+          "unit": "cents",
+          "value": -1420000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            322.2,
+            580.0,
+            330.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line4.loss",
+          "page": 1,
+          "property_key": null,
+          "text": "14,200",
+          "unit": "cents",
+          "value": 1420000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            439.9,
+            335.2,
+            476.0,
+            343.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line5.threshold",
+          "page": 1,
+          "property_key": null,
+          "text": "150,000",
+          "unit": "cents",
+          "value": 15000000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            439.9,
+            348.2,
+            476.0,
+            356.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line6.magi",
+          "page": 1,
+          "property_key": null,
+          "text": "185,950",
+          "unit": "cents",
+          "value": 18595000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            574.8,
+            395.2,
+            580.0,
+            403.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line9.special_allowance",
+          "page": 1,
+          "property_key": null,
+          "text": "0",
+          "unit": "cents",
+          "value": 0
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            421.2,
+            580.0,
+            429.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line10.passive_income",
+          "page": 1,
+          "property_key": null,
+          "text": "12,591",
+          "unit": "cents",
+          "value": 1259100
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            549.0,
+            434.2,
+            580.0,
+            442.5
+          ],
+          "entity": "household",
+          "field": "form_8582.line11.total_allowed",
+          "page": 1,
+          "property_key": null,
+          "text": "12,591",
+          "unit": "cents",
+          "value": 1259100
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            557.8,
+            184.4,
+            580.0,
+            191.6
+          ],
+          "entity": "property",
+          "field": "form_8582.ws5.unallowed_loss",
+          "page": 2,
+          "property_key": "p2",
+          "text": "2,700",
+          "unit": "cents",
+          "value": 270000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            553.4,
+            196.4,
+            580.0,
+            203.6
+          ],
+          "entity": "property",
+          "field": "form_8582.ws5.unallowed_loss",
+          "page": 2,
+          "property_key": "p3",
+          "text": "11,500",
+          "unit": "cents",
+          "value": 1150000
+        },
+        {
+          "address_printed": null,
+          "bbox": [
+            553.4,
+            208.4,
+            580.0,
+            215.6
+          ],
+          "entity": "household",
+          "field": "form_8582.unallowed_loss_total",
+          "page": 2,
+          "property_key": null,
+          "text": "14,200",
+          "unit": "cents",
+          "value": 1420000
+        }
+      ],
+      "file": "2025_form_8582.pdf",
+      "kind": "form_8582",
+      "pages": 2,
+      "scan_file": "2025_form_8582.scan.pdf",
+      "sha256": "fc208609d81029006ca275ffad45efe4aa68bf913e8c2d0084a308ba0fd2078d",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            40,
+            40.2,
+            206.9,
+            52.9
+          ],
+          "entity": "loan",
+          "field": "mortgage.lender",
+          "page": 1,
+          "property_key": "p1",
+          "text": "Golden State Mortgage Co.",
+          "unit": "text",
+          "value": "Golden State Mortgage Co."
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            534.0,
+            60.3,
+            572.0,
+            67.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.statement_date",
+          "page": 1,
+          "property_key": "p1",
+          "text": "01/05/2026",
+          "unit": "date",
+          "value": "2026-01-05"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            518.4,
+            70.3,
+            572.0,
+            77.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_number",
+          "page": 1,
+          "property_key": "p1",
+          "text": "GSM-66403373",
+          "unit": "text",
+          "value": "GSM-66403373"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            330,
+            102.3,
+            466.4,
+            109.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.property_address",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1420 Maple St, Sacramento, CA 95838",
+          "unit": "text",
+          "value": "1420 Maple St, Sacramento, CA 95838"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            255.7,
+            156.3,
+            298.0,
+            163.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.original_amount",
+          "page": 1,
+          "property_key": "p1",
+          "text": "$214,000.00",
+          "unit": "cents",
+          "value": 21400000
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            260.0,
+            168.3,
+            298.0,
+            175.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.origination_date",
+          "page": 1,
+          "property_key": "p1",
+          "text": "05/15/2012",
+          "unit": "date",
+          "value": "2012-05-15"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            255.7,
+            180.3,
+            298.0,
+            187.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_balance",
+          "page": 1,
+          "property_key": "p1",
+          "text": "$147,037.39",
+          "unit": "cents",
+          "value": 14703739
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            272.2,
+            192.3,
+            298.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_rate",
+          "page": 1,
+          "property_key": "p1",
+          "text": "3.875%",
+          "unit": "rate",
+          "value": 0.03875
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            193.7,
+            204.3,
+            298.0,
+            211.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_type_text",
+          "page": 1,
+          "property_key": "p1",
+          "text": "30-Year Fixed Rate Mortgage",
+          "unit": "text",
+          "value": "30-Year Fixed Rate Mortgage"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            287.0,
+            216.3,
+            298.0,
+            223.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.lien_position",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1st",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            255.8,
+            228.3,
+            298.0,
+            235.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.term_months",
+          "page": 1,
+          "property_key": "p1",
+          "text": "360 months",
+          "unit": "int",
+          "value": 360
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            260.0,
+            240.3,
+            298.0,
+            247.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.maturity_date",
+          "page": 1,
+          "property_key": "p1",
+          "text": "06/01/2042",
+          "unit": "date",
+          "value": "2042-06-01"
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            544.2,
+            192.3,
+            578.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.monthly_payment",
+          "page": 1,
+          "property_key": "p1",
+          "text": "$1,006.31",
+          "unit": "cents",
+          "value": 100631
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            544.2,
+            278.3,
+            578.0,
+            285.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_paid_ytd",
+          "page": 1,
+          "property_key": "p1",
+          "text": "$6,246.14",
+          "unit": "cents",
+          "value": 624614
+        },
+        {
+          "address_printed": "1420 Maple St, Sacramento, CA 95838",
+          "bbox": [
+            544.2,
+            290.3,
+            578.0,
+            297.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_paid_ytd",
+          "page": 1,
+          "property_key": "p1",
+          "text": "$5,829.58",
+          "unit": "cents",
+          "value": 582958
+        }
+      ],
+      "file": "stmt_1_2025.pdf",
+      "kind": "mortgage_statement",
+      "pages": 1,
+      "scan_file": "stmt_1_2025.scan.pdf",
+      "sha256": "13b537182ad1f63099719328358f1bfb5899b71368a68414c9d8902d1be21430",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            40,
+            40.2,
+            208.3,
+            52.9
+          ],
+          "entity": "loan",
+          "field": "mortgage.lender",
+          "page": 1,
+          "property_key": "p2",
+          "text": "Sierra Nevada Credit Union",
+          "unit": "text",
+          "value": "Sierra Nevada Credit Union"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            534.0,
+            60.3,
+            572.0,
+            67.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.statement_date",
+          "page": 1,
+          "property_key": "p2",
+          "text": "01/05/2026",
+          "unit": "date",
+          "value": "2026-01-05"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            514.1,
+            70.3,
+            572.0,
+            77.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_number",
+          "page": 1,
+          "property_key": "p2",
+          "text": "SNCU-73850004",
+          "unit": "text",
+          "value": "SNCU-73850004"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            330,
+            102.3,
+            501.5,
+            109.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.property_address",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "unit": "text",
+          "value": "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            255.7,
+            156.3,
+            298.0,
+            163.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.original_amount",
+          "page": 1,
+          "property_key": "p2",
+          "text": "$372,000.00",
+          "unit": "cents",
+          "value": 37200000
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            260.0,
+            168.3,
+            298.0,
+            175.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.origination_date",
+          "page": 1,
+          "property_key": "p2",
+          "text": "08/20/2019",
+          "unit": "date",
+          "value": "2019-08-20"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            255.7,
+            180.3,
+            298.0,
+            187.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_balance",
+          "page": 1,
+          "property_key": "p2",
+          "text": "$327,243.40",
+          "unit": "cents",
+          "value": 32724340
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            272.2,
+            192.3,
+            298.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_rate",
+          "page": 1,
+          "property_key": "p2",
+          "text": "4.125%",
+          "unit": "rate",
+          "value": 0.04125
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            193.7,
+            204.3,
+            298.0,
+            211.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_type_text",
+          "page": 1,
+          "property_key": "p2",
+          "text": "30-Year Fixed Rate Mortgage",
+          "unit": "text",
+          "value": "30-Year Fixed Rate Mortgage"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            287.0,
+            216.3,
+            298.0,
+            223.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.lien_position",
+          "page": 1,
+          "property_key": "p2",
+          "text": "1st",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            255.8,
+            228.3,
+            298.0,
+            235.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.term_months",
+          "page": 1,
+          "property_key": "p2",
+          "text": "360 months",
+          "unit": "int",
+          "value": 360
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            260.0,
+            240.3,
+            298.0,
+            247.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.maturity_date",
+          "page": 1,
+          "property_key": "p2",
+          "text": "09/01/2049",
+          "unit": "date",
+          "value": "2049-09-01"
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            544.2,
+            192.3,
+            578.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.monthly_payment",
+          "page": 1,
+          "property_key": "p2",
+          "text": "$1,802.90",
+          "unit": "cents",
+          "value": 180290
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            544.2,
+            278.3,
+            578.0,
+            285.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_paid_ytd",
+          "page": 1,
+          "property_key": "p2",
+          "text": "$7,957.10",
+          "unit": "cents",
+          "value": 795710
+        },
+        {
+          "address_printed": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+          "bbox": [
+            540.0,
+            290.3,
+            578.0,
+            297.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_paid_ytd",
+          "page": 1,
+          "property_key": "p2",
+          "text": "$13,677.70",
+          "unit": "cents",
+          "value": 1367770
+        }
+      ],
+      "file": "stmt_2_2025.pdf",
+      "kind": "mortgage_statement",
+      "pages": 1,
+      "scan_file": "stmt_2_2025.scan.pdf",
+      "sha256": "e590a9008441f6749323d94e608dc3cc26b93187336509436df8c44ae34a99b1",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            40,
+            40.2,
+            154.2,
+            52.9
+          ],
+          "entity": "loan",
+          "field": "mortgage.lender",
+          "page": 1,
+          "property_key": "p3",
+          "text": "Pacific Crest Bank",
+          "unit": "text",
+          "value": "Pacific Crest Bank"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            534.0,
+            60.3,
+            572.0,
+            67.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.statement_date",
+          "page": 1,
+          "property_key": "p3",
+          "text": "01/05/2026",
+          "unit": "date",
+          "value": "2026-01-05"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            519.6,
+            70.3,
+            572.0,
+            77.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_number",
+          "page": 1,
+          "property_key": "p3",
+          "text": "PCB-44739542",
+          "unit": "text",
+          "value": "PCB-44739542"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            330,
+            102.3,
+            449.1,
+            109.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.property_address",
+          "page": 1,
+          "property_key": "p3",
+          "text": "2875 Elm Ct, Roseville, CA 95661",
+          "unit": "text",
+          "value": "2875 Elm Ct, Roseville, CA 95661"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            255.7,
+            156.3,
+            298.0,
+            163.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.original_amount",
+          "page": 1,
+          "property_key": "p3",
+          "text": "$457,500.00",
+          "unit": "cents",
+          "value": 45750000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            260.0,
+            168.3,
+            298.0,
+            175.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.origination_date",
+          "page": 1,
+          "property_key": "p3",
+          "text": "07/01/2020",
+          "unit": "date",
+          "value": "2020-07-01"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            255.7,
+            192.3,
+            298.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_balance",
+          "page": 1,
+          "property_key": "p3",
+          "text": "$457,500.00",
+          "unit": "cents",
+          "value": 45750000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            272.2,
+            204.3,
+            298.0,
+            211.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_rate",
+          "page": 1,
+          "property_key": "p3",
+          "text": "5.875%",
+          "unit": "rate",
+          "value": 0.05875
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            219.0,
+            216.3,
+            298.0,
+            223.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_type_text",
+          "page": 1,
+          "property_key": "p3",
+          "text": "7/1 Interest-Only ARM",
+          "unit": "text",
+          "value": "7/1 Interest-Only ARM"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            287.0,
+            228.3,
+            298.0,
+            235.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.lien_position",
+          "page": 1,
+          "property_key": "p3",
+          "text": "1st",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            255.8,
+            240.3,
+            298.0,
+            247.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.term_months",
+          "page": 1,
+          "property_key": "p3",
+          "text": "360 months",
+          "unit": "int",
+          "value": 360
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            260.0,
+            252.3,
+            298.0,
+            259.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.maturity_date",
+          "page": 1,
+          "property_key": "p3",
+          "text": "07/01/2050",
+          "unit": "date",
+          "value": "2050-07-01"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            260.0,
+            264.3,
+            298.0,
+            271.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.next_rate_change_date",
+          "page": 1,
+          "property_key": "p3",
+          "text": "07/01/2027",
+          "unit": "date",
+          "value": "2027-07-01"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            187.5,
+            276.3,
+            298.0,
+            283.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.index_margin",
+          "page": 1,
+          "property_key": "p3",
+          "text": "30-Day Average SOFR + 2.75%",
+          "unit": "rate",
+          "value": 0.0275
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            260.0,
+            288.3,
+            298.0,
+            295.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.io_period_end",
+          "page": 1,
+          "property_key": "p3",
+          "text": "06/30/2030",
+          "unit": "date",
+          "value": "2030-06-30"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            544.2,
+            192.3,
+            578.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.monthly_payment",
+          "page": 1,
+          "property_key": "p3",
+          "text": "$2,239.84",
+          "unit": "cents",
+          "value": 223984
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            559.0,
+            278.3,
+            578.0,
+            285.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_paid_ytd",
+          "page": 1,
+          "property_key": "p3",
+          "text": "$0.00",
+          "unit": "cents",
+          "value": 0
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            540.0,
+            290.3,
+            578.0,
+            297.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_paid_ytd",
+          "page": 1,
+          "property_key": "p3",
+          "text": "$26,878.08",
+          "unit": "cents",
+          "value": 2687808
+        }
+      ],
+      "file": "stmt_3_2025.pdf",
+      "kind": "mortgage_statement",
+      "pages": 1,
+      "scan_file": "stmt_3_2025.scan.pdf",
+      "sha256": "162024403a52ac94c7ffee5faf2ad15cd30b737ce36a735234c9aefc283fafc4",
+      "tax_year": 2025
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            40,
+            40.2,
+            206.2,
+            52.9
+          ],
+          "entity": "loan",
+          "field": "mortgage.lender",
+          "page": 1,
+          "property_key": "p4",
+          "text": "Capital Valley Credit Union",
+          "unit": "text",
+          "value": "Capital Valley Credit Union"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            534.0,
+            60.3,
+            572.0,
+            67.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.statement_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "01/05/2025",
+          "unit": "date",
+          "value": "2025-01-05"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            501.0,
+            70.3,
+            572.0,
+            77.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_number",
+          "page": 1,
+          "property_key": "p4",
+          "text": "CVCU-HE-41956458",
+          "unit": "text",
+          "value": "CVCU-HE-41956458"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            330,
+            102.3,
+            501.1,
+            109.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.property_address",
+          "page": 1,
+          "property_key": "p4",
+          "text": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "unit": "text",
+          "value": "915 Oak Hollow Way #204, Elk Grove, CA 95758"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            156.3,
+            298.0,
+            163.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.credit_limit",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$90,000.00",
+          "unit": "cents",
+          "value": 9000000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            168.3,
+            298.0,
+            175.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.origination_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "04/02/2019",
+          "unit": "date",
+          "value": "2019-04-02"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            180.3,
+            298.0,
+            187.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_balance",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$58,900.00",
+          "unit": "cents",
+          "value": 5890000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            272.2,
+            192.3,
+            298.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_rate",
+          "page": 1,
+          "property_key": "p4",
+          "text": "8.500%",
+          "unit": "rate",
+          "value": 0.085
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            216.5,
+            204.3,
+            298.0,
+            211.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_type_text",
+          "page": 1,
+          "property_key": "p4",
+          "text": "HELOC - Variable Rate",
+          "unit": "text",
+          "value": "HELOC - Variable Rate"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            284.5,
+            216.3,
+            298.0,
+            223.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.lien_position",
+          "page": 1,
+          "property_key": "p4",
+          "text": "2nd",
+          "unit": "int",
+          "value": 2
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            228.3,
+            298.0,
+            235.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.maturity_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "04/30/2049",
+          "unit": "date",
+          "value": "2049-04-30"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            240.3,
+            298.0,
+            247.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.io_period_end",
+          "page": 1,
+          "property_key": "p4",
+          "text": "04/30/2029",
+          "unit": "date",
+          "value": "2029-04-30"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            550.5,
+            192.3,
+            578.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.monthly_payment",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$417.21",
+          "unit": "cents",
+          "value": 41721
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            544.2,
+            278.3,
+            578.0,
+            285.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_paid_ytd",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$3,500.00",
+          "unit": "cents",
+          "value": 350000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "bbox": [
+            544.2,
+            290.3,
+            578.0,
+            297.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.interest_paid_ytd",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$5,155.00",
+          "unit": "cents",
+          "value": 515500
+        }
+      ],
+      "file": "stmt_4_2024.pdf",
+      "kind": "mortgage_statement",
+      "pages": 1,
+      "scan_file": "stmt_4_2024.scan.pdf",
+      "sha256": "ab255e054e17861b7be9aa586e0a56f82be1bec811ec0e00d58dd9e8a7a1bcc9",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            40,
+            40.2,
+            188.8,
+            52.9
+          ],
+          "entity": "loan",
+          "field": "mortgage.lender",
+          "page": 1,
+          "property_key": "p4",
+          "text": "Wells Harbor Bank, N.A.",
+          "unit": "text",
+          "value": "Wells Harbor Bank, N.A."
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            534.0,
+            60.3,
+            572.0,
+            67.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.statement_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "01/15/2023",
+          "unit": "date",
+          "value": "2023-01-15"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            517.5,
+            70.3,
+            572.0,
+            77.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_number",
+          "page": 1,
+          "property_key": "p4",
+          "text": "WHB-88398105",
+          "unit": "text",
+          "value": "WHB-88398105"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            330,
+            102.3,
+            513.7,
+            109.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.property_address",
+          "page": 1,
+          "property_key": "p4",
+          "text": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "unit": "text",
+          "value": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            255.7,
+            156.3,
+            298.0,
+            163.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.original_amount",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$160,000.00",
+          "unit": "cents",
+          "value": 16000000
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            168.3,
+            298.0,
+            175.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.origination_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "03/10/2015",
+          "unit": "date",
+          "value": "2015-03-10"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            279.0,
+            180.3,
+            298.0,
+            187.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.principal_balance",
+          "page": 1,
+          "property_key": "p4",
+          "text": "$0.00",
+          "unit": "cents",
+          "value": 0
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            193.7,
+            192.3,
+            298.0,
+            199.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.loan_type_text",
+          "page": 1,
+          "property_key": "p4",
+          "text": "30-Year Fixed Rate Mortgage",
+          "unit": "text",
+          "value": "30-Year Fixed Rate Mortgage"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            287.0,
+            204.3,
+            298.0,
+            211.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.lien_position",
+          "page": 1,
+          "property_key": "p4",
+          "text": "1st",
+          "unit": "int",
+          "value": 1
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            255.8,
+            216.3,
+            298.0,
+            223.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.term_months",
+          "page": 1,
+          "property_key": "p4",
+          "text": "360 months",
+          "unit": "int",
+          "value": 360
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            228.3,
+            298.0,
+            235.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.maturity_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "04/01/2045",
+          "unit": "date",
+          "value": "2045-04-01"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            260.0,
+            240.3,
+            298.0,
+            247.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.payoff_date",
+          "page": 1,
+          "property_key": "p4",
+          "text": "12/28/2022",
+          "unit": "date",
+          "value": "2022-12-28"
+        },
+        {
+          "address_printed": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+          "bbox": [
+            248.6,
+            252.3,
+            298.0,
+            259.7
+          ],
+          "entity": "loan",
+          "field": "mortgage.paid_in_full",
+          "page": 1,
+          "property_key": "p4",
+          "text": "PAID IN FULL",
+          "unit": "bool",
+          "value": true
+        }
+      ],
+      "file": "stmt_5_2022.pdf",
+      "kind": "mortgage_statement",
+      "pages": 1,
+      "scan_file": "stmt_5_2022.scan.pdf",
+      "sha256": "4964f4636794940721b0bc8f6fddf01510b940a4213ad62fb9f5664d3bd78402",
+      "tax_year": 2022
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            400,
+            82.3,
+            519.1,
+            89.7
+          ],
+          "entity": "property",
+          "field": "closing.property_address",
+          "page": 1,
+          "property_key": "p3",
+          "text": "2875 Elm Ct, Roseville, CA 95661",
+          "unit": "text",
+          "value": "2875 Elm Ct, Roseville, CA 95661"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            400,
+            118.3,
+            438.0,
+            125.7
+          ],
+          "entity": "property",
+          "field": "closing.settlement_date",
+          "page": 1,
+          "property_key": "p3",
+          "text": "06/14/2024",
+          "unit": "date",
+          "value": "2024-06-14"
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            462.0,
+            182.3,
+            500.0,
+            189.7
+          ],
+          "entity": "property",
+          "field": "closing.contract_sales_price",
+          "page": 1,
+          "property_key": "p3",
+          "text": "610,000.00",
+          "unit": "cents",
+          "value": 61000000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            540.0,
+            218.3,
+            578.0,
+            225.7
+          ],
+          "entity": "property",
+          "field": "closing.loan_amount",
+          "page": 1,
+          "property_key": "p3",
+          "text": "457,500.00",
+          "unit": "cents",
+          "value": 45750000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            470.4,
+            342.3,
+            500.0,
+            349.7
+          ],
+          "entity": "property",
+          "field": "closing.total_closing_costs",
+          "page": 1,
+          "property_key": "p3",
+          "text": "7,850.00",
+          "unit": "cents",
+          "value": 785000
+        },
+        {
+          "address_printed": "2875 Elm Ct, Roseville, CA 95661",
+          "bbox": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "entity": "property",
+          "field": "closing.land_allocation_present",
+          "page": 1,
+          "property_key": "p3",
+          "text": "(absent)",
+          "unit": "bool",
+          "value": false
+        }
+      ],
+      "file": "closing_statement_1.pdf",
+      "kind": "closing_statement",
+      "pages": 1,
+      "scan_file": "closing_statement_1.scan.pdf",
+      "sha256": "b35cd0027e1cd62075fb0f5e76535a2310377d16eeacdb29cdc260b46a672b57",
+      "tax_year": 2024
+    },
+    {
+      "fields": [
+        {
+          "address_printed": "1420 Maple Street, Sacramento, CA 95838",
+          "bbox": [
+            200,
+            286.0,
+            358.3,
+            293.8
+          ],
+          "entity": "property",
+          "field": "appraisal.property_address",
+          "page": 1,
+          "property_key": "p1",
+          "text": "1420 Maple Street, Sacramento, CA 95838",
+          "unit": "text",
+          "value": "1420 Maple Street, Sacramento, CA 95838"
+        },
+        {
+          "address_printed": "1420 Maple Street, Sacramento, CA 95838",
+          "bbox": [
+            200,
+            314.0,
+            240.0,
+            321.8
+          ],
+          "entity": "property",
+          "field": "appraisal.effective_date",
+          "page": 1,
+          "property_key": "p1",
+          "text": "03/10/2025",
+          "unit": "date",
+          "value": "2025-03-10"
+        },
+        {
+          "address_printed": "1420 Maple Street, Sacramento, CA 95838",
+          "bbox": [
+            200,
+            328.0,
+            233.4,
+            335.8
+          ],
+          "entity": "property",
+          "field": "appraisal.market_value",
+          "page": 1,
+          "property_key": "p1",
+          "text": "$545,000",
+          "unit": "cents",
+          "value": 54500000
+        }
+      ],
+      "file": "appraisal_1.pdf",
+      "kind": "appraisal",
+      "pages": 1,
+      "scan_file": "appraisal_1.scan.pdf",
+      "sha256": "c437c7db4f561f33baa2902ff7004e7fe44100ee3f208fe18b55ff6f0c7988e8",
+      "tax_year": 2025
+    }
+  ],
+  "household": {
+    "agi_cents_by_year": {
+      "2023": 18353300,
+      "2024": 17965000,
+      "2025": 18595000
+    },
+    "filing_status": "mfj",
+    "goal": "retire in 7 years, stop managing property",
+    "magi_cents_by_year": {
+      "2023": 17284000,
+      "2024": 17965000,
+      "2025": 18595000
+    },
+    "name": "Okafor-Lindqvist",
+    "properties": {
+      "p1": {
+        "address": "1420 Maple St, Sacramento, CA 95838",
+        "address_variants": [
+          "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+          "1420 Maple St, Sacramento, CA 95838",
+          "1420 Maple St., Sacramento, CA 95838",
+          "1420 Maple Street, Sacramento, CA 95838"
+        ],
+        "avg_stay_nights": null,
+        "depreciation": {
+          "2023": {
+            "allowable_cents": 839900,
+            "claimed_cents": 839900
+          },
+          "2024": {
+            "allowable_cents": 839900,
+            "claimed_cents": 839900
+          },
+          "2025": {
+            "allowable_cents": 839900,
+            "claimed_cents": 839900
+          }
+        },
+        "loans": [
+          {
+            "arm_reset_date": null,
+            "io_end_date": null,
+            "is_paid_off": false,
+            "key": "p1-first",
+            "lender": "Golden State Mortgage Co.",
+            "lien_position": 1,
+            "loan_type": "fixed"
+          }
+        ],
+        "nickname": "Maple duplex",
+        "property_type": "multifamily",
+        "purchase_date": "2012-05-15",
+        "purchase_price_cents": 28500000,
+        "type_code": 2,
+        "units": 2,
+        "years_on_return": [
+          2023,
+          2024,
+          2025
+        ]
+      },
+      "p2": {
+        "address": "1187 Lakeview Dr, South Lake Tahoe, CA 96150",
+        "address_variants": [
+          "1187 Lakeview Dr, South Lake Tahoe, CA 96150"
+        ],
+        "avg_stay_nights": 4,
+        "depreciation": {
+          "2023": {
+            "allowable_cents": 1099000,
+            "claimed_cents": 1099000
+          },
+          "2024": {
+            "allowable_cents": 1099000,
+            "claimed_cents": 1099000
+          },
+          "2025": {
+            "allowable_cents": 1099000,
+            "claimed_cents": 1099000
+          }
+        },
+        "loans": [
+          {
+            "arm_reset_date": null,
+            "io_end_date": null,
+            "is_paid_off": false,
+            "key": "p2-first",
+            "lender": "Sierra Nevada Credit Union",
+            "lien_position": 1,
+            "loan_type": "fixed"
+          }
+        ],
+        "nickname": "Tahoe cabin",
+        "property_type": "vacation_str",
+        "purchase_date": "2019-08-20",
+        "purchase_price_cents": 46500000,
+        "type_code": 3,
+        "units": 1,
+        "years_on_return": [
+          2023,
+          2024,
+          2025
+        ]
+      },
+      "p3": {
+        "address": "2875 Elm Ct, Roseville, CA 95661",
+        "address_variants": [
+          "2875 Elm Ct, Roseville, CA 95661"
+        ],
+        "avg_stay_nights": null,
+        "depreciation": {
+          "2024": {
+            "allowable_cents": 741600,
+            "claimed_cents": 652600
+          },
+          "2025": {
+            "allowable_cents": 1617500,
+            "claimed_cents": 1617500
+          }
+        },
+        "loans": [
+          {
+            "arm_reset_date": "2027-07-01",
+            "io_end_date": "2030-06-30",
+            "is_paid_off": false,
+            "key": "p3-first",
+            "lender": "Pacific Crest Bank",
+            "lien_position": 1,
+            "loan_type": "interest_only"
+          }
+        ],
+        "nickname": "Elm SFR",
+        "property_type": "sfr",
+        "purchase_date": "2024-06-14",
+        "purchase_price_cents": 61000000,
+        "type_code": 1,
+        "units": 1,
+        "years_on_return": [
+          2024,
+          2025
+        ]
+      },
+      "p4": {
+        "address": "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758",
+        "address_variants": [
+          "915 Oak Hollow Way #204, Elk Grove, CA 95758",
+          "915 Oak Hollow Way Unit 204, Elk Grove, CA 95758"
+        ],
+        "avg_stay_nights": null,
+        "depreciation": {
+          "2023": {
+            "allowable_cents": 663200,
+            "claimed_cents": 663200
+          },
+          "2024": {
+            "allowable_cents": 663200,
+            "claimed_cents": 663200
+          }
+        },
+        "loans": [
+          {
+            "arm_reset_date": null,
+            "io_end_date": null,
+            "is_paid_off": true,
+            "key": "p4-first",
+            "lender": "Wells Harbor Bank, N.A.",
+            "lien_position": 1,
+            "loan_type": "fixed"
+          },
+          {
+            "arm_reset_date": null,
+            "io_end_date": "2029-04-30",
+            "is_paid_off": false,
+            "key": "p4-heloc",
+            "lender": "Capital Valley Credit Union",
+            "lien_position": 2,
+            "loan_type": "heloc"
+          }
+        ],
+        "nickname": "Oak condo",
+        "property_type": "sfr",
+        "purchase_date": "2015-03-10",
+        "purchase_price_cents": 22800000,
+        "type_code": 1,
+        "units": 1,
+        "years_on_return": [
+          2023,
+          2024
+        ]
+      }
+    },
+    "state": "CA",
+    "suspended_loss_cents_by_year": {
+      "2023": 0,
+      "2024": 400000,
+      "2025": 1420000
+    }
+  },
+  "planted": [
+    {
+      "check": "entity_resolution",
+      "detail": "Line 1a prints the Maple duplex three different ways across 2023/2024/2025; all must resolve to one property.",
+      "id": "p1_address_three_spellings",
+      "property_key": "p1",
+      "variants": [
+        "1420 Maple St, Sacramento, CA 95838",
+        "1420 MAPLE STREET UNIT A/B, SACRAMENTO, CA 95838",
+        "1420 Maple St., Sacramento, CA 95838"
+      ]
+    },
+    {
+      "check": "finding",
+      "detail": "Type 3 vacation/short-term rental with personal-use days (avg stay 4 nights) -> STR rules not modeled.",
+      "field": "schedule_e.line1b.type",
+      "id": "p2_str_unsupported",
+      "kind": "unsupported_structure",
+      "property_key": "p2"
+    },
+    {
+      "check": "finding",
+      "detail": "2024 depreciation claimed 6,526 vs allowable 7,416 (basis 444,850, placed in service Jul 2024, 1.667%).",
+      "field": "depreciation",
+      "id": "p3_depreciation_12pct_low_2024",
+      "kind": "outlier",
+      "property_key": "p3",
+      "tax_year": 2024
+    },
+    {
+      "check": "finding",
+      "detail": "Oak condo appears on the 2023 and 2024 Schedule E but not 2025: sold? converted?",
+      "field": "schedule_e.property",
+      "id": "p4_missing_from_2025",
+      "kind": "missing",
+      "property_key": "p4",
+      "tax_year": 2025
+    },
+    {
+      "check": "finding",
+      "detail": "Closing statement has purchase price and closing costs but no land/improvement split.",
+      "field": "closing_statement.land_allocation",
+      "id": "p3_closing_statement_no_land_split",
+      "kind": "missing",
+      "property_key": "p3"
+    },
+    {
+      "check": "finding",
+      "detail": "Schedule E line 12 (13,990) is 312 above the lender's year-end statement (13,678). Not in SPEC; added so the conflict kind has a planted case.",
+      "field": "mortgage_interest",
+      "id": "p2_2025_mortgage_interest_conflict",
+      "kind": "conflict",
+      "property_key": "p2",
+      "tax_year": 2025
+    }
+  ],
+  "schema": "groundplan.gold.v1",
+  "seed": 20240601
+}

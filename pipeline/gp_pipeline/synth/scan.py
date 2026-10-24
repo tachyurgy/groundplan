@@ -4,7 +4,8 @@ pdftoppm at ``dpi`` (grayscale) -> rotate ``rotation`` degrees (white fill) -> s
 whitening (pixels lighter than ``paper`` become pure white, as flatbed drivers do) -> JPEG at
 ``quality`` (progressive, optimized) -> PDF. The JPEG bytes are embedded unchanged (DCTDecode
 pass-through via reportlab), so the quality setting is exactly what lands in the file. The output
-has no text layer: extraction must go through OCR. Deterministic for fixed inputs.
+has no text layer: extraction must go through OCR. Pixels are deterministic for fixed inputs (the PDF bytes are
+not: reportlab names the image XObject after the temp file).
 """
 
 from __future__ import annotations
@@ -33,7 +34,7 @@ def rasterize(pdf: Path, dpi: int) -> list[Image.Image]:
 
 def degrade(pdf: Path, out: Path, dpi: int = 150, rotation: float = 0.7, quality: int = 60,
             paper: int = 215) -> Path:
-    rl_config.useA85 = 0  # embed the JPEG bytes as-is (ASCII85 would add 25%)
+    rl_config.useA85 = 0  # embed the JPEG bytes as-is (also set package-wide in synth/__init__)
     c = canvas.Canvas(str(out), invariant=1)
     td = tempfile.TemporaryDirectory()
     for i, im in enumerate(rasterize(pdf, dpi)):

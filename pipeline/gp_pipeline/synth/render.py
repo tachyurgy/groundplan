@@ -10,6 +10,8 @@ from __future__ import annotations
 from datetime import date
 from decimal import Decimal
 
+from reportlab.pdfbase.pdfmetrics import stringWidth
+
 from gp_pipeline.finance import year_totals
 from gp_pipeline.synth.canvas import GoldField, Sheet, money, money_cents
 from gp_pipeline.synth.household import (
@@ -427,8 +429,10 @@ def render_form_4562(h: Household, p: Property, year: int, path: str) -> dict:
     s.t(250, y, "Business or activity to which this form relates", "Helvetica", 6)
     s.t(500, y, "Identifying number", "Helvetica", 6)
     s.t(36, y + 10, _names(h), "Courier-Bold", 7.6)
-    s.val(250, y + 10, f"RENTAL - {addr}", "form_4562.activity", addr, "text", prop=p.key, address=addr,
-          align="left", size=7.6)
+    act = f"RENTAL - {addr}"
+    act_size = min(7.6, 7.6 * 236.0 / stringWidth(act, "Courier-Bold", 7.6))  # shrink to fit the box (ends < x=496)
+    s.val(250, y + 10, act, "form_4562.activity", addr, "text", prop=p.key, address=addr,
+          align="left", size=round(act_size, 2))
     s.t(500, y + 10, h.ssn_masked, "Courier-Bold", 7.6)
     s.hline(36, 584, y + 14)
     s.bar(y + 26, "Part I", "Election To Expense Certain Property Under Section 179")
@@ -716,7 +720,8 @@ def render_mortgage_statement(h: Household, p: Property, loan: Loan, year: int, 
     s = Sheet(path, "mortgage_statement", year, title=f"{loan.lender} statement")
     addr = loan.statement_address
     pk = p.key
-    s.t(40, 50, loan.lender, "Helvetica-Bold", 13)
+    s.val(40, 50, loan.lender, "mortgage.lender", loan.lender, "text", prop=pk, address=addr, entity="loan",
+          font="Helvetica-Bold", size=13, align="left")
     s.t(40, 62, "Customer Service: 1-800-555-0142   Mon-Fri 8am-8pm PT", "Helvetica", 7)
     s.t(40, 71, "P.O. Box 4410, Sacramento, CA 95812", "Helvetica", 7)
     heloc = loan.loan_type == "heloc"
@@ -937,6 +942,9 @@ def render_closing_statement(h: Household, p: Property, path: str) -> dict:
            "true and accurate statement of all receipts and disbursements made on my account or by me in this "
            "transaction and further certify that I have received a copy of the ALTA Settlement Statement.", 530,
            size=7, leading=8.6)
+    s.fields.append(GoldField(field="closing.land_allocation_present", value=False, unit="bool", page=1,
+                              bbox=[0, 0, 0, 0], property_key=pk, entity="property", address_printed=addr,
+                              text="(absent)"))
     s.t(40, yy + 40, "Buyer signature ______________________________", "Helvetica", 7.4)
     s.t(330, yy + 40, "Settlement Agent ______________________________", "Helvetica", 7.4)
     return s.save()
