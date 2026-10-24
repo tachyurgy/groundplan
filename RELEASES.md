@@ -5,7 +5,12 @@
   `pipeline/gp_pipeline/synth/household.py` (new addresses, purchase prices, loans, values, years). Go port: load the
   same JSON. Open findings at seed time: 4 (STR, Elm 2024 depreciation outlier, Oak missing from 2025, Tahoe line 12
   vs lender interest), none blocking; the household is not blocked until the 2025 Schedule E is uploaded.
-- **What deployed:** gp-python-api + gp-pipeline rebuilt (see below for verification).
+- **What deployed:** gp-python-api + gp-pipeline rebuilt from 0587cc2 (same hosts, caps, routes).
+- **How:** same raw pattern as below (tar -> scp -> flock docker build on Box B -> docker run -> kamal-proxy deploy).
+- **Verified:** live, fresh workspaces: `2025_schedule_e.pdf` and `.scan.pdf` each -> `import {properties_created: 0,
+  properties_updated: 3, conflicts_raised: 1}`, touched ids all pre-existing, Maple cash flow blocked -> resolve 200 ->
+  confirmed. `scripts/parity.py http://localhost:8000 https://gp-python-api.levelbrook.com` 182/182. Backend 117 tests,
+  pipeline 14, ruff clean, `make fixtures` no diff.
 - **Changed:** upload/import raises a blocking conflict instead of overwriting when a document disagrees with a stored
   rent-roll/expense value; never renames an existing property; upload response gains `import` counts. Synth: Elm IO
   period now ends 2027-06-30 with the ARM reset. `web/public/samples/` holds 6 sample PDFs + index.json.
