@@ -59,6 +59,6 @@ func TestStatesTableIsTheFixture(t *testing.T) {
 		t.Fatal(err)
 	}
 	if !bytes.Equal(raw, statetax.StatesJSON) {
-		t.Fatal("engine/statetax/states.json differs from fixtures/engine/states.json: copy it again (make sync-states)")
+		t.Fatal("engine/statetax/states.json differs from fixtures/engine/states.json: copy it again (make -C engine-go sync)")
 	}
 }

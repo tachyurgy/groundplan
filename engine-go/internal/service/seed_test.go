@@ -13,7 +13,7 @@ func TestSeedFileIsTheFixture(t *testing.T) {
 		t.Skip("fixture not present:", err)
 	}
 	if !bytes.Equal(raw, SeedJSON) {
-		t.Fatal("internal/service/seeddata/okafor-lindqvist.json differs from fixtures/seed: copy it again")
+		t.Fatal("internal/service/seeddata/okafor-lindqvist.json differs from fixtures/seed: copy it again (make -C engine-go sync)")
 	}
 	if _, err := loadSeed(); err != nil {
 		t.Fatal(err)

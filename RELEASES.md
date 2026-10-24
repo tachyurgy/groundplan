@@ -1,5 +1,19 @@
 # Groundplan releases
 
+## 2026-10-23 — Go twin API (gp-go-api) on Box B
+- **What deployed:** `https://gp-go-api.levelbrook.com` (container `gp-go-api`, static Go binary on distroless, 96 MB cap,
+  ~8 MB resident). Postgres db `groundplan_go` on `lb-postgres`. Uploads go to the internal `gp-pipeline`. Binary git sha `4ea1089`.
+- **Changed:** `engine-go/`: the full engine port (63/63 golden fixtures byte-equal), every `/api/v1` path of
+  `backend/openapi.json`, `/engine/analyze` + `/engine/strategies` on the wire format, workspaces + limits + sweep,
+  embedded Alembic SQL with a revision guard, seed from `fixtures/seed/okafor-lindqvist.json`, fpdf report.
+- **How:** `engine-go/deploy.sh`: cross-compile linux/amd64 on the Mac, scp, `flock /root/groundplan/.build.lock docker build`
+  on the box, `docker run --network kamal --memory 96m --env-file /root/groundplan/go-api.env`, `kamal-proxy deploy gp-go-api
+  --tls --health-check-path /health`. DNS A record DNS-only -> 5.78.227.227.
+- **Verified:** from outside: `/api/v1/meta` (backend go, go1.26.5, postgres 17), no header -> 400 problem+json,
+  report.pdf `application/pdf`, text + scan Schedule E uploads (61 fields each), `scripts/parity.py` live Python vs live
+  Go 182/182. Pinned to a JSON export of the legacy seed (`/root/groundplan/go-seed.json`) because the live Python API
+  still runs it; remove the file and redeploy once gp-python-api ships the JSON seed.
+
 ## 2026-10-23 — Python twin API + internal document pipeline on Box B
 - **What deployed:** `https://gp-python-api.levelbrook.com` (container `gp-python-api`, FastAPI, 256 MB cap) and the
   internal `gp-pipeline` service (`http://gp-pipeline:8090` on the docker network, tesseract + poppler, 384 MB cap, no
