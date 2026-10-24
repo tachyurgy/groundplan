@@ -43,7 +43,6 @@ def pipeline_url():
 @pytest.fixture(scope="module")
 def pipeline_service():
     import uvicorn
-
     from gp_pipeline.service import app
 
     with socket.socket() as sk:

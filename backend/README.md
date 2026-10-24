@@ -143,11 +143,14 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
   year, horizon`. `/strategies`: `appreciation_rate, rent_growth, expense_growth, reinvest_rate, arm_index,
   replacement_value_cents, replacement_debt_cents, cash_taken_cents, dst, load_rate, dst_yield, replacement_state,
   horizon`.
-* Uploads: the file is read into memory, hashed, passed to `gp_pipeline` and dropped; only sha256, the extracted
-  fields and the findings persist (`bytes_retained` is always false). `gp_pipeline` is imported lazily. If it isn't
-  installed, or exposes no `process_document(data, filename, context)`, the upload returns **501** with the sha256.
-  In production this becomes an SQS-fed worker (API puts bytes on an encrypted in-memory queue item, worker
-  extracts and writes fields, the client polls the document status); the synchronous path is for the demo.
+* Uploads: the file is read into memory (15 MB cap), hashed, handed to the pipeline and dropped; only sha256, the
+  extracted fields and the findings persist (`bytes_retained` is always false). Two modes
+  (`services/pipeline_adapter.py`): `GP_PIPELINE_URL` set -> multipart POST to the internal `gp-pipeline` service's
+  `/extract` (production); unset -> `gp_pipeline.api.process_document` in-process (gp_pipeline is a uv path
+  dependency, so local dev just works). The call runs in a worker thread (OCR takes seconds). The single-document
+  `reconciled` payload is upserted with the import-reconciled logic. Pipeline unreachable -> 503, unreadable or
+  non-PDF -> 422. Tests upload a text-layer PDF and a `.scan.pdf` (real tesseract) in both modes
+  (`tests/test_upload.py`). In a larger system this becomes an SQS-fed worker (client polls document status).
 * `import-reconciled` takes Agent B's `ReconciledHousehold` JSON and upserts it idempotently: properties by
   normalized address key, loans by lien position, years by tax year, documents by sha256, findings by stable key.
   A re-import never overwrites a finding the advisor already resolved or dismissed.
@@ -172,7 +175,6 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
 
 ## What is stubbed
 
-* `GP_ENGINE=go` proxy to `engine-go` (setting exists; the Go service is Agent D's).
 * Alerts are computed on the fly (`/alerts`), not persisted or scheduled. The `alerts` table exists.
 * `LLMNarrative` and the pipeline's `LLMExtractor` are wired but off; no test or default path calls a paid API.
 * Auth: a single dev advisor via header. Production would put Cognito/OIDC in front and derive `advisor_id`

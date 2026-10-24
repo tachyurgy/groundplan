@@ -140,10 +140,17 @@ def test_crud_property_loan_year_scenario(client):
     assert client.get(f"{API}/properties/{p['id']}").status_code == 404
 
 
-def test_upload_without_pipeline_is_501_and_nothing_stored(client):
+def test_upload_without_pipeline_is_503_and_nothing_stored(client, monkeypatch):
+    from groundplan.api.routers import documents
+    from groundplan.services.pipeline_adapter import PipelineUnavailable
+
+    def unavailable():
+        raise PipelineUnavailable("no pipeline in this test")
+
+    monkeypatch.setattr(documents, "load_processor", unavailable)
     hid = _hid(client)
     r = client.post(f"{API}/households/{hid}/documents", files={"file": ("sched_e.pdf", b"%PDF-1.7 fake", "application/pdf")})
-    assert r.status_code == 501
+    assert r.status_code == 503
     body = r.json()
     assert body["sha256"] == hashlib.sha256(b"%PDF-1.7 fake").hexdigest()
     assert body["bytes_retained"] is False
@@ -160,8 +167,8 @@ def test_import_reconciled_idempotent(client):
                         "city": "Sacramento", "state": "CA", "zip": "95816", "property_type": "multifamily", "units": 2,
                         "rent_rolls": [{"tax_year": 2025, "gross_rent_cents": 5_160_000}],
                         "expense_years": [{"tax_year": 2025, "taxes_cents": 393_000, "depreciation_cents": 860_400}]},
-                       {"key": "9 new rd davis ca 95616", "nickname": "Davis SFR", "address_line1": "9 New Rd", "city": "Davis",
-                        "state": "CA", "zip": "95616", "property_type": "sfr", "purchase_date": "2021-04-01",
+                       {"key": "9 new rd woodland ca 95695", "nickname": "Woodland SFR", "address_line1": "9 New Rd", "city": "Woodland",
+                        "state": "CA", "zip": "95695", "property_type": "sfr", "purchase_date": "2021-04-01",
                         "purchase_price_cents": 55_000_000, "depreciable_basis_cents": 38_500_000, "current_value_cents": 60_000_000,
                         "loans": [{"key": "l1", "lender": "Chase", "loan_type": "fixed", "balance_cents": 40_000_000,
                                    "balance_as_of": "2025-12-31", "rate": 0.031, "maturity_date": "2051-05-01", "lien_position": 1}]}],
@@ -172,8 +179,8 @@ def test_import_reconciled_idempotent(client):
                               "property_key": "1420 maple st sacramento ca 95816", "field": "schedule_e.line3.rents",
                               "value": 5_160_000, "unit": "cents", "page": 1, "bbox": [400, 500, 480, 512], "confidence": 0.98,
                               "extractor": "rules", "raw_text": "51,600"}],
-        "findings": [{"key": "missing:davis", "kind": "missing", "field": "form_1098", "severity": "info", "message": "no 1098",
-                      "property_key": "9 new rd davis ca 95616", "candidates": [{"source": "x", "value": None,
+        "findings": [{"key": "missing:woodland", "kind": "missing", "field": "form_1098", "severity": "info", "message": "no 1098",
+                      "property_key": "9 new rd woodland ca 95695", "candidates": [{"source": "x", "value": None,
                                                                                  "document_key": "2025_schedule_e.pdf", "page": 1}]}],
     }
     r1 = client.post(f"{API}/households/{hid}/import-reconciled", json=payload)
@@ -181,9 +188,9 @@ def test_import_reconciled_idempotent(client):
     assert r1.json()["stats"]["properties_created"] == 1
     r2 = client.post(f"{API}/households/{hid}/import-reconciled", json=payload).json()
     assert r2["stats"]["properties_created"] == 0 and r2["stats"]["findings_created"] == 0
-    assert len([p for p in r2["properties"] if p["nickname"] == "Davis SFR"]) == 1
-    davis = next(p for p in r2["properties"] if p["nickname"] == "Davis SFR")
-    assert abs(davis["land_pct"] - 0.3) < 1e-6
+    assert len([p for p in r2["properties"] if p["nickname"] == "Woodland SFR"]) == 1
+    wl = next(p for p in r2["properties"] if p["nickname"] == "Woodland SFR")
+    assert abs(wl["land_pct"] - 0.3) < 1e-6
     docs = client.get(f"{API}/households/{hid}/documents").json()
     assert len(docs) == 1 and docs[0]["bytes_retained"] is False
     # document provenance flows into the Figure source
