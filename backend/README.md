@@ -181,7 +181,7 @@ Tests prove an LLM that invents `$9,999,999` gets replaced.
 ## Known limitations
 
 * State tax ignores state deductions and exemptions and treats gains as ordinary income except AZ's 25% exclusion.
-  WI's 30% exclusion and the MT/ND/SC partial exclusions are noted, not applied. 26 states plus no-tax states are
+  WI's 30% exclusion and the MT/ND/SC partial exclusions are noted, not applied. 22 taxing states plus 9 no-tax states are
   in the table; the rest raise an `unsupported state` Finding.
 * Hold/sell/1031 cash flows are pre-income-tax; only disposition taxes are modeled. The 1031 replacement
   uses the relinquished property's cap rate and a 30-yr fixed (DST: interest-only) loan at the weighted old rate.
