@@ -1,13 +1,6 @@
 import type { MatrixMeasure, MatrixVerdict, StrategyPath } from '../api/types';
+import { MEASURE_LABEL } from '../lib/matrix';
 
-export const MEASURE_LABEL: Record<MatrixMeasure, string> = {
-  terminal_wealth: 'Terminal after-tax wealth',
-  cumulative_cash_flow: 'Cumulative cash flow',
-  tax_paid_now: 'Tax paid now',
-  liquidity: 'Liquidity',
-  management_burden: 'Management burden',
-  concentration: 'Concentration',
-};
 
 const VERDICT_STYLE: Record<MatrixVerdict, string> = {
   leads: 'bg-ink-950 text-white',

@@ -3,7 +3,8 @@ import { Area, AreaChart, Bar, CartesianGrid, ComposedChart, Legend, Line, Respo
 import { useSimulate } from '../api/hooks';
 import type { SimulationEvent, SimulationEventType, SimulationProperty, SimulationRequest } from '../api/types';
 import { AssumptionsPanel, type AssumptionField, type AssumptionValues } from '../components/AssumptionsPanel';
-import { ChartTooltip, SERIES, axisProps, centsTick, gridProps } from '../components/charts';
+import { ChartTooltip } from '../components/charts';
+import { SERIES, axisProps, centsTick, gridProps } from '../lib/chartTheme';
 import { Card, ErrorBox, PageHeader } from '../components/ui';
 import { formatCents, parseDollarsToCents } from '../lib/money';
 import { useDebounced } from '../lib/useDebounced';
@@ -11,7 +12,7 @@ import { useDebounced } from '../lib/useDebounced';
 const $ = (d: number) => Math.round(d * 100);
 
 /** Seeded with the Okafor-Lindqvist portfolio (values, debt, NOI before debt service). */
-export const SEED_PROPERTIES: SimulationProperty[] = [
+const SEED_PROPERTIES: SimulationProperty[] = [
   { nickname: 'Maple duplex', property_type: 'multifamily', current_value_cents: $(620_000), debt_cents: $(146_212), noi_cents: $(25_960), purchase_price_cents: $(285_000), purchase_date: '2012-05-15', land_pct: 0.6 },
   { nickname: 'Tahoe cabin', property_type: 'vacation_str', current_value_cents: $(725_000), debt_cents: $(359_410), noi_cents: $(3_020), purchase_price_cents: $(540_000), purchase_date: '2019-08-01', land_pct: 0.7 },
   { nickname: 'Elm SFR', property_type: 'sfr', current_value_cents: $(640_000), debt_cents: $(457_500), noi_cents: $(25_826), purchase_price_cents: $(610_000), purchase_date: '2024-06-14', land_pct: 0.7 },

@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useEval } from '../api/hooks';
-import { ChartTooltip, SERIES, axisProps, gridProps } from '../components/charts';
+import { ChartTooltip } from '../components/charts';
+import { SERIES, axisProps, gridProps } from '../lib/chartTheme';
 import { Card, Loading, PageHeader } from '../components/ui';
 import { DOC_KIND_LABEL, formatDateTime } from '../lib/format';
 

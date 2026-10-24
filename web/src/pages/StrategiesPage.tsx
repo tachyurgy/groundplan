@@ -7,14 +7,15 @@ import { AssumptionsPanel, type AssumptionField, type AssumptionValues } from '.
 import { FigureRow } from '../components/FigureValue';
 import { StrategyMatrix } from '../components/Matrix';
 import { StatusChip } from '../components/StatusChip';
-import { TraceScope } from '../components/trace';
-import { ChartTooltip, SERIES, axisProps, centsTick, gridProps } from '../components/charts';
+import { TraceScope } from '../lib/traceContext';
+import { ChartTooltip } from '../components/charts';
+import { SERIES, axisProps, centsTick, gridProps } from '../lib/chartTheme';
 import { Card, ErrorBox, Loading, PageHeader } from '../components/ui';
 import { formatCents } from '../lib/money';
 import { rollupStatus } from '../lib/status';
 import { useDebounced } from '../lib/useDebounced';
 
-export const STRATEGY_FIELDS: AssumptionField[] = [
+const STRATEGY_FIELDS: AssumptionField[] = [
   { key: 'appreciation_rate', label: 'Appreciation', kind: 'rate', min: -0.2, max: 0.3 },
   { key: 'rent_growth', label: 'Rent growth', kind: 'rate', min: -0.2, max: 0.3 },
   { key: 'expense_growth', label: 'Expense growth', kind: 'rate', min: -0.2, max: 0.3 },

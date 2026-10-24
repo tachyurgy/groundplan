@@ -5,7 +5,7 @@ import type { PropertyCard } from '../api/types';
 import { FigureValue } from '../components/FigureValue';
 import { Metric } from '../components/Metric';
 import { StatusChip } from '../components/StatusChip';
-import { TraceScope } from '../components/trace';
+import { TraceScope } from '../lib/traceContext';
 import { HouseholdNav } from '../components/Layout';
 import { Card, ErrorBox, Loading, PageHeader, SeverityTag } from '../components/ui';
 import { FILING_LABEL, PROPERTY_TYPE_LABEL, formatDate, formatDateTime, titleCase } from '../lib/format';

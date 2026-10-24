@@ -6,10 +6,11 @@ import type { FactSheet, FactSheetFormat } from '../api/types';
 import { HouseholdNav } from '../components/Layout';
 import { FigureValue } from '../components/FigureValue';
 import { StatusChip } from '../components/StatusChip';
-import { TraceScope } from '../components/trace';
+import { TraceScope } from '../lib/traceContext';
 import { Card, ErrorBox, Loading, PageHeader, SeverityTag, Tabs } from '../components/ui';
 import { FILING_LABEL, PROPERTY_TYPE_LABEL } from '../lib/format';
 import { formatCents, formatRate } from '../lib/money';
+import { factSheetCsv } from '../lib/factsheet';
 
 type Platform = 'emoney' | 'rightcapital' | 'mgp';
 const PLATFORMS: { id: Platform; label: string }[] = [
@@ -18,12 +19,6 @@ const PLATFORMS: { id: Platform; label: string }[] = [
   { id: 'mgp', label: 'MoneyGuidePro' },
 ];
 
-export function factSheetCsv(fs: FactSheet): string {
-  const esc = (s: string) => (/[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s);
-  const head = 'groundplan_key,platform_field,value_dollars,status,note';
-  const rows = fs.rows.map((r) => [r.groundplan_key, r.platform_field, r.value_cents === null ? '' : (r.value_cents / 100).toFixed(2), r.status, r.note ?? ''].map((x) => esc(String(x))).join(','));
-  return [head, ...rows].join('\n');
-}
 
 function download(name: string, text: string, type: string) {
   const url = URL.createObjectURL(new Blob([text], { type }));

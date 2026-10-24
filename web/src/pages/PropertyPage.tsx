@@ -7,8 +7,9 @@ import { AssumptionsPanel, type AssumptionField, type AssumptionValues } from '.
 import { FigureRow, FigureValue } from '../components/FigureValue';
 import { Metric } from '../components/Metric';
 import { StatusChip } from '../components/StatusChip';
-import { TraceScope } from '../components/trace';
-import { ChartTooltip, SERIES, axisProps, centsTick, gridProps } from '../components/charts';
+import { TraceScope } from '../lib/traceContext';
+import { ChartTooltip } from '../components/charts';
+import { SERIES, axisProps, centsTick, gridProps } from '../lib/chartTheme';
 import { Card, ErrorBox, Loading, PageHeader, SeverityTag, Tabs } from '../components/ui';
 import { LOAN_TYPE_LABEL, PROPERTY_TYPE_LABEL, formatDate } from '../lib/format';
 import { formatCents, formatRate, signClass } from '../lib/money';
@@ -24,7 +25,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'loans', label: 'Loans' },
 ];
 
-export const PROPERTY_FIELDS: AssumptionField[] = [
+const PROPERTY_FIELDS: AssumptionField[] = [
   { key: 'current_value_cents', label: 'Current value', kind: 'cents', min: 0 },
   { key: 'appreciation_rate', label: 'Appreciation', kind: 'rate', min: -0.2, max: 0.3 },
   { key: 'rent_growth_rate', label: 'Rent growth', kind: 'rate', min: -0.2, max: 0.3 },

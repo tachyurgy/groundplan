@@ -5,7 +5,7 @@ import { useFigure, useDocument } from '../api/hooks';
 import { formatCents, formatRate, signClass } from '../lib/money';
 import { SOURCE_LABEL } from '../lib/status';
 import { StatusChip } from './StatusChip';
-import { useTrace } from './trace';
+import { useTrace } from '../lib/traceContext';
 import { PdfPage } from './PdfPage';
 
 const SRC_CLASS: Record<string, string> = {

@@ -1,7 +1,7 @@
 import type { Figure } from '../api/types';
 import { formatCents, formatCentsCompact, signClass } from '../lib/money';
 import { StatusChip } from './StatusChip';
-import { useTrace, useTraceScope } from './trace';
+import { useTrace, useTraceScope } from '../lib/traceContext';
 
 interface Props {
   figure: Figure | null | undefined;
