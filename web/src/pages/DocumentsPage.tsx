@@ -3,7 +3,7 @@ import { getRouteApi } from '@tanstack/react-router';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { ApiError } from '../api/client';
 import { documentQuery, documentsQuery, findingsQuery, useDismissFinding, useResolveFinding, useUpload } from '../api/queries';
-import type { Document, ExtractedField, Finding, FindingCandidate } from '../api/types';
+import type { Document, ExtractedField, Finding, FindingCandidate, UploadResponse } from '../api/types';
 import { useMeasure } from '../charts/kit';
 import { HouseholdNav } from '../components/HouseholdNav';
 import { PdfPage } from '../components/PdfPage';
@@ -41,20 +41,25 @@ export function DocumentsPage() {
   return (
     <div>
       <PageHeader title="Documents and reconciliation">
-        Files are processed in memory and dropped: the server keeps only the SHA-256 and the extracted fields. Page images below come from the copy in this browser tab.
+        Files are processed in memory and dropped: the server keeps only the SHA-256 and the extracted fields. Page images below come from the copy in this
+        browser tab.
       </PageHeader>
       <HouseholdNav householdId={householdId} />
       <UploadZone householdId={householdId} onUploaded={(d) => select(d.id)} />
       <div className="mt-5 grid gap-5 lg:grid-cols-[280px_1fr]">
         <DocList docs={docs} selected={selected} onSelect={select} />
-        {selected ? <DocViewer documentId={selected} page={page} onPage={(p) => select(selected, p)} /> : <div className="card card-body text-sm text-ink-500">No documents yet. Upload a return or a loan statement to start.</div>}
+        {selected ? (
+          <DocViewer documentId={selected} page={page} onPage={(p) => select(selected, p)} />
+        ) : (
+          <div className="card card-body text-sm text-ink-500">No documents yet. Upload a return or a loan statement to start.</div>
+        )}
       </div>
       <ReconciliationQueue householdId={householdId} onOpenSource={(c) => c.document_id && select(c.document_id, c.page ?? 1)} />
     </div>
   );
 }
 
-type LogRow = { id: string; name: string; state: 'uploading' | 'done' | 'error'; started: number; msg?: string };
+type LogRow = { id: string; name: string; state: 'uploading' | 'done' | 'error'; started: number; msg?: string; result?: UploadResponse };
 
 /** Turn API failures into something an advisor can act on (413 too big, 503 reader down, 429 limits). */
 function uploadError(e: unknown): string {
@@ -123,7 +128,7 @@ function UploadZone({ householdId, onUploaded }: { householdId: string; onUpload
       try {
         const res = await upload.mutateAsync(file);
         fileStore.put(res.document.id, file); // keep the bytes in this tab only, for pdf.js
-        patch(id, { state: 'done', msg: `${res.extracted_fields.length} fields, ${res.findings.length} findings` });
+        patch(id, { state: 'done', msg: `${res.extracted_fields.length} fields read`, result: res });
         onUploaded(res.document);
       } catch (e) {
         patch(id, { state: 'error', msg: uploadError(e) });
@@ -162,11 +167,20 @@ function UploadZone({ householdId, onUploaded }: { householdId: string; onUpload
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="flex-1">
           <div className="text-sm font-semibold text-ink-950">Drop PDFs here</div>
-          <div className="text-xs leading-relaxed text-ink-500">Form 1040, Schedule E, Form 4562, Form 8582, mortgage statements, closing statements, appraisals. Text-layer or scanned, up to 15 MB each.</div>
+          <div className="text-xs leading-relaxed text-ink-500">
+            Form 1040, Schedule E, Form 4562, Form 8582, mortgage statements, closing statements, appraisals. Text-layer or scanned, up to 15 MB each.
+          </div>
         </div>
         <label className="btn cursor-pointer">
           Choose files
-          <input type="file" accept="application/pdf,.pdf" multiple className="sr-only" data-testid="file-input" onChange={(e) => e.target.files && void handle(e.target.files)} />
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            multiple
+            className="sr-only"
+            data-testid="file-input"
+            onChange={(e) => e.target.files && void handle(e.target.files)}
+          />
         </label>
       </div>
       {!!samples.data?.length && (
@@ -188,6 +202,10 @@ function UploadZone({ householdId, onUploaded }: { householdId: string; onUpload
           </button>
         </div>
       )}
+      {(() => {
+        const last = log.find((l) => l.state === 'done' && l.result);
+        return last?.result ? <UploadSummary r={last.result} /> : null;
+      })()}
       {log.length > 0 && (
         <ul className="mt-3 space-y-1.5 border-t border-ink-100 pt-3 text-xs" aria-live="polite" data-testid="upload-log">
           {log.slice(0, 6).map((l) => (
@@ -207,12 +225,65 @@ function UploadZone({ householdId, onUploaded }: { householdId: string; onUpload
                   <span className="block h-1 overflow-hidden rounded-full bg-ink-100" role="progressbar" aria-label={`Reading ${l.name}`}>
                     <span className="block h-full w-1/3 animate-[gp-indeterminate_1.2s_ease-in-out_infinite] rounded-full bg-brand-500" />
                   </span>
-                  <span className="mt-0.5 block text-[11px] text-ink-500">Text PDFs take about a second; scanned pages go through OCR and can take 10 seconds or more.</span>
+                  <span className="mt-0.5 block text-[11px] text-ink-500">
+                    Text PDFs take about a second; scanned pages go through OCR and can take 10 seconds or more.
+                  </span>
                 </span>
               )}
             </li>
           ))}
         </ul>
+      )}
+    </div>
+  );
+}
+
+function plural(n: number, one: string, many = `${one}s`) {
+  return `${n} ${n === 1 ? one : many}`;
+}
+
+/** What the upload changed, said plainly, with the way to the decision it created. */
+function UploadSummary({ r }: { r: UploadResponse }) {
+  const imp = r.import;
+  const conflicts = imp?.conflicts_raised ?? r.findings.filter((f) => f.status === 'open' && f.kind === 'conflict').length;
+  const blocking = r.findings.filter((f) => f.severity === 'block' && f.status === 'open').length;
+  const parts = [
+    imp
+      ? imp.properties_updated
+        ? `Updated ${plural(imp.properties_updated, 'property', 'properties')}`
+        : null
+      : r.properties_touched.length
+        ? `Touched ${plural(r.properties_touched.length, 'property', 'properties')}`
+        : null,
+    imp?.properties_created ? `added ${plural(imp.properties_created, 'property', 'properties')}` : null,
+    conflicts ? `${plural(conflicts, 'conflict')} ${conflicts === 1 ? 'needs' : 'need'} review` : 'no conflicts with what is on file',
+  ].filter(Boolean);
+  return (
+    <div
+      role="status"
+      data-testid="upload-summary"
+      className={`mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 rounded-md px-3 py-2.5 text-sm ${conflicts ? 'bg-est-100 text-ink-900' : 'bg-pos-100 text-ink-900'}`}
+    >
+      <span className="min-w-0 flex-1">
+        <strong className="font-semibold">{r.document.filename}:</strong> {parts.join(' · ')}.
+        {blocking > 0 && (
+          <span className="block text-xs text-ink-700">
+            Figures that depend on the disputed value are Blocked until you choose one. The engine never averages sources.
+          </span>
+        )}
+      </span>
+      {conflicts > 0 && (
+        <a
+          href="#queue"
+          className="btn btn-sm"
+          data-testid="review-conflicts"
+          onClick={(e) => {
+            e.preventDefault();
+            document.getElementById('queue')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }}
+        >
+          Review in the queue
+        </a>
       )}
     </div>
   );
@@ -247,7 +318,13 @@ function DocList({ docs, selected, onSelect }: { docs: Document[]; selected: str
           <div key={g}>
             <div className="sticky top-0 border-b border-ink-100 bg-surface-2 px-3 py-1.5 text-xs font-medium text-ink-500">{g}</div>
             {ds.map((d) => (
-              <button key={d.id} type="button" aria-current={selected === d.id} onClick={() => onSelect(d.id)} className={`block w-full cursor-pointer border-b border-ink-100 px-3 py-2 text-left ${selected === d.id ? 'bg-brand-50' : 'hover:bg-ink-50'}`}>
+              <button
+                key={d.id}
+                type="button"
+                aria-current={selected === d.id}
+                onClick={() => onSelect(d.id)}
+                className={`block w-full cursor-pointer border-b border-ink-100 px-3 py-2 text-left ${selected === d.id ? 'bg-brand-50' : 'hover:bg-ink-50'}`}
+              >
                 <div className="flex items-center justify-between gap-2">
                   <span className="text-sm font-medium text-ink-950">{DOC_KIND_LABEL[d.kind] ?? d.kind}</span>
                   <span className="text-[11px] text-ink-500">{d.status}</span>
@@ -393,12 +470,28 @@ const STATUS_OPTIONS = [
   { value: 'active', label: 'Still a rental (return omitted it)' },
 ];
 
-function FindingCard({ f, busy, onResolve, onDismiss, onOpenSource }: { f: Finding; busy: boolean; onResolve: (value: unknown, note: string) => void; onDismiss: (note: string) => void; onOpenSource: (c: FindingCandidate) => void }) {
+function FindingCard({
+  f,
+  busy,
+  onResolve,
+  onDismiss,
+  onOpenSource,
+}: {
+  f: Finding;
+  busy: boolean;
+  onResolve: (value: unknown, note: string) => void;
+  onDismiss: (note: string) => void;
+  onOpenSource: (c: FindingCandidate) => void;
+}) {
   const [note, setNote] = useState('');
   const isStatus = f.field === 'property.status' || f.kind === 'missing';
   const hasValues = f.candidates.some((c) => c.value !== null && c.value !== undefined);
   return (
-    <article className={`card border-l-4 ${f.severity === 'block' ? 'border-l-blk-600' : f.severity === 'warn' ? 'border-l-est-600' : 'border-l-ink-300'}`} data-testid="finding" data-severity={f.severity}>
+    <article
+      className={`card border-l-4 ${f.severity === 'block' ? 'border-l-blk-600' : f.severity === 'warn' ? 'border-l-est-600' : 'border-l-ink-300'}`}
+      data-testid="finding"
+      data-severity={f.severity}
+    >
       <div className="flex flex-wrap items-center gap-2 px-4 pt-3">
         <SeverityTag severity={f.severity} />
         <span className="text-xs font-medium text-ink-500">{titleCase(f.kind)}</span>
@@ -418,7 +511,13 @@ function FindingCard({ f, busy, onResolve, onDismiss, onOpenSource }: { f: Findi
                   </button>
                 )}
                 {!isStatus && c.value !== null && c.value !== undefined && (
-                  <button type="button" disabled={busy} className="btn btn-sm ml-auto" data-testid="use-value" onClick={() => onResolve(c.value, note || `Chose ${c.source}`)}>
+                  <button
+                    type="button"
+                    disabled={busy}
+                    className="btn btn-sm ml-auto"
+                    data-testid="use-value"
+                    onClick={() => onResolve(c.value, note || `Chose ${c.source}`)}
+                  >
                     Use this value
                   </button>
                 )}
@@ -430,7 +529,14 @@ function FindingCard({ f, busy, onResolve, onDismiss, onOpenSource }: { f: Findi
       <div className="flex flex-wrap items-center gap-2 border-t border-ink-100 px-4 py-2.5">
         {isStatus &&
           STATUS_OPTIONS.map((o) => (
-            <button key={o.value} type="button" disabled={busy} className="btn btn-sm" data-testid={`status-${o.value}`} onClick={() => onResolve(o.value, note || o.label)}>
+            <button
+              key={o.value}
+              type="button"
+              disabled={busy}
+              className="btn btn-sm"
+              data-testid={`status-${o.value}`}
+              onClick={() => onResolve(o.value, note || o.label)}
+            >
               {o.label}
             </button>
           ))}

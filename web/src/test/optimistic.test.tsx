@@ -19,7 +19,7 @@ describe('resolve finding: optimistic with rollback', () => {
   it('leaves the open queue immediately and stays resolved after the server agrees', async () => {
     const { qc, wrapper } = setup();
     const before = await qc.fetchQuery(findingsQuery(HH));
-    const target = before.find((f) => f.status === 'open' && f.severity === 'block')!;
+    const target = before.find((f) => f.status === 'open')!;
     const { result } = renderHook(() => useResolveFinding(), { wrapper });
     act(() => result.current.mutate({ id: target.id, householdId: HH, value: 4_800_000, note: 'leases' }));
     await waitFor(() => expect(qc.getQueryData<Finding[]>(qk.findings(HH))!.find((f) => f.id === target.id)!.status).toBe('resolved'));

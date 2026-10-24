@@ -549,6 +549,8 @@ export interface UploadResponse {
   extracted_fields: ExtractedField[];
   findings: Finding[];
   properties_touched: string[];
+  /** what the upload changed in the household (live APIs since the documents-driven seed) */
+  import?: { properties_created: number; properties_updated: number; conflicts_raised: number };
 }
 
 export interface DocumentDetail {

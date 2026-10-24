@@ -581,8 +581,12 @@ export const extractedFields: ExtractedField[] = [
   ef('doc_lease_maple_a', 'lease.monthly_rent', $(2_000), 'cents', 1, [360, 520, 470, 534], '1420 maple st sacramento ca 95814', 0.93, 'rules', 'Two Thousand Dollars ($2,000.00) per month'),
 ];
 
-export const findings: Finding[] = [
-  {
+/**
+ * Raised when a 2025 Schedule E is uploaded (the demo moment, same as the live APIs): the uploaded
+ * return disagrees with the rent roll on file, so Maple duplex's cash flow goes Blocked until resolved.
+ */
+export const rentConflictOnUpload: Finding =
+{
     id: 'fnd_maple_rent_conflict',
     household_id: household.id,
     property_id: 'p1_maple',
@@ -590,23 +594,25 @@ export const findings: Finding[] = [
     field: 'rent_roll.gross_rent',
     severity: 'block',
     message:
-      'Maple duplex 2025 gross rents disagree: Schedule E line 3 reports $46,800 but the two leases on file total $48,000/yr ($2,000 + $2,000 per month). The engine will not average them; cash-flow figures that depend on gross rent stay blocked until one value is chosen.',
+      'Maple duplex 2025 rents disagree: the uploaded Schedule E line 3 shows $46,800, the rent roll on file says $48,000 (leases at $2,000 + $2,000 a month). The engine will not average them; cash-flow figures that depend on gross rent stay blocked until one value is chosen.',
     candidates: [
       { source: '2025 Schedule E, col. A, line 3', value: $(46_800), document_id: 'doc_se_2025', page: 1 },
       { source: 'Leases (unit A + unit B), annualized', value: $(48_000), document_id: 'doc_lease_maple_a', page: 1 },
     ],
     status: 'open',
     resolution: null,
-  },
+  };
+
+export const findings: Finding[] = [
   {
     id: 'fnd_oak_missing_2025',
     household_id: household.id,
     property_id: 'p4_oak',
     kind: 'missing',
     field: 'property.status',
-    severity: 'block',
+    severity: 'warn',
     message:
-      'Oak condo appears on the 2023 and 2024 Schedule E (col. C, then page 2 col. A) but is absent from the 2025 return. Sold? Converted to personal use? A HELOC statement dated Nov 2025 is still arriving, so the lien is live. All Oak condo figures are blocked until the status is set.',
+      'Oak condo appears on the 2023 and 2024 Schedule E (col. C, then page 2 col. A) but is absent from the 2025 return. Sold? Converted to personal use? A HELOC statement dated Nov 2025 is still arriving, so the lien is live. Oak condo figures assume it is still a rental until the status is set.',
     candidates: [
       { source: '2024 Schedule E page 2, col. A', value: 'present (rents $28,800)', document_id: 'doc_se_2024', page: 2 },
       { source: '2025 Schedule E', value: 'absent', document_id: 'doc_se_2025', page: 1 },

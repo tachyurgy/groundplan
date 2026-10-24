@@ -12,6 +12,7 @@
 import { keepPreviousData, queryOptions, useMutation, useQueryClient, type QueryClient } from '@tanstack/react-query';
 import { api, qs } from './client';
 import { AnalysisSchema, DashboardSchema, Figure as FigureSchema, MetaSchema, StrategiesSchema, WorkspaceSchema, type FigureT } from './schemas';
+import type { DismissIn, PropertyPatch, ResolveIn, ScenarioIn } from './contract';
 import type { Alert, DocumentDetail, Document, EvalSummary, FactSheet, FactSheetFormat, Finding, HouseholdSummary, SimulationRequest, SimulationResult, UploadResponse } from './types';
 
 export type Params = Record<string, string | number | boolean | null | undefined>;
@@ -98,7 +99,10 @@ type FindingAction = { id: string; householdId: string; value?: unknown; note: s
 function useFindingMutation(kind: 'resolve' | 'dismiss') {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, value, note }: FindingAction) => api<Finding>('POST', `/findings/${id}/${kind}`, { body: kind === 'resolve' ? { value, note, who: 'advisor' } : { note, who: 'advisor' } }),
+    mutationFn: ({ id, value, note }: FindingAction) => {
+      const body: ResolveIn | DismissIn = kind === 'resolve' ? ({ value, note, who: 'advisor' } satisfies ResolveIn) : ({ note, who: 'advisor' } satisfies DismissIn);
+      return api<Finding>('POST', `/findings/${id}/${kind}`, { body: body as Record<string, unknown> });
+    },
     // Optimistic: the card leaves the open queue immediately; on error it comes back.
     onMutate: async ({ id, householdId, value, note }) => {
       await qc.cancelQueries({ queryKey: qk.findings(householdId) });
@@ -131,14 +135,14 @@ export function useUpload(householdId: string) {
 
 export function useSaveScenario(propertyId: string) {
   return useMutation({
-    mutationFn: (body: { name: string; horizon_years: number; assumptions: Record<string, unknown> }) => api<{ id: string; name: string }>('POST', `/properties/${propertyId}/scenarios`, { body }),
+    mutationFn: (body: ScenarioIn) => api<{ id: string; name: string }>('POST', `/properties/${propertyId}/scenarios`, { body: body as Record<string, unknown> }),
   });
 }
 
 export function usePatchProperty(propertyId: string, householdId: string) {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (body: Record<string, unknown>) => api('PATCH', `/properties/${propertyId}`, { body }),
+    mutationFn: (body: PropertyPatch) => api('PATCH', `/properties/${propertyId}`, { body: body as Record<string, unknown> }),
     onSuccess: () => Promise.all([qc.invalidateQueries({ queryKey: qk.property(propertyId) }), invalidateDerived(qc, householdId)]),
   });
 }

@@ -9,11 +9,10 @@ describe('mock fixture service', () => {
     const d = (await mockFetch('GET', '/api/v1/households/hh_okafor_lindqvist/dashboard')) as Dashboard;
     expect(d.properties).toHaveLength(4);
     for (const c of d.properties) expect(Number.isInteger(c.net_cash_flow.value_cents)).toBe(true);
-    const oak = d.properties.find((c) => c.property.nickname === 'Oak condo')!;
-    expect(oak.status_chips.every((s) => s === 'blocked')).toBe(true); // missing-from-2025 block finding
+    // the seeded household has open findings but nothing blocking (same as the live APIs)
+    expect(d.properties.flatMap((c) => c.status_chips)).not.toContain('blocked');
     const maple = d.properties.find((c) => c.property.nickname === 'Maple duplex')!;
     expect(maple.value.status).toBe('confirmed'); // appraisal-backed
-    expect(maple.net_cash_flow.status).toBe('blocked'); // rent conflict
     expect(d.narrative.provider).toBe('template');
   });
 
@@ -28,9 +27,16 @@ describe('mock fixture service', () => {
     }
   });
 
-  it('resolving the rent conflict unblocks Maple cash flow', async () => {
+  it('uploading the 2025 Schedule E raises the rent conflict; resolving it unblocks Maple cash flow', async () => {
     resetDb();
-    await mockFetch('POST', '/api/v1/findings/fnd_maple_rent_conflict/resolve', { value: 4_800_000, note: 'leases' });
+    const fd = new FormData();
+    fd.append('file', new File(['%PDF-1.4 /Type /Page '], '2025_schedule_e.pdf', { type: 'application/pdf' }));
+    const up = (await mockFetch('POST', '/api/v1/households/hh_okafor_lindqvist/documents', fd)) as { findings: { id: string; severity: string }[]; import: { conflicts_raised: number; properties_updated: number } };
+    expect(up.import.conflicts_raised).toBe(1);
+    expect(up.findings[0].severity).toBe('block');
+    const blocked = (await mockFetch('GET', '/api/v1/properties/p1_maple/analysis')) as PropertyAnalysis;
+    expect(blocked.cash_flow.net_cash_flow.status).toBe('blocked');
+    await mockFetch('POST', `/api/v1/findings/${up.findings[0].id}/resolve`, { value: 4_800_000, note: 'leases' });
     const a = (await mockFetch('GET', '/api/v1/properties/p1_maple/analysis')) as PropertyAnalysis;
     expect(a.cash_flow.net_cash_flow.status).not.toBe('blocked');
     expect(a.cash_flow.gross_rent.value_cents).toBe(4_800_000);
