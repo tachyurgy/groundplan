@@ -1,9 +1,12 @@
-import { expect, openDemoHousehold, settle, test } from './helpers';
+import { expect, meta, openDemoHousehold, settle, test, useWorkspace } from './helpers';
 
-test('two browsers get separate workspaces; reset restores the demo data', async ({ browser, errors }) => {
+test('two browsers get separate workspaces; reset restores the demo data', async ({ browser, errors }, info) => {
   void errors;
+  test.skip(!['desktop', 'iphone'].includes(meta(info).viewport), 'isolation is not a layout concern; two viewports are enough');
   const a = await (await browser.newContext()).newPage();
   const b = await (await browser.newContext()).newPage();
+  await useWorkspace(a, info, `iso-a-${meta(info).viewport}`);
+  await useWorkspace(b, info, `iso-b-${meta(info).viewport}`);
   const hhA = await openDemoHousehold(a);
   await openDemoHousehold(b);
   const idA = await a.evaluate(() => localStorage.getItem('gp.workspace'));

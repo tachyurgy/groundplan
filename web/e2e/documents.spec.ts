@@ -1,4 +1,4 @@
-import { expect, meta, openDemoHousehold, settle, shot, test } from './helpers';
+import { expect, meta, openDemoHousehold, settle, shot, test, useWorkspace } from './helpers';
 import type { Page } from '@playwright/test';
 
 const mapleCashFlow = (page: Page) => page.getByTestId('property-card').filter({ hasText: 'Maple duplex' }).locator('[data-testid=figure][data-key="cash_flow.net_annual"]');
@@ -9,11 +9,13 @@ const mapleCashFlow = (page: Page) => page.getByTestId('property-card').filter({
  */
 test('upload the 2025 Schedule E: summary, page image, Maple blocked on a rent conflict, resolve, unblocked', async ({ page, errors }, info) => {
   void errors;
+  await useWorkspace(page, info, `docs-${meta(info).viewport}`); // this test changes data: its own, freshly reset workspace
   const hh = await openDemoHousehold(page);
   await expect(mapleCashFlow(page)).toBeVisible();
   await expect(mapleCashFlow(page)).not.toHaveAttribute('data-status', 'blocked');
 
   await page.getByRole('link', { name: 'Documents & reconciliation' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Documents and reconciliation');
   await settle(page);
   await expect(page).toHaveURL(new RegExp(`/households/${hh}/documents`));
   // the sample picker runs a shipped PDF through the same upload path as drag and drop
@@ -32,11 +34,13 @@ test('upload the 2025 Schedule E: summary, page image, Maple blocked on a rent c
 
   // the dashboard now shows Maple's cash flow Blocked
   await page.getByRole('link', { name: 'Portfolio', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Okafor-Lindqvist');
   await settle(page);
   await expect(mapleCashFlow(page)).toHaveAttribute('data-status', 'blocked');
 
   // resolve it: pick the value from the uploaded return
   await page.getByRole('link', { name: 'Documents & reconciliation' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Documents and reconciliation');
   await settle(page);
   const card = page.getByTestId('finding').filter({ hasText: /Maple duplex 2025 rents disagree/ });
   await expect(card).toHaveAttribute('data-severity', 'block');
@@ -46,6 +50,7 @@ test('upload the 2025 Schedule E: summary, page image, Maple blocked on a rent c
   await expect(page.getByTestId('closed-finding').filter({ hasText: /rent/ }).first()).toBeVisible();
 
   await page.getByRole('link', { name: 'Portfolio', exact: true }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toContainText('Okafor-Lindqvist');
   await settle(page);
   await expect(mapleCashFlow(page)).not.toHaveAttribute('data-status', 'blocked');
   if (meta(info).target !== 'mock') await expect(mapleCashFlow(page)).toHaveAttribute('data-status', 'confirmed');
@@ -55,6 +60,7 @@ test('a scanned upload shows progress while OCR runs, then the summary', async (
   void errors;
   test.skip(meta(info).target === 'mock', 'the mock reader is instant; OCR timing only exists on the live stacks');
   test.skip(meta(info).viewport !== 'desktop' && meta(info).viewport !== 'iphone', 'OCR is slow; two viewports are enough');
+  await useWorkspace(page, info, `scan-${meta(info).viewport}`);
   const hh = await openDemoHousehold(page);
   await page.goto(`/households/${hh}/documents`);
   await settle(page);

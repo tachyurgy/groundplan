@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { dismissWelcome, settle } from './helpers';
+import { dismissWelcome, poolWorkspace, settle } from './helpers';
 
 const PY = process.env.E2E_PYTHON_URL!;
 const GO = process.env.E2E_GO_URL!;
@@ -10,7 +10,11 @@ async function headline(page: import('@playwright/test').Page) {
   return Object.fromEntries(await Promise.all([0, 1, 2, 3, 4].map(async (i) => [await kpis.nth(i).locator('.label').innerText(), await kpis.nth(i).getByTestId('figure').innerText()])));
 }
 
-test('the same property shows identical headline figures on the Python and Go stacks (via the twin link)', async ({ page }) => {
+test('the same property shows identical headline figures on the Python and Go stacks (via the twin link)', async ({ page }, info) => {
+  // one pooled workspace id, freshly reset on both stacks (separate databases, same seed)
+  const ws = poolWorkspace(info, 'parity');
+  await page.addInitScript((id) => localStorage.setItem('gp.workspace', id), ws);
+  for (const base of [PY, GO]) expect((await page.request.post(`${base}/api/v1/workspace/reset`, { headers: { 'X-Workspace-Id': ws } })).status()).toBe(200);
   await page.goto(`${PY}/`);
   await settle(page);
   await dismissWelcome(page);
