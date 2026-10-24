@@ -153,7 +153,7 @@ def persist_documents(s: Session, h: m.Household, docs: list[dict], fields: list
             d = m.Document(advisor_id=aid, household_id=h.id, filename=do.get("filename") or do.get("key"), sha256=sha)
             s.add(d)
             h.documents.append(d)
-            stats["documents"] += 1
+            stats["documents"] = stats.get("documents", 0) + 1
         _set(d, kind=do.get("kind"), tax_year=do.get("tax_year"), page_count=do.get("page_count"),
              status=do.get("status") or "reconciled")
         d.bytes_retained = False
@@ -176,7 +176,7 @@ def persist_documents(s: Session, h: m.Household, docs: list[dict], fields: list
                 property_key=fo.get("property_key"), field=fo["field"], value=fo.get("value"), unit=fo.get("unit") or "text",
                 page=fo.get("page") or 1, bbox=fo.get("bbox") or [0, 0, 0, 0], confidence=fo.get("confidence") or 0,
                 extractor=fo.get("extractor") or "rules", raw_text=fo.get("raw_text") or ""))
-            stats["extracted_fields"] += 1
+            stats["extracted_fields"] = stats.get("extracted_fields", 0) + 1
     return key_to_doc
 
 

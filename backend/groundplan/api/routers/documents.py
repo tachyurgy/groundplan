@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 
 from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import Response
 
 from groundplan.api.deps import Ctx, owned
@@ -13,7 +14,7 @@ from groundplan.db import models as m
 from groundplan.services import ingest
 from groundplan.services import portfolio as svc
 from groundplan.services import workspace as ws
-from groundplan.services.pipeline_adapter import PipelineUnavailable, load_processor
+from groundplan.services.pipeline_adapter import PipelineRejected, PipelineUnavailable, load_processor
 
 router = APIRouter(tags=["documents & findings"])
 
@@ -43,13 +44,23 @@ async def upload_document(household_id: str, file: UploadFile = File(...), c: Ct
     except PipelineUnavailable as e:
         size = len(data)
         del data  # nothing is retained; GP_RETAIN_UPLOADS_SECONDS is 0 and there is no code path that stores bytes
-        raise Problem(501, "Document pipeline not installed", f"Upload accepted and hashed, but {e}. Install the gp_pipeline "
-                      "package into the backend environment (uv pip install -e ../pipeline) to extract fields.",
+        raise Problem(503, "Document pipeline unavailable", f"Upload accepted and hashed, but {e}. Set GP_PIPELINE_URL to the "
+                      "gp-pipeline service or install gp_pipeline into the backend environment.",
                       "https://groundplan.dev/problems/pipeline-not-installed", sha256=sha, filename=filename, size_bytes=size,
                       bytes_retained=False) from e
     try:
-        result = _dump(process(data, filename, {"household_id": h.id, "state": h.state, "tax_year_latest": h.tax_year_latest,
+        # OCR can take tens of seconds: off the event loop so one upload does not stall every other request
+        result = _dump(await run_in_threadpool(process, data, filename, {"household_id": h.id, "state": h.state, "tax_year_latest": h.tax_year_latest,
                                                 "property_keys": [p.property_key for p in h.properties if p.property_key]}))
+    except PipelineRejected as e:
+        raise Problem(422 if e.status != 413 else 413, "Document rejected", e.detail,
+                      "https://groundplan.dev/problems/document-rejected", sha256=sha, filename=filename) from e
+    except PipelineUnavailable as e:
+        raise Problem(503, "Document pipeline unavailable", str(e), "https://groundplan.dev/problems/pipeline-not-installed",
+                      sha256=sha, filename=filename, bytes_retained=False) from e
+    except Exception as e:  # in-process: an unreadable PDF must not 500
+        raise Problem(422, "Document rejected", f"could not read this PDF: {type(e).__name__}",
+                      "https://groundplan.dev/problems/document-rejected", sha256=sha, filename=filename) from e
     finally:
         del data
     doc_out = dict(_dump(result.get("document")) or {})
