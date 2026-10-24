@@ -1246,12 +1246,15 @@ func (s *Server) uploadDocument(w http.ResponseWriter, r *http.Request) (any, er
 	}
 	var findings []*store.Finding
 	var doc *store.Document
+	imp := jsonx.O()
 	err = s.Svc.WithTx(r.Context(), func(ctx context.Context) error {
 		stats := jsonx.O()
 		if rec, ok := result.MustGet("reconciled").(*jsonx.Obj); ok && rec != nil && rec.Len() > 0 {
-			if _, err := s.Svc.ImportReconciled(ctx, h, rec); err != nil {
+			st, err := s.Svc.ImportReconciled(ctx, h, rec)
+			if err != nil {
 				return err
 			}
+			imp = st
 		}
 		keymap, err := s.Svc.PersistDocuments(ctx, h, []*jsonx.Obj{docOut}, objList(result.MustGet("extracted_fields")), stats)
 		if err != nil {
@@ -1260,6 +1263,23 @@ func (s *Server) uploadDocument(w http.ResponseWriter, r *http.Request) (any, er
 		findings, err = s.Svc.UpsertFindings(ctx, h, objList(result.MustGet("findings")), map[string]string{}, keymap, stats)
 		if err != nil {
 			return err
+		}
+		// conflicts the import raised are part of this upload's findings too
+		raised := map[string]bool{}
+		if ks, ok := imp.MustGet("conflict_keys").([]any); ok {
+			for _, k := range ks {
+				raised[k.(string)] = true
+			}
+		}
+		have := map[*store.Finding]bool{}
+		for _, f := range findings {
+			have[f] = true
+		}
+		for _, f := range h.Findings {
+			if f.Key != nil && raised[*f.Key] && !have[f] {
+				findings = append(findings, f)
+				have[f] = true
+			}
 		}
 		for _, d := range h.Documents {
 			if d.Sha256 == sha {
@@ -1286,16 +1306,31 @@ func (s *Server) uploadDocument(w http.ResponseWriter, r *http.Request) (any, er
 			keySet[*f.PropertyKey] = true
 		}
 	}
-	var touched []string
+	// properties_touched in property order (nickname, then property key) so both stacks list them identically
+	var tp []*store.Property
 	for _, p := range h.Properties {
 		if p.PropertyKey != nil && keySet[*p.PropertyKey] {
-			touched = append(touched, p.ID)
+			tp = append(tp, p)
 		}
 	}
-	sort.Strings(touched)
-	touchedAny := anyList(touched, func(x string) any { return x })
+	sort.SliceStable(tp, func(i, j int) bool {
+		if tp[i].Nickname != tp[j].Nickname {
+			return tp[i].Nickname < tp[j].Nickname
+		}
+		return *tp[i].PropertyKey < *tp[j].PropertyKey
+	})
+	touchedAny := anyList(tp, func(p *store.Property) any { return p.ID })
+	impN := func(k string) any {
+		if v, ok := imp.MustGet(k).(int); ok {
+			return v
+		}
+		return 0
+	}
+	importOut := jsonx.O("properties_created", impN("properties_created"), "properties_updated", impN("properties_updated"),
+		"conflicts_raised", impN("conflicts_raised"))
 	return jsonx.O("document", s.Svc.DocumentDict(doc), "extracted_fields", anyList(doc.Fields, func(f *store.Field) any { return service.FieldDict(f) }),
-		"findings", anyList(findings, func(f *store.Finding) any { return service.FindingDict(f) }), "properties_touched", touchedAny), nil
+		"findings", anyList(findings, func(f *store.Finding) any { return service.FindingDict(f) }), "properties_touched", touchedAny,
+		"import", importOut), nil
 }
 
 func objList(v any) []*jsonx.Obj {

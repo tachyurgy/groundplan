@@ -197,6 +197,7 @@ func (svc *Service) ImportReconciled(ctx context.Context, h *store.Household, pa
 		byNick[strings.ToLower(p.Nickname)] = p
 	}
 	keyToID := map[string]string{}
+	var conflicts []*jsonx.Obj
 	for _, po := range objList(pget(payload, "properties")) {
 		key, _ := asStr(pget(po, "key"))
 		nick, _ := asStr(pget(po, "nickname"))
@@ -209,6 +210,16 @@ func (svc *Service) ImportReconciled(ctx context.Context, h *store.Household, pa
 		}
 		isNew := p == nil
 		before := ""
+		if !isNew {
+			// a document never renames an existing property or downgrades a confirmed value it did not carry
+			po = po.Copy()
+			for _, k := range []string{"nickname", "address_line1", "city", "state", "zip"} {
+				po.Delete(k)
+			}
+			if pget(po, "current_value_cents") == nil {
+				po.Delete("value_source")
+			}
+		}
 		if isNew {
 			name := nick
 			if !truthy(pget(po, "nickname")) {
@@ -354,19 +365,22 @@ func (svc *Service) ImportReconciled(ctx context.Context, h *store.Household, pa
 		for _, ro := range objList(pget(po, "rent_rolls")) {
 			ty, _ := asInt(pget(ro, "tax_year"))
 			r := rr[int(ty)]
-			isNew := r == nil
-			b := ""
-			if isNew {
+			if r == nil {
 				r = &store.RentRoll{ID: store.NewID(), AdvisorID: aid, PropertyID: p.ID, TaxYear: int(ty)}
 				p.RentRolls = append(p.RentRolls, r)
-			} else {
-				b = store.Snapshot(r)
-			}
-			setI64(&r.GrossRentCents, pget(ro, "gross_rent_cents"))
-			setI64(&r.OtherIncomeCents, pget(ro, "other_income_cents"))
-			if isNew || store.Snapshot(r) != b {
-				if err := store.SaveRentRoll(ctx, q, r, isNew); err != nil {
+				setI64(&r.GrossRentCents, pget(ro, "gross_rent_cents"))
+				setI64(&r.OtherIncomeCents, pget(ro, "other_income_cents"))
+				if err := store.SaveRentRoll(ctx, q, r, true); err != nil {
 					return nil, err
+				}
+			} else {
+				b := store.Snapshot(r)
+				cols := map[string]*int64{"gross_rent_cents": &r.GrossRentCents, "other_income_cents": &r.OtherIncomeCents}
+				conflicts = mergeYear(h, p, r.TaxYear, ro, []string{"gross_rent_cents", "other_income_cents"}, cols, "rent roll", conflicts)
+				if store.Snapshot(r) != b {
+					if err := store.SaveRentRoll(ctx, q, r, false); err != nil {
+						return nil, err
+					}
 				}
 			}
 			intStat(stats, "years")
@@ -378,25 +392,33 @@ func (svc *Service) ImportReconciled(ctx context.Context, h *store.Household, pa
 		for _, eo := range objList(pget(po, "expense_years")) {
 			ty, _ := asInt(pget(eo, "tax_year"))
 			e := ex[int(ty)]
-			isNew := e == nil
-			b := ""
-			if isNew {
+			if e == nil {
 				e = &store.ExpenseYear{ID: store.NewID(), AdvisorID: aid, PropertyID: p.ID, TaxYear: int(ty), Cents: map[string]int64{}}
 				for _, k := range store.ExpenseKeys {
 					e.Cents[k] = 0
+					if v, ok := asInt(pget(eo, k)); ok {
+						e.Cents[k] = v
+					}
 				}
 				p.ExpenseYears = append(p.ExpenseYears, e)
-			} else {
-				b = store.Snapshot(e)
-			}
-			for _, k := range store.ExpenseKeys {
-				if v, ok := asInt(pget(eo, k)); ok {
-					e.Cents[k] = v
-				}
-			}
-			if isNew || store.Snapshot(e) != b {
-				if err := store.SaveExpenseYear(ctx, q, e, isNew); err != nil {
+				if err := store.SaveExpenseYear(ctx, q, e, true); err != nil {
 					return nil, err
+				}
+			} else {
+				b := store.Snapshot(e)
+				cols := map[string]*int64{}
+				for _, k := range store.ExpenseKeys {
+					v := e.Cents[k]
+					cols[k] = &v
+				}
+				conflicts = mergeYear(h, p, e.TaxYear, eo, expenseMergeCols, cols, "expense year", conflicts)
+				for k, v := range cols {
+					e.Cents[k] = *v
+				}
+				if store.Snapshot(e) != b {
+					if err := store.SaveExpenseYear(ctx, q, e, false); err != nil {
+						return nil, err
+					}
 				}
 			}
 		}
@@ -456,9 +478,26 @@ func (svc *Service) ImportReconciled(ctx context.Context, h *store.Household, pa
 	if err != nil {
 		return nil, err
 	}
-	if _, err := svc.UpsertFindings(ctx, h, objList(pget(payload, "findings")), keyToID, docIDs, stats); err != nil {
+	docs := objList(pget(payload, "documents"))
+	if len(docs) == 1 { // a single upload: point the document-side candidate at it (the page viewer opens it)
+		dk := pget(docs[0], "key")
+		if !truthy(dk) {
+			dk = pget(docs[0], "filename")
+		}
+		for _, c := range conflicts {
+			c.MustGet("candidates").([]any)[0].(*jsonx.Obj).Set("document_key", dk)
+		}
+	}
+	all := append(objList(pget(payload, "findings")), conflicts...)
+	if _, err := svc.UpsertFindings(ctx, h, all, keyToID, docIDs, stats); err != nil {
 		return nil, err
 	}
+	stats.Set("conflicts_raised", len(conflicts))
+	keys := make([]any, len(conflicts))
+	for i, c := range conflicts {
+		keys[i] = c.MustGet("key")
+	}
+	stats.Set("conflict_keys", keys)
 	return stats, nil
 }
 
@@ -849,4 +888,74 @@ func recoverInvalid(err *error) {
 		}
 		panic(r)
 	}
+}
+
+// columnField is the Schedule E line each stored column comes from (InputKeyForField maps it back on resolve).
+var columnField = map[string]string{"gross_rent_cents": "schedule_e.line3.rents", "other_income_cents": "schedule_e.line4.royalties",
+	"taxes_cents": "schedule_e.line16.taxes", "insurance_cents": "schedule_e.line9.insurance",
+	"repairs_cents": "schedule_e.line14.repairs", "mgmt_cents": "schedule_e.line11.management_fees",
+	"utilities_cents": "schedule_e.line17.utilities", "other_cents": "schedule_e.line19.other",
+	"mortgage_interest_cents": "schedule_e.line12.mortgage_interest",
+	"depreciation_cents":      "schedule_e.line18.depreciation", "hoa_cents": "expense_year.hoa"}
+
+var columnLabel = map[string]string{"gross_rent_cents": "rents", "other_income_cents": "other income", "mortgage_interest_cents": "mortgage interest"}
+
+// expenseMergeCols is the expense column order of ingest._merge_year.
+var expenseMergeCols = []string{"taxes_cents", "insurance_cents", "repairs_cents", "mgmt_cents", "utilities_cents", "hoa_cents",
+	"other_cents", "mortgage_interest_cents", "depreciation_cents"}
+
+func dollars(c int64) string { return dec.Commas(dec.PyFixed(float64(c)/100, 0)) }
+
+// mergeYear is ingest._merge_year: a document value that differs from a stored non-zero value is never written;
+// it becomes a blocking conflict with both candidates. A decided (resolved/dismissed) conflict never reopens.
+func mergeYear(h *store.Household, p *store.Property, year int, incoming *jsonx.Obj, cols []string, vals map[string]*int64, what string,
+	conflicts []*jsonx.Obj) []*jsonx.Obj {
+	decided := map[string]bool{}
+	for _, f := range h.Findings {
+		if f.Key != nil && *f.Key != "" && f.Status != "open" {
+			decided[*f.Key] = true
+		}
+	}
+	pk := p.ID
+	if p.PropertyKey != nil && *p.PropertyKey != "" {
+		pk = *p.PropertyKey
+	}
+	for _, col := range cols {
+		nv, ok := asInt(pget(incoming, col))
+		if !ok {
+			continue
+		}
+		old := *vals[col]
+		if nv == old {
+			continue
+		}
+		short := strings.TrimSuffix(col, "_cents")
+		key := fmt.Sprintf("conflict:%s:%s:%d", pk, short, year)
+		if old == 0 {
+			*vals[col] = nv
+			continue
+		}
+		if decided[key] {
+			continue
+		}
+		name, ok := columnLabel[col]
+		if !ok {
+			name = strings.ReplaceAll(short, "_", " ")
+		}
+		field, ok := columnField[col]
+		if !ok {
+			field = col
+		}
+		var pkv any
+		if p.PropertyKey != nil {
+			pkv = *p.PropertyKey
+		}
+		conflicts = append(conflicts, jsonx.O("key", key, "kind", "conflict", "field", field, "severity", "block", "tax_year", int64(year),
+			"property_key", pkv, "property_id", p.ID,
+			"message", fmt.Sprintf("%s %d %s disagree: the uploaded document shows $%s, the %s on file says $%s. Figures using it are "+
+				"blocked until you pick one (never averaged).", p.Nickname, year, name, dollars(nv), what, dollars(old)),
+			"candidates", []any{jsonx.O("source", fmt.Sprintf("uploaded document %d (%s)", year, field), "value", nv),
+				jsonx.O("source", fmt.Sprintf("%s on file %d", what, year), "value", old)}))
+	}
+	return conflicts
 }

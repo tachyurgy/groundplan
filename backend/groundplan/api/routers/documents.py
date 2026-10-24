@@ -75,7 +75,8 @@ async def upload_document(household_id: str, file: UploadFile = File(...), c: Ct
     findings += [f for f in h.findings if f.key in raised and f not in findings]
     c.s.commit()
     doc = next(d for d in h.documents if d.sha256 == sha)
-    touched = sorted({p.id for p in h.properties if p.property_key in {f.property_key for f in doc.fields}})
+    keys = {f.property_key for f in doc.fields}  # property order (nickname, key): ids are random, so sorting by id would not be stable across stacks
+    touched = [p.id for p in sorted((p for p in h.properties if p.property_key in keys), key=lambda p: (p.nickname, p.property_key or ""))]
     return {"document": svc.document_dict(doc), "extracted_fields": [svc.field_dict(f) for f in doc.fields],
             "findings": [svc.finding_dict(f) for f in findings], "properties_touched": touched,
             "import": {"properties_created": imp.get("properties_created", 0), "properties_updated": imp.get("properties_updated", 0),
