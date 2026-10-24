@@ -52,10 +52,9 @@ def test_analysis_and_observations():
 
 def test_strategies_never_recommend_and_same_assumptions():
     r = compare_strategies(_demo_property(), HouseholdModel(), StrategyAssumptions(horizon_years=7))
-    assert r["recommended"] is None
+    assert "recommended" not in r
     assert all(len(p["series"]) == 7 for p in r["paths"])
-    flat = str(r).lower()
-    assert "recommended': none" in flat and "recommend " not in flat
+    assert "recommend" not in str(r).lower()
     for measure in ("terminal_wealth", "cumulative_cash_flow", "tax_paid_now", "liquidity", "management_burden", "concentration"):
         assert set(r["matrix"][measure].values()) <= {"leads", "trails", "neutral"}
 

@@ -180,7 +180,6 @@ def strategies(i: dict) -> dict:
         "boot_cents": by["exchange"]["boot_cents"], "mortgage_boot_cents": by["exchange"]["mortgage_boot_cents"],
         "tax_on_boot_cents": by["exchange"]["tax_on_boot_cents"], "gain_deferred_cents": by["exchange"]["gain_deferred_cents"],
         "dst_load_cents": by["exchange"]["dst_load_cents"],
-        "recommended": r["recommended"],
     }
 
 

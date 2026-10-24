@@ -67,7 +67,7 @@ def test_dashboard(client):
     assert {"total_value", "total_equity", "net_cash_flow", "exit_tax_total"} <= set(d["metrics"])
     rules = {o["rule"] for o in d["observations"]}
     assert {"str_flagged", "arm_reset", "io_ending", "depreciation_gap", "suspended_losses", "magi_phaseout"} <= rules
-    assert "recommend" not in json.dumps(d).lower().replace('"recommended": null', "")
+    assert "recommend" not in json.dumps(d).lower()
 
 
 def test_analysis_overrides_and_trace(client):
@@ -113,7 +113,7 @@ def test_strategies_shape_and_dst(client):
     ex = r["paths"][2]
     assert ex["boot"]["mortgage_boot"]["value_cents"] > 0  # HELOC paid off, no replacement debt
     assert ex["terminal"]["deferred_liability"]["value_cents"] > 0
-    assert r["recommended"] is None and set(r["caveats"]) == {"hold", "sell", "exchange"}
+    assert "recommended" not in r and set(r["caveats"]) == {"hold", "sell", "exchange"}
     # estimated value -> no strategy figure may claim confirmed
     assert all(p["terminal"]["terminal_wealth"]["status"] != "confirmed" for p in r["paths"])
 

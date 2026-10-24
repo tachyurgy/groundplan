@@ -7,7 +7,7 @@ Conventions (stated in the API output as `conventions`):
 - Terminal wealth = what the household would hold if everything were liquidated at the horizon, net of selling
   costs, loan payoffs and the exit tax due then. For the 1031 path the deferred liability is shown as its own
   line, never netted silently.
-- No path is ever labelled "recommended": the comparison is a leads/trails/neutral matrix per measure.
+- No path is ever labelled as the advised choice, and there is no such field: the comparison is a leads/trails/neutral matrix per measure.
 """
 
 from __future__ import annotations
@@ -281,8 +281,7 @@ def compare_strategies(p: PropertyModel, h: HouseholdModel, a: StrategyAssumptio
     paths = [hold, sell, exch]
     matrix = leads_trails(paths, h, p)
     return {"property_id": p.id, "assumptions": shared, "paths": paths, "matrix": matrix, "findings": findings,
-            "conventions": __doc__.split("Conventions (stated in the API output as `conventions`):")[1].strip(),
-            "recommended": None}
+            "conventions": __doc__.split("Conventions (stated in the API output as `conventions`):")[1].strip()}
 
 
 def _rank(values: dict[str, int], higher_is_better: bool) -> dict[str, str]:

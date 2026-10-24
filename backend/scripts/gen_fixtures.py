@@ -245,7 +245,7 @@ hh = {"filing_status": "mfj", "state": "CA", "tax_year": 2025, "wages_cents": 16
 debt_2025 = 18_500_000
 st = [
     C("1031_no_boot_release_vs_not", "strategies", {"property": base_prop, "household": hh, "horizon_years": 10},
-      {"boot_cents": 0, "tax_on_boot_cents": 0, "sell_released_cents": 1_420_000, "exchange_released_cents": 0, "recommended": None},
+      {"boot_cents": 0, "tax_on_boot_cents": 0, "sell_released_cents": 1_420_000, "exchange_released_cents": 0},
       ["hold_terminal_wealth_cents", "sell_terminal_wealth_cents", "exchange_terminal_wealth_cents", "sell_tax_now_cents",
        "gain_deferred_cents"]),
     C("1031_full_mortgage_boot", "strategies",

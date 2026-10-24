@@ -58,7 +58,6 @@
         "tax_on_boot_cents": 0,
         "sell_released_cents": 1420000,
         "exchange_released_cents": 0,
-        "recommended": null,
         "hold_terminal_wealth_cents": 91522940,
         "sell_terminal_wealth_cents": 70855657,
         "exchange_terminal_wealth_cents": 84061709,
@@ -68,7 +67,6 @@
       "hand_checked": [
         "boot_cents",
         "exchange_released_cents",
-        "recommended",
         "sell_released_cents",
         "tax_on_boot_cents"
       ]
