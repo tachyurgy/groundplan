@@ -1,5 +1,14 @@
 # Groundplan releases
 
+## 2026-10-23 (night) — Go engine port of the three fixes + one findings order (gp-go-api 1f0a3f7, gp-python-api 1f0a3f70a5d7)
+- **What deployed:** gp-go-api (engine fixes from f56b36c, findings order 1f0a3f7) and gp-python-api 1f0a3f70a5d7 on Box B.
+- **Changed:** Go mirrors Python 0dd3906 (loans back-fill balance, 1031 cash after tax invested, exit_tax.released_loss_benefit);
+  findings lists ordered severity, property nickname (none first), kind, key, field, id on both stacks; parity.py adds two
+  non-DST cash_taken strategy variants and reports SKIP separately.
+- **How:** `engine-go/deploy.sh`; Python image built on the box from backend/ pipeline/ fixtures/ infra/ with GP_GIT_SHA.
+- **Verified:** go test green (68 golden cases), go vet clean; pytest 131 passed, ruff clean; from Box B, parity twice in a
+  row: 197/197 + 1 SKIP (resolve-blocking: no open block finding left on either side), upload 24/24, 0 invariant failures.
+
 ## 2026-10-23 (late) — Python engine: three calculation fixes (gp-python-api 0dd3906b9b7a)
 - **What deployed:** gp-python-api on Box B (https://gp-python-api.levelbrook.com), image built from commit 0dd3906.
 - **Changed:** loans table back-filled year no longer doubles the year-end balance (Maple 2025 row $294,074.78 ->
